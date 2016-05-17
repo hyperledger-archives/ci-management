@@ -1,0 +1,159 @@
+- project:
+    name: ci-management-jobs
+    jobs:
+        - 'ci-management-verify-jjb'
+        - 'ci-management-merge'
+        - 'ci-management-weekly'
+
+    project: 'ci-management'
+
+- job-template:
+    name: ci-management-verify-jjb
+
+    project-type: freestyle
+    node: master
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 10
+        artifactDaysToKeep: -1
+        artifactNumToKeep: -1
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+
+    scm:
+        - gerrit-trigger-scm:
+            credentials-id: '{ssh-credentials}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+    wrappers:
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+
+    triggers:
+        - gerrit:
+            trigger-on:
+                - patchset-created-event:
+                    exclude-drafts: 'false'
+                    exclude-trivial-rebase: 'false'
+                    exclude-no-code-change: 'false'
+                - draft-published-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'recheck'
+                - comment-added-contains-event:
+                    comment-contains-value: 'reverify'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: 'ci-management'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/master'
+                  file-paths:
+                    - compare-type: ANT
+                      pattern: jjb/**
+                    - compare-type: ANT
+                      pattern: jjb-templates/**
+
+    builders:
+        - shell: |
+            jenkins-jobs test --recursive jjb/
+        - ci-management-check-unicode
+
+- job-template:
+    name: 'ci-management-merge'
+
+    project-type: freestyle
+    node: master
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: -1
+        artifactNumToKeep: 5
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+
+    scm:
+        - gerrit-trigger-scm:
+            credentials-id: '{ssh-credentials}'
+            refspec: ''
+            choosing-strategy: 'default'
+
+    wrappers:
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+
+    triggers:
+        - gerrit:
+            trigger-on:
+                - change-merged-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'remerge'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: 'ci-management'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/master'
+                  file-paths:
+                    - compare-type: ANT
+                      pattern: jjb/**
+                    - compare-type: ANT
+                      pattern: jjb-templates/**
+
+    builders:
+        - shell:
+            !include-raw-escape include-raw-jjb-update.sh
+
+- job-template:
+    name: 'ci-management-weekly'
+
+    # ci-management-weekly job to run JJB update weekly
+    #
+    # This job's purpose is to update all the JJB on a weekly (Sunday)
+    # basis with --flush-cache enabled to ensure jobs are properly configured in Jenkins
+
+    project-type: freestyle
+    disabled: true
+    node: master
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: -1
+        artifactNumToKeep: 5
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+
+    scm:
+        - git-scm:
+            credentials-id: '{ssh-credentials}'
+            branch: 'master'
+
+    wrappers:
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+
+    triggers:
+        - timed: 'H H * * 0'
+
+    builders:
+        - shell: |
+            jenkins-jobs --flush-cache update --recursive jjb/
+
+

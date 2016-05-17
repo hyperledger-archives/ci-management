@@ -1,0 +1,228 @@
+# Global Macros
+
+##
+# PARAMETERS
+##
+- parameter:
+    name: project-parameter
+    parameters:
+        - string:
+            name: PROJECT
+            default: '{project}'
+            description: "JJB configured PROJECT parameter to identify a Gerrit project"
+
+- parameter:
+    name: gerrit-parameter
+    parameters:
+        - string:
+            name: GERRIT_BRANCH
+            default: '{branch}'
+            description: "JJB configured GERRIT_BRANCH parameter"
+
+- parameter:
+    name: gerrit-project-parameter
+    parameters:
+        - string:
+            name: GERRIT_PROJECT
+            default: '{project}'
+            description: "GERRIT_PROJECT parameter if not given by trigger"
+
+- parameter:
+    name: gerrit-refspec-parameter
+    parameters:
+        - string:
+            name: GERRIT_REFSPEC
+            default: '{refspec}'
+            description: "GERRIT_REFSPEC parameter if not given by trigger"
+
+- parameter:
+    name: gerrit-refname-parameter
+    parameters:
+        - string:
+            name: GERRIT_REFNAME
+            default: '{refname}'
+            description: "GERRIT_REFNAME parameter if not given by tag trigger"
+
+##
+# SCMS
+##
+- scm:
+    name: git-scm
+    scm:
+        - git:
+            credentials-id: '{credentials-id}'
+            url: '$GIT_BASE'
+            refspec: ''
+            branches:
+                - 'origin/${branch}'
+            skip-tag: true
+            wipe-workspace: true
+
+- scm:
+    name: gerrit-trigger-scm
+    scm:
+        - git:
+            credentials-id: '{credentials-id}'
+            url: '$GIT_BASE'
+            refspec: '{refspec}'
+            branches:
+                - 'origin/$GERRIT_BRANCH'
+            skip-tag: true
+            choosing-strategy: '{choosing-strategy}'
+
+- scm:
+    name: git-branch-scm
+    scm:
+        - git:
+            credentials-id: '{credentials-id}'
+            url: '$GIT_BASE'
+            refspec: ''
+            branches:
+                - 'origin/{branch}'
+            skip-tag: true
+            wipe-workspace: true
+
+##
+# Wrappers
+##
+- wrapper:
+    name: build-timeout
+    wrappers:
+        - timeout:
+            type: absolute
+            timeout: 360
+            fail: true
+
+##
+# Triggers
+##
+- trigger:
+    name: gerrit-trigger-patch-submitted
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - patchset-created-event:
+                    exclude-drafts: 'false'
+                    exclude-trivial-rebase: 'false'
+                    exclude-no-code-change: 'false'
+                - draft-published-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'recheck'
+                - comment-added-contains-event:
+                    comment-contains-value: 'reverify'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-patch-merged
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - change-merged-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'remerge'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-silent-patch-submitted
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - patchset-created-event:
+                    exclude-drafts: 'false'
+                    exclude-trivial-rebase: 'false'
+                    exclude-no-code-change: 'false'
+                - draft-published-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'recheck'
+                - comment-added-contains-event:
+                    comment-contains-value: 'reverify'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+            silent-start: 'true'
+
+- trigger:
+    name: gerrit-trigger-silent-patch-merged
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - change-merged-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'remerge'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+            silent-start: 'true'
+
+- trigger:
+    name: gerrit-trigger-tag
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - ref-updated-event
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: 'refs/tags/**'
+
+##
+# Publishers
+##
+- publisher:
+    name: archive-artifacts
+    publishers:
+        - archive:
+            artifacts: '{artifacts}'
+            allow-empty: true
+            fingerprint: true
+            latest-only: true
+
+- publisher:
+    name: email-notification
+    publishers:
+        - email-ext:
+            recipients: 'nobody@hyperledger.org'
+            reply-to:
+            content-type: default
+            subject: '{email-prefix} $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+            body: |
+                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+                Check console output at $BUILD_URL to view the results.
+            unstable: true
+            fixed: true
+            send-to:
+                - developers
+                - recipients
+
+##
+# Builders
+##
+- builder:
+    name: ci-management-check-unicode
+    builders:
+        - shell: |
+            $WORKSPACE/scripts/check-unicode.sh jjb/
