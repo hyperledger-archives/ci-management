@@ -1,0 +1,20 @@
+# Ignore Vim temporary files
+.*.sw?
+
+# Ignore changes to the JJB Configuration File
+jenkins.ini
+
+# Maven
+target/
+
+# Vagrant
+.vagrant
+
+# IntelliJ
+.idea/
+*.iml
+
+# Emacs
+*~
+\.\#*
+\#*

@@ -1,0 +1,12 @@
+[job_builder]
+ignore_cache=True
+keep_descriptions=False
+include_path=.:scripts:~/git/
+recursive=True
+
+[jenkins]
+#user=jenkins
+#password=1234567890abcdef1234567890abcdef
+url=http://localhost:8080
+##### This is deprecated, use job_builder section instead
+#ignore_cache=True

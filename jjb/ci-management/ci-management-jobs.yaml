@@ -3,7 +3,6 @@
     jobs:
         - 'ci-management-verify-jjb'
         - 'ci-management-merge'
-        - 'ci-management-weekly'
 
     project: 'ci-management'
 
@@ -115,45 +114,4 @@
 
     builders:
         - shell:
-            !include-raw-escape include-raw-jjb-update.sh
-
-- job-template:
-    name: 'ci-management-weekly'
-
-    # ci-management-weekly job to run JJB update weekly
-    #
-    # This job's purpose is to update all the JJB on a weekly (Sunday)
-    # basis with --flush-cache enabled to ensure jobs are properly configured in Jenkins
-
-    project-type: freestyle
-    disabled: true
-    node: master
-
-    logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: -1
-        artifactNumToKeep: 5
-
-    parameters:
-        - project-parameter:
-            project: '{project}'
-
-    scm:
-        - git-scm:
-            credentials-id: '{ssh-credentials}'
-            branch: 'master'
-
-    wrappers:
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-
-    triggers:
-        - timed: 'H H * * 0'
-
-    builders:
-        - shell: |
-            jenkins-jobs --flush-cache update --recursive jjb/
-
-
+            !include-raw-escape: include-raw-jjb-update.sh
