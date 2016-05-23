@@ -24,6 +24,8 @@
             project: '{project}'
         - gerrit-parameter:
             branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
 
     scm:
         - gerrit-trigger-scm:
@@ -82,6 +84,8 @@
             project: '{project}'
         - gerrit-parameter:
             branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
 
     scm:
         - gerrit-trigger-scm:

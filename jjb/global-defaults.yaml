@@ -7,4 +7,4 @@
     build-artifact-days-to-keep: -1
     build-artifact-num-to-keep: 5
 
-    ssh-credentials: 'hyperledger-jobbuilder'
+    ssh-credentials: 'b706b536-ceb2-4f3b-a616-c483bd16c216'
