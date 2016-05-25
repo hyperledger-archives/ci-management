@@ -1,25 +1,7 @@
-Basic use of this vagrant:
-
-```bash
-export RESEAL=true
-export IMAGE='CentOS 7-1603 (2016-04-05)'
-vagrant up --provider=openstack && \
-  nova image-create --poll vagrant-hostname 'CentOS 7 - basebuild - 20160523' \
-  && vagrant destroy
-```
-
-Assumptions:
-
-* You have vagrant installed with the vagrant-openstack-provider plugin
-* You have a the appropriate openstack variables set in your environment
-* You have a 'dummy' vagrant box that looks similar to the following @
-  `~/.vagrant.d/boxes/dummy/0/openstack/Vagrantfile`
-
-*NOTE*: The following is rather Vexxhost specific
-
-```ruby
 # -*- mode: ruby -*-
 # vi: set ft=ruby ts=2 sw=2 sts=2 et :
+
+# NOTE: The following is rather Vexxhost specific
 
 Vagrant.configure("2") do |config|
 
@@ -44,4 +26,3 @@ Vagrant.configure("2") do |config|
     os.server_name = 'vagrant-hostname'
   end
 end
-```
