@@ -82,6 +82,16 @@
             skip-tag: true
             wipe-workspace: true
 
+- scm:
+    name: hyperledger-fabric
+    scm:
+        - git:
+            url: 'https://github.com/hyperledger/fabric.git'
+            branches:
+               - 'origin/master'
+            skip-tag: true
+            wipe-workspace: true
+
 ##
 # Wrappers
 ##
