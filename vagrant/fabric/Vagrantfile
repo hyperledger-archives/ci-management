@@ -1,0 +1,61 @@
+# -*- mode: ruby -*-
+# vi: set ts=2 sw=2 sts=2 et ft=ruby :
+
+#
+# See 'vagrant-dummy-box/README' for generating a dummy box
+#
+
+Vagrant.configure("2") do |config|
+  config.vm.provider :openstack do |os, override|
+    override.vm.box = 'dummy'
+
+    # require an IMAGE to be passed in
+    # IMAGE must be a human name and not image ID!
+    if ENV['IMAGE']
+      os.image = ENV['IMAGE']
+    else
+      os.image = 'BAD IMAGE'
+      override.ssh.username = 'baduser'
+    end
+
+    case ENV['IMAGE']
+      when /.*ubuntu.*/i
+        override.ssh.username = 'ubuntu'
+
+      when /.*fedora.*/i
+        override.ssh.username = 'fedora'
+
+        # take care of the tty requirement by fedora for sudo
+        os.user_data = "#!/bin/bash
+/bin/sed -i 's/ requiretty/ !requiretty/' /etc/sudoers;"
+
+      when /.*centos.*/i
+        override.ssh.username = 'centos'
+
+        # take care of the tty requirement by centos for sudo
+        os.user_data = "#!/bin/bash
+/bin/sed -i 's/ requiretty/ !requiretty/' /etc/sudoers;"
+    end
+  end
+
+
+  config.vm.synced_folder ".", "/vagrant"
+  config.vm.synced_folder "../lib/", "/vagrant/lib"
+
+  # Do full system update and basic configuration that all systems should get
+  config.vm.provision 'shell', path: '../lib/baseline.sh'
+
+  # run the bootstrapping
+  config.vm.provision 'shell', path: 'bootstrap.sh'
+
+  #################
+  # FINAL CLEANUP #
+  #################
+
+  # set RESEAL to... anything if you want to snap an image of this box
+  # not setting the environment variable will cause the system to come
+  # up fully and not be in a resealable state
+  if ENV['RESEAL']
+    config.vm.provision 'shell', path: '../lib/system_reseal.sh'
+  end
+end
