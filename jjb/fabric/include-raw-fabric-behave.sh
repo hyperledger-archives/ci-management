@@ -3,6 +3,8 @@ export GOPATH="$WORKSPACE/gopath"
 export GOROOT="/opt/go/go1.6.linux.amd64"
 export PATH="/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH"
 
+cd gopath/src/github.com/hyperledger/fabric
+
 # Configure ip/port
 ip="$(ifconfig docker0 | grep "inet addr:" | awk '{print $2}' | cut -d ':' -f 2)"
 port=2375
