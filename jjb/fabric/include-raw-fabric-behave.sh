@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -eu
+set -o pipefail
+
 export GOPATH="$WORKSPACE/gopath"
 export GOROOT="/opt/go/go1.6.linux.amd64"
 export PATH="/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH"
