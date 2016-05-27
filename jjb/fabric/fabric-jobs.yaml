@@ -1,13 +1,13 @@
 - project:
     name: fabric-jobs
     jobs:
-        - 'fabric-unit-test'
-        - 'fabric-behave'
+        - 'fabric-github-unit-test'
+        - 'fabric-github-behave'
 
     project: 'fabric'
 
 - job-template:
-    name: fabric-unit-test
+    name: fabric-github-unit-test
 
     project-type: freestyle
     node: hyp-fabric
@@ -28,18 +28,10 @@
                 - '{ssh-credentials}'
 
     builders:
-        - shell: |
-            #!/bin/bash -eu
-            set -o pipefail
-
-            export GOPATH="$WORKSPACE/gopath"
-            export GOROOT="/opt/go/go1.6.linux.amd64"
-            export PATH="/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH"
-
-            cd gopath/src/github.com/hyperledger/fabric && make unit-test
+        - fabric-unit-tests
 
 - job-template:
-    name: fabric-behave
+    name: fabric-github-behave
 
     project-type: freestyle
     node: hyp-fabric
@@ -60,5 +52,4 @@
                 - '{ssh-credentials}'
 
     builders:
-        - shell:
-            !include-raw-escape: include-raw-fabric-behave.sh
+        - fabric-behave-tests
