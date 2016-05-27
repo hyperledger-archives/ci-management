@@ -1,16 +1,18 @@
 - project:
     name: fabric-jobs
     jobs:
-        - 'fabric-github-unit-test'
-        - 'fabric-github-behave'
+        - 'fabric-github-unit-test-{arch}'
+        - 'fabric-github-behave-{arch}'
 
     project: 'fabric'
+    arch:
+        - 'x86_64'
 
 - job-template:
-    name: fabric-github-unit-test
+    name: 'fabric-github-unit-test-{arch}'
 
     project-type: freestyle
-    node: hyp-fabric
+    node: 'hyp-fabric-{arch}'
     concurrent: true
 
     logrotate:
@@ -31,10 +33,10 @@
         - fabric-unit-tests
 
 - job-template:
-    name: fabric-github-behave
+    name: 'fabric-github-behave-{arch}'
 
     project-type: freestyle
-    node: hyp-fabric
+    node: 'hyp-fabric-{arch}'
     concurrent: true
 
     logrotate:
