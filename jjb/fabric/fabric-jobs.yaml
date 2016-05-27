@@ -6,6 +6,16 @@
 
     project: 'fabric'
 
+- builder:
+    name: configure-go
+    builders:
+        - shell: |
+            export PATH="/opt/go/go1.6.linux.amd64/bin:$HOME/gopath/bin:${PATH}"
+            export GOROOT="/opt/go/go1.6.linux.amd64"
+            export GOPATH="$HOME/gopath"
+            gimme version
+            go version
+
 - job-template:
     name: fabric-unit-test
 
@@ -28,8 +38,8 @@
                 - '{ssh-credentials}'
 
     builders:
+        - configure-go
         - shell: |
-            cd $BUILD_DIR
             make unit-test
 
 - job-template:
@@ -54,5 +64,6 @@
                 - '{ssh-credentials}'
 
     builders:
+        - configure-go
         - shell:
             !include-raw-escape: include-raw-fabric-behave.sh
