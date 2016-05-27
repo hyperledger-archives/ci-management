@@ -91,6 +91,7 @@
                - 'origin/master'
             skip-tag: true
             wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric'
 
 ##
 # Wrappers
