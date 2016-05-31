@@ -13,3 +13,6 @@ source /tmp/system_type.sh
 ./ssh_settings.sh
 ./create_jenkins_user.sh
 ./"${SYSTEM_TYPE}.sh"
+
+# Init has now completed
+touch /tmp/init_finished
