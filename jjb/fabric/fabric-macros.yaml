@@ -16,3 +16,19 @@
             export PATH="/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH"
 
             cd gopath/src/github.com/hyperledger/fabric && make unit-test
+
+- trigger:
+    name: github-pr-builder
+    triggers:
+        - github-pull-request:
+            org-list:
+              - hyperledger
+            cron: '*/5 * * * *'
+            trigger-phrase: 'reverify'
+            only-trigger-phrase: true
+            github-hooks: false
+            permit-all: false
+            auto-close-on-fail: false
+            allow-whitelist-orgs-as-admins: false
+            white-list-target-branches:
+              - master

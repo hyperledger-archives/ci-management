@@ -24,6 +24,9 @@
     scm:
         - hyperledger-fabric
 
+    triggers:
+        - github-pr-builder
+
     wrappers:
         - ssh-agent-credentials:
             users:
@@ -47,6 +50,9 @@
 
     scm:
         - hyperledger-fabric
+
+    triggers:
+        - github-pr-builder
 
     wrappers:
         - ssh-agent-credentials:
