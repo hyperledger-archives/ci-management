@@ -1,15 +1,15 @@
 - project:
     name: fabric-jobs
     jobs:
-        - 'fabric-github-unit-test-{arch}'
-        - 'fabric-github-behave-{arch}'
+        - 'fabric-github-merge-{arch}'
+        - 'fabric-github-verify-{arch}'
 
     project: 'fabric'
     arch:
         - 'x86_64'
 
 - job-template:
-    name: 'fabric-github-unit-test-{arch}'
+    name: 'fabric-github-verify-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -34,9 +34,10 @@
 
     builders:
         - fabric-unit-tests
+        - fabric-behave-tests
 
 - job-template:
-    name: 'fabric-github-behave-{arch}'
+    name: 'fabric-github-merge-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -52,7 +53,7 @@
         - hyperledger-fabric
 
     triggers:
-        - github-pr-builder
+        - github
 
     wrappers:
         - ssh-agent-credentials:
@@ -60,4 +61,5 @@
                 - '{ssh-credentials}'
 
     builders:
+        - fabric-unit-tests
         - fabric-behave-tests
