@@ -15,6 +15,10 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
+    properties:
+        - github:
+            url: https://github.com/hyperledger/fabric/
+
     logrotate:
         daysToKeep: 30
         numToKeep: 10
@@ -42,6 +46,10 @@
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
     concurrent: true
+
+    properties:
+        - github:
+            url: https://github.com/hyperledger/fabric/
 
     logrotate:
         daysToKeep: 30
