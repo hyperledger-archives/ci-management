@@ -1,3 +1,23 @@
+- parameter:
+    name: github-pr-sha1
+    parameters:
+        - string:
+            name: sha1
+            default: '${sha1}'
+            description: "SHA1 commit id of Github pull request (eg: origin/pr/9/head)"
+
+- scm:
+    name: hyperledger-fabric-ghpr
+    scm:
+        - git:
+            url: 'https://github.com/hyperledger/fabric.git'
+            refspec: '+refs/pulls/*:refs/remotes/origin/pr/*'
+            branches:
+               - '${sha1}'
+            skip-tag: true
+            wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric'
+
 - builder:
     name: fabric-behave-tests
     builders:
@@ -23,11 +43,10 @@
         - github-pull-request:
             org-list:
               - hyperledger
-            cron: '*/5 * * * *'
             trigger-phrase: 'reverify'
-            only-trigger-phrase: true
-            github-hooks: false
-            permit-all: false
+            only-trigger-phrase: false
+            github-hooks: true
+            permit-all: true
             auto-close-on-fail: false
             allow-whitelist-orgs-as-admins: false
             white-list-target-branches:

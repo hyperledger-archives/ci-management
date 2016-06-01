@@ -15,6 +15,9 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
+    parameters:
+        - github-pr-sha1
+
     properties:
         - github:
             url: https://github.com/hyperledger/fabric/
@@ -26,7 +29,7 @@
         artifactNumToKeep: 10
 
     scm:
-        - hyperledger-fabric
+        - hyperledger-fabric-ghpr
 
     triggers:
         - github-pr-builder
