@@ -43,6 +43,10 @@
         - fabric-unit-tests
         - fabric-behave-tests
 
+    publishers:
+        - slack-notification:
+            rooms: '#fabric-ci-status'
+
 - job-template:
     name: 'fabric-github-merge-{arch}'
 
@@ -74,3 +78,7 @@
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
+
+    publishers:
+        - slack-notification:
+            rooms: '#fabric-ci-status'
