@@ -229,14 +229,6 @@
                 - developers
                 - recipients
 
-- publisher:
-    name: slack-notification
-    publishers:
-        - slack:
-            room: '{rooms}'
-            notify-success: True
-            notify-failure: True
-
 ##
 # Builders
 ##
