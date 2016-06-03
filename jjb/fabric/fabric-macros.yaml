@@ -51,3 +51,11 @@
             allow-whitelist-orgs-as-admins: false
             white-list-target-branches:
               - master
+
+- publisher:
+    name: archive-behave-logs
+    publishers:
+        - archive:
+            artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
+            fingerprint: true
+            allow-empty: true

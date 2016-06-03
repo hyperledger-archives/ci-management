@@ -46,6 +46,9 @@
         - fabric-unit-tests
         - fabric-behave-tests
 
+    publishers:
+        - archive-behave-logs
+
 - job-template:
     name: 'fabric-github-merge-{arch}'
 
@@ -77,6 +80,9 @@
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
+
+    publishers:
+        - archive-behave-logs
 
 #gerrit changes
 
@@ -120,6 +126,9 @@
         - fabric-unit-tests
         - fabric-behave-tests
 
+    publishers:
+        - archive-behave-logs
+
 - job-template:
     name: 'fabric-merge-{arch}'
 
@@ -160,3 +169,6 @@
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
+
+    publishers:
+        - archive-behave-logs
