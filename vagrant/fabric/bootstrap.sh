@@ -18,7 +18,12 @@ deb_configure_docker() {
     service docker start
 }
 
-deb_hyperledger_clean() {
+deb_docker_pull_baseimage() {
+    echo "---> Pulling Fabric Baseimage"
+    docker pull hyperledger/fabric-baseimage:x86_64-0.0.10
+}
+
+deb_create_hyperledger_vardir() {
     echo "---> Creating Hyperledger Vardir"
     mkdir /var/hyperledger/
     chown $USER:$USER /var/hyperledger
@@ -41,20 +46,50 @@ deb_install_rocksdb() {
 
 deb_install_pkgs() {
     # Compiling Essentials
-    PACKAGES="g++-4.8"
-    PACKAGES="$PACKAGES build-essential"
+    PACKAGES="g++-4.8 build-essential"
 
     # Libraries
-    PACKAGES="$PACKAGES libsnappy-dev zlib1g-dev libbz2-dev"
+    PACKAGES="$PACKAGES libsnappy-dev zlib1g-dev libbz2-dev \
+        python-dev libyaml-dev python-pip"
+
+    # Tcl prerequisites for busywork
+    PACKAGES="$PACKAGES tcl tclx tcllib"
+
+    # Docker
+    PACKAGES="$PACKAGES apparmor \
+        linux-image-extra-$(uname -r) docker-engine=1.8.2-0~trusty"
 
     # Go Lang
     PACKAGES="$PACKAGES golang-1.6"
 
-    # Docker
-    PACKAGES="$PACKAGES docker.io"
-
     echo '---> Installing packages'
     apt-get -qq install -y $PACKAGES
+}
+
+deb_add_docker_repo() {
+    echo '---> Installing the Docker Repo'
+    apt-key adv \
+      --keyserver hkp://p80.pool.sks-keyservers.net:80 \
+      --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+    echo "deb https://apt.dockerproject.org/repo ubuntu-trusty main" > /etc/apt/sources.list.d/docker.list
+}
+
+deb_install_docker_compose() {
+    echo '---> Installing Docker Compose'
+    curl -L "https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+}
+
+deb_install_pip_pkgs() {
+    PIP_PACKAGES="behave nose"
+    PIP_VERSIONED_PACKAGES="flask==0.10.1 \
+        python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
+        flask-cors==2.0.1 requests==2.4.3"
+
+    echo '---> Installing Pip Packages'
+    pip install -U pip
+    pip install $PIP_PACKAGES
+    pip install -I $PIP_VERSIONED_PACKAGES
 }
 
 deb_update_alternatives() {
@@ -77,13 +112,17 @@ ubuntu_systems() {
     # mode in commands.
     export DEBIAN_FRONTEND=noninteractive
 
-    deb_hyperledger_clean
+    deb_create_hyperledger_vardir
+    deb_add_docker_repo
     deb_add_apt_ppa 'ppa:ubuntu-toolchain-r/test'
     deb_install_pkgs
+    deb_install_docker_compose
+    deb_install_pip_pkgs
     deb_install_go
     deb_install_rocksdb
     deb_update_alternatives
     deb_configure_docker
+    deb_docker_pull_baseimage
 
     echo "---> No extra steps presently for ${FACTER_OS}"
 }
