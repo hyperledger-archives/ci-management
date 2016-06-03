@@ -9,6 +9,7 @@
     project: 'fabric'
     arch:
         - 'x86_64'
+        - 'z'
 
 - job-template:
     name: 'fabric-github-verify-{arch}'
