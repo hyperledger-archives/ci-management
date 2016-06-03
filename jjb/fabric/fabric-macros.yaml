@@ -2,7 +2,7 @@
     name: github-pr-sha1
     parameters:
         - string:
-            name: sha1
+            name: github_sha
             default: '${sha1}'
             description: "SHA1 commit id of Github pull request (eg: origin/pr/9/head)"
 
@@ -13,7 +13,7 @@
             url: 'https://github.com/hyperledger/fabric.git'
             refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
             branches:
-               - '${sha1}'
+               - '${github_sha}'
             skip-tag: true
             wipe-workspace: true
             basedir: 'gopath/src/github.com/hyperledger/fabric'
