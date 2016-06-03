@@ -48,6 +48,7 @@
 
     publishers:
         - archive-behave-logs
+        - github-notifier
 
 - job-template:
     name: 'fabric-github-merge-{arch}'
@@ -83,6 +84,7 @@
 
     publishers:
         - archive-behave-logs
+        - github-notifier
 
 #gerrit changes
 
