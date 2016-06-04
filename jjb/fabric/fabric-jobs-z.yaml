@@ -1,20 +1,18 @@
 - project:
-    name: fabric-jobs
+    name: fabric-jobs-z
     jobs:
-        - 'fabric-github-merge-{arch}'
-        - 'fabric-github-verify-{arch}'
-        - 'fabric-merge-{arch}'
-        - 'fabric-verify-{arch}'
+        - 'fabric-github-merge-z'
+        - 'fabric-github-verify-z'
+        - 'fabric-merge-z'
+        - 'fabric-verify-z'
 
     project: 'fabric'
-    arch:
-        - 'x86_64'
 
 - job-template:
-    name: 'fabric-github-verify-{arch}'
+    name: 'fabric-github-verify-z'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     parameters:
@@ -36,11 +34,6 @@
     triggers:
         - github-pr-builder
 
-    wrappers:
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
@@ -50,10 +43,10 @@
         - github-notifier
 
 - job-template:
-    name: 'fabric-github-merge-{arch}'
+    name: 'fabric-github-merge-z'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     properties:
@@ -72,11 +65,6 @@
     triggers:
         - github
 
-    wrappers:
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
@@ -88,10 +76,10 @@
 #gerrit changes
 
 - job-template:
-    name: 'fabric-verify-{arch}'
+    name: 'fabric-verify-z'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     logrotate:
@@ -118,11 +106,6 @@
             name: '{project}'
             branch: 'master'
 
-    wrappers:
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-
     builders:
         - fabric-unit-tests
         - fabric-behave-tests
@@ -131,10 +114,10 @@
         - archive-behave-logs
 
 - job-template:
-    name: 'fabric-merge-{arch}'
+    name: 'fabric-merge-z'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     logrotate:
@@ -161,11 +144,6 @@
         - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: 'master'
-
-    wrappers:
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
 
     builders:
         - fabric-unit-tests
