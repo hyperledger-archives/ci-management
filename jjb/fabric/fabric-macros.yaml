@@ -19,6 +19,23 @@
             basedir: 'gopath/src/github.com/hyperledger/fabric'
 
 - builder:
+    name: output-environment
+    builders:
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+          
+          # Output all information about the environment
+          uname -a
+          cat /etc/*-release
+          env
+          go version
+          gcc --version
+          docker version
+          docker info
+
+
+- builder:
     name: fabric-behave-tests
     builders:
       - shell:

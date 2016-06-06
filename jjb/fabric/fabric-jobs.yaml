@@ -42,6 +42,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -77,6 +78,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -122,6 +124,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -166,6 +169,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
