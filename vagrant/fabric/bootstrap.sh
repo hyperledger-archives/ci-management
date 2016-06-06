@@ -14,7 +14,7 @@ deb_install_go() {
 deb_configure_docker() {
     echo "---> Configuring Docker"
     service docker stop
-    echo "DOCKER_OPS=\"-H tcp://0.0.0.0:2735 -H unix:///var/run/docker.sock\"" > /etc/default/docker
+    echo "DOCKER_OPTS=\"-H tcp://0.0.0.0:2735 -H unix:///var/run/docker.sock\"" > /etc/default/docker
     service docker start
 }
 
