@@ -42,6 +42,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - clean-hyperledger-var
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -78,6 +79,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - clean-hyperledger-var
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -124,6 +126,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - clean-hyperledger-var
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -169,6 +172,7 @@
                 - '{ssh-credentials}'
 
     builders:
+        - clean-hyperledger-var
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests

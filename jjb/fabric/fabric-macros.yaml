@@ -34,6 +34,14 @@
           docker version
           docker info
 
+- builder:
+    name: clean-hyperledger-var
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          rm -r /var/hyperledger/*
 
 - builder:
     name: fabric-behave-tests
