@@ -98,4 +98,5 @@
         - archive:
             artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
             fingerprint: true
+            default-excludes: false
             allow-empty: true
