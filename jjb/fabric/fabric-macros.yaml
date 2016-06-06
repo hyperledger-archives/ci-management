@@ -3,9 +3,9 @@
     properties:
         - inject:
             properties-content: |
-                GOPATH="$WORKSPACE/gopath"
-                GOROOT="/opt/go/go1.6.linux.amd64"
-                PATH="/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH"
+                GOPATH=$WORKSPACE/gopath
+                GOROOT=/opt/go/go1.6.linux.amd64
+                PATH=/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH
 
 - parameter:
     name: github-pr-sha1
