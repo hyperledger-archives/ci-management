@@ -21,6 +21,7 @@
         - github-pr-sha1
 
     properties:
+        - 'fabric-{arch}'
         - github:
             url: https://github.com/hyperledger/fabric/
 
@@ -58,6 +59,7 @@
     concurrent: true
 
     properties:
+        - 'fabric-{arch}'
         - github:
             url: https://github.com/hyperledger/fabric/
 
@@ -102,6 +104,9 @@
         artifactDaysToKeep: 10
         artifactNumToKeep: 10
 
+    properties:
+        - 'fabric-{arch}'
+
     parameters:
         - project-parameter:
             project: '{project}'
@@ -140,6 +145,9 @@
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
     concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
 
     logrotate:
         daysToKeep: 30
