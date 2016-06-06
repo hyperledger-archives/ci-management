@@ -37,6 +37,25 @@
 
             cd gopath/src/github.com/hyperledger/fabric && make unit-test
 
+- builder:
+    name: fabric-behave-tests-z
+    builders:
+      - shell:
+          !include-raw-escape: include-raw-fabric-behave-z.sh
+
+- builder:
+    name: fabric-unit-tests-z
+    builders:
+        - shell: |
+            #!/bin/bash -eu
+            set -o pipefail
+
+            export GOPATH="$WORKSPACE/gopath"
+            export GOROOT="/opt/go"
+            export PATH="/opt/go/bin:$GOPATH/bin:$PATH"
+
+            cd gopath/src/github.com/hyperledger/fabric && make unit-test
+
 - trigger:
     name: github-pr-builder
     triggers:

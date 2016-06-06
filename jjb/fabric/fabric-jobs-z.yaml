@@ -35,8 +35,8 @@
         - github-pr-builder
 
     builders:
-        - fabric-unit-tests
-        - fabric-behave-tests
+        - fabric-unit-tests-z
+        - fabric-behave-tests-z
 
     publishers:
         - archive-behave-logs
@@ -66,8 +66,8 @@
         - github
 
     builders:
-        - fabric-unit-tests
-        - fabric-behave-tests
+        - fabric-unit-tests-z
+        - fabric-behave-tests-z
 
     publishers:
         - archive-behave-logs
@@ -107,8 +107,8 @@
             branch: 'master'
 
     builders:
-        - fabric-unit-tests
-        - fabric-behave-tests
+        - fabric-unit-tests-z
+        - fabric-behave-tests-z
 
     publishers:
         - archive-behave-logs
@@ -146,8 +146,8 @@
           branch: 'master'
 
     builders:
-        - fabric-unit-tests
-        - fabric-behave-tests
+        - fabric-unit-tests-z
+        - fabric-behave-tests-z
 
     publishers:
         - archive-behave-logs
