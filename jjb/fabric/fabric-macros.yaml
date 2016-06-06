@@ -41,7 +41,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          rm -r /var/hyperledger/*
+          rm -rf /var/hyperledger/*
 
 - builder:
     name: fabric-behave-tests
