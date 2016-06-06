@@ -19,6 +19,7 @@
         - github-pr-sha1
 
     properties:
+        - fabric-z
         - github:
             url: https://github.com/hyperledger/fabric/
 
@@ -36,8 +37,8 @@
 
     builders:
         - clean-hyperledger-var
-        - fabric-unit-tests-z
-        - fabric-behave-tests-z
+        - fabric-unit-tests
+        - fabric-behave-tests
 
     publishers:
         - archive-behave-logs
@@ -50,6 +51,7 @@
     concurrent: true
 
     properties:
+        - fabric-z
         - github:
             url: https://github.com/hyperledger/fabric/
 
@@ -67,8 +69,8 @@
 
     builders:
         - clean-hyperledger-var
-        - fabric-unit-tests-z
-        - fabric-behave-tests-z
+        - fabric-unit-tests
+        - fabric-behave-tests
 
     publishers:
         - archive-behave-logs
@@ -81,6 +83,9 @@
     project-type: freestyle
     node: 'hyp-fabric-z'
     concurrent: true
+
+    properties:
+        - fabric-z
 
     logrotate:
         daysToKeep: 30
@@ -108,8 +113,8 @@
 
     builders:
         - clean-hyperledger-var
-        - fabric-unit-tests-z
-        - fabric-behave-tests-z
+        - fabric-unit-tests
+        - fabric-behave-tests
 
     publishers:
         - archive-behave-logs
@@ -120,6 +125,9 @@
     project-type: freestyle
     node: 'hyp-fabric-z'
     concurrent: true
+
+    properties:
+        - fabric-z
 
     logrotate:
         daysToKeep: 30
@@ -148,8 +156,8 @@
 
     builders:
         - clean-hyperledger-var
-        - fabric-unit-tests-z
-        - fabric-behave-tests-z
+        - fabric-unit-tests
+        - fabric-behave-tests
 
     publishers:
         - archive-behave-logs
