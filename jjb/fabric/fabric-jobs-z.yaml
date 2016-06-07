@@ -32,9 +32,6 @@
     scm:
         - hyperledger-fabric-ghpr
 
-    triggers:
-        - github-pr-builder
-
     builders:
         - clean-hyperledger-var
         - fabric-unit-tests

@@ -34,9 +34,6 @@
     scm:
         - hyperledger-fabric-ghpr
 
-    triggers:
-        - github-pr-builder
-
     wrappers:
         - timestamps
         - ssh-agent-credentials:
