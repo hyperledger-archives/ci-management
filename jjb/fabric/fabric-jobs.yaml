@@ -38,6 +38,7 @@
         - github-pr-builder
 
     wrappers:
+        - timestamps
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
@@ -76,6 +77,7 @@
         - github
 
     wrappers:
+        - timestamps
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
@@ -126,6 +128,7 @@
             branch: 'master'
 
     wrappers:
+        - timestamps
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
@@ -175,6 +178,7 @@
           branch: 'master'
 
     wrappers:
+        - timestamps
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
