@@ -14,7 +14,7 @@
             properties-content: |
                 GOPATH=$WORKSPACE/gopath
                 GOROOT=/opt/go/
-                PATH=/opt/go/bin:$GOPATH/bin:$PATH
+                PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
 
 - parameter:
     name: github-pr-sha1
