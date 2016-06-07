@@ -50,7 +50,7 @@ deb_install_pkgs() {
 
     # Libraries
     PACKAGES="$PACKAGES libsnappy-dev zlib1g-dev libbz2-dev \
-        python-dev libyaml-dev python-pip"
+        libffi-dev libssl-dev python-dev libyaml-dev python-pip"
 
     # Tcl prerequisites for busywork
     PACKAGES="$PACKAGES tcl tclx tcllib"
@@ -76,11 +76,12 @@ deb_add_docker_repo() {
 
 deb_install_docker_compose() {
     echo '---> Installing Docker Compose'
-    curl -L "https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
+    curl -sL "https://github.com/docker/compose/releases/download/1.5.2/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
 }
 
 deb_install_pip_pkgs() {
+    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1"
     PIP_PACKAGES="behave nose"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
@@ -88,6 +89,7 @@ deb_install_pip_pkgs() {
 
     echo '---> Installing Pip Packages'
     pip install -U pip
+    pip install $PIP_PACKAGE_DEPS
     pip install $PIP_PACKAGES
     pip install -I $PIP_VERSIONED_PACKAGES
 }
