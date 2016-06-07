@@ -51,6 +51,7 @@
           gcc --version
           docker version
           docker info
+          pgrep -a docker
 
 - builder:
     name: clean-hyperledger-var
