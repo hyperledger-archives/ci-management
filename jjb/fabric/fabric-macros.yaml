@@ -84,14 +84,18 @@
         - github-pull-request:
             org-list:
               - hyperledger
-            trigger-phrase: 'reverify'
+            trigger-phrase: 'reverify jenkins'
             only-trigger-phrase: false
             github-hooks: true
             permit-all: true
             auto-close-on-fail: false
             allow-whitelist-orgs-as-admins: false
-            white-list-target-branches:
-              - master
+            status-context: 'jenkins/{arch}'
+            triggered-status: 'Build triggered'
+            started-status: 'Build started'
+            success-status: 'Build succeeded'
+            failure-status: 'Build failed'
+            error-status: 'Build errored'
 
 - publisher:
     name: archive-behave-logs
