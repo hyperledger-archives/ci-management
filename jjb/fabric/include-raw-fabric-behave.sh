@@ -4,7 +4,7 @@ set -o pipefail
 cd gopath/src/github.com/hyperledger/fabric
 
 # Configure ip/port
-ip="$(ifconfig docker0 | grep "inet addr:" | awk '{print $2}' | cut -d ':' -f 2)"
+ip="$(ifconfig docker0 | grep 'inet[^6]' | awk '{print $2}' | cut -d ':' -f 2)"
 port=2375
 # script
 echo "Executing Behave test scripts"
