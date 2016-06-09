@@ -54,13 +54,16 @@
           pgrep -a docker
 
 - builder:
-    name: clean-hyperledger-var
+    name: clean-environment
     builders:
       - shell: |
           #!/bin/bash -eu
-          set -o pipefail
 
-          rm -rf /var/hyperledger/*
+          cd gopath/src/github.com/hyperledger/fabric
+
+          docker stop hyperledger/fabric-{{baseimage,src,ccenv,peer,membersrvc}} || true
+          make dist-clean || true
+          docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
 
 - builder:
     name: fabric-behave-tests

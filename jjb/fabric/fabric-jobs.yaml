@@ -47,7 +47,7 @@
         - mask-passwords
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -88,7 +88,7 @@
         - mask-passwords
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -141,7 +141,7 @@
         - mask-passwords
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
@@ -193,7 +193,7 @@
         - mask-passwords
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests

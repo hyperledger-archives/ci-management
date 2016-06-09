@@ -33,7 +33,7 @@
         - hyperledger-fabric-ghpr
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -65,7 +65,7 @@
         - github
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -109,7 +109,7 @@
             branch: 'master'
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -152,7 +152,7 @@
           branch: 'master'
 
     builders:
-        - clean-hyperledger-var
+        - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
