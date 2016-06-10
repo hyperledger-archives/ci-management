@@ -56,7 +56,7 @@
 - builder:
     name: clean-environment
     builders:
-      - shell: |
+      - shell:
           !include-raw-escape: include-raw-fabric-clean-environment.sh
 
 - builder:
