@@ -57,13 +57,7 @@
     name: clean-environment
     builders:
       - shell: |
-          #!/bin/bash -eu
-
-          cd gopath/src/github.com/hyperledger/fabric
-
-          docker stop hyperledger/fabric-{{baseimage,src,ccenv,peer,membersrvc}} || true
-          make dist-clean || true
-          docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
+          !include-raw-escape: include-raw-fabric-clean-environment.sh
 
 - builder:
     name: fabric-behave-tests
