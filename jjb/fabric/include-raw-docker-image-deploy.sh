@@ -26,6 +26,6 @@ docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --passwor
 
 echo "--> Pushing Docker Tags to Docker Hub"
 docker push hyperledgergithub/fabric-peer:$TAG
-docker push hyperledgergithub/fabric-peerbuild:latest
+docker push hyperledgergithub/fabric-peer:latest
 docker push hyperledgergithub/fabric-membersrvc:$TAG
-docker push hyperledgergithub/fabric-membersrvcbuild:latest
+docker push hyperledgergithub/fabric-membersrvc:latest
