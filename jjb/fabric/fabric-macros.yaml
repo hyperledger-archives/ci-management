@@ -21,7 +21,7 @@
     parameters:
         - string:
             name: github_sha
-            default: '${sha1}'
+            default: '${ghprbActualCommit}'
             description: "SHA1 commit id of Github pull request (eg: origin/pr/9/head)"
 
 - scm:
