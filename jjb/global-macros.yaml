@@ -43,6 +43,14 @@
             default: '{refname}'
             description: "GERRIT_REFNAME parameter if not given by tag trigger"
 
+- parameter:
+    name: git-branch
+    parameters:
+        - string:
+            name: branch
+            default: 'master'
+            description: "Git branch to checkout after clone"
+
 ##
 # SCMS
 ##
@@ -81,17 +89,6 @@
                 - 'origin/{branch}'
             skip-tag: true
             wipe-workspace: true
-
-- scm:
-    name: hyperledger-fabric
-    scm:
-        - git:
-            url: 'https://github.com/hyperledger/fabric.git'
-            branches:
-               - 'origin/master'
-            skip-tag: true
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric'
 
 ##
 # Wrappers

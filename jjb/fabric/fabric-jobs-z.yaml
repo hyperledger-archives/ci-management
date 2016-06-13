@@ -47,6 +47,9 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
+    parameters:
+        - git-branch
+
     properties:
         - fabric-z
         - github:

@@ -26,6 +26,18 @@
             default: '${ghprbActualCommit}'
             description: "SHA1 commit id of Github pull request (eg: origin/pr/9/head)"
 
+
+- scm:
+    name: hyperledger-fabric
+    scm:
+        - git:
+            url: 'https://github.com/hyperledger/fabric.git'
+            branches:
+               - 'origin/${branch}'
+            skip-tag: true
+            wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric'
+
 - scm:
     name: hyperledger-fabric-ghpr
     scm:
