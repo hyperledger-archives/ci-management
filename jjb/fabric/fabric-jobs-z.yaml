@@ -68,6 +68,7 @@
         - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
+        - fabric-docker-deploy
 
     publishers:
         - archive-behave-logs
@@ -155,6 +156,7 @@
         - clean-environment
         - fabric-unit-tests
         - fabric-behave-tests
+        - fabric-docker-deploy
 
     publishers:
         - archive-behave-logs
