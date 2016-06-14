@@ -1,12 +1,10 @@
 #!/bin/bash -eu
 set -o pipefail
 
-TAG="${GIT_COMMIT:0:7}"
+TAG=${GIT_COMMIT:0:7}
 
 echo "COMMIT NUMBER: " $TAG
 echo "ARCH: " $ARCH
-echo "BUILD_STATUS: " $BUILD_STATUS
-echo "ghprbPullId: " $ghprbPullId
 
 PEER_IMAGE="$(docker images -q hyperledger/fabric-peer)"
 MEMBER_IMAGE="$(docker images -q hyperledger/fabric-membersrvc)"
@@ -17,7 +15,7 @@ echo "peer tag: " $PEER_TAG
 echo "membersrvc tag: " $MEMBER_TAG
 
 docker tag $PEER_TAG hyperledgergithub/fabric-peer:$TAG
-docker tag -f $PEER_$TAG hyperledgergithub/fabric-peer:latest
+docker tag -f $PEER_TAG hyperledgergithub/fabric-peer:latest
 docker tag $MEMBER_TAG hyperledgergithub/fabric-membersrvc:$TAG
 docker tag -f $MEMBER_TAG hyperledgergithub/fabric-membersrvc:latest
 
