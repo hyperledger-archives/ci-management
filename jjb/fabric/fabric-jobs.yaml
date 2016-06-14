@@ -62,6 +62,9 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
+    parameters:
+        - git-branch
+
     properties:
         - 'fabric-{arch}'
         - github:
