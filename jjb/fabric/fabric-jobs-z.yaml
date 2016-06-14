@@ -24,13 +24,22 @@
             url: https://github.com/hyperledger/fabric/
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+        daysToKeep: 14
+        numToKeep: -1
+        artifactDaysToKeep: 14
+        artifactNumToKeep: -1
 
     scm:
         - hyperledger-fabric-ghpr
+
+    triggers:
+        - github-pr-builder:
+            arch: 'z'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
 
     builders:
         - clean-environment
@@ -56,16 +65,21 @@
             url: https://github.com/hyperledger/fabric/
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+        daysToKeep: 14
+        numToKeep: -1
+        artifactDaysToKeep: 14
+        artifactNumToKeep: -1
 
     scm:
         - hyperledger-fabric
 
     triggers:
         - github
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
 
     builders:
         - clean-environment
