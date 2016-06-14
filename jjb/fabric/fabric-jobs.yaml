@@ -26,10 +26,10 @@
             url: https://github.com/hyperledger/fabric/
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+        daysToKeep: 14
+        numToKeep: -1
+        artifactDaysToKeep: 14
+        artifactNumToKeep: -1
 
     scm:
         - hyperledger-fabric-ghpr
