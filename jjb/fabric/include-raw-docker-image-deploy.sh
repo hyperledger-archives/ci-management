@@ -8,8 +8,8 @@ echo "ARCH: " $ARCH
 
 PEER_IMAGE="$(docker images -q hyperledger/fabric-peer)"
 MEMBER_IMAGE="$(docker images -q hyperledger/fabric-membersrvc)"
-$PEER_TAG = $PEER_IMAGE:$ARCH-$TAG
-$MEMBER_TAG = $MEMBER_IMAGE:$ARCH-$TAG
+PEER_TAG=$PEER_IMAGE:$ARCH-$TAG
+MEMBER_TAG=$MEMBER_IMAGE:$ARCH-$TAG
 
 echo "peer tag: " $PEER_TAG
 echo "membersrvc tag: " $MEMBER_TAG

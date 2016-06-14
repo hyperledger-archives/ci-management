@@ -77,7 +77,7 @@
     name: fabric-docker-deploy
     builders:
       - shell:
-          !include-raw-escape: include-raw-docker-image-deploy.sh
+          !include-raw: include-raw-docker-image-deploy.sh
 
 - builder:
     name: fabric-behave-tests
