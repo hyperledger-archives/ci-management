@@ -17,6 +17,8 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
+    disabled: true
+
     parameters:
         - github-pr-sha1
 
@@ -61,6 +63,8 @@
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
     concurrent: true
+
+    disabled: true
 
     parameters:
         - git-branch
