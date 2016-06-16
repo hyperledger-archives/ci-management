@@ -10,16 +10,16 @@ echo "ARCH: " $ARCH
 echo "peer image: " $PEER_IMAGE
 echo "membersrvc image: " $MEMBER_IMAGE
 
-docker tag $PEER_IMAGE hyperledgergithub/fabric-peer:$ARCH-$TAG
-docker tag -f $PEER_IMAGE hyperledgergithub/fabric-peer:latest
-docker tag $MEMBER_IMAGE hyperledgergithub/fabric-membersrvc:$ARCH-$TAG
-docker tag -f $MEMBER_IMAGE hyperledgergithub/fabric-membersrvc:latest
+docker tag $PEER_IMAGE hyperledger/fabric-peer:$ARCH-$TAG
+docker tag -f $PEER_IMAGE hyperledger/fabric-peer:latest
+docker tag $MEMBER_IMAGE hyperledger/fabric-membersrvc:$ARCH-$TAG
+docker tag -f $MEMBER_IMAGE hyperledger/fabric-membersrvc:latest
 
 echo "--> Logging into Docker Hub"
 docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 
 echo "--> Pushing Docker Tags to Docker Hub"
-docker push hyperledgergithub/fabric-peer:$ARCH-$TAG
-docker push hyperledgergithub/fabric-peer:latest
-docker push hyperledgergithub/fabric-membersrvc:$ARCH-$TAG
-docker push hyperledgergithub/fabric-membersrvc:latest
+docker push hyperledger/fabric-peer:$ARCH-$TAG
+docker push hyperledger/fabric-peer:latest
+docker push hyperledger/fabric-membersrvc:$ARCH-$TAG
+docker push hyperledger/fabric-membersrvc:latest
