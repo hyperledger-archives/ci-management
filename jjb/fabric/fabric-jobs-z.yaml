@@ -58,6 +58,8 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
+    disabled: true
+
     parameters:
         - git-branch
 
