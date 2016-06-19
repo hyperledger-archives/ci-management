@@ -10,4 +10,3 @@ port=2375
 echo "Executing Behave test scripts"
 sed -i -e 's/172.17.0.1:2375\b/'"$ip:$port"'/g' bddtests/compose-defaults.yml
 make behave BEHAVE_OPTS="-D logs=Y -o testsummary.log"
-make linter
