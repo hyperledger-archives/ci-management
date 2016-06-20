@@ -107,9 +107,6 @@
             permit-all: true
             auto-close-on-fail: false
             allow-whitelist-orgs-as-admins: false
-            white-list-target-branches:
-              - master
-              - test-release
             status-context: 'jenkins/{arch}'
             triggered-status: 'Build triggered'
             started-status: 'Build started'
