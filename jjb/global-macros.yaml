@@ -48,7 +48,7 @@
     parameters:
         - string:
             name: branch
-            default: 'master'
+            default: '**'
             description: "Git branch to checkout after clone"
 
 ##
