@@ -122,3 +122,9 @@
             fingerprint: true
             default-excludes: false
             allow-empty: true
+
+- publisher:
+    name: behave-test-results
+    publishers:
+        - cucumber-testresult:
+            results: 'gopath/src/github.com/hyperledger/fabric/bddtests/test_result_report.json'
