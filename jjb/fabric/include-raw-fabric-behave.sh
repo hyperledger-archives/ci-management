@@ -9,4 +9,4 @@ port=2375
 # script
 echo "Executing Behave test scripts"
 sed -i -e 's/172.17.0.1:2375\b/'"$ip:$port"'/g' bddtests/compose-defaults.yml
-make behave BEHAVE_OPTS="--junit -f json -o test_result_report.json -D logs=Y -f plain -o testsummary.log"
+make behave BEHAVE_OPTS="-D logs=Y -o testsummary.log"

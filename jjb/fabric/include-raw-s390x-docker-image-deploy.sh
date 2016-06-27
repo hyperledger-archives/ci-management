@@ -9,7 +9,7 @@ MEMBERSERVC_IMAGE="$(docker images -q hyperledger/fabric-membersrvc)"
 echo "COMMIT NUMBER: " $TAG
 echo "Branch Name: " $BRANCH
 echo "peer image: " $PEER_IMAGE
-echo "membersrvc image: " $MEMBER_IMAGE
+echo "membersrvc image: " $MEMBERSERVC_IMAGE
 
 docker tag $PEER_IMAGE hyperledger/fabric-s390x-peer:$BRANCH-$TAG
 docker tag -f $PEER_IMAGE hyperledger/fabric-s390x-peer:latest
