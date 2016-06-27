@@ -95,7 +95,7 @@
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
-        - fabric-docker-deploy
+        - fabric-x86_64-docker-deploy
 
     publishers:
         - archive-behave-logs
@@ -203,8 +203,7 @@
         - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
-        - fabric-docker-deploy
-
+        - fabric-x86_64-docker-deploy
     publishers:
         - archive-behave-logs
 #       - behave-test-results

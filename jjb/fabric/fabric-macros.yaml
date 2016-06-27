@@ -74,10 +74,16 @@
           !include-raw: include-raw-fabric-clean-environment.sh
 
 - builder:
-    name: fabric-docker-deploy
+    name: fabric-x86_64-docker-deploy
     builders:
       - shell:
-          !include-raw: include-raw-docker-image-deploy.sh
+          !include-raw: include-raw-x86_64-docker-image-deploy.sh
+
+- builder:
+    name: fabric-s390x-docker-deploy
+    builders:
+      - shell:
+          !include-raw: include-raw-s390x-docker-image-deploy.sh
 
 - builder:
     name: fabric-behave-tests
