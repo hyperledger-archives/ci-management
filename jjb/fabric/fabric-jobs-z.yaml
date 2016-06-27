@@ -48,7 +48,7 @@
 
     publishers:
         - archive-behave-logs
-        - behave-test-results
+#       - behave-test-results
 
 - job-template:
     name: 'fabric-github-merge-z'
@@ -90,7 +90,7 @@
 
     publishers:
         - archive-behave-logs
-        - behave-test-results
+#       - behave-test-results
 
 #gerrit changes
 
@@ -135,7 +135,7 @@
 
     publishers:
         - archive-behave-logs
-        - behave-test-results
+#       - behave-test-results
 
 - job-template:
     name: 'fabric-merge-z'
@@ -180,4 +180,4 @@
 
     publishers:
         - archive-behave-logs
-        - behave-test-results
+#       - behave-test-results
