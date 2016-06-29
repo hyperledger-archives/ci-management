@@ -43,6 +43,7 @@
 
     builders:
         - clean-environment
+        - output-environment
         - fabric-unit-tests
         - fabric-behave-tests
 
