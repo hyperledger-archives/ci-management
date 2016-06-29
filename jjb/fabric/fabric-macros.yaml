@@ -67,7 +67,7 @@
           docker info
           pgrep -a docker
           docker images
-          docker ps
+          docker ps -a
 
 - builder:
     name: clean-environment
