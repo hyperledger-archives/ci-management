@@ -32,10 +32,6 @@
     scm:
         - hyperledger-fabric-ghpr
 
-    triggers:
-        - github-pr-builder:
-            arch: 'z'
-
     wrappers:
         - timestamps
         - ci-skip
