@@ -115,7 +115,7 @@
             permit-all: true
             auto-close-on-fail: false
             allow-whitelist-orgs-as-admins: false
-            status-context: 'jenkins/x86_64'
+            status-context: 'jenkins/{arch}'
             triggered-status: 'Build triggered'
             started-status: 'Build started'
             success-status: 'Build succeeded'

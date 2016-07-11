@@ -15,6 +15,8 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
+    disabled: true
+
     parameters:
         - github-pr-sha1
 
@@ -31,6 +33,10 @@
 
     scm:
         - hyperledger-fabric-ghpr
+
+    triggers:
+        - github-pr-builder:
+             arch: 'z'
 
     wrappers:
         - timestamps
