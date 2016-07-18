@@ -134,5 +134,5 @@
 - publisher:
     name: behave-test-results
     publishers:
-        - cucumber-testresult:
+        - junit:
             results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
