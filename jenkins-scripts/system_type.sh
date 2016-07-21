@@ -8,7 +8,7 @@ SYSTEM_TYPE=''
 IFS='-' read -r -a HOSTPARTS <<< "${HOST}"
 
 # slurp in the control scripts
-FILES=($(find . -maxdepth 1 -type f -iname '*.sh' exec basename -s '.sh' {} \;))
+FILES=($(find . -maxdepth 1 -type f -iname '*.sh' -exec basename -s '.sh' {} \;))
 # remap into an associative array
 declare -A A_FILES
 for key in "${!FILES[@]}"
