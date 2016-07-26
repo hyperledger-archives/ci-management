@@ -49,6 +49,18 @@
             skip-tag: true
             wipe-workspace: true
             basedir: 'gopath/src/github.com/hyperledger/fabric'
+- scm:
+    name: hyperledger-fabric-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric'
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
 
 - builder:
     name: output-environment

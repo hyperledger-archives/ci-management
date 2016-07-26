@@ -126,11 +126,10 @@
             branch: 'master'
         - gerrit-refspec-parameter:
             refspec: ''
+
     scm:
-        - gerrit-trigger-scm:
+        - hyperledger-fabric-gerrit:
             credentials-id: '{ssh-credentials}'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
 
     triggers:
         - gerrit-trigger-patch-submitted:
@@ -180,10 +179,8 @@
             refspec: ''
 
     scm:
-        - gerrit-trigger-scm:
+        - hyperledger-fabric-gerrit:
             credentials-id: '{ssh-credentials}'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
 
     triggers:
         - gerrit-trigger-patch-merged:
