@@ -18,37 +18,6 @@
                 PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
                 ARCH=s390x
 
-- parameter:
-    name: github-pr-sha1
-    parameters:
-        - string:
-            name: github_sha
-            default: '${ghprbActualCommit}'
-            description: "SHA1 commit id of Github pull request (eg: origin/pr/9/head)"
-
-
-- scm:
-    name: hyperledger-fabric
-    scm:
-        - git:
-            url: 'https://github.com/hyperledger/fabric.git'
-            branches:
-               - 'origin/${branch}'
-            skip-tag: true
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric'
-
-- scm:
-    name: hyperledger-fabric-ghpr
-    scm:
-        - git:
-            url: 'https://github.com/hyperledger/fabric.git'
-            refspec: '+refs/pull/*:refs/remotes/origin/pr/*'
-            branches:
-               - '${github_sha}'
-            skip-tag: true
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric'
 - scm:
     name: hyperledger-fabric-gerrit
     scm:
@@ -114,25 +83,6 @@
 
 
             cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
-
-- trigger:
-    name: github-pr-builder
-    triggers:
-        - github-pull-request:
-            org-list:
-              - hyperledger
-            trigger-phrase: 'reverify jenkins'
-            only-trigger-phrase: false
-            github-hooks: true
-            permit-all: true
-            auto-close-on-fail: false
-            allow-whitelist-orgs-as-admins: false
-            status-context: 'jenkins/{arch}'
-            triggered-status: 'Build triggered'
-            started-status: 'Build started'
-            success-status: 'Build succeeded'
-            failure-status: 'Build failed'
-            error-status: 'Build errored'
 
 - publisher:
     name: archive-behave-logs
