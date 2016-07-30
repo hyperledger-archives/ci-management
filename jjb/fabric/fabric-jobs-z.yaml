@@ -22,9 +22,7 @@
 
     logrotate:
         daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+        artifactDaysToKeep: 30
 
     parameters:
         - project-parameter:
