@@ -84,8 +84,8 @@
 
     triggers:
         - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: 'master'
+            name: '{project}'
+            branch: 'master'
 
     builders:
         - clean-environment
