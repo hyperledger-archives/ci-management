@@ -49,6 +49,7 @@
     publishers:
         - archive-behave-logs
         - behave-test-results
+        - code-coverage-report
 
 - job-template:
     name: 'fabric-merge-z'
@@ -94,3 +95,4 @@
     publishers:
         - archive-behave-logs
         - behave-test-results
+        - code-coverage-report

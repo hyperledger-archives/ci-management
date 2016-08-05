@@ -58,6 +58,7 @@
     publishers:
         - archive-behave-logs
         - behave-test-results
+        - code-coverage-report
 
 - job-template:
     name: 'fabric-merge-{arch}'
@@ -109,3 +110,4 @@
     publishers:
         - archive-behave-logs
         - behave-test-results
+        - code-coverage-report

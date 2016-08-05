@@ -103,11 +103,11 @@
                   healthy: 80
                   unhealthy: 50
                   failing: 0
-              - methods:
+              - method:
                   healthy: 80
                   unhealthy: 50
                   failing: 0
-              - lines:
+              - line:
                   healthy: 80
                   unhealthy: 50
                   failing: 0
