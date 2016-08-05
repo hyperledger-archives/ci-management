@@ -56,7 +56,6 @@
         - fabric-behave-tests
 
     publishers:
-        - code-coverage-report
         - archive-behave-logs
         - behave-test-results
 
@@ -108,6 +107,5 @@
         - fabric-behave-tests
         - fabric-x86_64-docker-deploy
     publishers:
-        - code-coverage-report
         - archive-behave-logs
         - behave-test-results
