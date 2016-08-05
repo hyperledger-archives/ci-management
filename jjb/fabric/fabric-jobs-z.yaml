@@ -47,6 +47,7 @@
         - fabric-behave-tests
 
     publishers:
+        - code-coverage-report
         - archive-behave-logs
         - behave-test-results
 
@@ -90,6 +91,8 @@
         - fabric-unit-tests
         - fabric-behave-tests
         - fabric-s390x-docker-deploy
+
     publishers:
+        - code-coverage-report
         - archive-behave-logs
         - behave-test-results

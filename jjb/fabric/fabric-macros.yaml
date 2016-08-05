@@ -94,6 +94,33 @@
             allow-empty: true
 
 - publisher:
+    name: code-coverage-report
+    publishers:
+        - cobertura:
+            report-file: "**/report.xml"
+            targets:
+              - files:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - methods:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - lines:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - packages:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - classes:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+
+- publisher:
     name: behave-test-results
     publishers:
         - junit:
