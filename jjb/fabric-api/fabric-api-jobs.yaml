@@ -51,6 +51,10 @@
     builders:
         - fabric-api-clean-environment
         - fabric-api-compile
+        - shell: |
+            echo "----> ", $(pwd)
+            echo "----> ", $WORKSPACE
+            echo "----> ", $(find . -name "*.xml")
 
     publishers:
         - compile-results
