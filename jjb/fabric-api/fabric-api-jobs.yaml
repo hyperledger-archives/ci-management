@@ -53,6 +53,7 @@
         - fabric-api-compile
         - shell: |
             echo "----> ", $(pwd)
+            echo "----> ", "$(ls -al)"
             echo "----> ", $WORKSPACE
             echo "----> ", $(find . -name "*.xml")
 
