@@ -36,4 +36,4 @@
     name: compile-results
     publishers:
         - junit:
-            results: './api/target/surefire-reports/*.xml'
+            results: '$WORKSPACE/api/target/surefire-reports/*.xml'
