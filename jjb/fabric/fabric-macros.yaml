@@ -36,7 +36,9 @@
     builders:
       - shell: |
           #!/bin/bash -exu
-          tar czvf chaincode.tar examples core/chaincode/
+          cd gopath/src/github.com/hyperledger/fabric && tar czvf chaincode.tar examples core/chaincode/
+          mv chaincode.tar $WORKSPACE
+          cd ../../../../..
 
 - builder:
     name: output-environment
