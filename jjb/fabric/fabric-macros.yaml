@@ -143,3 +143,13 @@
           allow-empty: 'true'
           fingerprint: true
           default-excludes: false
+
+- publisher:
+    name: slack-notification
+    publishers:
+      - slack:
+          room: '{rooms}'
+          notify-success: True
+          notify-failure: True
+          include-custom-message: True
+          custom-message: 'BUILD URL - $BUILD_URL BRANCH - $GERRIT_BRANCH'
