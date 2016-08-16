@@ -50,8 +50,6 @@
         - archive-behave-logs
         - behave-test-results
         - code-coverage-report
-        - slack-notification:
-            rooms: '#fabric-ci-status'
 
 - job-template:
     name: 'fabric-merge-z'
@@ -98,5 +96,3 @@
         - archive-behave-logs
         - behave-test-results
         - code-coverage-report
-        - slack-notification:
-            rooms: '#fabric-ci-status'
