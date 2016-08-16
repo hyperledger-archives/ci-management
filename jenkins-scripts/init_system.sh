@@ -11,7 +11,7 @@ chmod +x ./*.sh
 
 source /tmp/system_type.sh
 ./ssh_settings.sh
-./"${SYSTEM_TYPE}.sh"
+#./"${SYSTEM_TYPE}.sh"
 
 # Create Jenkins User and allow Jenkins to connect
 ./create_jenkins_user.sh
