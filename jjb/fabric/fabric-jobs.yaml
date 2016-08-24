@@ -52,7 +52,6 @@
     builders:
         - clean-environment
         - output-environment
-        - create-chaincode-tar
         - fabric-unit-tests
         - fabric-behave-tests
 
@@ -60,7 +59,6 @@
         - archive-behave-logs
         - behave-test-results
         - code-coverage-report
-        - archive-fabric-chaincodes
 
 - job-template:
     name: 'fabric-merge-{arch}'

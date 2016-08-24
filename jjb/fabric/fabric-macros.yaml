@@ -32,15 +32,6 @@
             choosing-strategy: 'gerrit'
 
 - builder:
-    name: create-chaincode-tar
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          cd gopath/src/github.com/hyperledger/fabric && tar czvf chaincode.tar examples core/chaincode/
-          mv chaincode.tar $WORKSPACE
-          cd ../../../../..
-
-- builder:
     name: output-environment
     builders:
       - shell: |
@@ -134,12 +125,3 @@
     publishers:
         - junit:
             results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
-
-- publisher:
-    name: archive-fabric-chaincodes
-    publishers:
-      - archive:
-          artifacts: 'chaincode.tar'
-          allow-empty: 'true'
-          fingerprint: true
-          default-excludes: false
