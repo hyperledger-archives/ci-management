@@ -8,3 +8,4 @@ apt-get install -y maven
 
 npm install -g typescript
 npm install -g typings
+npm install -g typedoc
