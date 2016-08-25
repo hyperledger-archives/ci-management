@@ -9,3 +9,9 @@ apt-get install -y maven
 npm install -g typescript
 npm install -g typings
 npm install -g typedoc
+
+cd /usr/local
+wget https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
+unzip protoc-3.0.0-linux-x86_64.zip
+rm protoc-3.0.0-linux-x86_64.zip
+cd -
