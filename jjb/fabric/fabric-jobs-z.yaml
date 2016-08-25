@@ -28,7 +28,7 @@
         - project-parameter:
             project: '{project}'
         - gerrit-parameter:
-            branch: 'master'
+            branch: ''
         - gerrit-refspec-parameter:
             refspec: ''
 
@@ -39,7 +39,7 @@
     triggers:
         - gerrit-trigger-patch-submitted:
             name: '{project}'
-            branch: 'master'
+            branch: ''
 
     builders:
         - clean-environment
