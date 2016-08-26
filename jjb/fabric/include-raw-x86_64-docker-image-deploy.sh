@@ -1,6 +1,8 @@
 #!/bin/bash -eu
 set -o pipefail
 
+docker images | grep hyperledger/fabric
+
 TAG="$(docker images hyperledger/fabric-peer | awk 'NR!=1 &&  $2!="latest" {print $2}')"
 PEER_IMAGE="$(docker images hyperledger/fabric-peer | awk 'NR!=1 &&  $2!="latest" {print $3}')"
 MEMBERSERVC_IMAGE="$(docker images hyperledger/fabric-membersrvc | awk 'NR!=1 &&  $2!="latest" {print $3}')"
