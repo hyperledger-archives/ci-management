@@ -98,7 +98,6 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
-        - ci-skip
         - mask-passwords
 
     builders:
