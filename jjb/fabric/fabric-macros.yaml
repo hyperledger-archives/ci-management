@@ -46,6 +46,7 @@
           gcc --version
           docker version
           docker info
+          docker-compose version
           pgrep -a docker
           docker images
           docker ps -a
