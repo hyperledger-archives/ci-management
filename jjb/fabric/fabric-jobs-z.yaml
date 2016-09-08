@@ -44,11 +44,8 @@
     builders:
         - clean-environment
         - fabric-unit-tests
-        - fabric-behave-tests
 
     publishers:
-        - archive-behave-logs
-        - behave-test-results
         - code-coverage-report
 
 - job-template:
@@ -89,10 +86,7 @@
     builders:
         - clean-environment
         - fabric-unit-tests
-        - fabric-behave-tests
         - fabric-s390x-docker-deploy
 
     publishers:
-        - archive-behave-logs
-        - behave-test-results
         - code-coverage-report

@@ -53,11 +53,8 @@
         - clean-environment
         - output-environment
         - fabric-unit-tests
-        - fabric-behave-tests
 
     publishers:
-        - archive-behave-logs
-        - behave-test-results
         - code-coverage-report
 
 - job-template:
@@ -104,9 +101,6 @@
         - clean-environment
         - output-environment
         - fabric-unit-tests
-        - fabric-behave-tests
         - fabric-x86_64-docker-deploy
     publishers:
-        - archive-behave-logs
-        - behave-test-results
         - code-coverage-report
