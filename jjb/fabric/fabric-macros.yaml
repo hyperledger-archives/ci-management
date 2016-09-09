@@ -18,6 +18,18 @@
                 PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
                 ARCH=s390x
 
+
+- property:
+    name: 'fabric-ppc64le'
+    properties:
+        - inject:
+            properties-content: |
+                GOPATH=$WORKSPACE/gopath
+                GOROOT=/usr/local/go/
+                PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+                ARCH=ppc64le
+
+
 - scm:
     name: hyperledger-fabric-gerrit
     scm:
@@ -68,6 +80,12 @@
     builders:
       - shell:
           !include-raw: include-raw-s390x-docker-image-deploy.sh
+
+- builder:
+    name: fabric-ppc64le-docker-deploy
+    builders:
+      - shell:
+          !include-raw: include-raw-ppc64le-docker-image-deploy.sh
 
 - builder:
     name: fabric-behave-tests
