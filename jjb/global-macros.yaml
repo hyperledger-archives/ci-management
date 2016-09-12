@@ -98,8 +98,9 @@
     wrappers:
         - timeout:
             type: absolute
-            timeout: 360
-            fail: true
+            timeout: 120
+            timeout-var: 'BUILD_TIMEOUT'
+            abort: true
 
 ##
 # Triggers

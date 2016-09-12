@@ -50,6 +50,7 @@
                 - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
+        - build-timeout
 
     builders:
         - clean-environment
@@ -98,6 +99,7 @@
             users:
                 - '{ssh-credentials}'
         - mask-passwords
+        - build-timeout
 
     builders:
         - clean-environment
@@ -145,6 +147,7 @@
                 - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
+        - build-timeout
 
     builders:
         - clean-environment
@@ -194,6 +197,7 @@
             users:
                 - '{ssh-credentials}'
         - mask-passwords
+        - build-timeout
 
     builders:
         - clean-environment
