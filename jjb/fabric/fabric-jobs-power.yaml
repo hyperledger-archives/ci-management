@@ -107,6 +107,7 @@
         - clean-environment
         - output-environment
         - fabric-unit-tests
+        - fabric-ppc64le-docker-deploy
 
     publishers:
         - code-coverage-report

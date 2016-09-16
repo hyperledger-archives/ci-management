@@ -86,6 +86,7 @@
     builders:
         - clean-environment
         - fabric-unit-tests
+        - fabric-s390x-docker-deploy
 
     publishers:
         - code-coverage-report
