@@ -1,0 +1,316 @@
+- project:
+    name: fabric-releases
+    jobs:
+        - 'fabric-baseimage-verify-vagrant'
+        - 'fabric-baseimage-merge-vagrant'
+        - 'fabric-baseimage-release-vagrant'
+        - 'fabric-baseimage-verify-{arch}'
+        - 'fabric-baseimage-merge-{arch}'
+        - 'fabric-baseimage-release-{arch}'
+        - 'fabric-baseimage-release'
+
+    project: 'fabric-baseimage'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-baseimage-release'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-baseimage-release:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - baseimage-release
+
+    publishers:
+        - downstream-jobs
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-baseimage-verify-vagrant'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-vagrant-local
+
+- job-template:
+    name: 'fabric-baseimage-merge-vagrant'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-vagrant-local
+
+- job-template:
+    name: 'fabric-baseimage-release-vagrant'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-baseimage-release:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-vagrant-release
+
+- job-template:
+    name: 'fabric-baseimage-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-docker-local
+
+- job-template:
+    name: 'fabric-baseimage-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-docker-local
+
+- job-template:
+    name: 'fabric-baseimage-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-baseimage-release:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-docker-release

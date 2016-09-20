@@ -1,0 +1,80 @@
+- scm:
+    name: hyperledger-fabric-baseimage
+    scm:
+       - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: baseimage-release
+    builders:
+       - shell: |
+            #!/bin/bash -eu
+            !include-raw: include-raw-fabric-baseimage.sh
+
+- builder:
+    name: fabric-vagrant-release
+    builders:
+       - shell: |
+           #!/bin/bash -eu
+           set -o pipefail
+
+           mkdir -p /w/workspace/baseimage-experiment/packer_cache/
+           cp /opt/3e846ef4b214836dd947743a5822f62252c84af08c99040f031cde748ba4ea07.iso /w/workspace/baseimage-experiment/packer_cache/
+           make vagrant
+
+- builder:
+    name: fabric-vagrant-local
+    builders:
+       - shell: |
+           #!/bin/bash -eu
+           set -o pipefail
+
+           mkdir -p /w/workspace/baseimage-experiment/packer_cache/
+           cp /opt/3e846ef4b214836dd947743a5822f62252c84af08c99040f031cde748ba4ea07.iso /w/workspace/baseimage-experiment/packer_cache/
+           make vagrant-local
+
+- builder:
+    name: fabric-docker-release
+    builders:
+       - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          make docker
+
+- builder:
+    name: fabric-docker-local
+    builders:
+       - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          make docker-local
+
+- trigger:
+    name: gerrit-trigger-release-submitted
+    triggers:
+       - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+              - patchset-created-event:
+                  exclude-drafts: 'false'
+                  exclude-trivial-rebase: 'false'
+                  exclude-no-code-change: 'false'
+              - draft-published-event
+              - comment-added-contains-event:
+                  comment-contains-value: 'release'
+              - comment-added-contains-event:
+                  comment-contains-value: 'reverify'
+          projects:
+              - project-compare-type: 'ANT'
+                project-pattern: '{name}'
+                branches:
+                  - branch-compare-type: 'ANT'
+                    branch-pattern: '**/{branch}'
