@@ -151,7 +151,7 @@
             trigger-on:
                 - change-merged-event
                 - comment-added-contains-event:
-                    comment-contains-value: 'release'
+                    comment-contains-value: 'reverify'
             projects:
                 - project-compare-type: 'ANT'
                   project-pattern: '{name}'
@@ -169,9 +169,6 @@
                     exclude-drafts: 'false'
                     exclude-trivial-rebase: 'false'
                     exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'release'
                 - comment-added-contains-event:
                     comment-contains-value: 'reverify'
             projects:
