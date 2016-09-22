@@ -100,7 +100,7 @@
             type: absolute
             timeout: 120
             timeout-var: 'BUILD_TIMEOUT'
-            abort: true
+            fail: true
 
 ##
 # Triggers
