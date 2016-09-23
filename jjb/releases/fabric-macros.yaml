@@ -1,0 +1,71 @@
+- scm:
+    name: hyperledger-fabric-baseimage
+    scm:
+       - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: baseimage-clean-environment
+    builders:
+      - shell: |
+           #!/bin/bash -exu
+           set -o pipefail
+
+           make clean || true
+           docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
+           docker rmi -f $(docker images | grep none | awk '{print $3}') || true
+           docker rm -f $(docker ps -aq) || true
+           docker rmi -f $(docker images | grep hyperledger/fabric-baseimage:*) || true
+
+- builder:
+    name: baseimage-release
+    builders:
+       - shell:
+           !include-raw: include-raw-fabric-baseimage.sh
+
+- builder:
+    name: fabric-vagrant-release
+    builders:
+       - shell: |
+           #!/bin/bash -exu
+           set -o pipefail
+
+           mkdir -p $WORKSPACE/packer_cache/
+           cp /opt/3e846ef4b214836dd947743a5822f62252c84af08c99040f031cde748ba4ea07.iso $WORKSPACE/packer_cache/
+           make vagrant
+
+- builder:
+    name: fabric-vagrant-local
+    builders:
+       - shell: |
+           #!/bin/bash -exu
+           set -o pipefail
+
+           mkdir -p $WORKSPACE/packer_cache/
+           cp /opt/3e846ef4b214836dd947743a5822f62252c84af08c99040f031cde748ba4ea07.iso $WORKSPACE/packer_cache/
+           make vagrant-local
+
+- builder:
+    name: fabric-docker-release
+    builders:
+       - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          make docker
+
+- builder:
+    name: fabric-docker-local
+    builders:
+       - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          make docker-local
+

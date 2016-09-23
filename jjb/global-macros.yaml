@@ -144,6 +144,41 @@
                       branch-pattern: '**/{branch}'
 
 - trigger:
+    name: gerrit-trigger-release-merged
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - change-merged-event
+                - comment-added-contains-event:
+                    comment-contains-value: 'reverify'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-release-verify
+    triggers:
+        - gerrit:
+            server-name: 'hyperledger'
+            trigger-on:
+                - patchset-created-event:
+                    exclude-drafts: 'false'
+                    exclude-trivial-rebase: 'false'
+                    exclude-no-code-change: 'false'
+                - comment-added-contains-event:
+                    comment-contains-value: 'reverify'
+            projects:
+                - project-compare-type: 'ANT'
+                  project-pattern: '{name}'
+                  branches:
+                    - branch-compare-type: 'ANT'
+                      branch-pattern: '**/{branch}'
+
+- trigger:
     name: gerrit-trigger-patch-submitted-behave
     triggers:
         - gerrit:
@@ -287,3 +322,13 @@
     builders:
         - shell: |
             $WORKSPACE/scripts/check-unicode.sh jjb/
+
+- publisher:
+    name: downstream-jobs
+    publishers:
+        - downstream-ext:
+             projects:
+                - fabric-baseimage-release-vagrant-x86_64
+                - fabric-baseimage-release-x86_64
+             criteria: success
+             condition: equal
