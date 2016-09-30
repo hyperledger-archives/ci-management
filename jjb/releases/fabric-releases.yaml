@@ -4,10 +4,10 @@
         - 'fabric-baseimage-verify-vagrant-{arch}'
         - 'fabric-baseimage-merge-vagrant-{arch}'
         - 'fabric-baseimage-release-vagrant-{arch}'
-        - 'fabric-baseimage-verify-{arch}'
-        - 'fabric-baseimage-merge-{arch}'
-        - 'fabric-baseimage-release-{arch}'
-        - 'fabric-baseimage-{arch}'
+        - 'fabric-baseimage-verify-docker-{arch}'
+        - 'fabric-baseimage-merge-docker-{arch}'
+        - 'fabric-baseimage-release-docker-{arch}'
+        - 'fabric-baseimage-release-trigger'
 
     project: 'fabric-baseimage'
     arch:
@@ -16,14 +16,14 @@
 #gerrit changes
 
 - job-template:
-    name: 'fabric-baseimage-{arch}'
+    name: 'fabric-baseimage-release-trigger'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-x86_64'
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+        - 'fabric-x86_64'
 
     logrotate:
         daysToKeep: 30
@@ -193,7 +193,7 @@
         - fabric-vagrant-release
 
 - job-template:
-    name: 'fabric-baseimage-verify-{arch}'
+    name: 'fabric-baseimage-verify-docker-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -239,7 +239,7 @@
         - fabric-docker-local
 
 - job-template:
-    name: 'fabric-baseimage-merge-{arch}'
+    name: 'fabric-baseimage-merge-docker-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -283,7 +283,7 @@
         - fabric-docker-local
 
 - job-template:
-    name: 'fabric-baseimage-release-{arch}'
+    name: 'fabric-baseimage-release-docker-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'

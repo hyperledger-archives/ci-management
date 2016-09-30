@@ -150,8 +150,6 @@
             server-name: 'hyperledger'
             trigger-on:
                 - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
             projects:
                 - project-compare-type: 'ANT'
                   project-pattern: '{name}'
@@ -329,6 +327,6 @@
         - downstream-ext:
              projects:
                 - fabric-baseimage-release-vagrant-x86_64
-                - fabric-baseimage-release-x86_64
+                - fabric-baseimage-release-docker-x86_64
              criteria: success
              condition: equal
