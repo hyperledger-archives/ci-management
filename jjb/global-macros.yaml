@@ -102,6 +102,15 @@
             timeout-var: 'BUILD_TIMEOUT'
             fail: true
 
+- wrapper:
+    name: baseimage-build-timeout
+    wrappers:
+        - timeout:
+            type: absolute
+            timeout: 240
+            timeout-var: 'BUILD_TIMEOUT'
+            fail: true
+
 ##
 # Triggers
 ##

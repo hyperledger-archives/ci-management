@@ -48,7 +48,6 @@
                 - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
-        - build-timeout
 
     builders:
         - baseimage-clean-environment
@@ -98,7 +97,7 @@
                 - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
-        - build-timeout
+        - baseimage-build-timeout
 
     builders:
         - baseimage-clean-environment
@@ -144,7 +143,7 @@
             users:
                 - '{ssh-credentials}'
         - mask-passwords
-        - build-timeout
+        - baseimage-build-timeout
 
     builders:
         - baseimage-clean-environment
@@ -185,7 +184,7 @@
             users:
                 - '{ssh-credentials}'
         - mask-passwords
-        - build-timeout
+        - baseimage-build-timeout
 
     builders:
         - baseimage-clean-environment
