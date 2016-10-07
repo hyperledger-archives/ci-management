@@ -103,6 +103,14 @@
 
             cd gopath/src/github.com/hyperledger/fabric && make linter && make membersrvc-image && make unit-test
 
+- builder:
+    name: fabric-node-sdk-unit-tests
+    builders:
+        - shell: |
+            #!/bin/bash -exu
+            set -o pipefail
+            cd gopath/src/github.com/hyperledger/fabric && make node-sdk-unit-tests
+
 - publisher:
     name: archive-behave-logs
     publishers:
