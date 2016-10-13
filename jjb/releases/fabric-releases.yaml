@@ -5,8 +5,11 @@
         - 'fabric-baseimage-merge-vagrant-{arch}'
         - 'fabric-baseimage-release-vagrant-{arch}'
         - 'fabric-baseimage-verify-docker-{arch}'
+        - 'fabric-baseimage-verify-docker-ppc64le'
+        - 'fabric-baseimage-merge-docker-ppc64le'
         - 'fabric-baseimage-merge-docker-{arch}'
         - 'fabric-baseimage-release-docker-{arch}'
+        - 'fabric-baseimage-release-docker-ppc64le'
         - 'fabric-baseimage-release-trigger'
 
     project: 'fabric-baseimage'
@@ -142,6 +145,7 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
+        - ci-skip
         - mask-passwords
         - baseimage-build-timeout
 
@@ -183,6 +187,7 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
+        - ci-skip
         - mask-passwords
         - baseimage-build-timeout
 
@@ -229,6 +234,55 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-local
+
+
+- job-template:
+    name: 'fabric-baseimage-verify-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-power-1'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
         - mask-passwords
         - build-timeout
 
@@ -273,10 +327,57 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
+        - ci-skip
         - mask-passwords
         - build-timeout
 
     builders:
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-local
+
+- job-template:
+    name: 'fabric-baseimage-merge-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-power-1'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+
         - baseimage-clean-environment
         - output-environment
         - fabric-docker-local
@@ -312,6 +413,47 @@
         - ssh-agent-credentials:
             users:
                 - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-release
+
+
+- job-template:
+    name: 'fabric-baseimage-release-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-power-1'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
         - mask-passwords
         - build-timeout
 

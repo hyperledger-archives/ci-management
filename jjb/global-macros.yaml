@@ -391,5 +391,6 @@
              projects:
                 - fabric-baseimage-release-vagrant-x86_64
                 - fabric-baseimage-release-docker-x86_64
+                - fabric-baseimage-release-docker-ppc64le
              criteria: success
              condition: equal
