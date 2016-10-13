@@ -279,9 +279,6 @@
 
     wrappers:
         - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
         - build-timeout
@@ -369,9 +366,6 @@
 
     wrappers:
         - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
         - build-timeout
@@ -450,9 +444,6 @@
 
     wrappers:
         - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
         - build-timeout
