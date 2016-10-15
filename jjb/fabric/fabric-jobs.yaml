@@ -93,7 +93,7 @@
     triggers:
         - gerrit-trigger-patch-merged:
             name: '{project}'
-            branch: 'master'
+            branch: ''
 
     wrappers:
         - timestamps
@@ -190,7 +190,7 @@
     triggers:
         - gerrit-trigger-patch-merged-behave:
             name: '{project}'
-            branch: 'master'
+            branch: ''
 
     wrappers:
         - timestamps
