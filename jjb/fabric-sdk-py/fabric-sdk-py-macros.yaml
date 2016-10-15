@@ -1,0 +1,35 @@
+- property:
+    name: 'fabric-sdk-py-x86_64'
+    properties:
+        - inject:
+            properties-content: |
+                ARCH=x86_64
+
+- scm:
+    name: hyperledger-fabric-sdk-py-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-py'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: fabric-sdk-py-prepare-environment
+    builders:
+      - shell: "$WORKSPACE/scripts/setup-py-env.sh"
+
+- builder:
+    name: fabric-verify-sdk-py
+    builders:
+      - shell: |
+            make check
+
+- publisher:
+    name: fabric-sdk-py-publish-results
+    publishers:
+        - junit:
+            results: '.tox/**/*.log'

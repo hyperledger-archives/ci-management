@@ -1,0 +1,56 @@
+- project:
+    name: fabric-sdk-py-jobs
+    jobs:
+        - 'fabric-verify-sdk-py-{arch}'
+
+    project: 'fabric-sdk-py'
+    arch:
+        - 'x86_64'
+
+# Verify job
+- job-template:
+    name: 'fabric-verify-sdk-py-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 10
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    properties:
+        - 'fabric-sdk-py-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-py-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+
+    builders:
+        - fabric-sdk-py-prepare-environment
+        - fabric-verify-sdk-py
+
+    publishers:
+        - fabric-sdk-py-publish-results
