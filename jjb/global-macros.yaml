@@ -90,6 +90,7 @@
             skip-tag: true
             wipe-workspace: true
 
+
 ##
 # Wrappers
 ##
@@ -345,6 +346,7 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: 'refs/tags/**'
 
+
 ##
 # Publishers
 ##
@@ -394,3 +396,13 @@
                 - fabric-baseimage-release-docker-ppc64le
              criteria: success
              condition: equal
+
+- builder:
+    name: sdk-node-tests
+    builders:
+       - shell: |
+           #!/bin/bash -exu
+           set -o pipefail
+
+           cd gopath/src/github.com/hyperledger/fabric && npm install
+           cd test/unit && node headless-tests.js
