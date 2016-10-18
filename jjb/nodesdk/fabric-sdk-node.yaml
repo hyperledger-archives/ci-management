@@ -1,0 +1,101 @@
+- project:
+    name: fabric-sdk-node
+    jobs:
+        - 'fabric-sdk-node-verify-{arch}'
+        - 'fabric-sdk-node-merge-{arch}'
+
+    project: 'fabric-sdk-node'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-node-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-node:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - sdk-node-tests
+
+- job-template:
+    name: 'fabric-sdk-node-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-node:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - sdk-node-tests
+
