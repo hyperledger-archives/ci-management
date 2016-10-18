@@ -18,3 +18,7 @@ target/
 *~
 \.\#*
 \#*
+
+
+# virtualenv for local testing when test jjb jobs
+.venv
