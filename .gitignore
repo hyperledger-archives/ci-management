@@ -18,6 +18,3 @@ target/
 *~
 \.\#*
 \#*
-
-# virtualenv for local testing
-.venv
