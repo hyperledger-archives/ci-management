@@ -404,5 +404,6 @@
            #!/bin/bash -exu
            set -o pipefail
 
-           cd gopath/src/github.com/hyperledger/fabric && npm install
-           cd test/unit && node headless-tests.js
+           cd gopath/src/github.com/fabric-sdk-node && npm install
+           npm config set prefix ~/npm && npm install -g gulp &&n pm install -g istanbul
+           cd test/unit && istanbul cover --report cobertura headless-tests.js

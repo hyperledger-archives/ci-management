@@ -54,6 +54,9 @@
         - output-environment
         - sdk-node-tests
 
+    publishers:
+        - sdk-node-coverage-report
+
 - job-template:
     name: 'fabric-sdk-node-merge-{arch}'
 
@@ -99,3 +102,5 @@
         - output-environment
         - sdk-node-tests
 
+    publishers:
+        - sdk-node-coverage-report

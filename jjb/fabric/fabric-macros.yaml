@@ -5,7 +5,7 @@
             properties-content: |
                 GOPATH=$WORKSPACE/gopath
                 GOROOT=/opt/go/go1.6.linux.amd64
-                PATH=/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:$PATH
+                PATH=/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
                 ARCH=x86_64
 
 - property:
@@ -52,7 +52,7 @@
             branches:
                - 'origin/$GERRIT_BRANCH'
             wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric'
+            basedir: 'gopath/src/github.com/fabric-sdk-node'
             credentials-id: '{credentials-id}'
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
@@ -175,3 +175,30 @@
     publishers:
         - junit:
             results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
+
+- publisher:
+    name: sdk-node-coverage-report
+    publishers:
+        - cobertura:
+            report-file: "**/coverage-report.xml"
+            targets:
+              - files:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - method:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - line:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - packages:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
+              - classes:
+                  healthy: 80
+                  unhealthy: 50
+                  failing: 0
