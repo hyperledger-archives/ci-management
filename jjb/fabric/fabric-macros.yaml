@@ -180,7 +180,7 @@
     name: sdk-node-coverage-report
     publishers:
         - cobertura:
-            report-file: "**/coverage-report.xml"
+            report-file: "**/cobertura-coverage.xml"
             targets:
               - files:
                   healthy: 80
