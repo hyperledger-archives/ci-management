@@ -1,5 +1,5 @@
 - project:
-    name: fabric-sdk-node
+    name: fabric-sdk-node-job
     jobs:
         - 'fabric-sdk-node-verify-{arch}'
         - 'fabric-sdk-node-merge-{arch}'
