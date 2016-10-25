@@ -43,20 +43,6 @@
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
 
-# SDK-NODE SCM
-- scm:
-    name: hyperledger-fabric-sdk-node
-    scm:
-       - git:
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-node'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/fabric-sdk-node'
-            credentials-id: '{credentials-id}'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
-
 - builder:
     name: output-environment
     builders:
@@ -135,15 +121,6 @@
             allow-empty: true
 
 - publisher:
-    name: archive-sdk-node-logs
-    publishers:
-        - archive:
-            artifacts: 'gopath/src/github.com/hyperledger/fabric/test/unit/*.log'
-            fingerprint: true
-            default-excludes: false
-            allow-empty: true
-
-- publisher:
     name: code-coverage-report
     publishers:
         - cobertura:
@@ -176,29 +153,3 @@
         - junit:
             results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
 
-- publisher:
-    name: sdk-node-coverage-report
-    publishers:
-        - cobertura:
-            report-file: "**/cobertura-coverage.xml"
-            targets:
-              - files:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - method:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - line:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - packages:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - classes:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
