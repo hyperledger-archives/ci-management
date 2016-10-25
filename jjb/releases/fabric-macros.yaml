@@ -46,7 +46,7 @@
            set -o pipefail
 
            mkdir -p $WORKSPACE/packer_cache/
-           mv /opt/6faef0530a81c47962bca6fc7945f1388dd0653f3e59903f3b153442bb0ebbb5.iso $WORKSPACE/packer_cache/
+           cp /opt/6faef0530a81c47962bca6fc7945f1388dd0653f3e59903f3b153442bb0ebbb5.iso $WORKSPACE/packer_cache/
            make vagrant-local
 
 - builder:
