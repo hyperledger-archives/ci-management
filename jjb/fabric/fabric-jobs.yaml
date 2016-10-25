@@ -223,6 +223,8 @@
         daysToKeep: 30
         artifactDaysToKeep: 30
 
+    disabled: true
+
     properties:
         - 'fabric-{arch}'
 
@@ -264,6 +266,8 @@
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
     concurrent: true
+
+    disabled: true
 
     properties:
         - 'fabric-{arch}'
