@@ -73,6 +73,8 @@
         daysToKeep: 30
         artifactDaysToKeep: 30
 
+    disabled: true
+
     properties:
         - 'fabric-{arch}'
 
@@ -123,6 +125,8 @@
         artifactDaysToKeep: 10
         artifactNumToKeep: 10
 
+    disabled: true
+
     parameters:
         - project-parameter:
             project: '{project}'
@@ -169,6 +173,8 @@
         numToKeep: 40
         artifactDaysToKeep: 10
         artifactNumToKeep: 10
+
+    disabled: true
 
     parameters:
         - project-parameter:
