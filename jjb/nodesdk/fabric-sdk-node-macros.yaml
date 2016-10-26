@@ -22,6 +22,7 @@
 
            cd gopath/src/github.com/fabric-sdk-node && npm install
            npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
+           gulp
            istanbul cover --report cobertura test/unit/headless-tests.js
 
 # Node SDK Cobertura coverage report
