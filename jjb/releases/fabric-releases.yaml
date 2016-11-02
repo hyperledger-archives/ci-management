@@ -6,10 +6,13 @@
         - 'fabric-baseimage-release-vagrant-{arch}'
         - 'fabric-baseimage-verify-docker-{arch}'
         - 'fabric-baseimage-verify-docker-ppc64le'
+        - 'fabric-baseimage-verify-docker-s390x'
         - 'fabric-baseimage-merge-docker-ppc64le'
+        - 'fabric-baseimage-merge-docker-s390x'
         - 'fabric-baseimage-merge-docker-{arch}'
         - 'fabric-baseimage-release-docker-{arch}'
         - 'fabric-baseimage-release-docker-ppc64le'
+        - 'fabric-baseimage-release-docker-s390x'
         - 'fabric-baseimage-release-trigger'
 
     project: 'fabric-baseimage'
@@ -295,6 +298,50 @@
         - fabric-docker-local
 
 - job-template:
+    name: 'fabric-baseimage-verify-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z-linuxone-3'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-local
+
+- job-template:
     name: 'fabric-baseimage-merge-docker-{arch}'
 
     project-type: freestyle
@@ -348,6 +395,49 @@
 
     properties:
         - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-local
+
+- job-template:
+    name: 'fabric-baseimage-merge-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z-linuxone-3'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
 
     logrotate:
         daysToKeep: 30
@@ -453,6 +543,42 @@
         - ci-skip
         - mask-passwords
         - build-timeout
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - fabric-docker-release
+
+- job-template:
+    name: 'fabric-baseimage-release-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z-linuxone-3'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-baseimage:
+            credentials-id: '{ssh-credentials}'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
 
     builders:
         - baseimage-clean-environment

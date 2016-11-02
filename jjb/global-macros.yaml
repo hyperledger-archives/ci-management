@@ -394,5 +394,6 @@
                 - fabric-baseimage-release-vagrant-x86_64
                 - fabric-baseimage-release-docker-x86_64
                 - fabric-baseimage-release-docker-ppc64le
+                - fabric-baseimage-release-docker-s390x
              criteria: success
              condition: equal
