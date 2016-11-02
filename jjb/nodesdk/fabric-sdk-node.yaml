@@ -48,6 +48,7 @@
                 - '{ssh-credentials}'
         - ci-skip
         - mask-passwords
+        - build-timeout
 
     builders:
         - baseimage-clean-environment
