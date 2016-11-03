@@ -187,6 +187,7 @@
         - gerrit-refspec-parameter:
             refspec: ''
 
+
     scm:
         - hyperledger-fabric-baseimage:
             credentials-id: '{ssh-credentials}'
@@ -492,11 +493,16 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: ''
+            refspec: '+refs/tags/v0.2.1:refs/remotes/origin/tags/v0.2.1'
 
     scm:
-        - hyperledger-fabric-baseimage:
+        - hyperledger-fabric-baseimage-release:
             credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+            branch: ''
 
     wrappers:
         - timestamps
@@ -532,11 +538,16 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: ''
+            refspec: '+refs/tags/v0.2.1:refs/remotes/origin/tags/v0.2.1'
 
     scm:
-        - hyperledger-fabric-baseimage:
+        - hyperledger-fabric-baseimage-release:
             credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+            branch: ''
 
     wrappers:
         - timestamps
@@ -569,11 +580,16 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: ''
+            refspec: '+refs/tags/v0.2.1:refs/remotes/origin/tags/v0.2.1'
 
     scm:
-        - hyperledger-fabric-baseimage:
+        - hyperledger-fabric-baseimage-release:
             credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+            branch: ''
 
     wrappers:
         - timestamps
