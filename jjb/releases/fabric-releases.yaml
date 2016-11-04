@@ -302,7 +302,7 @@
     name: 'fabric-baseimage-verify-docker-s390x'
 
     project-type: freestyle
-    node: 'hyp-z-linuxone-3'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     properties:
@@ -434,7 +434,7 @@
     name: 'fabric-baseimage-merge-docker-s390x'
 
     project-type: freestyle
-    node: 'hyp-z-linuxone-3'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     properties:
@@ -564,7 +564,7 @@
     name: 'fabric-baseimage-release-docker-s390x'
 
     project-type: freestyle
-    node: 'hyp-z-linuxone-3'
+    node: 'hyp-fabric-z'
     concurrent: true
 
     properties:
