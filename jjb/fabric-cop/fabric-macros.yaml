@@ -1,0 +1,22 @@
+- scm:
+    name: hyperledger-fabric-cop-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-cop'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric-cop'
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: cop-unit-tests
+    builders:
+        - shell: |
+            #!/bin/bash -eu
+            set -o pipefail
+
+            cd gopath/src/github.com/hyperledger/fabric-cop && make
+

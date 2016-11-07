@@ -1,0 +1,102 @@
+- project:
+    name: fabric-cop
+    jobs:
+        - 'fabric-cop-merge-{arch}'
+        - 'fabric-cop-verify-{arch}'
+
+    project: 'fabric-cop'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-cop-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-cop-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - cop-unit-tests
+
+- job-template:
+    name: 'fabric-cop-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-cop-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - cop-unit-tests
