@@ -51,7 +51,7 @@
         - build-timeout
 
     builders:
-        - clean-environment
+        - cop-clean-environment
         - output-environment
         - cop-unit-tests
 
@@ -97,6 +97,6 @@
         - build-timeout
 
     builders:
-        - clean-environment
+        - cop-clean-environment
         - output-environment
         - cop-unit-tests
