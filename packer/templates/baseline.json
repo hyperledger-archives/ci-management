@@ -1,0 +1,37 @@
+{
+  "variables": {
+    "base_image": null,
+    "network": null,
+    "flavor": null,
+    "region": null,
+    "ssh_interface": null,
+    "distro": null,
+    "cloud_user_data": null
+  },
+  "builders": [
+    {
+      "type": "openstack",
+      "name": "public_cloud",
+      "region": "{{user `region`}}",
+      "ssh_interface": "{{user `ssh_interface`}}",
+      "ssh_username": "ubuntu",
+      "image_name": "{{user `distro`}} - baseline - {{isotime \"20060102-1504\"}}",
+      "source_image_name": "{{user `base_image`}}",
+      "flavor": "{{user `flavor`}}",
+      "networks": [
+        "{{user `network`}}"
+      ],
+      "user_data_file": "{{user `cloud_user_data`}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "provision/baseline.sh",
+        "provision/system_reseal.sh"
+      ],
+      "execute_command": "chmod +x {{ .Path }}; if [ \"$UID\" == \"0\" ]; then {{ .Vars }} '{{ .Path }}'; else {{ .Vars }} sudo -E '{{ .Path }}'; fi"
+    }
+  ]
+}
