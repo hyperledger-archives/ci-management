@@ -2,5 +2,5 @@
   "network": "UUID",
   "flavor": "UUID",
   "region": "ca-ymq-1"
-  "ssh_interface": "hyp",
+  "ssh_interface": "hyp"
 }
