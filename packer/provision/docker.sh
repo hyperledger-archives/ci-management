@@ -17,7 +17,7 @@ DOCKER_NETWORK_OPTIONS='--bip=10.250.0.254/24'
 EOL
     # configure docker daemon to listen on port 5555 enabling remote
     # managment
-    sed -i -e "s#='--selinux-enabled'#='--selinux-enabled -H unix:///var/run/docker.sock -H tcp://0.0.0.0:5555'#g" /etc/sysconfig/docker
+    sed -i -e "s#='--selinux-enabled'#='--selinux-enabled --mtu 1392 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:5555'#g" /etc/sysconfig/docker
 
     # docker group doesn't get created by default for some reason
     groupadd docker
