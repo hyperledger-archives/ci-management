@@ -75,7 +75,7 @@
         artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-{arch}'
+        - 'fabric-{arch}-d112'
 
     parameters:
         - project-parameter:
