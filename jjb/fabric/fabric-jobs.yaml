@@ -94,6 +94,7 @@
             name: '{project}'
             branch: ''
             silent: true
+            silent-start: true
 
     wrappers:
         - timestamps
