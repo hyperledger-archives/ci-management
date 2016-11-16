@@ -55,6 +55,9 @@
         - output-environment
         - cop-unit-tests
 
+    publishers:
+        - cop-code-coverage-report
+
 - job-template:
     name: 'fabric-cop-merge-{arch}'
 
@@ -100,3 +103,6 @@
         - cop-clean-environment
         - output-environment
         - cop-unit-tests
+
+    publishers:
+        - cop-code-coverage-report
