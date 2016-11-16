@@ -3,6 +3,7 @@
     jobs:
         - 'fabric-merge-{arch}'
         - 'fabric-verify-{arch}'
+        - 'fabric-verify-d112-{arch}'
         - 'fabric-merge-behave-{arch}'
         - 'fabric-verify-behave-{arch}'
         - 'fabric-verify-node-sdk-{arch}'
@@ -44,6 +45,55 @@
         - gerrit-trigger-patch-submitted:
             name: '{project}'
             branch: ''
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - fabric-unit-tests
+
+    publishers:
+        - code-coverage-report
+
+- job-template:
+    name: 'fabric-verify-d112-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}-docker1.12'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: ''
+            silent: true
 
     wrappers:
         - timestamps
