@@ -67,7 +67,7 @@
     name: 'fabric-verify-d112-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}-docker1.12'
+    node: 'hyp-fabric-{arch}-d112'
     concurrent: true
 
     logrotate:
