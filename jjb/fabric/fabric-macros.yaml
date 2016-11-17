@@ -14,8 +14,8 @@
         - inject:
             properties-content: |
                 GOPATH=$WORKSPACE/gopath
-                GOROOT=/opt/go/go1.7.src
-                PATH=/opt/go/go1.7.src/bin:$GOPATH/bin:~/npm/bin:$PATH
+                GOROOT=/opt/go/go1.7.linux.amd64
+                PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
                 ARCH=x86_64
 
 - property:
