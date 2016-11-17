@@ -3,7 +3,7 @@
     jobs:
         - 'fabric-merge-{arch}'
         - 'fabric-verify-{arch}'
-        - 'fabric-verify-d112-{arch}'
+        - 'fabric-verify-d1.12-{arch}'
         - 'fabric-merge-behave-{arch}'
         - 'fabric-verify-behave-{arch}'
         - 'fabric-verify-node-sdk-{arch}'
@@ -64,7 +64,7 @@
         - code-coverage-report
 
 - job-template:
-    name: 'fabric-verify-d112-{arch}'
+    name: 'fabric-verify-d1.12-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}-d112'
