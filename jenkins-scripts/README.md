@@ -4,5 +4,5 @@ following startup
 ```bash
 #!/bin/bash
 git clone https://gerrit.hyperledger.org/r/ci-management.git /ci-management
-/ci-management/jenkins-scripts/init_script.sh
+/ci-management/jenkins-scripts/init_system.sh
 ```

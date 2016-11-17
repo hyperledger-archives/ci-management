@@ -15,7 +15,7 @@
       "region": "{{user `region`}}",
       "ssh_interface": "{{user `ssh_interface`}}",
       "ssh_username": "ubuntu",
-      "image_name": "{{user `distro`}} - baseline - {{isotime \"20060102-1504\"}}",
+      "image_name": "{{user `distro`}} - fabric - {{isotime \"20060102-1504\"}}",
       "source_image_name": "{{user `base_image`}}",
       "flavor": "{{user `flavor`}}",
       "networks": [
@@ -29,6 +29,7 @@
       "type": "shell",
       "scripts": [
         "provision/baseline.sh",
+        "provision/docker.sh",
         "provision/system_reseal.sh"
       ],
       "execute_command": "chmod +x {{ .Path }}; if [ \"$UID\" == \"0\" ]; then {{ .Vars }} '{{ .Path }}'; else {{ .Vars }} sudo -E '{{ .Path }}'; fi"
