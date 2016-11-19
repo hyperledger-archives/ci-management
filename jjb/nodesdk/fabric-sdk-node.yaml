@@ -18,7 +18,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+        - 'fabric-oldgo-{arch}'
 
     logrotate:
         daysToKeep: 30
@@ -66,7 +66,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+        - 'fabric-oldgo-{arch}'
 
     logrotate:
         daysToKeep: 30
