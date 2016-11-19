@@ -70,6 +70,8 @@
     node: 'hyp-fabric-{arch}-d112'
     concurrent: true
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
