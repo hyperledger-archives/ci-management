@@ -216,7 +216,7 @@
     name: 'fabric-verify-node-sdk-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-node-{arch}'
     concurrent: true
 
     logrotate:
@@ -262,7 +262,7 @@
     name: 'fabric-merge-node-sdk-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-node-{arch}'
     concurrent: true
 
     properties:
