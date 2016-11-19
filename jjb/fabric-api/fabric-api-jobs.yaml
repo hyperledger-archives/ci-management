@@ -12,7 +12,7 @@
     name: 'fabric-api-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-api-{arch}'
     concurrent: true
 
     logrotate:

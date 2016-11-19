@@ -14,7 +14,7 @@
     name: 'fabric-cop-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-cop-{arch}'
     concurrent: true
 
     logrotate:
@@ -62,7 +62,7 @@
     name: 'fabric-cop-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-cop-{arch}'
     concurrent: true
 
     properties:
