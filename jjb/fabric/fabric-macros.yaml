@@ -4,16 +4,6 @@
         - inject:
             properties-content: |
                 GOPATH=$WORKSPACE/gopath
-                GOROOT=/opt/go/go1.6.linux.amd64
-                PATH=/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
-                ARCH=x86_64
-
-- property:
-    name: 'fabric-x86_64-d112'
-    properties:
-        - inject:
-            properties-content: |
-                GOPATH=$WORKSPACE/gopath
                 GOROOT=/opt/go/go1.7.linux.amd64
                 PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
                 ARCH=x86_64
