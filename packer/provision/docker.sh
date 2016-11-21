@@ -129,7 +129,7 @@ deb_install_pip_pkgs() {
     GRPC_PACKAGES="grpcio==1.0.0"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
-        flask-cors==2.0.1 requests==2.4.3"
+        flask-cors==2.0.1 requests==2.12.1"
 
     echo '---> Installing Pip Packages'
     pip install -U pip
