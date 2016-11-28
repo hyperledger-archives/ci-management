@@ -16,10 +16,11 @@
        - git:
             url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
             branches:
-               - '*/tags/v0.2.1'
+               - '*/tags/**'
             wipe-workspace: true
             credentials-id: '{credentials-id}'
             refspec: '$GERRIT_REFSPEC'
+
 - builder:
     name: baseimage-clean-environment
     builders:
