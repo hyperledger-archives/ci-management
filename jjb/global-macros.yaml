@@ -397,3 +397,14 @@
                 - fabric-baseimage-release-docker-s390x
              criteria: success
              condition: equal
+
+- publisher:
+    name: image-downstream-jobs
+    publishers:
+         - downstream-ext:
+              projects:
+                 - fabric-app-image-release-docker-x86_64
+                 - fabric-app-image-release-docker-ppc64le
+                 - fabric-app-image-release-docker-s390x
+              criteria: success
+              condition: equal
