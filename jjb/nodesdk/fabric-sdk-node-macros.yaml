@@ -20,7 +20,7 @@
            #!/bin/bash -exu
            set -o pipefail
 
-           cd gopath/src/github.com/fabric-sdk-node && npm install require-dir
+           cd gopath/src/github.com/fabric-sdk-node && npm install
            npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
            gulp && gulp cop && npm install
            istanbul cover --report cobertura test/unit/headless-tests.js
