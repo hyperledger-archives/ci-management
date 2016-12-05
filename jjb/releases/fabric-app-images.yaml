@@ -72,6 +72,8 @@
     properties:
         - 'fabric-{arch}'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         numToKeep: 40
@@ -119,6 +121,8 @@
     properties:
         - 'fabric-ppc64le'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         numToKeep: 40
@@ -162,6 +166,8 @@
 
     properties:
         - 'fabric-z'
+
+    disabled: true
 
     logrotate:
         daysToKeep: 30
