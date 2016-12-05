@@ -28,6 +28,8 @@
     properties:
         - 'fabric-x86_64'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -213,6 +215,8 @@
     properties:
         - 'fabric-{arch}'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -258,6 +262,8 @@
     properties:
         - 'fabric-ppc64le'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -301,6 +307,8 @@
     properties:
         - 'fabric-z'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -343,6 +351,8 @@
 
     properties:
         - 'fabric-{arch}'
+
+    disabled: true
 
     logrotate:
         daysToKeep: 30
@@ -389,6 +399,8 @@
     properties:
         - 'fabric-ppc64le'
 
+    disabled: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -430,6 +442,8 @@
 
     properties:
         - 'fabric-z'
+
+    disabled: true
 
     logrotate:
         daysToKeep: 30
