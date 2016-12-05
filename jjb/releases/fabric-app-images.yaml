@@ -1,0 +1,457 @@
+- project:
+    name: fabric-app-images
+    jobs:
+        - 'fabric-app-image-verify-docker-{arch}'
+        - 'fabric-app-image-verify-docker-ppc64le'
+        - 'fabric-app-image-verify-docker-s390x'
+        - 'fabric-app-image-merge-docker-ppc64le'
+        - 'fabric-app-image-merge-docker-s390x'
+        - 'fabric-app-image-merge-docker-{arch}'
+        - 'fabric-app-image-release-docker-{arch}'
+        - 'fabric-app-image-release-docker-ppc64le'
+        - 'fabric-app-image-release-docker-s390x'
+        - 'fabric-app-image-release-trigger'
+
+    project: 'fabric'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-app-image-release-trigger'
+
+    project-type: freestyle
+    node: 'hyp-fabric-x86_64'
+    concurrent: true
+
+    properties:
+        - 'fabric-x86_64'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-image-release
+
+    publishers:
+        - image-downstream-jobs
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-app-image-verify-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-verify-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-verify-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-merge-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-merge-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-merge-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-release-merged:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+
+        - clean-environment
+        - output-environment
+        - app-docker-image
+
+- job-template:
+    name: 'fabric-app-image-release-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags:refs/remotes/origin/tags'
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - timestamps
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+        - app-docker-image-release
+
+
+- job-template:
+    name: 'fabric-app-image-release-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags:refs/remotes/origin/tags'
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+        - app-docker-image-release
+
+- job-template:
+    name: 'fabric-app-image-release-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags:refs/remotes/origin/tags'
+
+    scm:
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+
+    builders:
+        - clean-environment
+        - output-environment
+        - app-docker-image
+        - app-docker-image-release

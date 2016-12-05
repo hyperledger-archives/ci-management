@@ -76,3 +76,23 @@
 
           make docker-local
 
+- builder:
+    name: app-docker-image
+    builders:
+       - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          make docker
+
+- builder:
+    name: app-docker-image-release
+    builders:
+       - shell:
+           !include-raw: include-raw-fabric-app-image.sh
+
+- builder:
+    name: app-image-release
+    builders:
+       - shell:
+           !include-raw: include-raw-fabric-app-image-release.sh
