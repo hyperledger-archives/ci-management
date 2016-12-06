@@ -47,12 +47,7 @@
             credentials-id: '{ssh-credentials}'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -100,13 +95,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -149,10 +138,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -195,10 +181,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -239,13 +222,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -286,10 +263,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
 
@@ -331,10 +305,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
 
@@ -422,10 +393,7 @@
             name: '{project}'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -466,9 +434,7 @@
             name: '{project}'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment

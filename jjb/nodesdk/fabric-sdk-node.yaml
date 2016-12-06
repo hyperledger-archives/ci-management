@@ -42,13 +42,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -90,13 +84,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment

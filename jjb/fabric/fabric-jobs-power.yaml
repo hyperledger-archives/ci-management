@@ -44,13 +44,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment
@@ -96,12 +90,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment

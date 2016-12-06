@@ -41,6 +41,9 @@
             name: '{project}'
             branch: ''
 
+    wrappers:
+        - hyperledger-infra-wrappers
+
     builders:
         - clean-environment
         - fabric-unit-tests
@@ -82,6 +85,9 @@
         - gerrit-trigger-patch-merged:
             name: '{project}'
             branch: 'master'
+
+    wrappers:
+        - hyperledger-infra-wrappers
 
     builders:
         - clean-environment

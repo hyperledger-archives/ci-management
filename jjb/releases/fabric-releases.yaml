@@ -48,12 +48,7 @@
             credentials-id: '{ssh-credentials}'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -99,12 +94,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
         - baseimage-build-timeout
 
     builders:
@@ -148,12 +138,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
         - baseimage-build-timeout
 
     builders:
@@ -193,12 +178,7 @@
             credentials-id: '{ssh-credentials}'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
         - baseimage-build-timeout
 
     builders:
@@ -240,13 +220,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -288,10 +262,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -332,10 +303,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -374,13 +342,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -419,10 +381,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
 
@@ -462,10 +421,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
 
@@ -548,10 +504,7 @@
             name: '{project}'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -589,9 +542,7 @@
             name: '{project}'
 
     wrappers:
-        - timestamps
-        - ci-skip
-        - mask-passwords
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment

@@ -42,11 +42,7 @@
             branch: 'master'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - ci-skip
+        - hyperledger-infra-wrappers
 
     builders:
         - fabric-verify-sdk-py

@@ -112,6 +112,23 @@
             timeout-var: 'BUILD_TIMEOUT'
             fail: true
 
+- wrapper:
+    # This wrapper is required for all jobs as it configures the wrappers
+    # needed by Hyperledger infra.
+    name: hyperledger-infra-wrappers
+    wrappers:
+        - timestamps
+        - ci-skip
+        - mask-passwords
+        - build-timeout
+        - ssh-agent-credentials:
+            users:
+                - '{ssh-credentials}'
+        - jclouds:
+            single-use: True
+        - openstack:
+            single-use: True
+
 ##
 # Triggers
 ##
