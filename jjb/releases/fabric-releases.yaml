@@ -493,7 +493,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-baseimage-release:
@@ -537,7 +537,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-baseimage-release:
@@ -578,7 +578,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-baseimage-release:
