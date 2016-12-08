@@ -111,7 +111,7 @@
             set -o pipefail
 
 
-            cd gopath/src/github.com/hyperledger/fabric && make linter && make membersrvc-image && make unit-test
+            cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
 
 - builder:
     name: fabric-node-sdk-unit-tests

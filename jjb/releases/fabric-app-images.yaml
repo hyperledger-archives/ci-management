@@ -50,7 +50,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-image-release
 
@@ -98,7 +98,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -141,7 +141,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -184,7 +184,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -225,7 +225,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -267,7 +267,7 @@
 
     builders:
 
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -309,7 +309,7 @@
 
     builders:
 
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
 
@@ -335,7 +335,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-gerrit:
@@ -354,7 +354,7 @@
         - build-timeout
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
         - app-docker-image-release
@@ -382,7 +382,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-gerrit:
@@ -396,7 +396,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
         - app-docker-image-release
@@ -423,7 +423,7 @@
         - gerrit-parameter:
             branch: 'master'
         - gerrit-refspec-parameter:
-            refspec: '+refs/tags:refs/remotes/origin/tags'
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
         - hyperledger-fabric-gerrit:
@@ -437,7 +437,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
+        - appimage-clean-environment
         - output-environment
         - app-docker-image
         - app-docker-image-release
