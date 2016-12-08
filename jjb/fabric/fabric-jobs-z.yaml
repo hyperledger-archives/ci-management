@@ -15,7 +15,7 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
-    disabled: true
+    silent: true
 
     properties:
         - fabric-z
@@ -57,7 +57,7 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
-    disabled: true
+    silent: true
 
     properties:
         - fabric-z

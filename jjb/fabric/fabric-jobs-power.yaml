@@ -17,7 +17,7 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
-    disabled: true
+    silent: true
 
     logrotate:
         daysToKeep: 30
@@ -60,7 +60,7 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
-    disabled: true
+    silent: true
 
     properties:
         - 'fabric-{arch}'
