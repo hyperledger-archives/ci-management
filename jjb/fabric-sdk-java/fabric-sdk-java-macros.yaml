@@ -1,0 +1,34 @@
+- property:
+    name: 'fabric-sdk-java-x86_64'
+    properties:
+        - inject:
+            properties-content: |
+                ARCH=x86_64
+                JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+
+- scm:
+    name: hyperledger-fabric-sdk-java-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-java'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            credentials-id: '{credentials-id}'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: fabric-sdk-java-clean-environment
+    builders:
+        - maven-target:
+            maven-version: Maven3
+            goals: clean
+
+- builder:
+    name: fabric-sdk-java-compile
+    builders:
+        - maven-target:
+            maven-version: Maven3
+            goals: package
+
