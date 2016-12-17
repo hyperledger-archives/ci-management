@@ -155,6 +155,9 @@ deb_install_pkgs() {
     # Tox for py-sdk and Node for nodejs-sdk
     PACKAGES="$PACKAGES tox npm"
 
+    # maven for sdk-java
+    PACKAGES="$PACKAGES maven"
+
     # Tcl prerequisites for busywork
     PACKAGES="$PACKAGES tcl tclx tcllib"
 
