@@ -100,10 +100,26 @@
           make docker
 
 - builder:
+    name: preview-docker-image
+    builders:
+       - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric
+          make peer-image && make membersrvc-image
+
+- builder:
     name: app-docker-image-release
     builders:
        - shell:
            !include-raw: include-raw-fabric-app-image.sh
+
+- builder:
+    name: preview-docker-image-release
+    builders:
+       - shell:
+           !include-raw: include-raw-fabric-preview-docker-image.sh
 
 - builder:
     name: app-image-release
