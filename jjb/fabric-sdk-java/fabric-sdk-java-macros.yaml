@@ -30,5 +30,5 @@
     builders:
         - maven-target:
             maven-version: Maven3
-            goals: package
+            goals: compile
 
