@@ -33,8 +33,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-sdk-node:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-sdk-node
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -75,8 +74,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-sdk-node:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-sdk-node
 
     triggers:
         - gerrit-trigger-release-merged:
