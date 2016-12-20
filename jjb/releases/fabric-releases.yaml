@@ -44,8 +44,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -85,8 +84,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -129,8 +127,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -174,8 +171,7 @@
 
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -211,8 +207,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -253,8 +248,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -294,8 +288,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -333,8 +326,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -372,8 +364,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -412,8 +403,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -452,20 +442,14 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage-release
 
     triggers:
         - gerrit-trigger-tag:
             name: '{project}'
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - baseimage-clean-environment
@@ -496,8 +480,7 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage-release
 
     triggers:
         - gerrit-trigger-tag:
@@ -534,8 +517,7 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-baseimage-release
 
     triggers:
         - gerrit-trigger-tag:
