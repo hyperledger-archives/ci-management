@@ -9,6 +9,16 @@
                 ARCH=x86_64
 
 - property:
+    name: 'fabric-oldgo-x86_64'
+    properties:
+        - inject:
+            properties-content: |
+                GOPATH=$WORKSPACE/gopath
+                GOROOT=/opt/go/go1.6.linux.amd64
+                PATH=/opt/go/go1.6.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
+                ARCH=x86_64
+
+- property:
     name: 'fabric-z'
     properties:
         - inject:
@@ -17,6 +27,7 @@
                 GOROOT=/opt/go/
                 PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
                 ARCH=s390x
+
 
 - property:
     name: 'fabric-ppc64le'
@@ -27,6 +38,7 @@
                 GOROOT=/usr/local/go/
                 PATH=$GOROOT/bin:$GOPATH/bin:$PATH
                 ARCH=ppc64le
+
 
 - scm:
     name: hyperledger-fabric-gerrit
