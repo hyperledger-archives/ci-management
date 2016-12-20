@@ -33,8 +33,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-cop-gerrit:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-cop-gerrit
 
     triggers:
         - gerrit-trigger-patch-submitted:
@@ -77,8 +76,7 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-cop-gerrit:
-            credentials-id: '{ssh-credentials}'
+        - hyperledger-fabric-cop-gerrit
 
     triggers:
         - gerrit-trigger-patch-merged:
@@ -86,12 +84,7 @@
             branch: ''
 
     wrappers:
-        - timestamps
-        - ssh-agent-credentials:
-            users:
-                - '{ssh-credentials}'
-        - mask-passwords
-        - build-timeout
+        - hyperledger-infra-wrappers
 
     builders:
         - cop-clean-environment
