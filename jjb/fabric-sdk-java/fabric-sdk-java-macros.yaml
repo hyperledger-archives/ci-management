@@ -14,7 +14,6 @@
             branches:
                - 'origin/$GERRIT_BRANCH'
             wipe-workspace: true
-            credentials-id: '{credentials-id}'
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
 
@@ -31,4 +30,3 @@
         - maven-target:
             maven-version: Maven3
             goals: compile
-
