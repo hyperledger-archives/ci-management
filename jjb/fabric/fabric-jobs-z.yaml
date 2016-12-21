@@ -28,17 +28,19 @@
         - project-parameter:
             project: '{project}'
         - gerrit-parameter:
-            branch: ''
+            branch: 'master'
         - gerrit-refspec-parameter:
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-patch-submitted:
             name: '{project}'
             branch: ''
+            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -77,12 +79,14 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-patch-merged:
             name: '{project}'
             branch: 'master'
+            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
