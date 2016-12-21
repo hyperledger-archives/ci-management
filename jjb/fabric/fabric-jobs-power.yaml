@@ -1,8 +1,8 @@
 - project:
     name: fabric-jobs-power
     jobs:
-        - 'fabric-power-merge-{arch}'
-        - 'fabric-power-verify-{arch}'
+        - 'fabric-merge-power-{arch}'
+        - 'fabric-verify-power-{arch}'
 
     project: 'fabric'
     arch:
@@ -11,7 +11,7 @@
 #gerrit changes
 
 - job-template:
-    name: 'fabric-power-verify-{arch}'
+    name: 'fabric-verify-power-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -54,7 +54,7 @@
         - code-coverage-report
 
 - job-template:
-    name: 'fabric-power-merge-{arch}'
+    name: 'fabric-merge-power-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
