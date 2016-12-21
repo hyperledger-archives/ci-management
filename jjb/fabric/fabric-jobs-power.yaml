@@ -14,7 +14,7 @@
     name: 'fabric-verify-power-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-power'
     concurrent: true
 
     silent: true
@@ -57,7 +57,7 @@
     name: 'fabric-merge-power-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-fabric-power'
     concurrent: true
 
     silent: true
