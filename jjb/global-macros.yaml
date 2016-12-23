@@ -123,7 +123,7 @@
         - build-timeout
         - ssh-agent-credentials:
             users:
-                - 'hyperledger-jobbuilder'
+                - 'jenkins'
         - jclouds:
             single-use: True
         - openstack:
