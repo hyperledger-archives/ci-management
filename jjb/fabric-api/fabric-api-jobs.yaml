@@ -33,7 +33,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-api-gerrit
+        - hyperledger-fabric-api-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-patch-submitted:

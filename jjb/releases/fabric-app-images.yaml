@@ -43,7 +43,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -85,7 +86,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -127,7 +129,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -169,7 +172,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -209,7 +213,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -249,7 +254,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -289,7 +295,8 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -329,7 +336,8 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-tag:
@@ -370,7 +378,8 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-tag:
@@ -410,7 +419,8 @@
             refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-gerrit
+        - hyperledger-fabric-gerrit:
+            credentials-id: '{ssh-credentials}'
 
     triggers:
         - gerrit-trigger-tag:
