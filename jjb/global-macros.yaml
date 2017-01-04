@@ -394,6 +394,37 @@
                 - developers
                 - recipients
 
+- publisher:
+    name: hyperledger-infra-shiplogs
+    # To archive things, the job will need to create an "archives" directory in
+    # the workspace and this macro will handle copying the contents of the
+    # archives directory.
+    #
+    # Uses the build parameter ARCHIVE_ARTIFACTS if not empty to find files to
+    # archive. You can pass globstar patterns for example "**/*.xml **/*.log" as
+    # the archive pattern. This is a space separated list of files to archive.
+    #
+    # Also ensure that the workspace is cleaned up at the end of the build.
+    publishers:
+      - postbuildscript:
+          builders:
+            - shell: !include-raw: include-raw-deploy-archives.sh
+            - maven-target:
+                maven-version: '{maven-version}'
+                pom: '.archives/deploy-archives.xml'
+                goals: 'clean deploy -V -B -q -Dmaven.repo.local=/tmp/r'
+                settings: 'jenkins-log-archives-settings'
+                settings-type: cfp
+                global-settings: 'global-settings'
+                global-settings-type: cfp
+            - description-setter:
+                regexp: '^Build logs: .*'
+          script-only-if-succeeded: false
+          script-only-if-failed: false
+          mark-unstable-if-failed: true
+      - workspace-cleanup:
+          fail-build: false
+
 ##
 # Builders
 ##

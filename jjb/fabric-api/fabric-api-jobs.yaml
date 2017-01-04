@@ -33,8 +33,9 @@
             refspec: ''
 
     scm:
-        - hyperledger-fabric-api-gerrit:
-            credentials-id: '{ssh-credentials}'
+        - gerrit-trigger-scm:
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
 
     triggers:
         - gerrit-trigger-patch-submitted:
@@ -55,3 +56,5 @@
 
     publishers:
         - compile-results
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
