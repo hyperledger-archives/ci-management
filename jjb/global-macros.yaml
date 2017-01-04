@@ -118,7 +118,6 @@
     name: hyperledger-infra-wrappers
     wrappers:
         - timestamps
-        - ci-skip
         - mask-passwords
         - build-timeout
         - ssh-agent-credentials:
