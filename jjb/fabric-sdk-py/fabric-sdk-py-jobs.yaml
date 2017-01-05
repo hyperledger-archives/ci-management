@@ -51,5 +51,3 @@
     publishers:
         - archive-artifacts:
             artifacts: '.tox/**/*.log'
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
