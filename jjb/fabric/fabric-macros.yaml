@@ -52,6 +52,16 @@
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
 
+- scm:
+    name: hyperledger-fabric-busybox-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-busybox'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            refspec: '$GERRIT_REFSPEC'
+
 - builder:
     name: output-environment
     builders:
@@ -77,6 +87,12 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-clean-environment.sh
+
+- builder:
+    name: busybox-clean-environment
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-busybox-clean-environment.sh
 
 - builder:
     name: fabric-x86_64-docker-deploy
@@ -119,6 +135,22 @@
             #!/bin/bash -exu
             set -o pipefail
             cd gopath/src/github.com/hyperledger/fabric && make node-sdk-unit-tests
+
+- builder:
+    name: fabric-busybox-test
+    builders:
+        - shell: |
+            #!/bin/bash -exu
+            set -o pipefail
+            make test
+
+- builder:
+    name: fabric-busybox-release
+    builders:
+        - shell: |
+            #!/bin/bash -exu
+            set -o pipefail
+            make install
 
 - publisher:
     name: archive-behave-logs

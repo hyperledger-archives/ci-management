@@ -1,0 +1,408 @@
+- project:
+    name: fabric-busybox
+    jobs:
+        - 'fabric-busybox-merge-{arch}'
+        - 'fabric-busybox-verify-{arch}'
+        - 'fabric-busybox-release-{arch}'
+        - 'fabric-busybox-verify-s390x'
+        - 'fabric-busybox-verify-ppc64le'
+        - 'fabric-busybox-merge-s390x'
+        - 'fabric-busybox-merge-ppc64le'
+        - 'fabric-busybox-release-s390x'
+        - 'fabric-busybox-release-ppc64le'
+
+    project: 'fabric-busybox'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-busybox-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-verify-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-verify-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-merge-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-merge-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-test
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-release-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+- job-template:
+    name: 'fabric-busybox-release-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+        - hyperledger-fabric-busybox-gerrit:
+            credentials-id: '{ssh-credentials}'
+
+    triggers:
+        - gerrit-trigger-tag:
+            name: '{project}'
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - busybox-clean-environment
+        - output-environment
+        - fabric-busybox-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
