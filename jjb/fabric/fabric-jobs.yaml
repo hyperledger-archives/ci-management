@@ -206,7 +206,7 @@
         artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-oldgo-{arch}'
+        - 'fabric-{arch}'
 
     parameters:
         - project-parameter:
@@ -242,7 +242,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-oldgo-{arch}'
+        - 'fabric-{arch}'
 
     logrotate:
         daysToKeep: 30
