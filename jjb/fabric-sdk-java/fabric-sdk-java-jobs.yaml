@@ -38,7 +38,7 @@
     triggers:
         - gerrit-trigger-patch-submitted:
             name: '{project}'
-            branch: 'master'
+            branch: ''
 
     wrappers:
         - hyperledger-infra-wrappers
