@@ -191,6 +191,8 @@
     node: 'hyp-fabric-power'
     concurrent: true
 
+    silent: true
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -231,6 +233,8 @@
     project-type: freestyle
     node: 'hyp-fabric-power'
     concurrent: true
+
+    silent: true
 
     properties:
         - 'fabric-ppc64le'
