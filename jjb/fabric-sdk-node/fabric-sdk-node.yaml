@@ -3,6 +3,7 @@
     jobs:
         - 'fabric-sdk-node-verify-{arch}'
         - 'fabric-sdk-node-merge-{arch}'
+        - 'FIT-node-{arch}'
 
     project: 'fabric-sdk-node'
     arch:
@@ -90,4 +91,37 @@
         - sdk-node-tests
 
     publishers:
+        - sdk-node-coverage-report
+
+- job-template:
+    name: 'FIT-node-{arch}'
+    description: |
+         This Job covers Functional integration Testing on fabric-sdk node repository and it runs for every 6 hrs on latest commits of fabric, fabric/cop and fabric/sdk-node repos.
+         This Job is Managed by Jenkins Job Builder. Do not edit via web.
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    triggers:
+        - timed: 'H */6 * * *'
+
+    wrappers:
+
+        - hyperledger-infra-wrappers
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - end-to-end-tests
+
+    publishers:
+        - archive-commit-logs
         - sdk-node-coverage-report
