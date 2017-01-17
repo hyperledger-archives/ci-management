@@ -125,7 +125,7 @@
         - hyperledger-fabric-cop-gerrit
 
     triggers:
-        - gerrit-trigger-patch-submitted:
+        - gerrit-trigger-cop-patch-submitted:
             name: '{project}'
             branch: ''
 
@@ -168,7 +168,7 @@
         - hyperledger-fabric-cop-gerrit
 
     triggers:
-        - gerrit-trigger-patch-merged:
+        - gerrit-trigger-cop-patch-merged:
             name: '{project}'
             branch: ''
 
@@ -212,7 +212,7 @@
         - hyperledger-fabric-cop-gerrit
 
     triggers:
-        - gerrit-trigger-patch-submitted:
+        - gerrit-trigger-cop-patch-submitted:
             name: '{project}'
             branch: ''
 
@@ -257,7 +257,7 @@
         - hyperledger-fabric-cop-gerrit
 
     triggers:
-        - gerrit-trigger-patch-merged:
+        - gerrit-trigger-cop-patch-merged:
             name: '{project}'
             branch: ''
 
