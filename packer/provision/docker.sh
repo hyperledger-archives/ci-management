@@ -124,19 +124,19 @@ deb_install_docker_compose() {
 }
 
 deb_install_pip_pkgs() {
-    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1"
+    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa"
     PIP_PACKAGES="behave nose"
     GRPC_PACKAGES="grpcio==1.0.0"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
-        flask-cors==2.0.1 requests==2.12.1"
+        flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1"
 
     echo '---> Installing Pip Packages'
-    pip install -U pip
-    pip install $PIP_PACKAGE_DEPS
-    pip install $PIP_PACKAGES
-    pip install -I $PIP_VERSIONED_PACKAGES
-    pip install -U $GRPC_PACKAGES
+    pip3 install -U pip
+    pip3 install $PIP_PACKAGE_DEPS
+    pip3 install $PIP_PACKAGES
+    pip3 install -I $PIP_VERSIONED_PACKAGES
+    pip3 install -U $GRPC_PACKAGES
 }
 
 deb_update_alternatives() {
@@ -144,16 +144,38 @@ deb_update_alternatives() {
     update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
 }
 
+deb_install_python() {
+    # Python install
+    echo python install
+    PACKAGES="python3-venv python3-pip python2.7-dev python-virtualenv python-setuptools python-pip"
+    apt-get -qq install -y $PACKAGES
+}
+
+deb_install_node() {
+    # Node install
+    pushd /usr/local
+    curl https://nodejs.org/dist/v7.4.0/node-v7.4.0-linux-x64.tar.xz | tar xJf - --strip-components=1
+    popd
+    echo npm -v: `npm -v`
+    echo node -v: `node -v`
+}
+
 deb_install_pkgs() {
     # Compiling Essentials
-    PACKAGES="g++-4.8 build-essential software-properties-common curl sudo"
+    PACKAGES="g++-4.8 build-essential software-properties-common curl sudo zip"
 
     # Libraries
     PACKAGES="$PACKAGES libsnappy-dev zlib1g-dev libbz2-dev \
         libffi-dev libssl-dev python-dev libyaml-dev python-pip"
 
-    # Tox for py-sdk and Node for nodejs-sdk
-    PACKAGES="$PACKAGES tox npm"
+    # Packages for IBM fvt
+    PACKAGES="$PACKAGES haproxy haproxy-doc htop html2text isag jq \
+        libdbd-pg-perl locales-all mysql-client mysql-common \
+        mysql-server postgresql postgresql-contrib \
+        postgresql-doc vim-haproxy zsh"
+
+    # Tox for py-sdk
+    PACKAGES="$PACKAGES tox"
 
     # maven for sdk-java
     PACKAGES="$PACKAGES maven"
@@ -185,9 +207,11 @@ ubuntu_changes() {
     deb_add_docker_repo
     deb_add_apt_ppa 'ppa:ubuntu-toolchain-r/test'
     deb_install_pkgs
+    deb_install_python
+    deb_install_pip_pkgs
     add_jenkins_user
     deb_install_docker_compose
-    deb_install_pip_pkgs
+    deb_install_node
     deb_install_rocksdb
     deb_update_alternatives
     deb_docker_pull_baseimage
