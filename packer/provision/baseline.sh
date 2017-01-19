@@ -81,6 +81,10 @@ EOF
             alternatives --set java_sdk_openjdk /usr/lib/jvm/java-1.7.0-openjdk.x86_64
         ;;
     esac
+
+    # Needed to parse OpenStack commands used by infra stack commands
+    # to initialize Heat template based systems.
+    yum install -y jq
 }
 
 ubuntu_systems() {
@@ -132,6 +136,10 @@ EOF
     # make sure that we still default to openjdk 7
     update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
     update-alternatives --set javac /usr/lib/jvm/java-7-openjdk-amd64/bin/javac
+
+    # Needed to parse OpenStack commands used by infra stack commands
+    # to initialize Heat template based systems.
+    apt-get install jq
 }
 
 all_systems() {
