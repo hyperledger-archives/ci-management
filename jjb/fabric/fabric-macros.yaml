@@ -206,6 +206,33 @@
                   failing: 0
 
 - publisher:
+    name: ca-code-coverage-report
+    publishers:
+        - cobertura:
+            report-file: "**/coverage.xml"
+            targets:
+              - files:
+                  healthy: 80
+                  unhealthy: 75
+                  failing: 0
+              - method:
+                  healthy: 80
+                  unhealthy: 75
+                  failing: 0
+              - line:
+                  healthy: 80
+                  unhealthy: 75
+                  failing: 0
+              - packages:
+                  healthy: 80
+                  unhealthy: 75
+                  failing: 0
+              - classes:
+                  healthy: 80
+                  unhealthy: 75
+                  failing: 0
+
+- publisher:
     name: behave-test-results
     publishers:
         - junit:

@@ -1,0 +1,31 @@
+- scm:
+    name: hyperledger-fabric-ca-gerrit
+    scm:
+        - git:
+            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-ca'
+            branches:
+               - 'origin/$GERRIT_BRANCH'
+            wipe-workspace: true
+            basedir: 'gopath/src/github.com/hyperledger/fabric-ca'
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+- builder:
+    name: ca-unit-tests
+    builders:
+        - shell: |
+            #!/bin/bash -eu
+            set -o pipefail
+
+            cd gopath/src/github.com/hyperledger/fabric-ca && make
+
+- builder:
+    name: ca-clean-environment
+    builders:
+      - shell: |
+            #!/bin/bash -eu
+            set -o pipefail
+
+            docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
+            docker rmi -f $(docker images | grep none | awk '{print $3}') || true
+            docker rm -f $(docker ps -aq) || true

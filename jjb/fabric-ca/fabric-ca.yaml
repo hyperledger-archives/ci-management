@@ -1,0 +1,273 @@
+- project:
+    name: fabric-ca
+    jobs:
+        - 'fabric-ca-merge-{arch}'
+        - 'fabric-ca-verify-{arch}'
+        - 'fabric-ca-merge-ppc64le'
+        - 'fabric-ca-verify-ppc64le'
+        - 'fabric-ca-merge-s390x'
+        - 'fabric-ca-verify-s390x'
+
+    project: 'fabric-ca'
+    arch:
+        - 'x86_64'
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-ca-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-ca-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: ''
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
+
+- job-template:
+    name: 'fabric-ca-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-ca-{arch}'
+    concurrent: true
+
+    properties:
+        - 'fabric-{arch}'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
+
+
+- job-template:
+    name: 'fabric-ca-verify-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-z'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-ca-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
+
+- job-template:
+    name: 'fabric-ca-merge-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-z'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-ca-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
+
+
+- job-template:
+    name: 'fabric-ca-verify-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    silent: true
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    properties:
+        - 'fabric-ppc64le'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-ca-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
+
+- job-template:
+    name: 'fabric-ca-merge-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-fabric-power'
+    concurrent: true
+
+    silent: true
+
+    properties:
+        - 'fabric-ppc64le'
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 40
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-ca-gerrit
+
+    triggers:
+        - gerrit-trigger-ca-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - ca-clean-environment
+        - output-environment
+        - ca-unit-tests
+
+    publishers:
+        - ca-code-coverage-report
