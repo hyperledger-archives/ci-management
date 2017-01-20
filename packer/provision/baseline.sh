@@ -140,6 +140,11 @@ EOF
     # Needed to parse OpenStack commands used by infra stack commands
     # to initialize Heat template based systems.
     apt-get install jq
+
+    # disable unattended upgrades & daily updates
+    echo '---> Disabling automatic daily upgrades'
+    sed -ine 's/"1"/"0"/g' /etc/apt/apt.conf.d/10periodic
+    echo 'APT::Periodic::Unattended-Upgrade "0";' >> /etc/apt/apt.conf.d/10periodic
 }
 
 all_systems() {
