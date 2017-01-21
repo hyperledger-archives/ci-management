@@ -1,0 +1,53 @@
+- project:
+    name: cello-jobs
+    jobs:
+        - 'cello-verify-{arch}'
+
+    project: 'cello'
+    arch:
+        - 'x86_64'
+
+# Verify job
+- job-template:
+    name: 'cello-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-cello-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 10
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    properties:
+        - 'cello-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - gerrit-trigger-scm:
+            refspec: '$GERRIT_REFSPEC'
+            choosing-strategy: 'gerrit'
+
+    triggers:
+        - gerrit-trigger-patch-submitted:
+            name: '{project}'
+            branch: 'master'
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - cello-verify
+
+    publishers:
+        - archive-artifacts:
+            artifacts: '.tox/**/*.log'

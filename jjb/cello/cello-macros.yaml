@@ -1,0 +1,12 @@
+- property:
+    name: 'cello-x86_64'
+    properties:
+        - inject:
+            properties-content: |
+                ARCH=x86_64
+
+- builder:
+    name: cello-verify
+    builders:
+      - shell: |
+            make check
