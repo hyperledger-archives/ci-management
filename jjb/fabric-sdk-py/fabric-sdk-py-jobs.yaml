@@ -49,7 +49,5 @@
         - fabric-verify-sdk-py
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
         - archive-artifacts:
             artifacts: '.tox/**/*.log'
