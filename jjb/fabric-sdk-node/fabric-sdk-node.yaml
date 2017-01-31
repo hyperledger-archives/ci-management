@@ -50,6 +50,8 @@
         - sdk-node-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - sdk-node-coverage-report
 
 - job-template:
@@ -91,6 +93,8 @@
         - sdk-node-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - sdk-node-coverage-report
 
 - job-template:
@@ -123,5 +127,7 @@
         - end-to-end-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - archive-commit-logs
         - sdk-node-coverage-report
