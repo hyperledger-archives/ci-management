@@ -126,7 +126,7 @@ deb_install_docker_compose() {
 deb_install_pip_pkgs() {
     PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa"
     PIP_PACKAGES="behave nose"
-    GRPC_PACKAGES="grpcio==1.0.0"
+    GRPC_PACKAGES="grpcio==1.0.4"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
         flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1"
