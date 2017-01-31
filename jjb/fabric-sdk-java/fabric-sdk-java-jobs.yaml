@@ -52,3 +52,6 @@
             echo "----> ", $WORKSPACE
             echo "----> ", $(find . -name "*.xml")
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
