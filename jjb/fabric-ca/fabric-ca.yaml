@@ -135,7 +135,7 @@
     builders:
         - ca-clean-environment
         - output-environment
-        - ca-unit-tests
+        - ca-unit-tests-s390x
 
     publishers:
         - ca-code-coverage-report
@@ -178,7 +178,7 @@
     builders:
         - ca-clean-environment
         - output-environment
-        - ca-unit-tests
+        - ca-unit-tests-s390x
 
     publishers:
         - ca-code-coverage-report

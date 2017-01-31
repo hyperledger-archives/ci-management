@@ -16,8 +16,19 @@
         - shell: |
             #!/bin/bash -eu
             set -o pipefail
-
             cd gopath/src/github.com/hyperledger/fabric-ca && make
+
+- builder:
+    name: ca-unit-tests-s390x
+    builders:
+        - shell: |
+            #!/bin/bash -eu
+            set -o pipefail
+
+            rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
+            rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
+
+            cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make
 
 - builder:
     name: ca-clean-environment
