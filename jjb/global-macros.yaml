@@ -330,8 +330,6 @@
                   unstable: true
                   notbuilt: true
 
-            silent: false
-
 - trigger:
     name: gerrit-trigger-patch-merged-behave
     triggers:
@@ -352,8 +350,6 @@
                   failed: true
                   unstable: true
                   notbuilt: true
-
-            silent: false
 
 - trigger:
     name: gerrit-trigger-silent-patch-submitted
@@ -424,8 +420,6 @@
                   unstable: true
                   notbuilt: true
 
-            silent: false
-
 - trigger:
     name: gerrit-trigger-node-sdk-patch-merged
     triggers:
@@ -446,8 +440,6 @@
                   failed: true
                   unstable: true
                   notbuilt: true
-
-            silent: false
 
 - trigger:
     name: gerrit-trigger-tag
