@@ -6,7 +6,7 @@
             branches:
                - 'origin/$GERRIT_BRANCH'
             wipe-workspace: true
-            credentials-id: '{credentials-id}'
+            credentials-id: 'hyperledger-jobbuilder'
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
 
@@ -18,7 +18,7 @@
             branches:
                - '*/tags/**'
             wipe-workspace: true
-            credentials-id: '{credentials-id}'
+            credentials-id: 'hyperledger-jobbuilder'
             refspec: '$GERRIT_REFSPEC'
 
 - builder:
