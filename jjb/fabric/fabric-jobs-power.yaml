@@ -37,10 +37,9 @@
             credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-submitted:
+        - gerrit-trigger-patch-submitted-silent:
             name: '{project}'
             branch: ''
-            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -59,8 +58,6 @@
     project-type: freestyle
     node: 'hyp-fabric-power'
     concurrent: true
-
-    silent: true
 
     properties:
         - 'fabric-{arch}'
@@ -84,10 +81,9 @@
             credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-merged:
+        - gerrit-trigger-patch-merged-silent:
             name: '{project}'
             branch: 'master'
-            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
