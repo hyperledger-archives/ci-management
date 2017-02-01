@@ -111,7 +111,7 @@
         artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-z'
+        - 'fabric-s390x'
 
     parameters:
         - project-parameter:
@@ -148,7 +148,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-z'
+        - 'fabric-s390x'
 
     logrotate:
         daysToKeep: 30

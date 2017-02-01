@@ -153,7 +153,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-z'
+        - 'fabric-s390x'
 
     disabled: true
 
@@ -278,7 +278,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-z'
+        - 'fabric-s390x'
 
     disabled: true
 
@@ -402,7 +402,7 @@
     concurrent: true
 
     properties:
-        - 'fabric-z'
+        - 'fabric-s390x'
 
     disabled: true
 

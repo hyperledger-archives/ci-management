@@ -18,7 +18,7 @@
     silent: true
 
     properties:
-        - fabric-z
+        - fabric-s390x
 
     logrotate:
         daysToKeep: 30
@@ -62,7 +62,7 @@
     silent: true
 
     properties:
-        - fabric-z
+        - fabric-s390x
 
     logrotate:
         daysToKeep: 30

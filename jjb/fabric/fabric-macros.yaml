@@ -9,7 +9,7 @@
                 ARCH=x86_64
 
 - property:
-    name: 'fabric-z'
+    name: 'fabric-s390x'
     properties:
         - inject:
             properties-content: |
