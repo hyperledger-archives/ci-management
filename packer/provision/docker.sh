@@ -124,7 +124,7 @@ deb_install_docker_compose() {
 }
 
 deb_install_pip_pkgs() {
-    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa"
+    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools"
     PIP_PACKAGES="behave nose"
     GRPC_PACKAGES="grpcio==1.0.4"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
