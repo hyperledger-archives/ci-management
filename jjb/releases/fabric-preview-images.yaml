@@ -35,7 +35,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-release-verify:
@@ -74,7 +74,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-release-merged:
@@ -114,7 +114,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-tag:

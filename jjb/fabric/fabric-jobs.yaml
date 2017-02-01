@@ -38,7 +38,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-patch-submitted:
@@ -82,7 +82,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-patch-merged:
@@ -125,7 +125,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-patch-submitted-behave:
@@ -172,7 +172,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-patch-merged-behave:
@@ -218,7 +218,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-node-sdk-patch-submitted:
@@ -260,7 +260,7 @@
 
     scm:
         - hyperledger-fabric-gerrit:
-            credentials-id: '{ssh-credentials}'
+            credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
         - gerrit-trigger-node-sdk-patch-merged:
