@@ -34,6 +34,7 @@
     name: hyperledger-fabric-gerrit
     scm:
         - git:
+            credentials-id: 'hyperledger-jobbuilder'
             url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
             branches:
                - 'origin/$GERRIT_BRANCH'
@@ -46,6 +47,7 @@
     name: hyperledger-fabric-busybox-gerrit
     scm:
         - git:
+            credentials-id: 'hyperledger-jobbuilder'
             url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-busybox'
             branches:
                - 'origin/$GERRIT_BRANCH'
