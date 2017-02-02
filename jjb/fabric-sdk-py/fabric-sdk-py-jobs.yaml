@@ -2,6 +2,7 @@
     name: fabric-sdk-py-jobs
     jobs:
         - 'fabric-verify-sdk-py-{arch}'
+        - 'fabric-sdk-py-verify-{arch}'
 
     project: 'fabric-sdk-py'
     arch:
