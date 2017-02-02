@@ -67,6 +67,10 @@
             jenkins-jobs test -p plugins-info.yaml --recursive jjb/
         - ci-management-check-unicode
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'ci-management-merge'
 
@@ -119,3 +123,7 @@
     builders:
         - shell:
             !include-raw-escape: include-raw-jjb-update.sh
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
