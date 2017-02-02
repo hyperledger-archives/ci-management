@@ -15,8 +15,6 @@
     node: 'hyp-fabric-z'
     concurrent: true
 
-    silent: true
-
     properties:
         - fabric-s390x
 
@@ -40,7 +38,6 @@
         - gerrit-trigger-patch-submitted-silent:
             name: '{project}'
             branch: ''
-            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
@@ -60,8 +57,6 @@
     project-type: freestyle
     node: 'hyp-fabric-z'
     concurrent: true
-
-    silent: true
 
     properties:
         - fabric-s390x
@@ -88,7 +83,6 @@
         - gerrit-trigger-patch-merged-silent:
             name: '{project}'
             branch: 'master'
-            silent: true
 
     wrappers:
         - hyperledger-infra-wrappers
