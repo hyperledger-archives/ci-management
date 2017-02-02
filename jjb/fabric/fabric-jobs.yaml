@@ -52,6 +52,8 @@
         - fabric-unit-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - code-coverage-report
 
 - job-template:
@@ -94,7 +96,10 @@
         - clean-environment
         - output-environment
         - fabric-unit-tests
+
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - code-coverage-report
 
 - job-template:
@@ -139,6 +144,8 @@
         - fabric-behave-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - archive-behave-logs
         - behave-test-results
 
@@ -186,5 +193,7 @@
         - fabric-behave-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - archive-behave-logs
         - behave-test-results

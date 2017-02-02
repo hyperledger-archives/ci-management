@@ -50,6 +50,8 @@
         - fabric-unit-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - code-coverage-report
 
 - job-template:
@@ -96,4 +98,6 @@
         - fabric-unit-tests
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - code-coverage-report

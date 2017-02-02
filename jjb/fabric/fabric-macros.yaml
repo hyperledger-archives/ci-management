@@ -231,4 +231,3 @@
     publishers:
         - junit:
             results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
-
