@@ -74,7 +74,7 @@ fi
 mv $WORKSPACE/archives/ $ARCHIVES_DIR > /dev/null 2>&1
 touch $ARCHIVES_DIR/_build-details.txt
 echo "build-url: ${{BUILD_URL}}" >> $ARCHIVES_DIR/_build-details.txt
-env > $ARCHIVES_DIR/_build-enviroment-variables.txt
+env |grep -v -E "SSH|HUDSON|COOKIE|TOKEN|DOCKER"> $ARCHIVES_DIR/_build-enviroment-variables.txt
 
 # capture system info
 touch $ARCHIVES_DIR/_sys-info.txt
