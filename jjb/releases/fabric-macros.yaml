@@ -126,3 +126,35 @@
     builders:
        - shell:
            !include-raw: include-raw-fabric-app-image-release.sh
+
+
+- builder:
+    name: ca-docker-image-release
+    builders:
+       - shell:
+           !include-raw: include-raw-fabric-ca-image-release.sh
+
+
+- builder:
+    name: ca-docker-image
+    builders:
+       - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric-ca
+          make docker
+
+- builder:
+    name: ca-image-clean-environment
+    builders:
+      - shell: |
+           #!/bin/bash -exu
+           set -o pipefail
+
+           cd gopath/src/github.com/hyperledger/fabric-ca
+           make dist-clean || true
+           docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
+           docker rmi -f $(docker images | grep none | awk '{print $3}') || true
+           docker rm -f $(docker ps -aq) || true
+
