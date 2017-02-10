@@ -55,6 +55,8 @@
         - baseimage-release
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - downstream-jobs
 
 #gerrit changes
@@ -100,6 +102,10 @@
         - output-environment
         - fabric-vagrant-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-merge-vagrant-{arch}'
 
@@ -143,6 +149,10 @@
         - output-environment
         - fabric-vagrant-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-release-vagrant-{arch}'
 
@@ -181,6 +191,10 @@
         - baseimage-clean-environment
         - output-environment
         - fabric-vagrant-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-verify-docker-{arch}'
@@ -222,6 +236,9 @@
         - output-environment
         - fabric-docker-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-verify-docker-ppc64le'
@@ -263,6 +280,10 @@
         - output-environment
         - fabric-docker-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-verify-docker-s390x'
 
@@ -303,6 +324,10 @@
         - output-environment
         - fabric-docker-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-merge-docker-{arch}'
 
@@ -341,6 +366,10 @@
         - output-environment
         - fabric-docker-local
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-merge-docker-ppc64le'
 
@@ -375,10 +404,13 @@
         - hyperledger-infra-wrappers
 
     builders:
-
         - baseimage-clean-environment
         - output-environment
         - fabric-docker-local
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-merge-docker-s390x'
@@ -414,10 +446,13 @@
         - hyperledger-infra-wrappers
 
     builders:
-
         - baseimage-clean-environment
         - output-environment
         - fabric-docker-local
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-docker-{arch}'
@@ -456,6 +491,9 @@
         - output-environment
         - fabric-docker-release
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-docker-ppc64le'
@@ -494,6 +532,10 @@
         - output-environment
         - fabric-docker-release
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-baseimage-release-docker-s390x'
 
@@ -530,3 +572,7 @@
         - baseimage-clean-environment
         - output-environment
         - fabric-docker-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
