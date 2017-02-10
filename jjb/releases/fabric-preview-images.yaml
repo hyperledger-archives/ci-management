@@ -50,6 +50,10 @@
         - output-environment
         - preview-docker-image
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-preview-image-merge-docker-ppc64le'
 
@@ -85,10 +89,13 @@
         - hyperledger-infra-wrappers
 
     builders:
-
         - appimage-clean-environment
         - output-environment
         - preview-docker-image
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-preview-image-release-docker-ppc64le'
@@ -128,3 +135,7 @@
         - output-environment
         - preview-docker-image
         - preview-docker-image-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
