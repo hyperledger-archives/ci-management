@@ -28,8 +28,6 @@
     properties:
         - 'fabric-x86_64'
 
-    disabled: true
-
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -321,7 +319,6 @@
     properties:
         - 'fabric-{arch}'
 
-    disabled: true
 
     logrotate:
         daysToKeep: 30
@@ -352,6 +349,9 @@
         - app-docker-image
         - app-docker-image-release
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-app-image-release-docker-ppc64le'
@@ -363,7 +363,6 @@
     properties:
         - 'fabric-ppc64le'
 
-    disabled: true
 
     logrotate:
         daysToKeep: 30
@@ -393,6 +392,10 @@
         - output-environment
         - app-docker-image
         - app-docker-image-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-app-image-release-docker-s390x'
@@ -404,7 +407,6 @@
     properties:
         - 'fabric-s390x'
 
-    disabled: true
 
     logrotate:
         daysToKeep: 30
@@ -434,3 +436,9 @@
         - output-environment
         - app-docker-image
         - app-docker-image-release
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+
