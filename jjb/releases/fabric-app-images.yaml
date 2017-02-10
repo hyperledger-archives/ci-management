@@ -55,6 +55,8 @@
         - app-image-release
 
     publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
         - image-downstream-jobs
 
 #gerrit changes
@@ -102,6 +104,10 @@
         - output-environment
         - app-docker-image
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-app-image-verify-docker-ppc64le'
 
@@ -144,6 +150,10 @@
         - appimage-clean-environment
         - output-environment
         - app-docker-image
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-app-image-verify-docker-s390x'
@@ -188,6 +198,10 @@
         - output-environment
         - app-docker-image
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-app-image-merge-docker-{arch}'
 
@@ -228,6 +242,10 @@
         - appimage-clean-environment
         - output-environment
         - app-docker-image
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-app-image-merge-docker-ppc64le'
@@ -270,6 +288,10 @@
         - output-environment
         - app-docker-image
 
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
 - job-template:
     name: 'fabric-app-image-merge-docker-s390x'
 
@@ -310,6 +332,10 @@
         - appimage-clean-environment
         - output-environment
         - app-docker-image
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-app-image-release-docker-{arch}'
@@ -445,5 +471,3 @@
     publishers:
         - hyperledger-infra-shiplogs:
             maven-version: 'mvn33'
-
-
