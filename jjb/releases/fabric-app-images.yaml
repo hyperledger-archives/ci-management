@@ -28,6 +28,8 @@
     properties:
         - 'fabric-x86_64'
 
+    disabled: false
+
     logrotate:
         daysToKeep: 30
         artifactDaysToKeep: 30
@@ -319,6 +321,7 @@
     properties:
         - 'fabric-{arch}'
 
+    disabled: false
 
     logrotate:
         daysToKeep: 30
@@ -363,6 +366,7 @@
     properties:
         - 'fabric-ppc64le'
 
+    disabled: false
 
     logrotate:
         daysToKeep: 30
@@ -407,6 +411,7 @@
     properties:
         - 'fabric-s390x'
 
+    disabled: false
 
     logrotate:
         daysToKeep: 30
