@@ -25,7 +25,7 @@
            gulp || exit 1
            gulp ca || exit 1
            rm -rf node_modules/fabric-ca-client && npm install
-           istanbul cover --report cobertura test/unit/headless-tests.js
+           gulp test-headless
 
 - builder:
      name: end-to-end-tests
