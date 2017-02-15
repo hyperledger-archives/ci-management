@@ -5,6 +5,9 @@
             properties-content: |
                 ARCH=x86_64
                 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+                GOPATH=$WORKSPACE/gopath
+                GOROOT=/opt/go/go1.7.linux.amd64
+                PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
 
 - scm:
     name: hyperledger-fabric-sdk-java-gerrit
@@ -14,6 +17,7 @@
             url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-java'
             branches:
                - 'origin/$GERRIT_BRANCH'
+            basedir: 'gopath/src/github.com/hyperledger/fabric-sdk-java'
             wipe-workspace: true
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
@@ -31,3 +35,9 @@
         - maven-target:
             maven-version: Maven3
             goals: compile
+
+- builder:
+    name: fabric-sdk-java-end-to-end-test
+    builders:
+        - shell:
+            !include-raw: include-raw-fabric-sdk-java-end-to-end-tests.sh

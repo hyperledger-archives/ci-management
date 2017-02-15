@@ -2,6 +2,7 @@
     name: fabric-sdk-java-jobs
     jobs:
         - 'fabric-sdk-java-verify-{arch}'
+        - 'fabric-sdk-java-merge-{arch}'
 
     project: 'fabric-sdk-java'
     arch:
@@ -46,6 +47,57 @@
     builders:
         - fabric-sdk-java-clean-environment
         - fabric-sdk-java-compile
+        - fabric-sdk-java-end-to-end-test
+        - shell: |
+            echo "----> ", $(pwd)
+            echo "----> ", "$(ls -al)"
+            echo "----> ", $WORKSPACE
+            echo "----> ", $(find . -name "*.xml")
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+
+# Merge job
+- job-template:
+    name: 'fabric-sdk-java-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-sdk-java-{arch}'
+    concurrent: true
+
+    logrotate:
+        daysToKeep: 30
+        numToKeep: 10
+        artifactDaysToKeep: 10
+        artifactNumToKeep: 10
+
+    properties:
+        - 'fabric-sdk-java-{arch}'
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-java-gerrit
+
+    triggers:
+        - gerrit-trigger-patch-merged:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - fabric-sdk-java-clean-environment
+        - fabric-sdk-java-compile
+        - fabric-sdk-java-end-to-end-test
         - shell: |
             echo "----> ", $(pwd)
             echo "----> ", "$(ls -al)"
