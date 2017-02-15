@@ -6,7 +6,7 @@ set -o pipefail
 export FABRIC_COMMIT=5d9e4ede298ab646ac918dc5b034c7d319dd1d9a
 export FABRIC_CA_COMMIT=bf8fb4d5e497217cd6125025830aa6870de442aa
 
-#source ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java/commit_level.sh
+#source ${WORKSPACE}/commit_level.sh
 
 # Clone fabric git repository
 #############################
@@ -38,7 +38,7 @@ docker images | grep hyperledger
 
 # Move to fabric-sdk-java repository and execute end-to-end tests
 
-export WD=${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java
+export WD=${WORKSPACE}
 cd $WD
 export GOPATH=$WD/src/test/fixture
 cd $WD/src/test/fixture/src

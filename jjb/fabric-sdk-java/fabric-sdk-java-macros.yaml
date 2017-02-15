@@ -17,7 +17,6 @@
             url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-java'
             branches:
                - 'origin/$GERRIT_BRANCH'
-            basedir: 'gopath/src/github.com/hyperledger/fabric-sdk-java'
             wipe-workspace: true
             refspec: '$GERRIT_REFSPEC'
             choosing-strategy: 'gerrit'
