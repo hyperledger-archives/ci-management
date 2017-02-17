@@ -35,7 +35,7 @@
             credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-submitted-silent:
+        - gerrit-trigger-patch-submitted:
             name: '{project}'
             branch: ''
 
@@ -80,7 +80,7 @@
             credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-merged-silent:
+        - gerrit-trigger-patch-merged:
             name: '{project}'
             branch: 'master'
 
