@@ -1,12 +1,7 @@
 #!/bin/bash -exu
 set -o pipefail
 
-#Export Fabric and Fabric-ca Commit levels
-
-export FABRIC_COMMIT=5d9e4ede298ab646ac918dc5b034c7d319dd1d9a
-export FABRIC_CA_COMMIT=bf8fb4d5e497217cd6125025830aa6870de442aa
-
-#source ${WORKSPACE}/commit_level.sh
+source ${WORKSPACE}/src/test/fabric_test_commitlevel.sh
 
 # Clone fabric git repository
 #############################
@@ -40,13 +35,12 @@ docker images | grep hyperledger
 
 export WD=${WORKSPACE}
 cd $WD
+JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
+echo "=======>" "FABRIC COMMIT NUMBER" "-" $FABRIC_COMMIT_LEVEL "=======>" "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT_LEVEL "=======>" "FABRIC SDK JAVA COMMIT NUMBER" "-" $JAVA_SDK_COMMIT_LEVEL >> commit_history.log
 export GOPATH=$WD/src/test/fixture
 cd $WD/src/test/fixture/src
 rm -rf /tmp/keyValStore*; rm -rf  /tmp/kvs-hfc-e2e ~/test.properties; rm -rf /var/hyperledger/*  ; docker-compose up > dockerlogfile.log 2>&1 & 
 cd $WD
 sleep 30
 docker ps -a
-mvn install -DskipTests
-JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-echo "=======>" "FABRIC COMMIT NUMBER" "-" $FABRIC_COMMIT_LEVEL "=======>" "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT_LEVEL "=======>" "FABRIC SDK JAVA COMMIT NUMBER" "-" $JAVA_SDK_COMMIT_LEVEL >> commit_history.log
-mvn failsafe:integration-test -DskipITs=false
+mvn clean install -DskipITs=false -Dmaven.test.failure.ignore=false

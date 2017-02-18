@@ -36,6 +36,25 @@
             goals: compile
 
 - builder:
+    name: sdk-clean-environment
+    builders:
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          docker rm -f $(docker ps -aq) || true
+          docker rmi -f $(docker images -aq) || true
+
+- publisher:
+    name: sdk-logs
+    publishers:
+        - archive:
+            artifacts: '**/*.log'
+            fingerprint: true
+            default-excludes: false
+            allow-empty: true
+
+- builder:
     name: fabric-sdk-java-end-to-end-test
     builders:
         - shell:

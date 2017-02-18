@@ -45,8 +45,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - fabric-sdk-java-clean-environment
-        - fabric-sdk-java-compile
+        - sdk-clean-environment
         - fabric-sdk-java-end-to-end-test
         - shell: |
             echo "----> ", $(pwd)
@@ -57,6 +56,7 @@
     publishers:
         - hyperledger-infra-shiplogs:
             maven-version: 'mvn33'
+        - sdk-logs
 
 # Merge job
 - job-template:
@@ -95,8 +95,7 @@
         - hyperledger-infra-wrappers
 
     builders:
-        - fabric-sdk-java-clean-environment
-        - fabric-sdk-java-compile
+        - sdk-clean-environment
         - fabric-sdk-java-end-to-end-test
         - shell: |
             echo "----> ", $(pwd)
@@ -107,3 +106,4 @@
     publishers:
         - hyperledger-infra-shiplogs:
             maven-version: 'mvn33'
+        - sdk-logs
