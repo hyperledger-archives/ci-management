@@ -47,5 +47,5 @@ cd ../.. && npm install
 npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp && gulp ca
 rm -rf node_modules/fabric-ca-client && npm install
-istanbul cover --report cobertura test/unit/end-to-end.js
+istanbul cover --report cobertura test/integration/end-to-end.js
 
