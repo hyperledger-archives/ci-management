@@ -283,7 +283,7 @@
 
             skip-vote:
                   successful: false
-                  failed: true
+                  failed: false
                   unstable: true
                   notbuilt: true
 
@@ -305,7 +305,7 @@
 
             skip-vote:
                   successful: false
-                  failed: true
+                  failed: false
                   unstable: true
                   notbuilt: true
 
