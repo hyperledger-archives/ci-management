@@ -3,8 +3,9 @@
     jobs:
         - 'fabric-sdk-node-verify-{arch}'
         - 'fabric-sdk-node-merge-{arch}'
+        - 'fabric-sdk-node-verify-s390x'
+        - 'fabric-sdk-node-merge-s390x'
         - 'FIT-node-{arch}'
-
     project: 'fabric-sdk-node'
     arch:
         - 'x86_64'
@@ -54,6 +55,51 @@
             maven-version: 'mvn33'
         - sdk-node-coverage-report
 
+#gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-node-verify-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-s390x'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-node
+
+    triggers:
+        - gerrit-trigger-node-patch-submitted:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - sdk-node-tests
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+        - sdk-node-coverage-report
+
 - job-template:
     name: 'fabric-sdk-node-merge-{arch}'
 
@@ -80,7 +126,52 @@
         - hyperledger-fabric-sdk-node
 
     triggers:
-        - gerrit-trigger-release-merged:
+        - gerrit-trigger-release-verify:
+            name: '{project}'
+            branch: ''
+
+    wrappers:
+        - hyperledger-infra-wrappers
+
+    builders:
+        - baseimage-clean-environment
+        - output-environment
+        - sdk-node-tests
+
+    publishers:
+        - hyperledger-infra-shiplogs:
+            maven-version: 'mvn33'
+        - sdk-node-coverage-report
+
+#gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-node-merge-s390x'
+
+    project-type: freestyle
+    node: 'hyp-fabric-z'
+    concurrent: true
+
+    properties:
+        - 'fabric-s390x'
+
+    logrotate:
+        daysToKeep: 30
+        artifactDaysToKeep: 30
+
+    parameters:
+        - project-parameter:
+            project: '{project}'
+        - gerrit-parameter:
+            branch: 'master'
+        - gerrit-refspec-parameter:
+            refspec: ''
+
+    scm:
+        - hyperledger-fabric-sdk-node
+
+    triggers:
+        - gerrit-trigger-node-patch-merged:
             name: '{project}'
             branch: ''
 

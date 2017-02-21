@@ -15,7 +15,7 @@
             properties-content: |
                 GOPATH=$WORKSPACE/gopath
                 GOROOT=/opt/go/
-                PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin
+                PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:$PATH
                 ARCH=s390x
 
 
