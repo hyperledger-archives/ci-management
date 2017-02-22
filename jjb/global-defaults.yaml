@@ -1,3 +1,4 @@
+---
 # Global Jenkins Defaults
 - defaults:
     name: global
@@ -8,3 +9,5 @@
     build-artifact-num-to-keep: 5
 
     ssh-credentials: 'b706b536-ceb2-4f3b-a616-c483bd16c216'
+
+    global-settings-file: 'global-settings'
