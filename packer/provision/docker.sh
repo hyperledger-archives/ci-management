@@ -127,6 +127,8 @@ deb_install_pip_pkgs() {
     PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools"
     PIP_PACKAGES="behave nose"
     GRPC_PACKAGES="grpcio==1.0.4"
+    JINJA2_PACKAGES="jinja2"
+    B3J0F_PACKAGES="b3j0f.aop"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
         flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1"
@@ -136,7 +138,7 @@ deb_install_pip_pkgs() {
     pip3 install $PIP_PACKAGE_DEPS
     pip3 install $PIP_PACKAGES
     pip3 install -I $PIP_VERSIONED_PACKAGES
-    pip3 install -U $GRPC_PACKAGES
+    pip3 install -U $GRPC_PACKAGES $JINJA2_PACKAGES $B3J0F_PACKAGES
 }
 
 deb_update_alternatives() {
@@ -151,6 +153,16 @@ deb_install_python() {
     apt-get -qq install -y $PACKAGES
 }
 
+deb_install_softhsm() {
+    apt-get -qq install -y softhsm2
+
+    # Create tokens directory
+    mkdir -p /var/lib/softhsm/tokens/
+
+    #Initialize token
+    softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
+}
+
 deb_install_node() {
     # Node install
     pushd /usr/local
@@ -162,7 +174,7 @@ deb_install_node() {
 
 deb_install_pkgs() {
     # Compiling Essentials
-    PACKAGES="g++-4.8 build-essential software-properties-common curl sudo zip"
+    PACKAGES="g++-4.8 build-essential software-properties-common curl sudo zip libtool"
 
     # Libraries
     PACKAGES="$PACKAGES libsnappy-dev zlib1g-dev libbz2-dev \
@@ -212,6 +224,7 @@ ubuntu_changes() {
     add_jenkins_user
     deb_install_docker_compose
     deb_install_node
+    deb_install_softhsm
     deb_install_rocksdb
     deb_update_alternatives
     deb_docker_pull_baseimage
