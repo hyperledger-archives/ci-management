@@ -127,7 +127,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-verify:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: ''
 
