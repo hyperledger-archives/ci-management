@@ -1,58 +1,58 @@
+---
 - property:
     name: 'fabric-x86_64'
     properties:
-        - inject:
-            properties-content: |
-                GOPATH=$WORKSPACE/gopath
-                GOROOT=/opt/go/go1.7.linux.amd64
-                PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
-                ARCH=x86_64
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
+            GOROOT=/opt/go/go1.7.linux.amd64
+            PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
+            ARCH=x86_64
 
 - property:
     name: 'fabric-s390x'
     properties:
-        - inject:
-            properties-content: |
-                GOPATH=$WORKSPACE/gopath
-                GOROOT=/opt/go/
-                PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:$PATH
-                ARCH=s390x
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
+            GOROOT=/opt/go/
+            PATH=/opt/go/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:$PATH
+            ARCH=s390x
 
 
 - property:
     name: 'fabric-ppc64le'
     properties:
-        - inject:
-            properties-content: |
-                GOPATH=$WORKSPACE/gopath
-                GOROOT=/usr/local/go/
-                PATH=$GOROOT/bin:$GOPATH/bin:$PATH
-                ARCH=ppc64le
-
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
+            GOROOT=/usr/local/go/
+            PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+            ARCH=ppc64le
 
 - scm:
     name: hyperledger-fabric-gerrit
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
+          branches:
+             - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 
 - scm:
     name: hyperledger-fabric-busybox-gerrit
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-busybox'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            refspec: '$GERRIT_REFSPEC'
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-busybox'
+          branches:
+             - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          refspec: '$GERRIT_REFSPEC'
 
 - builder:
     name: output-environment
@@ -123,81 +123,81 @@
 - builder:
     name: fabric-busybox-test
     builders:
-        - shell: |
-            #!/bin/bash -exu
-            set -o pipefail
-            make test
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+          make test
 
 - builder:
     name: fabric-busybox-release
     builders:
-        - shell: |
-            #!/bin/bash -exu
-            set -o pipefail
-            make install
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+          make install
 
 - publisher:
     name: archive-behave-logs
     publishers:
-        - archive:
-            artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
-            fingerprint: true
-            default-excludes: false
-            allow-empty: true
+      - archive:
+          artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true
 
 - publisher:
     name: code-coverage-report
     publishers:
-        - cobertura:
-            report-file: "**/report.xml"
-            targets:
-              - files:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - method:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - line:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - packages:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
-              - classes:
-                  healthy: 80
-                  unhealthy: 50
-                  failing: 0
+      - cobertura:
+          report-file: "**/report.xml"
+          targets:
+            - files:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - method:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - line:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - packages:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - classes:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
 
 - publisher:
     name: cop-code-coverage-report
     publishers:
-        - cobertura:
-            report-file: "**/coverage.xml"
-            targets:
-              - files:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - method:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - line:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - packages:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - classes:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
+      - cobertura:
+          report-file: "**/coverage.xml"
+          targets:
+            - files:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - method:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - line:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - packages:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - classes:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
 
 - publisher:
     name: ca-code-coverage-report

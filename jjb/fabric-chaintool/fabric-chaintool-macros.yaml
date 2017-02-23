@@ -1,12 +1,13 @@
+---
 - property:
     name: 'fabric-chaintool-x86_64'
     properties:
-        - inject:
-            properties-content: |
-                ARCH=x86_64
+      - inject:
+          properties-content: |
+              ARCH=x86_64
 
 - builder:
     name: fabric-chaintool-verify
     builders:
       - shell: |
-            ./lein test
+          ./lein test

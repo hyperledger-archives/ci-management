@@ -1,11 +1,12 @@
+---
 - project:
     name: fabric-chaintool-jobs
     jobs:
-        - 'fabric-chaintool-verify-{arch}'
+      - 'fabric-chaintool-verify-{arch}'
 
     project: 'fabric-chaintool'
     arch:
-        - 'x86_64'
+      - 'x86_64'
 
 # Verify job
 - job-template:
@@ -16,38 +17,38 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 10
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     properties:
-        - 'fabric-chaintool-{arch}'
+      - 'fabric-chaintool-{arch}'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - gerrit-trigger-scm:
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
+      - gerrit-trigger-scm:
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 
     triggers:
-        - gerrit-trigger-patch-submitted:
-            name: '{project}'
-            branch: 'master'
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: 'master'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - fabric-chaintool-verify
+      - fabric-chaintool-verify
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'

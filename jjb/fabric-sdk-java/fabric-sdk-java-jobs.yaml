@@ -1,12 +1,13 @@
+---
 - project:
     name: fabric-sdk-java-jobs
     jobs:
-        - 'fabric-sdk-java-verify-{arch}'
-        - 'fabric-sdk-java-merge-{arch}'
+      - 'fabric-sdk-java-verify-{arch}'
+      - 'fabric-sdk-java-merge-{arch}'
 
     project: 'fabric-sdk-java'
     arch:
-        - 'x86_64'
+      - 'x86_64'
 
 # Verify job
 - job-template:
@@ -17,46 +18,46 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 10
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     properties:
-        - 'fabric-sdk-java-{arch}'
+      - 'fabric-sdk-java-{arch}'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-sdk-java-gerrit
+      - hyperledger-fabric-sdk-java-gerrit
 
     triggers:
-        - gerrit-trigger-patch-submitted:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - sdk-clean-environment
-        - fabric-sdk-java-end-to-end-test
-        - shell: |
-            echo "----> ", $(pwd)
-            echo "----> ", "$(ls -al)"
-            echo "----> ", $WORKSPACE
-            echo "----> ", $(find . -name "*.xml")
+      - sdk-clean-environment
+      - fabric-sdk-java-end-to-end-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "----> ", $(find . -name "*.xml")
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - sdk-logs
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - sdk-logs
 
 # Merge job
 - job-template:
@@ -67,43 +68,43 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 10
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 10
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     properties:
-        - 'fabric-sdk-java-{arch}'
+      - 'fabric-sdk-java-{arch}'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-sdk-java-gerrit
+      - hyperledger-fabric-sdk-java-gerrit
 
     triggers:
-        - gerrit-trigger-patch-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - sdk-clean-environment
-        - fabric-sdk-java-end-to-end-test
-        - shell: |
-            echo "----> ", $(pwd)
-            echo "----> ", "$(ls -al)"
-            echo "----> ", $WORKSPACE
-            echo "----> ", $(find . -name "*.xml")
+      - sdk-clean-environment
+      - fabric-sdk-java-end-to-end-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "----> ", $(find . -name "*.xml")
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - sdk-logs
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - sdk-logs
