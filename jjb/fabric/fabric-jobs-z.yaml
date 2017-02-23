@@ -1,12 +1,13 @@
+---
 - project:
     name: fabric-jobs-z
     jobs:
-        - 'fabric-merge-z'
-        - 'fabric-verify-z'
+      - 'fabric-merge-z'
+      - 'fabric-verify-z'
 
     project: 'fabric'
 
-#gerrit changes
+# gerrit changes
 
 - job-template:
     name: 'fabric-verify-z'
@@ -16,40 +17,40 @@
     concurrent: true
 
     properties:
-        - fabric-s390x
+      - fabric-s390x
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit:
-            credentials-id: 'hyperledger-jobbuilder'
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-submitted:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
-        - fabric-unit-tests
+      - clean-environment
+      - fabric-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - code-coverage-report
 
 - job-template:
     name: 'fabric-merge-z'
@@ -59,39 +60,39 @@
     concurrent: true
 
     properties:
-        - fabric-s390x
+      - fabric-s390x
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit:
-            credentials-id: 'hyperledger-jobbuilder'
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-patch-merged:
-            name: '{project}'
-            branch: 'master'
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: 'master'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - clean-environment
-        - fabric-unit-tests
+      - clean-environment
+      - fabric-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - code-coverage-report
