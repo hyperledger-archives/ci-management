@@ -1,9 +1,10 @@
+---
 - project:
     name: fabric-preview-images
     jobs:
-        - 'fabric-preview-image-verify-docker-ppc64le'
-        - 'fabric-preview-image-merge-docker-ppc64le'
-        - 'fabric-preview-image-release-docker-ppc64le'
+      - 'fabric-preview-image-verify-docker-ppc64le'
+      - 'fabric-preview-image-merge-docker-ppc64le'
+      - 'fabric-preview-image-release-docker-ppc64le'
 
     project: 'fabric'
 
@@ -17,42 +18,42 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'v0.6'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'v0.6'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit:
-            credentials-id: 'hyperledger-jobbuilder'
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-release-verify:
-            name: '{project}'
-            branch: 'v0.6'
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: 'v0.6'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - appimage-clean-environment
-        - output-environment
-        - preview-docker-image
+      - appimage-clean-environment
+      - output-environment
+      - preview-docker-image
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-preview-image-merge-docker-ppc64le'
@@ -62,40 +63,40 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'v0.6'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'v0.6'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-gerrit:
-            credentials-id: 'hyperledger-jobbuilder'
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-release-merged:
-            name: '{project}'
-            branch: 'v0.6'
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: 'v0.6'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - appimage-clean-environment
-        - output-environment
-        - preview-docker-image
+      - appimage-clean-environment
+      - output-environment
+      - preview-docker-image
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-preview-image-release-docker-ppc64le'
@@ -105,37 +106,37 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'v0.6'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'v0.6'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-gerrit:
-            credentials-id: 'hyperledger-jobbuilder'
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - appimage-clean-environment
-        - output-environment
-        - preview-docker-image
-        - preview-docker-image-release
+      - appimage-clean-environment
+      - output-environment
+      - preview-docker-image
+      - preview-docker-image-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'

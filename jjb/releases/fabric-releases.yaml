@@ -1,25 +1,26 @@
+---
 - project:
     name: fabric-releases
     jobs:
-        - 'fabric-baseimage-verify-vagrant-{arch}'
-        - 'fabric-baseimage-merge-vagrant-{arch}'
-        - 'fabric-baseimage-release-vagrant-{arch}'
-        - 'fabric-baseimage-verify-docker-{arch}'
-        - 'fabric-baseimage-verify-docker-ppc64le'
-        - 'fabric-baseimage-verify-docker-s390x'
-        - 'fabric-baseimage-merge-docker-ppc64le'
-        - 'fabric-baseimage-merge-docker-s390x'
-        - 'fabric-baseimage-merge-docker-{arch}'
-        - 'fabric-baseimage-release-docker-{arch}'
-        - 'fabric-baseimage-release-docker-ppc64le'
-        - 'fabric-baseimage-release-docker-s390x'
-        - 'fabric-baseimage-release-trigger'
+      - 'fabric-baseimage-verify-vagrant-{arch}'
+      - 'fabric-baseimage-merge-vagrant-{arch}'
+      - 'fabric-baseimage-release-vagrant-{arch}'
+      - 'fabric-baseimage-verify-docker-{arch}'
+      - 'fabric-baseimage-verify-docker-ppc64le'
+      - 'fabric-baseimage-verify-docker-s390x'
+      - 'fabric-baseimage-merge-docker-ppc64le'
+      - 'fabric-baseimage-merge-docker-s390x'
+      - 'fabric-baseimage-merge-docker-{arch}'
+      - 'fabric-baseimage-release-docker-{arch}'
+      - 'fabric-baseimage-release-docker-ppc64le'
+      - 'fabric-baseimage-release-docker-s390x'
+      - 'fabric-baseimage-release-trigger'
 
     project: 'fabric-baseimage'
     arch:
-        - 'x86_64'
+      - 'x86_64'
 
-#gerrit changes
+# gerrit changes
 
 - job-template:
     name: 'fabric-baseimage-release-trigger'
@@ -29,37 +30,37 @@
     concurrent: true
 
     properties:
-        - 'fabric-x86_64'
+      - 'fabric-x86_64'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - baseimage-release
+      - baseimage-clean-environment
+      - output-environment
+      - baseimage-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - downstream-jobs
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - downstream-jobs
 
-#gerrit changes
+# gerrit changes
 
 - job-template:
     name: 'fabric-baseimage-verify-vagrant-{arch}'
@@ -69,42 +70,42 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     disabled: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: ''
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-verify:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
-        - baseimage-build-timeout
+      - hyperledger-infra-wrappers
+      - baseimage-build-timeout
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-vagrant-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-vagrant-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-merge-vagrant-{arch}'
@@ -114,44 +115,44 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     disabled: true
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
-        - baseimage-build-timeout
+      - hyperledger-infra-wrappers
+      - baseimage-build-timeout
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-vagrant-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-vagrant-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-vagrant-{arch}'
@@ -161,40 +162,40 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     disabled: true
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     wrappers:
-        - hyperledger-infra-wrappers
-        - baseimage-build-timeout
+      - hyperledger-infra-wrappers
+      - baseimage-build-timeout
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-vagrant-release
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-vagrant-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-verify-docker-{arch}'
@@ -204,41 +205,41 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-verify:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-verify-docker-ppc64le'
@@ -248,41 +249,41 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-verify:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-verify-docker-s390x'
@@ -292,41 +293,41 @@
     concurrent: true
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-verify:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-merge-docker-{arch}'
@@ -336,39 +337,39 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-merge-docker-ppc64le'
@@ -378,39 +379,39 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-merge-docker-s390x'
@@ -420,39 +421,39 @@
     concurrent: true
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-baseimage
+      - hyperledger-fabric-baseimage
 
     triggers:
-        - gerrit-trigger-release-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-local
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-local
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-docker-{arch}'
@@ -462,38 +463,38 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release
+      - hyperledger-fabric-baseimage-release
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-release
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-docker-ppc64le'
@@ -503,38 +504,38 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release
+      - hyperledger-fabric-baseimage-release
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-release
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-baseimage-release-docker-s390x'
@@ -544,35 +545,35 @@
     concurrent: true
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-baseimage-release
+      - hyperledger-fabric-baseimage-release
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - baseimage-clean-environment
-        - output-environment
-        - fabric-docker-release
+      - baseimage-clean-environment
+      - output-environment
+      - fabric-docker-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'

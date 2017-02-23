@@ -1,13 +1,14 @@
+---
 - project:
     name: fabric-ca-images
     jobs:
-        - 'fabric-ca-release-{arch}'
-        - 'fabric-ca-release-ppc64le'
-        - 'fabric-ca-release-s390x'
+      - 'fabric-ca-release-{arch}'
+      - 'fabric-ca-release-ppc64le'
+      - 'fabric-ca-release-s390x'
 
     project: 'fabric-ca'
     arch:
-        - 'x86_64'
+      - 'x86_64'
 
 - job-template:
     name: 'fabric-ca-release-{arch}'
@@ -17,39 +18,39 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-image-clean-environment
-        - output-environment
-        - ca-docker-image
-        - ca-docker-image-release
+      - ca-image-clean-environment
+      - output-environment
+      - ca-docker-image
+      - ca-docker-image-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-ca-release-ppc64le'
@@ -59,40 +60,40 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-image-clean-environment
-        - output-environment
-        - ca-docker-image
-        - ca-docker-image-release
+      - ca-image-clean-environment
+      - output-environment
+      - ca-docker-image
+      - ca-docker-image-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-ca-release-s390x'
@@ -102,36 +103,36 @@
     concurrent: true
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-tag:
-            name: '{project}'
+      - gerrit-trigger-tag:
+          name: '{project}'
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-image-clean-environment
-        - output-environment
-        - ca-docker-image
-        - ca-docker-image-release
+      - ca-image-clean-environment
+      - output-environment
+      - ca-docker-image
+      - ca-docker-image-release
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
