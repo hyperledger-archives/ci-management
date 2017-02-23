@@ -37,7 +37,7 @@
           credentials-id: 'hyperledger-jobbuilder'
           url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
           branches:
-             - 'origin/$GERRIT_BRANCH'
+            - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
           basedir: 'gopath/src/github.com/hyperledger/fabric'
           refspec: '$GERRIT_REFSPEC'
@@ -50,7 +50,7 @@
           credentials-id: 'hyperledger-jobbuilder'
           url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-busybox'
           branches:
-             - 'origin/$GERRIT_BRANCH'
+            - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
           refspec: '$GERRIT_REFSPEC'
 
@@ -113,12 +113,10 @@
 - builder:
     name: fabric-unit-tests
     builders:
-        - shell: |
-            #!/bin/bash -eu
-            set -o pipefail
-
-
-            cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+          cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
 
 - builder:
     name: fabric-busybox-test
@@ -202,32 +200,32 @@
 - publisher:
     name: ca-code-coverage-report
     publishers:
-        - cobertura:
-            report-file: "**/coverage.xml"
-            targets:
-              - files:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - method:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - line:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - packages:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
-              - classes:
-                  healthy: 80
-                  unhealthy: 75
-                  failing: 0
+      - cobertura:
+          report-file: "**/coverage.xml"
+          targets:
+            - files:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - method:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - line:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - packages:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
+            - classes:
+                healthy: 80
+                unhealthy: 75
+                failing: 0
 
 - publisher:
     name: behave-test-results
     publishers:
-        - junit:
-            results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
+      - junit:
+          results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'

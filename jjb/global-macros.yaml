@@ -1,3 +1,4 @@
+---
 # Global Macros
 
 ##
@@ -6,50 +7,50 @@
 - parameter:
     name: project-parameter
     parameters:
-        - string:
-            name: PROJECT
-            default: '{project}'
-            description: "JJB configured PROJECT parameter to identify a Gerrit project"
+      - string:
+          name: PROJECT
+          default: '{project}'
+          description: "JJB configured PROJECT parameter to identify a Gerrit project"
 
 - parameter:
     name: gerrit-parameter
     parameters:
-        - string:
-            name: GERRIT_BRANCH
-            default: '{branch}'
-            description: "JJB configured GERRIT_BRANCH parameter"
+      - string:
+          name: GERRIT_BRANCH
+          default: '{branch}'
+          description: "JJB configured GERRIT_BRANCH parameter"
 
 - parameter:
     name: gerrit-project-parameter
     parameters:
-        - string:
-            name: GERRIT_PROJECT
-            default: '{project}'
-            description: "GERRIT_PROJECT parameter if not given by trigger"
+      - string:
+          name: GERRIT_PROJECT
+          default: '{project}'
+          description: "GERRIT_PROJECT parameter if not given by trigger"
 
 - parameter:
     name: gerrit-refspec-parameter
     parameters:
-        - string:
-            name: GERRIT_REFSPEC
-            default: '{refspec}'
-            description: "GERRIT_REFSPEC parameter if not given by trigger"
+      - string:
+          name: GERRIT_REFSPEC
+          default: '{refspec}'
+          description: "GERRIT_REFSPEC parameter if not given by trigger"
 
 - parameter:
     name: gerrit-refname-parameter
     parameters:
-        - string:
-            name: GERRIT_REFNAME
-            default: '{refname}'
-            description: "GERRIT_REFNAME parameter if not given by tag trigger"
+      - string:
+          name: GERRIT_REFNAME
+          default: '{refname}'
+          description: "GERRIT_REFNAME parameter if not given by tag trigger"
 
 - parameter:
     name: git-branch
     parameters:
-        - string:
-            name: branch
-            default: '**'
-            description: "Git branch to checkout after clone"
+      - string:
+          name: branch
+          default: '**'
+          description: "Git branch to checkout after clone"
 
 ##
 # SCMS
@@ -57,26 +58,26 @@
 - scm:
     name: git-scm
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: '$GIT_BASE'
-            refspec: ''
-            branches:
-                - 'origin/${branch}'
-            skip-tag: true
-            wipe-workspace: true
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: '$GIT_BASE'
+          refspec: ''
+          branches:
+            - 'origin/${branch}'
+          skip-tag: true
+          wipe-workspace: true
 
 - scm:
     name: gerrit-trigger-scm
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: '$GIT_BASE'
-            refspec: '{refspec}'
-            branches:
-                - 'origin/$GERRIT_BRANCH'
-            skip-tag: true
-            choosing-strategy: '{choosing-strategy}'
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: '$GIT_BASE'
+          refspec: '{refspec}'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          skip-tag: true
+          choosing-strategy: '{choosing-strategy}'
 
 - scm:
     name: git-branch-scm
@@ -117,16 +118,16 @@
     # needed by Hyperledger infra.
     name: hyperledger-infra-wrappers
     wrappers:
-        - timestamps
-        - mask-passwords
-        - build-timeout
-        - ssh-agent-credentials:
-            users:
-                - 'hyperledger-jobbuilder'
-        - jclouds:
-            single-use: True
-        - openstack:
-            single-use: True
+      - timestamps
+      - mask-passwords
+      - build-timeout
+      - ssh-agent-credentials:
+          users:
+              - 'hyperledger-jobbuilder'
+      - jclouds:
+          single-use: true
+      - openstack:
+          single-use: true
 
 ##
 # Triggers

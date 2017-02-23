@@ -1,39 +1,40 @@
+---
 - property:
     name: 'fabric-sdk-java-x86_64'
     properties:
-        - inject:
-            properties-content: |
-                ARCH=x86_64
-                JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-                GOPATH=$WORKSPACE/gopath
-                GOROOT=/opt/go/go1.7.linux.amd64
-                PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
+      - inject:
+          properties-content: |
+            ARCH=x86_64
+            JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+            GOPATH=$WORKSPACE/gopath
+            GOROOT=/opt/go/go1.7.linux.amd64
+            PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
 
 - scm:
     name: hyperledger-fabric-sdk-java-gerrit
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-java'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-java'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 
 - builder:
     name: fabric-sdk-java-clean-environment
     builders:
-        - maven-target:
-            maven-version: Maven3
-            goals: clean
+      - maven-target:
+          maven-version: Maven3
+          goals: clean
 
 - builder:
     name: fabric-sdk-java-compile
     builders:
-        - maven-target:
-            maven-version: Maven3
-            goals: compile
+      - maven-target:
+          maven-version: Maven3
+          goals: compile
 
 - builder:
     name: sdk-clean-environment
@@ -48,14 +49,14 @@
 - publisher:
     name: sdk-logs
     publishers:
-        - archive:
-            artifacts: '**/*.log'
-            fingerprint: true
-            default-excludes: false
-            allow-empty: true
+      - archive:
+          artifacts: '**/*.log'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true
 
 - builder:
     name: fabric-sdk-java-end-to-end-test
     builders:
-        - shell:
-            !include-raw: include-raw-fabric-sdk-java-end-to-end-tests.sh
+      - shell:
+          !include-raw: include-raw-fabric-sdk-java-end-to-end-tests.sh
