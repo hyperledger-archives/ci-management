@@ -1,12 +1,13 @@
+---
 - property:
     name: 'fabric-sdk-py-x86_64'
     properties:
-        - inject:
-            properties-content: |
-                ARCH=x86_64
+      - inject:
+          properties-content: |
+              ARCH=x86_64
 
 - builder:
     name: fabric-verify-sdk-py
     builders:
       - shell: |
-            make check
+          make check

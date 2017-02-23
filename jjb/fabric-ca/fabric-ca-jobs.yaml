@@ -1,18 +1,19 @@
+---
 - project:
     name: fabric-ca
     jobs:
-        - 'fabric-ca-merge-{arch}'
-        - 'fabric-ca-verify-{arch}'
-        - 'fabric-ca-merge-ppc64le'
-        - 'fabric-ca-verify-ppc64le'
-        - 'fabric-ca-merge-s390x'
-        - 'fabric-ca-verify-s390x'
+      - 'fabric-ca-merge-{arch}'
+      - 'fabric-ca-verify-{arch}'
+      - 'fabric-ca-merge-ppc64le'
+      - 'fabric-ca-verify-ppc64le'
+      - 'fabric-ca-merge-s390x'
+      - 'fabric-ca-verify-s390x'
 
     project: 'fabric-ca'
     arch:
-        - 'x86_64'
+      - 'x86_64'
 
-#gerrit changes
+# gerrit changes
 
 - job-template:
     name: 'fabric-ca-verify-{arch}'
@@ -22,40 +23,40 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: ''
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-patch-submitted:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report
 
 - job-template:
     name: 'fabric-ca-merge-{arch}'
@@ -65,42 +66,42 @@
     concurrent: true
 
     properties:
-        - 'fabric-{arch}'
+      - 'fabric-{arch}'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-patch-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report
 
 
 - job-template:
@@ -111,40 +112,40 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-ca-patch-submitted:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-ca-patch-submitted:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests-s390x
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests-s390x
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report
 
 - job-template:
     name: 'fabric-ca-merge-s390x'
@@ -154,42 +155,42 @@
     concurrent: true
 
     properties:
-        - 'fabric-s390x'
+      - 'fabric-s390x'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-ca-patch-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-ca-patch-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests-s390x
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests-s390x
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report
 
 
 - job-template:
@@ -200,40 +201,40 @@
     concurrent: true
 
     logrotate:
-        daysToKeep: 30
-        artifactDaysToKeep: 30
+      daysToKeep: 30
+      artifactDaysToKeep: 30
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-ca-patch-submitted:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-ca-patch-submitted:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report
 
 - job-template:
     name: 'fabric-ca-merge-ppc64le'
@@ -243,39 +244,39 @@
     concurrent: true
 
     properties:
-        - 'fabric-ppc64le'
+      - 'fabric-ppc64le'
 
     logrotate:
-        daysToKeep: 30
-        numToKeep: 40
-        artifactDaysToKeep: 10
-        artifactNumToKeep: 10
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
 
     parameters:
-        - project-parameter:
-            project: '{project}'
-        - gerrit-parameter:
-            branch: 'master'
-        - gerrit-refspec-parameter:
-            refspec: ''
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
 
     scm:
-        - hyperledger-fabric-ca-gerrit
+      - hyperledger-fabric-ca-gerrit
 
     triggers:
-        - gerrit-trigger-ca-patch-merged:
-            name: '{project}'
-            branch: ''
+      - gerrit-trigger-ca-patch-merged:
+          name: '{project}'
+          branch: ''
 
     wrappers:
-        - hyperledger-infra-wrappers
+      - hyperledger-infra-wrappers
 
     builders:
-        - ca-clean-environment
-        - output-environment
-        - ca-unit-tests
+      - ca-clean-environment
+      - output-environment
+      - ca-unit-tests
 
     publishers:
-        - hyperledger-infra-shiplogs:
-            maven-version: 'mvn33'
-        - ca-code-coverage-report
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - ca-code-coverage-report

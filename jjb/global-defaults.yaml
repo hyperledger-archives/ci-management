@@ -1,3 +1,4 @@
+---
 # Global Jenkins Defaults
 - defaults:
     name: global

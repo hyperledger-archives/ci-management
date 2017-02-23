@@ -1,45 +1,46 @@
+---
 - scm:
     name: hyperledger-fabric-ca-gerrit
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-ca'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            basedir: 'gopath/src/github.com/hyperledger/fabric-ca'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-ca'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric-ca'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 
 - builder:
     name: ca-unit-tests
     builders:
-        - shell: |
-            #!/bin/bash -eu
-            set -o pipefail
-            cd gopath/src/github.com/hyperledger/fabric-ca && make
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+          cd gopath/src/github.com/hyperledger/fabric-ca && make
 
 - builder:
     name: ca-unit-tests-s390x
     builders:
-        - shell: |
-            #!/bin/bash -eu
-            set -o pipefail
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
 
-            rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
-            rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
+          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
+          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
 
-            cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make
+          cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make
 
 - builder:
     name: ca-clean-environment
     builders:
       - shell: |
-            #!/bin/bash -eu
-            set -o pipefail
+          #!/bin/bash -eu
+          set -o pipefail
 
-            cd gopath/src/github.com/hyperledger/fabric-ca
+          cd gopath/src/github.com/hyperledger/fabric-ca
 
-            docker rm -f $(docker ps -aq) || true
-            make clean || true
-            docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
+          docker rm -f $(docker ps -aq) || true
+          make clean || true
+          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
