@@ -560,6 +560,21 @@
       - shell: |
           $WORKSPACE/scripts/check-unicode.sh jjb/
 
+- builder:
+    name: provide-maven-settings
+    builders:
+      - config-file-provider:
+          files:
+            - file-id: '{global-settings-file}'
+              variable: 'GLOBAL_SETTINGS_FILE'
+            - file-id: '{settings-file}'
+              variable: 'SETTINGS_FILE'
+
+- builder:
+    name: docker-login
+    builders:
+      - shell: !include-raw: include-raw-docker-login.sh
+
 - publisher:
     name: downstream-jobs
     publishers:
