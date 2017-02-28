@@ -1,9 +1,9 @@
 ---
 # Global Macros
 
-##
+#
 # PARAMETERS
-##
+#
 - parameter:
     name: project-parameter
     parameters:
@@ -52,9 +52,9 @@
           default: '**'
           description: "Git branch to checkout after clone"
 
-##
+#
 # SCMS
-##
+#
 - scm:
     name: git-scm
     scm:
@@ -82,36 +82,35 @@
 - scm:
     name: git-branch-scm
     scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: '$GIT_BASE'
-            refspec: ''
-            branches:
-                - 'origin/{branch}'
-            skip-tag: true
-            wipe-workspace: true
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: '$GIT_BASE'
+          refspec: ''
+          branches:
+            - 'origin/{branch}'
+          skip-tag: true
+          wipe-workspace: true
 
-
-##
+#
 # Wrappers
-##
+#
 - wrapper:
     name: build-timeout
     wrappers:
-        - timeout:
-            type: absolute
-            timeout: 120
-            timeout-var: 'BUILD_TIMEOUT'
-            fail: true
+      - timeout:
+          type: absolute
+          timeout: 120
+          timeout-var: 'BUILD_TIMEOUT'
+          fail: true
 
 - wrapper:
     name: baseimage-build-timeout
     wrappers:
-        - timeout:
-            type: absolute
-            timeout: 240
-            timeout-var: 'BUILD_TIMEOUT'
-            fail: true
+      - timeout:
+          type: absolute
+          timeout: 240
+          timeout-var: 'BUILD_TIMEOUT'
+          fail: true
 
 - wrapper:
     # This wrapper is required for all jobs as it configures the wrappers
@@ -123,364 +122,359 @@
       - build-timeout
       - ssh-agent-credentials:
           users:
-              - 'hyperledger-jobbuilder'
+            - 'hyperledger-jobbuilder'
       - jclouds:
           single-use: true
       - openstack:
           single-use: true
 
-##
+#
 # Triggers
-##
+#
 - trigger:
     name: gerrit-trigger-patch-submitted
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
 
 - trigger:
     name: gerrit-trigger-patch-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
 
 - trigger:
     name: gerrit-trigger-patch-submitted-silent
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            silent: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          silent: true
 
 - trigger:
     name: gerrit-trigger-patch-merged-silent
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            silent: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          silent: true
 
 - trigger:
     name: gerrit-trigger-cop-patch-submitted
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-
-            skip-vote:
-                  successful: false
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-cop-patch-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-
-            skip-vote:
-                  successful: false
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-ca-patch-submitted
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-
-            skip-vote:
-                  successful: false
-                  failed: false
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: false
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-ca-patch-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-
-            skip-vote:
-                  successful: false
-                  failed: false
-                  unstable: true
-                  notbuilt: true
-
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: false
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-release-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
 
 - trigger:
     name: gerrit-trigger-release-verify
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
 
 - trigger:
     name: gerrit-trigger-patch-submitted-behave
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            skip-vote:
-                  successful: true
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: true
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-patch-merged-behave
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            skip-vote:
-                  successful: true
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: true
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-silent-patch-submitted
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            silent-start: 'true'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          silent-start: 'true'
 
 - trigger:
     name: gerrit-trigger-silent-patch-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            silent-start: 'true'
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          silent-start: 'true'
 
 # node-sdk changes
 
 - trigger:
     name: gerrit-trigger-node-sdk-patch-submitted
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - patchset-created-event:
-                    exclude-drafts: 'false'
-                    exclude-trivial-rebase: 'false'
-                    exclude-no-code-change: 'false'
-                - draft-published-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'recheck'
-                - comment-added-contains-event:
-                    comment-contains-value: 'reverify'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            skip-vote:
-                  successful: true
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: true
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-node-sdk-patch-merged
     triggers:
-        - gerrit:
-            server-name: 'hyperledger'
-            trigger-on:
-                - change-merged-event
-                - comment-added-contains-event:
-                    comment-contains-value: 'remerge'
-            projects:
-                - project-compare-type: 'ANT'
-                  project-pattern: '{name}'
-                  branches:
-                    - branch-compare-type: 'ANT'
-                      branch-pattern: '**/{branch}'
-            skip-vote:
-                  successful: true
-                  failed: true
-                  unstable: true
-                  notbuilt: true
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: true
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-tag
@@ -496,36 +490,35 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: 'refs/tags/**'
 
-
-##
+#
 # Publishers
-##
+#
 - publisher:
     name: archive-artifacts
     publishers:
-        - archive:
-            artifacts: '{artifacts}'
-            allow-empty: true
-            fingerprint: true
-            latest-only: true
+      - archive:
+          artifacts: '{artifacts}'
+          allow-empty: true
+          fingerprint: true
+          latest-only: true
 
 - publisher:
     name: email-notification
     publishers:
-        - email-ext:
-            recipients: 'nobody@hyperledger.org'
-            reply-to:
-            content-type: default
-            subject: '{email-prefix} $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
-            body: |
+      - email-ext:
+          recipients: 'nobody@hyperledger.org'
+          reply-to:
+          content-type: default
+          subject: '{email-prefix} $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+          body: |
                 $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
 
                 Check console output at $BUILD_URL to view the results.
-            unstable: true
-            fixed: true
-            send-to:
-                - developers
-                - recipients
+          unstable: true
+          fixed: true
+          send-to:
+            - developers
+            - recipients
 
 - publisher:
     name: hyperledger-infra-shiplogs
@@ -558,34 +551,34 @@
       - workspace-cleanup:
           fail-build: false
 
-##
+#
 # Builders
-##
+#
 - builder:
     name: ci-management-check-unicode
     builders:
-        - shell: |
-            $WORKSPACE/scripts/check-unicode.sh jjb/
+      - shell: |
+          $WORKSPACE/scripts/check-unicode.sh jjb/
 
 - publisher:
     name: downstream-jobs
     publishers:
-        - downstream-ext:
-             projects:
-                - fabric-baseimage-release-vagrant-x86_64
-                - fabric-baseimage-release-docker-x86_64
-                - fabric-baseimage-release-docker-ppc64le
-                - fabric-baseimage-release-docker-s390x
-             criteria: success
-             condition: equal
+      - downstream-ext:
+          projects:
+            - fabric-baseimage-release-vagrant-x86_64
+            - fabric-baseimage-release-docker-x86_64
+            - fabric-baseimage-release-docker-ppc64le
+            - fabric-baseimage-release-docker-s390x
+          criteria: success
+          condition: equal
 
 - publisher:
     name: image-downstream-jobs
     publishers:
-         - downstream-ext:
-              projects:
-                 - fabric-app-image-release-docker-x86_64
-                 - fabric-app-image-release-docker-ppc64le
-                 - fabric-app-image-release-docker-s390x
-              criteria: success
-              condition: equal
+      - downstream-ext:
+          projects:
+            - fabric-app-image-release-docker-x86_64
+            - fabric-app-image-release-docker-ppc64le
+            - fabric-app-image-release-docker-s390x
+          criteria: success
+          condition: equal

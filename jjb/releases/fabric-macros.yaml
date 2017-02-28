@@ -2,78 +2,78 @@
 - scm:
     name: hyperledger-fabric-baseimage
     scm:
-       - git:
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
-            branches:
-               - 'origin/$GERRIT_BRANCH'
-            wipe-workspace: true
-            credentials-id: 'hyperledger-jobbuilder'
-            refspec: '$GERRIT_REFSPEC'
-            choosing-strategy: 'gerrit'
+      - git:
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          credentials-id: 'hyperledger-jobbuilder'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 
 - scm:
     name: hyperledger-fabric-baseimage-release
     scm:
-       - git:
-            url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
-            branches:
-               - '*/tags/**'
-            wipe-workspace: true
-            credentials-id: 'hyperledger-jobbuilder'
-            refspec: '$GERRIT_REFSPEC'
+      - git:
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+          branches:
+            - '*/tags/**'
+          wipe-workspace: true
+          credentials-id: 'hyperledger-jobbuilder'
+          refspec: '$GERRIT_REFSPEC'
 
 - builder:
     name: baseimage-clean-environment
     builders:
       - shell: |
-           #!/bin/bash -exu
-           set -o pipefail
+          #!/bin/bash -exu
+          set -o pipefail
 
-           docker rm -f $(docker ps -aq) || true
-           make clean || true
-           docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
+          docker rm -f $(docker ps -aq) || true
+          make clean || true
+          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
 
 - builder:
     name: appimage-clean-environment
     builders:
       - shell: |
-           #!/bin/bash -exu
-           set -o pipefail
+          #!/bin/bash -exu
+          set -o pipefail
 
-           cd gopath/src/github.com/hyperledger/fabric
+          cd gopath/src/github.com/hyperledger/fabric
 
-           docker rm -f $(docker ps -aq) || true
-           make dist-clean || true
-           docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
+          docker rm -f $(docker ps -aq) || true
+          make dist-clean || true
+          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
 
 - builder:
     name: baseimage-release
     builders:
-       - shell:
-           !include-raw: include-raw-fabric-baseimage.sh
+      - shell:
+          !include-raw: include-raw-fabric-baseimage.sh
 
 - builder:
     name: fabric-vagrant-release
     builders:
-       - shell: |
-           #!/bin/bash -exu
-           set -o pipefail
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
 
-           make vagrant
+          make vagrant
 
 - builder:
     name: fabric-vagrant-local
     builders:
-       - shell: |
-           #!/bin/bash -exu
-           set -o pipefail
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
 
-           make vagrant-local
+          make vagrant-local
 
 - builder:
     name: fabric-docker-release
     builders:
-       - shell: |
+      - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
@@ -82,7 +82,7 @@
 - builder:
     name: fabric-docker-local
     builders:
-       - shell: |
+      - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
@@ -91,7 +91,7 @@
 - builder:
     name: app-docker-image
     builders:
-       - shell: |
+      - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
@@ -101,7 +101,7 @@
 - builder:
     name: preview-docker-image
     builders:
-       - shell: |
+      - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
@@ -111,38 +111,36 @@
 - builder:
     name: app-docker-image-release
     builders:
-       - shell:
-           !include-raw: include-raw-fabric-app-image.sh
+      - shell:
+          !include-raw: include-raw-fabric-app-image.sh
 
 - builder:
     name: preview-docker-image-release
     builders:
-       - shell:
-           !include-raw: include-raw-fabric-preview-docker-image.sh
+      - shell:
+          !include-raw: include-raw-fabric-preview-docker-image.sh
 
 - builder:
     name: app-image-release
     builders:
-       - shell:
-           !include-raw: include-raw-fabric-app-image-release.sh
-
+      - shell:
+          !include-raw: include-raw-fabric-app-image-release.sh
 
 - builder:
     name: ca-docker-image-release
     builders:
-       - shell:
-           !include-raw: include-raw-fabric-ca-image-release.sh
-
+      - shell:
+          !include-raw: include-raw-fabric-ca-image-release.sh
 
 - builder:
     name: ca-docker-image
     builders:
-       - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric-ca
-          make docker
+         cd gopath/src/github.com/hyperledger/fabric-ca
+         make docker
 
 - builder:
     name: ca-image-clean-environment
