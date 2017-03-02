@@ -6,12 +6,53 @@
       - 'fabric-verify-{arch}'
       - 'fabric-merge-behave-{arch}'
       - 'fabric-verify-behave-{arch}'
+      - 'fabric-nexus-docker-{arch}'
 
     project: 'fabric'
     arch:
       - 'x86_64'
+    mvn-settings: 'fabric-settings'
 
 # gerrit changes
+
+- job-template:
+    name: 'fabric-nexus-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: | 
+          #!/bin/bash
+
+          cd gopath/src/github.com/hyperledger/fabric
+          make peer-docker
+      - provide-maven-settings:
+           global-settings-file: 'global-settings'
+           fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - nexus-docker
 
 - job-template:
     name: 'fabric-verify-{arch}'

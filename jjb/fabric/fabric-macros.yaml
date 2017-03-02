@@ -136,6 +136,12 @@
           !include-raw: include-raw-FIT-JAVA-e2e.sh
 
 - builder:
+    name: nexus-docker
+    builders:
+      - shell:
+          !include-raw: include-raw-nexus-docker.sh
+
+- builder:
     name: fabric-unit-tests
     builders:
       - shell: |

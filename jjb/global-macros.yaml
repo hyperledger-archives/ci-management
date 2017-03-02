@@ -615,7 +615,7 @@
           files:
             - file-id: '{global-settings-file}'
               variable: 'GLOBAL_SETTINGS_FILE'
-            - file-id: '{settings-file}'
+            - file-id: '{fabric-settings-file}'
               variable: 'SETTINGS_FILE'
 
 - builder:
