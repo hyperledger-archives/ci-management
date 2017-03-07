@@ -110,8 +110,6 @@
     node: 'hyp-fabric-{arch}'
     concurrent: true
 
-    disabled: true
-
     logrotate:
       daysToKeep: 30
       artifactDaysToKeep: 30
@@ -160,8 +158,6 @@
     properties:
       - 'fabric-{arch}'
 
-    disabled: true
-
     logrotate:
       daysToKeep: 30
       numToKeep: 40
@@ -198,3 +194,5 @@
           maven-version: 'mvn33'
       - archive-behave-logs
       - behave-test-results
+
+
