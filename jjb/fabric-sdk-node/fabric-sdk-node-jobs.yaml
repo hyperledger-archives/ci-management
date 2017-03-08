@@ -194,7 +194,7 @@
     description: |
        This Job covers Functional integration Testing on fabric-sdk node
        repository and it runs for every 6 hrs on latest commits of fabric,
-       fabric/cop and fabric/sdk-node repos. This Job is Managed by Jenkins
+       fabric/ca and fabric/sdk-node repos. This Job is Managed by Jenkins
        Job Builder. Do not edit via web.
 
     project-type: freestyle
