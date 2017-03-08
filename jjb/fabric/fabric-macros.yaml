@@ -6,6 +6,7 @@
           properties-content: |
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/go1.7.linux.amd64
+            JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
             PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
             ARCH=x86_64
 
@@ -111,6 +112,30 @@
           !include-raw: include-raw-fabric-behave.sh
 
 - builder:
+    name: dockerimages
+    builders:
+      - shell:
+          !include-raw: include-raw-FIT-dockerimages.sh
+
+- builder:
+    name: end-to-end-CLI
+    builders:
+      - shell:
+          !include-raw: include-raw-FIT-CLI-e2e.sh
+
+- builder:
+    name: end-to-end-NODE
+    builders:
+      - shell:
+          !include-raw: include-raw-FIT-NODE-e2e.sh
+
+- builder:
+    name: end-to-end-JAVA
+    builders:
+      - shell:
+          !include-raw: include-raw-FIT-JAVA-e2e.sh
+
+- builder:
     name: fabric-unit-tests
     builders:
       - shell: |
@@ -139,6 +164,15 @@
     publishers:
       - archive:
           artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true
+
+- publisher:
+    name: dockerlog
+    publishers:
+      - archive:
+          artifacts: '**/*.log'
           fingerprint: true
           default-excludes: false
           allow-empty: true

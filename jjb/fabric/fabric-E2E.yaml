@@ -1,0 +1,106 @@
+---
+- project:
+    name: fabric-end-to-end
+    jobs:
+      - 'fabric-verify-end-2-end-{arch}'
+      - 'fabric-merge-end-2-end-{arch}'
+
+    project: 'fabric'
+    arch:
+      - 'x86_64'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-verify-end-2-end-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-e2e-patch-submitted:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - dockerimages
+      - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - dockerlog
+
+- job-template:
+    name: 'fabric-merge-end-2-end-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-e2e-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - dockerimages
+      - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - dockerlog
