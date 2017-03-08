@@ -114,6 +114,8 @@
       daysToKeep: 30
       artifactDaysToKeep: 30
 
+    disabled: false
+
     properties:
       - 'fabric-{arch}'
 
@@ -157,6 +159,8 @@
 
     properties:
       - 'fabric-{arch}'
+
+    disabled: false
 
     logrotate:
       daysToKeep: 30

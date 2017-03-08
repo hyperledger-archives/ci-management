@@ -360,7 +360,7 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
           skip-vote:
-            successful: true
+            successful: false
             failed: true
             unstable: true
             notbuilt: true
@@ -381,7 +381,7 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
           skip-vote:
-            successful: true
+            successful: false
             failed: true
             unstable: true
             notbuilt: true
