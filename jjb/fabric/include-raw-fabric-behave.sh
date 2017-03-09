@@ -22,7 +22,6 @@ pip install ecdsa
 pip install python-slugify
 pip install pyyaml
 
-
 # Build Peer and images
 
 make peer && make peer-docker && make orderer-docker
@@ -30,4 +29,5 @@ docker images | grep hyperledger
 cd bddtests
 behave -k -D cache-deployment-spec
 #behave -k -D cache-deployment-spec features/bootstrap.feature
+# Deactivate vitrualenv after behave test
 deactivate

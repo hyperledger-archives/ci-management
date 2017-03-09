@@ -147,8 +147,6 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
-      - archive-behave-logs
-      - behave-test-results
 
 - job-template:
     name: 'fabric-merge-behave-{arch}'
@@ -196,7 +194,5 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
-      - archive-behave-logs
-      - behave-test-results
 
 
