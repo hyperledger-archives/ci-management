@@ -30,3 +30,4 @@ docker images | grep hyperledger
 cd bddtests
 behave -k -D cache-deployment-spec
 #behave -k -D cache-deployment-spec features/bootstrap.feature
+deactivate
