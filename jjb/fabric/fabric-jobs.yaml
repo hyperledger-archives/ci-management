@@ -37,13 +37,17 @@
       - gerrit-refspec-parameter:
           refspec: ''
 
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
     wrappers:
       - hyperledger-infra-wrappers
 
     builders:
       - clean-environment
       - output-environment
-      - shell: | 
+      - shell: |
           #!/bin/bash
 
           cd gopath/src/github.com/hyperledger/fabric
