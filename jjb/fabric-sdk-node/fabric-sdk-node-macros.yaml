@@ -65,15 +65,8 @@
 - builder:
     name: sdk-node-tests
     builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-          cd gopath/src/github.com/fabric-sdk-node && npm install
-          npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
-          gulp || exit 1
-          gulp ca || exit 1
-          rm -rf node_modules/fabric-ca-client && npm install
-          gulp test-headless
+      - shell:
+          !include-raw: include-raw-gulp-test.sh
 
 - builder:
     name: end-to-end-tests
