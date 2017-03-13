@@ -103,7 +103,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -150,7 +150,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -197,7 +197,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -242,7 +242,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -287,7 +287,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -332,7 +332,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -376,7 +376,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
       - app-docker-image-release
 
     publishers:
@@ -421,7 +421,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
       - app-docker-image-release
 
     publishers:
@@ -466,7 +466,7 @@
     builders:
       - appimage-clean-environment
       - output-environment
-      - app-docker-image
+      - buildimages
       - app-docker-image-release
 
     publishers:

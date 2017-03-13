@@ -112,7 +112,7 @@
     name: app-docker-image-release
     builders:
       - shell:
-          !include-raw: include-raw-fabric-app-image.sh
+          !include-raw: include-raw-fabric-app-images.sh
 
 - builder:
     name: preview-docker-image-release
