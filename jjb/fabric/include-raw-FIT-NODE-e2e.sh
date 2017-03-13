@@ -7,7 +7,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
-git clone https://github.com/hyperledger/$SDK_REPO_NAME.git $WD
+git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$SDK_REPO_NAME $WD
 cd $WD
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
