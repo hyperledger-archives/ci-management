@@ -74,9 +74,6 @@
           pgrep -a docker
           docker images
           docker ps -a
-          npm -v
-          nodejs -v
-          python --version
 
 - builder:
     name: clean-environment
