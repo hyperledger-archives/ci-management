@@ -11,7 +11,7 @@ git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$SDK_REPO_NA
 cd $WD
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
-cd test/fixtures/channel
+cd test/fixtures
 docker rm -f $(docker ps -aq) || true
 docker-compose up >> node_dockerlogfile.log 2>&1 &
 sleep 10

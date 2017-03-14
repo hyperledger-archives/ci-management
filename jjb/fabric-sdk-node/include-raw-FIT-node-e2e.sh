@@ -38,7 +38,7 @@ cd $WD
 SDK_COMMIT=$(git log -1 --pretty=format:"%h")
 
 echo "=======>" "FABRIC PEER COMMIT NUMBER" "-" $FABRIC_COMMIT "=======>" "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT "=======>" "FABRIC SDK NODE COMMIT NUMBER" "-" $SDK_COMMIT >> commit_history.log
-cd test/fixtures/channel
+cd test/fixtures
 cat docker-compose.yaml > docker-compose.log
 docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 10

@@ -31,7 +31,7 @@ make docker
 docker images | grep hyperledger
 
 ## Test gulp test
-cd ${WORKSPACE}/gopath/src/github.com/fabric-sdk-node/test/fixtures/channel
+cd ${WORKSPACE}/gopath/src/github.com/fabric-sdk-node/test/fixtures
 docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 15
 docker ps -a
@@ -42,5 +42,3 @@ gulp || exit 1
 gulp ca || exit 1
 rm -rf node_modules/fabric-ca-client && npm install
 gulp test
-
-
