@@ -69,6 +69,11 @@
           !include-raw: include-raw-gulp-test.sh
 
 - builder:
+    name: npm-publish
+    builders:
+      - shell:
+          !include-raw: include-raw-npm-publish.sh
+- builder:
     name: end-to-end-tests
     builders:
       - shell:
