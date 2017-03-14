@@ -47,16 +47,16 @@
     builders:
       - clean-environment
       - output-environment
-      - shell: |
-          #!/bin/bash
-
-          cd gopath/src/github.com/hyperledger/fabric
-          make peer-docker
+      - buildimages
       - provide-maven-settings:
            global-settings-file: 'global-settings'
            fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - nexus-docker
+      - nexus-docker-push
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-verify-{arch}'
