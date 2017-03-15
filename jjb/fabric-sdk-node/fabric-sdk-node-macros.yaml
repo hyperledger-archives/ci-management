@@ -9,7 +9,7 @@
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
-          basedir: 'gopath/src/github.com/fabric-sdk-node'
+          basedir: 'gopath/src/github.com/hyperledger/fabric-sdk-node'
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
 

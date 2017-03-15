@@ -31,12 +31,12 @@ make docker
 docker images | grep hyperledger
 
 ## Test gulp test
-cd ${WORKSPACE}/gopath/src/github.com/fabric-sdk-node/test/fixtures
+cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node/test/fixtures
 docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 15
 docker ps -a
 
-cd ${WORKSPACE}/gopath/src/github.com/fabric-sdk-node && npm install
+cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node && npm install
 npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp || exit 1
 gulp ca || exit 1
