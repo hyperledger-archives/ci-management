@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -eu
 set -o pipefail
 
 # Clone fabric git repository
@@ -43,7 +43,7 @@ cat docker-compose.yaml > docker-compose.log
 docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 10
 docker ps -a
-cd ../../.. && npm install
+cd ../.. && npm install
 npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp && gulp ca
 rm -rf node_modules/fabric-ca-client && npm install
