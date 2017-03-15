@@ -138,6 +138,7 @@
       - baseimage-clean-environment
       - output-environment
       - sdk-node-tests
+      - npm-publish
 
     publishers:
       - hyperledger-infra-shiplogs:
