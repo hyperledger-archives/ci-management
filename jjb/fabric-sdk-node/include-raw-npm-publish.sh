@@ -54,7 +54,7 @@ versions() {
   echo "===> Current Release --> $RELEASE"
 }
 
-cd $WORKSPACE/src/github.com/hyperledger/fabric-sdk-node
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
 npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 
 cd fabric-ca-client
