@@ -82,6 +82,11 @@
            !include-raw: include-raw-buildimages.sh
 
 - builder:
+    name: nexusdockerimages
+    builders:
+      - shell:
+           !include-raw: include-raw-nexusdockerimages.sh
+- builder:
     name: clean-environment
     builders:
       - shell:

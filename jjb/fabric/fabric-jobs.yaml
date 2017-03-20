@@ -47,7 +47,7 @@
     builders:
       - clean-environment
       - output-environment
-      - buildimages
+      - nexusdockerimages
       - provide-maven-settings:
            global-settings-file: 'global-settings'
            fabric-settings-file: '{mvn-settings}'
