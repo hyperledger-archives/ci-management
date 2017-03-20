@@ -6,7 +6,8 @@
       - 'fabric-verify-{arch}'
       - 'fabric-merge-behave-{arch}'
       - 'fabric-verify-behave-{arch}'
-      - 'fabric-nexus-docker-{arch}'
+      - 'fabric-nexus-docker-daily-{arch}'
+      - 'fabric-nexus-docker-release-{arch}'
 
     project: 'fabric'
     arch:
@@ -16,7 +17,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-nexus-docker-{arch}'
+    name: 'fabric-nexus-docker-daily-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -47,12 +48,61 @@
     builders:
       - clean-environment
       - output-environment
-      - nexusdockerimages
+      - nexus-docker-images
       - provide-maven-settings:
            global-settings-file: 'global-settings'
            fabric-settings-file: '{mvn-settings}'
       - docker-login
       - nexus-docker-push
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-nexus-docker-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - buildimages
+      - provide-maven-settings:
+           global-settings-file: 'global-settings'
+           fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-nexus-docker-release
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -239,5 +289,3 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
-
-

@@ -130,7 +130,13 @@
     name: ca-docker-image-release
     builders:
       - shell:
-          !include-raw: include-raw-fabric-ca-image-release.sh
+          !include-raw: include-raw-fabric-ca-app-images.sh
+
+- builder:
+    name: ca-nexus-docker-release
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-ca-nexus-docker-release.sh
 
 - builder:
     name: ca-docker-image

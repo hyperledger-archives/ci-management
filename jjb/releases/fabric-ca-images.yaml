@@ -5,10 +5,60 @@
       - 'fabric-ca-release-{arch}'
       - 'fabric-ca-release-ppc64le'
       - 'fabric-ca-release-s390x'
+      - 'fabric-ca-nexus-docker-release-{arch}'
 
     project: 'fabric-ca'
     arch:
       - 'x86_64'
+
+    mvn-settings: 'fabric-settings'
+# gerrit changes
+
+- job-template:
+    name: 'fabric-ca-nexus-docker-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-ca-gerrit:
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - ca-image-clean-environment
+      - output-environment
+      - ca-docker-image
+      - provide-maven-settings:
+           global-settings-file: 'global-settings'
+           fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - ca-nexus-docker-release 
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
 
 - job-template:
     name: 'fabric-ca-release-{arch}'
