@@ -53,4 +53,4 @@ export GOPATH=$WD/src/test/fixture
 
 cd $WD/src/test
 chmod +x cirun.sh
-./cirun.sh
+source cirun.sh
