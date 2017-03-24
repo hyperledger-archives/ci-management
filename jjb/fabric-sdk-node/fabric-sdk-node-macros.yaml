@@ -79,6 +79,12 @@
       - shell:
           !include-raw: include-raw-FIT-node-e2e.sh
 
+- builder:
+    name: gulp-doc 
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-doc.sh
+
 # Node SDK Cobertura coverage report
 - publisher:
     name: sdk-node-coverage-report

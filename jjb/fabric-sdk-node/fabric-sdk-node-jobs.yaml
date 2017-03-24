@@ -139,6 +139,7 @@
       - output-environment
       - sdk-node-tests
       - npm-publish
+      - gulp-doc
 
     publishers:
       - hyperledger-infra-shiplogs:
