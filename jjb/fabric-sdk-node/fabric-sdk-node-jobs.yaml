@@ -52,6 +52,7 @@
       - sdk-node-tests
 
     publishers:
+      - sdk-logs
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-node-coverage-report
@@ -97,6 +98,7 @@
       - sdk-node-tests
 
     publishers:
+      - sdk-logs
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-node-coverage-report
@@ -142,6 +144,7 @@
       - gulp-doc
 
     publishers:
+      - sdk-logs
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-node-coverage-report
@@ -187,6 +190,7 @@
       - sdk-node-tests
 
     publishers:
+      - sdk-logs
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-node-coverage-report
@@ -225,5 +229,5 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
-      - archive-commit-logs
+      - sdk-logs
       - sdk-node-coverage-report
