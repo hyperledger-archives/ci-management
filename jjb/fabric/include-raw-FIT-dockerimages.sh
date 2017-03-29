@@ -5,7 +5,7 @@ cd gopath/src/github.com/hyperledger/fabric
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "FABRIC_COMMIT ===========> $FABRIC_COMMIT" >> commit.log
 mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make peer-docker && make orderer-docker && docker images | grep hyperledger
+make docker && docker images | grep hyperledger
 
 # Clone fabric-ca git repository
 ################################

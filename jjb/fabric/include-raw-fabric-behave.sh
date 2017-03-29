@@ -24,7 +24,7 @@ pip install pyyaml
 
 # Build Peer and images
 
-make peer && make peer-docker && make orderer-docker
+make peer && make docker
 docker images | grep hyperledger
 cd bddtests
 behave -k -D cache-deployment-spec

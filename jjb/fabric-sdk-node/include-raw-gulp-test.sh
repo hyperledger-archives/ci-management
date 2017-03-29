@@ -13,7 +13,7 @@ cd $WD
 #sed -i -e 's/127.0.0.1:7050\b/'"orderer:7050"'/g' $WD/common/configtx/tool/configtx.yaml
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "=======> FABRIC_COMMIT <======= $FABRIC_COMMIT"
-make peer-docker && make orderer-docker
+make docker
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
@@ -33,7 +33,7 @@ docker images | grep hyperledger
 ## Test gulp test
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node/test/fixtures
 docker-compose up >> dockerlogfile.log 2>&1 &
-sleep 15
+sleep 30
 docker ps -a
 
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node && npm install
