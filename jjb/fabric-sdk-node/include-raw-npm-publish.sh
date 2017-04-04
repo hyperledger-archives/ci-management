@@ -15,7 +15,7 @@ npmPublish() {
     UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/unstable/{
     ver=$NF
     sub(/.*\./,"",rel)
-    sub(/\.[[:digit:]]$/,"",ver)
+    sub(/\.[[:digit:]]+$/,"",ver)
     print ver}')
 
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
@@ -24,7 +24,7 @@ npmPublish() {
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
-    sub(/\.[[:digit:]]$/,"",ver)
+    sub(/\.[[:digit:]]+$/,"",ver)
     print ver"."rel+1}')
 
     echo "===> Incremented UNSTABLE VERSION --> $UNSTABLE_INCREMENT"
