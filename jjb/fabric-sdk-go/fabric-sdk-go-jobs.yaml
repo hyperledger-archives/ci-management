@@ -1,0 +1,103 @@
+---
+- project:
+    name: fabric-sdk-go
+    jobs:
+      - 'fabric-sdk-go-unit-tests-merge-{arch}'
+      - 'fabric-sdk-go-unit-tests-verify-{arch}'
+
+    project: 'fabric-sdk-go'
+    arch:
+      - 'x86_64'
+    mvn-settings: 'fabric-settings'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-go-unit-tests-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-go:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - fabric-sdk-go-clean-environment
+      - output-environment
+      - fabric-sdk-go-unit-tests
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - code-coverage-report
+
+- job-template:
+    name: 'fabric-sdk-go-unit-tests-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 30
+      numToKeep: 40
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-go:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - fabric-sdk-go-clean-environment
+      - output-environment
+      - fabric-sdk-go-unit-tests
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - code-coverage-report

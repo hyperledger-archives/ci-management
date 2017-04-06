@@ -1,0 +1,31 @@
+---
+- scm:
+    name: hyperledger-fabric-sdk-go
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-go'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric-sdk-go'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+- builder:
+    name: fabric-sdk-go-clean-environment
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          rm -rf /var/hyperledger/* || true
+          make clean || true
+          docker rm -f $(docker ps -aq) || true
+          docker rmi -f $(docker ps -aq) || true
+
+- builder:
+    name: fabric-sdk-go-unit-tests
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+          cd gopath/src/github.com/hyperledger/fabric-sdk-go && go get github.com/axw/gocov/... && go get github.com/AlekSi/gocov-xml && make unit-tests
