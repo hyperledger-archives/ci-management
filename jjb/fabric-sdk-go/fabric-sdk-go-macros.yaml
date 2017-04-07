@@ -28,4 +28,10 @@
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
-          cd gopath/src/github.com/hyperledger/fabric-sdk-go && go get github.com/axw/gocov/... && go get github.com/AlekSi/gocov-xml && make unit-tests
+          cd gopath/src/github.com/hyperledger/fabric-sdk-go && make unit-tests
+
+- builder:
+    name: fabric-sdk-go-integration-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-dependencies.sh

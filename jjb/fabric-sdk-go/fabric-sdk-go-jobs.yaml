@@ -2,8 +2,8 @@
 - project:
     name: fabric-sdk-go
     jobs:
-      - 'fabric-sdk-go-unit-tests-merge-{arch}'
-      - 'fabric-sdk-go-unit-tests-verify-{arch}'
+      - 'fabric-sdk-go-tests-merge-{arch}'
+      - 'fabric-sdk-go-tests-verify-{arch}'
 
     project: 'fabric-sdk-go'
     arch:
@@ -13,7 +13,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-sdk-go-unit-tests-verify-{arch}'
+    name: 'fabric-sdk-go-tests-verify-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -50,6 +50,7 @@
       - fabric-sdk-go-clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
+      - fabric-sdk-go-integration-tests
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -57,7 +58,7 @@
       - code-coverage-report
 
 - job-template:
-    name: 'fabric-sdk-go-unit-tests-merge-{arch}'
+    name: 'fabric-sdk-go-tests-merge-{arch}'
 
     project-type: freestyle
     node: 'hyp-fabric-{arch}'
@@ -96,6 +97,7 @@
       - fabric-sdk-go-clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
+      - fabric-sdk-go-integration-tests
 
     publishers:
       - hyperledger-infra-shiplogs:
