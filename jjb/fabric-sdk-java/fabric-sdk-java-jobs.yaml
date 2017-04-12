@@ -46,6 +46,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - sdk-clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |

@@ -49,6 +49,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - ca-clean-environment
       - output-environment
       - ca-unit-tests
@@ -138,6 +139,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - ca-clean-environment
       - output-environment
       - ca-unit-tests-s390x
@@ -227,6 +229,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - ca-clean-environment
       - output-environment
       - ca-unit-tests

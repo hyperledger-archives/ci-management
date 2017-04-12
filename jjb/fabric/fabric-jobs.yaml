@@ -143,6 +143,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - clean-environment
       - output-environment
       - fabric-unit-tests

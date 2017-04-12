@@ -610,6 +610,11 @@
           $WORKSPACE/scripts/check-unicode.sh jjb/
 
 - builder:
+    name: verify-commit-message
+    builders:
+      - shell: !include-raw: scripts/verify-commit.sh
+
+- builder:
     name: provide-maven-settings
     builders:
       - config-file-provider:

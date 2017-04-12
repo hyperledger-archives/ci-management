@@ -47,6 +47,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - fabric-sdk-go-clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests

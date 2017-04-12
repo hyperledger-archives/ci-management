@@ -47,6 +47,7 @@
       - hyperledger-infra-wrappers
 
     builders:
+      - verify-commit-message
       - fabric-api-clean-environment
       - fabric-api-compile
       - shell: |
