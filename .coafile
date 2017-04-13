@@ -1,0 +1,32 @@
+[default]
+bears = SpaceConsistencyBear
+files = scripts/*
+allow_trailing_whitespace = False
+enforce_newline_at_EOF = True
+indent_size = 4
+use_spaces = yeah
+
+[GitCommit]
+bears = GitCommitBear
+ignore_length_regex = Signed-off-by,
+    Also-by,
+    Co-authored-by,
+    http://,
+    https://
+
+[YAML]
+bears = YAMLLintBear
+files = jjb/**/*.yaml
+document_start = True
+yamllint_config = yamllint.conf
+
+[ShellCheck]
+bears = ShellCheckBear
+files = jenkins-scripts/**/*.sh,
+    jjb/**/*.sh,
+    packer/**/*.sh,
+    scripts/**/*.sh,
+    vagrant/**/*.sh
+ignore = jjb/include-raw-deploy-archives.sh
+shell = bash
+

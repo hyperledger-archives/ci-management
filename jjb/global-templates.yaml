@@ -1,0 +1,60 @@
+---
+# Tox job for verifying Coala
+
+- job-template:
+    name: '{project-name}-verify-tox-master'
+    # Job template for verify jobs executing tox envlist
+    #
+    # The purpose of this job template is to run tox for projects using this
+    # template on the master branch
+
+    project-type: freestyle
+    node: hyp-fabric-x86_64
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 10
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - gerrit-trigger-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+    triggers:
+      - gerrit:
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+          projects:
+            - project-pattern: '{project}'
+              branches:
+                - branch-pattern: '{branch}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - shell: |
+          #!/bin/bash
+          virtualenv $WORKSPACE/venv-tox
+          source $WORKSPACE/venv-tox/bin/activate
+          pip install --upgrade pip
+          pip install --upgrade tox argparse
+          pip freeze
+          export PATH=.tox/coala/bin:$PATH
+          echo "starting tox"
+          tox
