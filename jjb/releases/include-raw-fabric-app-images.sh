@@ -24,4 +24,4 @@ dockerFabricPush() {
 dockerFabricPush
 
 # Listout all docker images Before and After Push to NEXUS
-docker images | grep hyperledger*
+docker images | grep "hyperledger*"

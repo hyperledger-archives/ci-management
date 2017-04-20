@@ -34,4 +34,4 @@ dockerTag
 dockerFabricPush
 
 # Listout all docker images Before and After Push to NEXUS
-docker images | grep nexus*
+docker images | grep "nexus*"

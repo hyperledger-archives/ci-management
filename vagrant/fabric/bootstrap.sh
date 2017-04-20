@@ -103,7 +103,7 @@ deb_update_alternatives() {
 
 deb_add_apt_ppa() {
     echo '---> Adding Ubuntu PPAs'
-    add-apt-repository -y $@
+    add-apt-repository -y "$@"
     apt-get -qq update
 }
 
