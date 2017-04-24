@@ -121,7 +121,6 @@
       - mask-passwords
       - ansicolor
       - build-timeout
-      - ci-skip
       - ssh-agent-credentials:
           users:
             - 'hyperledger-jobbuilder'
