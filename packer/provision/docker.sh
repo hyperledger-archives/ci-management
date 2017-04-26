@@ -171,8 +171,8 @@ deb_install_node() {
     pushd /usr/local
     curl https://nodejs.org/dist/v7.4.0/node-v7.4.0-linux-x64.tar.xz | tar xJf - --strip-components=1
     popd
-    echo npm -v: `npm -v`
-    echo node -v: `node -v`
+    echo "npm -v: `npm -v`"
+    echo "node -v: `node -v`"
 }
 
 deb_install_pkgs() {

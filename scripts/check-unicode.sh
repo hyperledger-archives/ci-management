@@ -21,7 +21,7 @@ fi
 echo "Scanning $directory"
 for x in $(find $directory -type f); do
     if LC_ALL=C grep -q '[^[:print:][:space:]]' "$x"; then
-        echo "file "$x" contains non-ascii characters"
+        echo "file $x contains non-ascii characters"
         exit 1
     fi
 done
