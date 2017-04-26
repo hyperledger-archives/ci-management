@@ -79,13 +79,13 @@
     name: buildimages
     builders:
       - shell:
-           !include-raw: include-raw-buildimages.sh
+          !include-raw: include-raw-buildimages.sh
 
 - builder:
     name: nexus-docker-images
     builders:
       - shell:
-           !include-raw: include-raw-nexus-docker-images.sh
+          !include-raw: include-raw-nexus-docker-images.sh
 
 - builder:
     name: clean-environment

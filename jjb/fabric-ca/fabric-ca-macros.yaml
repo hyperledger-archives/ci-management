@@ -27,7 +27,9 @@
           #!/bin/bash -eu
           set -o pipefail
 
+          # yamllint disable-line rule:line-length
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
+          # yamllint disable-line rule:line-length
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
 
           cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make

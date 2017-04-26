@@ -51,10 +51,10 @@
       - output-environment
       - ca-docker-image
       - provide-maven-settings:
-           global-settings-file: 'global-settings'
-           fabric-settings-file: '{mvn-settings}'
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - ca-nexus-docker-release 
+      - ca-nexus-docker-release
 
     publishers:
       - hyperledger-infra-shiplogs:

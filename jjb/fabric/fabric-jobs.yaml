@@ -50,8 +50,8 @@
       - output-environment
       - nexus-docker-images
       - provide-maven-settings:
-           global-settings-file: 'global-settings'
-           fabric-settings-file: '{mvn-settings}'
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
       - nexus-docker-push
 
@@ -99,8 +99,8 @@
       - output-environment
       - buildimages
       - provide-maven-settings:
-           global-settings-file: 'global-settings'
-           fabric-settings-file: '{mvn-settings}'
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-nexus-docker-release
 
