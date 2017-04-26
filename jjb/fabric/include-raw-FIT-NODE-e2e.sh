@@ -12,7 +12,7 @@ cd $WD
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 cd test/fixtures
-docker rm -f $(docker ps -aq) || true
+docker rm -f "$(docker ps -aq)" || true
 docker-compose up >> node_dockerlogfile.log 2>&1 &
 sleep 10
 docker ps -a
@@ -21,4 +21,4 @@ npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp && gulp ca
 rm -rf node_modules/fabric-ca-client && npm install
 istanbul cover --report cobertura test/integration/e2e.js
-docker rm -f $(docker ps -aq) || true
+docker rm -f "$(docker ps -aq)" || true

@@ -34,7 +34,7 @@ rm -rf /etc/Pegasus/*.cnf /etc/Pegasus/*.crt /etc/Pegasus/*.csr \
        /var/log/squid/*.log /var/log/syslog* /var/log/tallylog* \
        /var/log/tuned/tuned.log /var/log/wtmp* /var/named/data/named.run
 
-rm -rf ~/.viminfo /etc/ssh/ssh*key* ~$(logname)/.ssh/* /root/.ssh/*
+rm -rf ~/.viminfo /etc/ssh/ssh*key* ~"$(logname)"/.ssh/* /root/.ssh/*
 
 # kill any cloud-init related bits
 rm -rf /var/lib/cloud/*
