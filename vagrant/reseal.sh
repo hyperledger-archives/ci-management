@@ -23,7 +23,8 @@ export RESEAL=true
 
 if [ -z "$NETID" ]; then
   [[ -z "$(command -v neutron)" ]] && echo "neutron: command not found" && exit 1
-  export NETID="$(neutron net-list | awk '/hyp/ {print $2}')"
+  export NETID
+  NETID="$(neutron net-list | awk '/hyp/ {print $2}')"
 fi
 
 SNAPSHOT="$(echo $IMAGE | cut -d' ' -f1-2)"
