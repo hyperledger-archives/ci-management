@@ -11,7 +11,7 @@ git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO
 cd $WD
 git fetch --tags --progress ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO_NAME +refs/tags/*:refs/remotes/origin/tags/*
 fabricLatestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
-echo ===> Checkingout to $fabricLatestTag
+echo "===> Checkingout to $fabricLatestTag"
 git checkout $fabricLatestTag
 
 make docker && docker images | grep hyperledger
@@ -27,6 +27,6 @@ git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAM
 cd $WD
 git fetch --tags --progress ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME +refs/tags/*:refs/remotes/origin/tags/*
 caLatestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
-echo ===> Checkingout to $caLatestTag
+echo "===> Checkingout to $caLatestTag"
 git checkout $caLatestTag
 make docker && docker images | grep hyperledger
