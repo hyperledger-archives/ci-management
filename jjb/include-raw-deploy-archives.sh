@@ -59,11 +59,10 @@ mkdir -p $WORKSPACE/archives
 if [ ! -z "${{ARCHIVE_ARTIFACTS}}" ]; then
     pushd $WORKSPACE
     shopt -s globstar  # Enable globstar to copy archives
-    # shellcheck disable=SC2153
-    archive_artifacts=$(echo ${ARCHIVE_ARTIFACTS})
+    archive_artifacts=$(echo ${{ARCHIVE_ARTIFACTS}})
     for f in $archive_artifacts; do
         echo "Archiving $f"
-        mkdir -p $WORKSPACE/archives/"$(dirname $f)"
+        mkdir -p $WORKSPACE/archives/$(dirname $f)
         mv $f $WORKSPACE/archives/$f
     done
     shopt -u globstar  # Disable globstar once archives are copied
@@ -79,19 +78,19 @@ env | grep -v -E "SSH|HUDSON|COOKIE|TOKEN|DOCKER|PASSWORD" | sort> $ARCHIVES_DIR
 
 # capture system info
 touch $ARCHIVES_DIR/_sys-info.txt
-{
+{{
     echo -e "uname -a:\n `uname -a` \n"
     echo -e "df -h:\n `df -h` \n"
     echo -e "free -m:\n `free -m` \n"
     echo -e "nproc:\n `nproc` \n"
     echo -e "lscpu:\n `lscpu` \n"
     echo -e "ip addr:\n  `/sbin/ip addr` \n"
-} 2>&1 | tee -a $ARCHIVES_DIR/_sys-info.txt
+}} 2>&1 | tee -a $ARCHIVES_DIR/_sys-info.txt
 
 # Magic string used to trim console logs at the appropriate level during wget
 echo "-----END_OF_BUILD-----"
-wget -O $ARCHIVES_DIR/console.log ${BUILD_URL}consoleText
-wget -O $ARCHIVES_DIR/console-timestamp.log ${BUILD_URL}/timestamps?time=HH:mm:ss\&appendLog
+wget -O $ARCHIVES_DIR/console.log ${{BUILD_URL}}consoleText
+wget -O $ARCHIVES_DIR/console-timestamp.log ${{BUILD_URL}}/timestamps?time=HH:mm:ss\&appendLog
 sed -i '/^-----END_OF_BUILD-----$/,$d' $ARCHIVES_DIR/console.log
 sed -i '/^.*-----END_OF_BUILD-----$/,$d' $ARCHIVES_DIR/console-timestamp.log
 
