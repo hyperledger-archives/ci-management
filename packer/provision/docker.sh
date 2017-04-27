@@ -161,10 +161,9 @@ deb_install_softhsm() {
 
     #Initialize token
     softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
-    
+
     # Add jenkins user to softhsm group
     chown -R $USER:$USER /var/lib/softhsm /etc/softhsm
-
 }
 
 deb_install_node() {
