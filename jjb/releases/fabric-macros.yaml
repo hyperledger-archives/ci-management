@@ -53,31 +53,13 @@
           !include-raw: include-raw-fabric-baseimage.sh
 
 - builder:
-    name: fabric-vagrant-release
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          make vagrant
-
-- builder:
-    name: fabric-vagrant-local
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          make vagrant-local
-
-- builder:
     name: fabric-docker-release
     builders:
       - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
-          make docker
+          make install
 
 - builder:
     name: fabric-docker-local
@@ -86,7 +68,7 @@
           #!/bin/bash -exu
           set -o pipefail
 
-          make docker-local
+          make docker
 
 - builder:
     name: app-docker-image

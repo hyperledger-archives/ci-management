@@ -634,7 +634,6 @@
     publishers:
       - downstream-ext:
           projects:
-            - fabric-baseimage-release-vagrant-x86_64
             - fabric-baseimage-release-docker-x86_64
             - fabric-baseimage-release-docker-ppc64le
             - fabric-baseimage-release-docker-s390x
