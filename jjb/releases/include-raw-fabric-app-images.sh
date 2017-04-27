@@ -11,6 +11,7 @@ docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --passwor
 
 dockerFabricPush() {
 
+  # shellcheck disable=SC2043
   for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG

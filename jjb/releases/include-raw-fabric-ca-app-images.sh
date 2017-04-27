@@ -11,6 +11,7 @@ docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --passwor
 
 dockerCaPush() {
 
+  # shellcheck disable=SC2043
   for IMAGES in ca; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_CA_TAG

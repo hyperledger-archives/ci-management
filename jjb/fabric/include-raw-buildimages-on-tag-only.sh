@@ -26,7 +26,7 @@ CA_REPO_NAME=fabric-ca
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
 cd $WD
 git fetch --tags --progress ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME +refs/tags/*:refs/remotes/origin/tags/*
-caLatestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
+caLatestTag=$(git describe --tags "`git rev-list --tags --max-count=1`")
 echo "===> Checkingout to $caLatestTag"
 git checkout $caLatestTag
 make docker && docker images | grep hyperledger

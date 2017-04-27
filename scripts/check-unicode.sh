@@ -13,17 +13,12 @@
 #   Thanh Ha (The Linux Foundation) - Initial implementation
 ##############################################################################
 
-directory="."
-if [ ! -z "$1" ]; then
-    directory="$1"
-fi
+directory=${1:-"."}
 
 echo "Scanning $directory"
-for x in $(find $directory -type f); do
-    if LC_ALL=C grep -q '[^[:print:][:space:]]' "$x"; then
-        echo "file $x contains non-ascii characters"
-        exit 1
-    fi
-done
+if LC_ALL=C grep -r '[^[:print:][:space:]]' "$directory"; then
+    echo "Found files containing non-ascii characters."
+    exit 1
+fi
 
 echo "All files are ASCII only"
