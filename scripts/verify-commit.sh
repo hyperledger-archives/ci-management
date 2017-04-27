@@ -22,7 +22,7 @@ COMMIT_FILES=`git diff-tree --name-only -r HEAD~1..HEAD`
 for filename in `echo $COMMIT_FILES`; do
   if [[ `file $filename` == *"ASCII text"* ]];
   then
-    if [ ! -z `egrep -l " +$" $filename` ];
+    if [ ! -z "`egrep -l " +$" $filename`" ];
     then
       FOUND_TRAILING='yes'
       echo "Error: Trailing white spaces found in file:$filename"
