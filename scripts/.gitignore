@@ -1,0 +1,7 @@
+# Python
+__pycache__/
+*.pyc
+
+# HYP Signer
+.sign-artifacts
+gpg-signatures

@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# @License EPL-1.0 <http://spdx.org/licenses/EPL-1.0>
+##############################################################################
+# Copyright (c) 2016 The Linux Foundation and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+##############################################################################
+
+function print_usage {
+    echo "Usage: $0 <staging-repo>"
+    echo ""
+    echo "    <staging-repo>   : The Nexus staging repo ID to sign."
+}
+
+if [ -z "$1" ]; then
+    print_usage
+    exit 1
+fi
+
+SIGNREPO=$1
+SIGNATURES_DIR="gpg-signatures"
+TMPFILE=/tmp/jars-list.txt
+
+NEXUS_BASE=https://oss.sonatype.org
+STAGING_PROFILE=7edbe315063867
+SERVER_ID=ossrh
+GROUPID_BASE=org/hyperledger/fabric-sdk-java/fabric-sdk-java/
+
+curl --user hyperledgerci "$NEXUS_BASE/content/repositories/$GROUPID_BASE/$SIGNREPO/" | tee "$TMPFILE"
+JARS_TO_SIGN=`cat ${TMPFILE} | grep '.jar">' | sed "s/.*${SIGNREPO}\///g" | sed 's/\">.*$//'`
+echo "Jars detected: $JARS_TO_SIGN"
+
+#
+# Prepare staging repo to upload signatures to
+#
+
+if [ -d "$SIGNATURES_DIR" ]; then
+    echo "$SIGNATURES_DIR directory exists. Clearing..."
+    rm -rf $SIGNATURES_DIR
+fi
+mkdir $SIGNATURES_DIR
+
+mvn -s settings.xml -P release org.sonatype.plugins:nexus-staging-maven-plugin:1.6.7:deploy-staged-repository \
+    -DskipStagingRepositoryClose=true \
+    -DrepositoryDirectory="$SIGNATURES_DIR" \
+    -DnexusUrl=${NEXUS_BASE}/ \
+    -DstagingProfileId="${STAGING_PROFILE}" \
+    -DserverId="${SERVER_ID}" | tee /tmp/deploy-staged-repository.log
+
+STAGED_REPO_ID=$(grep 'Created staging repository with ID' /tmp/deploy-staged-repository.log | sed -e 's/.*ID "//' -e 's/".*//')
+echo "Staged Repo: $STAGED_REPO"
+
+#
+# Finally retrieve and sign artifacts.
+#
+
+for i in $JARS_TO_SIGN
+do
+    echo "Signing $i"
+    ./hyprelease sign "$NEXUS_BASE/content/repositories/$GROUPID_BASE/$SIGNREPO/$i"
+    mvn org.sonatype.plugins:nexus-staging-maven-plugin:1.6.7:deploy-staged-repository \
+        -DskipStagingRepositoryClose=true \
+        -DstagingRepositoryId="$STAGED_REPO_ID" \
+        -DrepositoryDirectory="$SIGNATURES_DIR" \
+        -DnexusUrl=${NEXUS_BASE}/ \
+        -DstagingProfileId="${STAGING_PROFILE}" \
+        -DserverId="${SERVER_ID}"
+done
