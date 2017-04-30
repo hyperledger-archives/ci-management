@@ -45,6 +45,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - verify-commit-message
@@ -93,6 +95,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - fabric-sdk-go-clean-environment

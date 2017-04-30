@@ -46,6 +46,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -93,6 +95,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -137,6 +141,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -181,6 +187,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -223,6 +231,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -265,6 +275,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -307,6 +319,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -348,6 +362,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -389,6 +405,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment
@@ -430,6 +448,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - baseimage-clean-environment

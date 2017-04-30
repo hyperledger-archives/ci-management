@@ -45,6 +45,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - ca-image-clean-environment
@@ -91,6 +93,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - ca-image-clean-environment
@@ -134,6 +138,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - ca-image-clean-environment
@@ -176,6 +182,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
 
     builders:
       - ca-image-clean-environment

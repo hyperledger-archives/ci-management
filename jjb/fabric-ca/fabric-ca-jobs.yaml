@@ -47,6 +47,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - verify-commit-message
@@ -93,6 +95,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - ca-clean-environment
@@ -137,6 +141,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - verify-commit-message
@@ -183,6 +189,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - ca-clean-environment
@@ -227,6 +235,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - verify-commit-message
@@ -273,6 +283,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
 
     builders:
       - ca-clean-environment

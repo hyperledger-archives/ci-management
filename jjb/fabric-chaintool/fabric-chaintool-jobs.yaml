@@ -45,6 +45,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '10'
 
     builders:
       - verify-commit-message

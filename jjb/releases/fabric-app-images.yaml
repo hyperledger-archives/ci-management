@@ -49,6 +49,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '10'
 
     builders:
       - appimage-clean-environment
@@ -99,6 +101,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -146,6 +150,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -193,6 +199,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -283,6 +291,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -328,6 +338,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -372,6 +384,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -417,6 +431,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
@@ -462,6 +478,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - appimage-clean-environment
