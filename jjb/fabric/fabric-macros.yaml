@@ -185,6 +185,12 @@
           docker cp cli:/opt/gopath/src/github.com/hyperledger/fabric/peer/test-reports .
 
 - builder:
+    name: push-fabric-binaries
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-push-fabric-binaries.sh
+
+- builder:
     name: fabric-busybox-test
     builders:
       - shell: |

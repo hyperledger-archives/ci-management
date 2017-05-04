@@ -8,6 +8,7 @@
       - 'fabric-verify-behave-{arch}'
       - 'fabric-nexus-docker-daily-{arch}'
       - 'fabric-nexus-docker-release-{arch}'
+      - 'fabric-binaries-{arch}'
 
     project: 'fabric'
     arch:
@@ -304,3 +305,50 @@
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - dockerlog
+
+- job-template:
+    name: 'fabric-binaries-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          fabric-settings-file: '{mvn-settings}'
+          global-settings-file: 'global-settings'
+      - push-fabric-binaries
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
