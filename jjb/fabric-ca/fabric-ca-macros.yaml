@@ -18,7 +18,9 @@
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
+
           cd gopath/src/github.com/hyperledger/fabric-ca && make
+          make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
     name: ca-unit-tests-s390x
@@ -33,6 +35,7 @@
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
 
           cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make
+          make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
     name: ca-clean-environment
