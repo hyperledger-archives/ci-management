@@ -236,6 +236,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
+      - build-docker-images
       - end-to-end-tests
 
     publishers:

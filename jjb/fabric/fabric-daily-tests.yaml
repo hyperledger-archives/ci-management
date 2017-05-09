@@ -1,0 +1,53 @@
+---
+- project:
+    name: fabric-daily-tests
+    jobs:
+      - 'fabric-daily-chaincode-tests-{arch}'
+
+    project: 'fabric'
+    arch:
+      - 'x86_64'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-daily-chaincode-tests-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    triggers:
+      - timed: 'H */11 * * *'
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '50'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - build-docker-images
+      - daily-chaincode-tests
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - dockerlog
+      - daily-test-results

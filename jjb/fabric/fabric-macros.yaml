@@ -82,6 +82,12 @@
           !include-raw: include-raw-buildimages.sh
 
 - builder:
+    name: build-docker-images
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-build-docker-images.sh
+
+- builder:
     name: nexus-docker-images
     builders:
       - shell:
@@ -165,6 +171,18 @@
           #!/bin/bash -eu
           set -o pipefail
           cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
+
+- builder:
+    name: daily-chaincode-tests
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
+
+          # mount xml files from container to local machine
+          docker cp cli:/opt/gopath/src/github.com/hyperledger/fabric/peer/test-reports .
 
 - builder:
     name: fabric-busybox-test
@@ -286,3 +304,9 @@
     publishers:
       - junit:
           results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
+
+- publisher:
+    name: daily-test-results
+    publishers:
+      - junit:
+          results: '**/*.xml'
