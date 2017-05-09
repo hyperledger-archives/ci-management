@@ -149,7 +149,7 @@ deb_update_alternatives() {
 deb_install_python() {
     # Python install
     echo python install
-    PACKAGES="python3-venv python3-pip python2.7-dev python-virtualenv python-setuptools python-pip"
+    PACKAGES="python3-venv python3-pip python2.7-dev python-virtualenv python-setuptools python-pip python-xmlrunner python-pytest"
     apt-get -qq install -y $PACKAGES
 }
 
@@ -163,7 +163,7 @@ deb_install_softhsm() {
     softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
 
     # Add jenkins user to softhsm group
-    chown -R $USER:$USER /var/lib/softhsm /etc/softhsm
+    chown -R jenkins:jenkins /var/lib/softhsm /etc/softhsm
 }
 
 deb_install_node() {
