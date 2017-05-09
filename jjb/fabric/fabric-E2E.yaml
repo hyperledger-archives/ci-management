@@ -51,9 +51,9 @@
       - clean-environment
       - output-environment
       - dockerimages
+      - end-to-end-JAVA
       - end-to-end-CLI
       - end-to-end-NODE
-      - end-to-end-JAVA
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -100,9 +100,9 @@
       - clean-environment
       - output-environment
       - dockerimages
+      - end-to-end-JAVA
       - end-to-end-CLI
       - end-to-end-NODE
-      - end-to-end-JAVA
 
     publishers:
       - hyperledger-infra-shiplogs:

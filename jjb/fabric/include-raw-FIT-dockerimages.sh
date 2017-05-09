@@ -19,4 +19,4 @@ cd $WD
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 make docker && docker images | grep hyperledger
 
-echo "CA COMMIT ========$CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
+echo "CA COMMIT ========> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
