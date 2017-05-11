@@ -4,6 +4,7 @@
     jobs:
       - 'fabric-sdk-java-verify-{arch}'
       - 'fabric-sdk-java-merge-{arch}'
+      - 'fabric-sdk-java-release-{arch}'
 
     project: 'fabric-sdk-java'
     arch:
@@ -108,6 +109,55 @@
           echo "----> ", "$(ls -al)"
           echo "----> ", $WORKSPACE
           echo "----> ", $(find . -name "*.xml")
+
+    publishers:
+      - hyperledger-infra-shiplogs:
+          maven-version: 'mvn33'
+      - sdk-logs
+
+# release job
+- job-template:
+    name: 'fabric-sdk-java-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-sdk-java-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      numToKeep: 10
+      artifactDaysToKeep: 10
+      artifactNumToKeep: 10
+
+    properties:
+      - 'fabric-sdk-java-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-java-gerrit
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - sdk-clean-environment
+      - fabric-sdk-java-end-to-end-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "----> ", $(find . -name "*.xml")
+      - hyperledger-fabric-ship-java-jar:
+          maven-version: 'mvn33'
 
     publishers:
       - hyperledger-infra-shiplogs:
