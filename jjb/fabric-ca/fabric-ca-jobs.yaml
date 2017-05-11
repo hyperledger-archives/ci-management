@@ -214,6 +214,8 @@
       daysToKeep: 30
       artifactDaysToKeep: 30
 
+    disabled: true
+
     properties:
       - 'fabric-ppc64le'
 
@@ -264,6 +266,8 @@
       numToKeep: 40
       artifactDaysToKeep: 10
       artifactNumToKeep: 10
+
+    disabled: true
 
     parameters:
       - project-parameter:
