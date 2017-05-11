@@ -229,7 +229,7 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-ca-patch-submitted:
+      - gerrit-trigger-patch-submitted-silent:
           name: '{project}'
           branch: ''
 
@@ -242,7 +242,7 @@
       - verify-commit-message
       - ca-clean-environment
       - output-environment
-      - ca-unit-tests
+      - ca-tests
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -277,7 +277,7 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-ca-patch-merged:
+      - gerrit-trigger-patch-merged-silent:
           name: '{project}'
           branch: ''
 
@@ -289,7 +289,7 @@
     builders:
       - ca-clean-environment
       - output-environment
-      - ca-unit-tests
+      - ca-tests
 
     publishers:
       - hyperledger-infra-shiplogs:

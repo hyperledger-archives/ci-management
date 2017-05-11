@@ -23,6 +23,15 @@
           make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
+    name: ca-tests
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric-ca && make
+
+- builder:
     name: ca-unit-tests-s390x
     builders:
       - shell: |

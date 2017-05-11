@@ -229,7 +229,11 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-          silent: true
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-patch-merged-silent
@@ -246,7 +250,11 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-          silent: true
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
 
 - trigger:
     name: gerrit-trigger-cop-patch-submitted
