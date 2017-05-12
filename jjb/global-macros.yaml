@@ -623,6 +623,18 @@
               variable: 'SETTINGS_FILE'
 
 - builder:
+    name: hyperledger-fabric-ship-java-jar
+    builders:
+      - maven-target:
+          maven-version: '{maven-version}'
+          pom: 'pom.xml'
+          goals: 'deploy'
+          settings: 'hyperledger-bin-publish-settings'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
+
+- builder:
     name: docker-login
     builders:
       - shell: !include-raw: include-raw-docker-login.sh
