@@ -39,9 +39,18 @@ npmPublish() {
       npm publish --tag unstable
     fi
 
-  elif [ $RELEASE = "alpha" ]; then
-    echo "===> PUBLISH --> $CURRENT_RELEASE"
-    npm publish
+  else
+
+      versioncheck="alpha[0-9]*"
+      case $RELEASE in
+      $versioncheck)
+         echo "===> PUBLISH --> $RELEASE"
+         npm publish
+      ;;
+      *) echo "$RELEASE: No such release."
+         exit 1
+      ;;
+      esac
   fi
 }
 
