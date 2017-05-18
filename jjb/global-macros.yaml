@@ -182,11 +182,6 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
 
-          skip-vote:
-            successful: false
-            failed: true
-            unstable: true
-            notbuilt: true
 - trigger:
     name: gerrit-trigger-e2e-patch-merged
     triggers:
@@ -203,11 +198,6 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
 
-          skip-vote:
-            successful: false
-            failed: true
-            unstable: true
-            notbuilt: true
 - trigger:
     name: gerrit-trigger-patch-submitted-silent
     triggers:
