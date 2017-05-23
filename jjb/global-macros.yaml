@@ -619,7 +619,7 @@
           maven-version: '{maven-version}'
           pom: 'pom.xml'
           goals: 'deploy'
-          settings: 'hyperledger-bin-publish-settings'
+          settings: 'fabric-sdk-java-settings'
           settings-type: cfp
           global-settings: 'global-settings'
           global-settings-type: cfp
