@@ -48,6 +48,7 @@
     builders:
       - clean-environment
       - fabric-unit-tests
+      - clean-environment
 
     publishers:
       - hyperledger-infra-shiplogs:
@@ -95,6 +96,7 @@
     builders:
       - clean-environment
       - fabric-unit-tests
+      - clean-environment
 
     publishers:
       - hyperledger-infra-shiplogs:
