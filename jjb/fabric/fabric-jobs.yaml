@@ -253,6 +253,7 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
+      - dockerlog
 
 - job-template:
     name: 'fabric-merge-behave-{arch}'
@@ -302,3 +303,4 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
+      - dockerlog

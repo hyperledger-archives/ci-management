@@ -27,7 +27,7 @@ pip install pyyaml
 make peer && make docker
 docker images | grep hyperledger
 cd bddtests
-behave -k -D cache-deployment-spec
+behave -k -D logs=force -D cache-deployment-spec
 #behave -k -D cache-deployment-spec features/bootstrap.feature
 # Deactivate vitrualenv after behave test
 deactivate
