@@ -10,6 +10,7 @@
       - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-daily-{arch}'
+      - 'fabric-verify-two-staged-ci-check-{arch}'
 
     project: 'fabric'
     arch:
@@ -111,6 +112,53 @@
 
     publishers:
       - lf-infra-publish
+
+- job-template:
+    name: 'fabric-verify-two-staged-ci-check-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-approved-silent:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - two-staged-ci
+      - fabric-unit-tests
+
+    publishers:
+      - lf-infra-publish
+      - code-coverage-report
 
 - job-template:
     name: 'fabric-verify-{arch}'
