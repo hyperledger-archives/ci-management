@@ -59,6 +59,7 @@
           echo "----> ", $(find . -name "*.xml")
 
     publishers:
+      - jacoco-coverage-report
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-logs
@@ -111,6 +112,7 @@
           echo "----> ", $(find . -name "*.xml")
 
     publishers:
+      - jacoco-coverage-report
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-logs
@@ -160,6 +162,7 @@
           maven-version: 'mvn33'
 
     publishers:
+      - jacoco-coverage-report
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
       - sdk-logs
