@@ -9,7 +9,7 @@ ORG_NAME="hyperledger/fabric"
 # tag fabric images to nexusrepo
 
 dockerTag() {
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper; do
+  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper tools; do
     echo "==> $IMAGES"
     echo
     docker tag $ORG_NAME-$IMAGES:latest $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
@@ -19,7 +19,7 @@ dockerTag() {
 # Push docker images to nexus repository
 
 dockerFabricPush() {
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper; do
+  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper tools; do
     echo "==> $IMAGES"
     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
