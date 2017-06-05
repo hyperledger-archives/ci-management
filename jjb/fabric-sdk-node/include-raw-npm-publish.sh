@@ -41,7 +41,7 @@ npmPublish() {
 
   else
 
-      versioncheck="alpha[0-9]*"
+      versioncheck="alpha*|beta*|rc*"
       case $RELEASE in
       $versioncheck)
          echo "===> PUBLISH --> $RELEASE"
