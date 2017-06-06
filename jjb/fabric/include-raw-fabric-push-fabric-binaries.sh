@@ -25,14 +25,14 @@ if [ "${IS_RELEASE}" == "false" ]; then
        mkdir -p release/$binary/chaincode/go/chaincode_example02 release/$binary/chaincode/go/marbles02
        cp $FABRIC_ROOT_DIR/examples/chaincode/go/chaincode_example02/chaincode_example02.go release/$binary/chaincode/go/chaincode_example02/
        cp $FABRIC_ROOT_DIR/examples/chaincode/go/marbles02/marbles_chaincode.go release/$binary/chaincode/go/marbles02/
-       cp -ar examples/e2e_cli/. release/$binary && rm -rf release/$binary/examples && sed -i "s/e2ecli/$TMP/g" release/$binary/base/peer-base.yaml && tar -czf fabric-e2e-$binary-$BASE_VERSION-snapshot-$COMMIT_VERSION.tar.gz release/$binary release/chaincode
-       echo "Pushing fabric-e2e-$binary-$BASE_VERSION-snapshot-$COMMIT_VERSION.tar.gz to maven snapshots..."
+       cp -ar examples/e2e_cli/. release/$binary && rm -rf release/$binary/examples && sed -i "s/e2ecli/$TMP/g" release/$binary/base/peer-base.yaml && sed -i "s/\.\./\./g" release/$binary/docker-compose-cli.yaml && tar -czf fabric-binary-$binary-$BASE_VERSION-snapshot.tar.gz release/$binary release/$binary/chaincode
+       echo "Pushing fabric-binary-$binary-$BASE_VERSION-snapshot.tar.gz to maven snapshots..."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/fabric-e2e-$binary-$BASE_VERSION-snapshot-$COMMIT_VERSION.tar.gz \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/fabric-binary-$binary-$BASE_VERSION-snapshot.tar.gz \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$BASE_VERSION-$COMMIT_VERSION-SNAPSHOT \
+        -Dversion=$binary-$BASE_VERSION \
         -DartifactId=fabric-binary \
         -DgeneratePom=true \
         -DuniqueVersion=false \
@@ -46,10 +46,10 @@ if [ "${IS_RELEASE}" == "false" ]; then
        mkdir -p release/$binary/chaincode/go/chaincode_example02 release/$binary/chaincode/go/marbles02
        cp $FABRIC_ROOT_DIR/examples/chaincode/go/chaincode_example02/chaincode_example02.go release/$binary/chaincode/go/chaincode_example02/
        cp $FABRIC_ROOT_DIR/examples/chaincode/go/marbles02/marbles_chaincode.go release/$binary/chaincode/go/marbles02/
-       cp -ar examples/e2e_cli/. release/$binary && rm -rf release/$binary/examples && sed -i "s/e2ecli/$TMP/g" release/$binary/base/peer-base.yaml && tar -czf fabric-e2e-$binary-$BASE_VERSION.tar.gz release/$binary release/$binary/chaincode
-       echo "Pushing fabric-e2e-$binary-$BASE_VERSION.tar.gz to maven releases..."
+       cp -ar examples/e2e_cli/. release/$binary && rm -rf release/$binary/examples && sed -i "s/e2ecli/$TMP/g" release/$binary/base/peer-base.yaml && sed -i "s/\.\./\./g" release/$binary/docker-compose-cli.yaml && tar -czf fabric-binary-$binary-$BASE_VERSION.tar.gz release/$binary release/$binary/chaincode
+       echo "Pushing fabric-binary-$binary-$BASE_VERSION.tar.gz to maven releases..."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/fabric-e2e-$binary-$BASE_VERSION.tar.gz \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/fabric-binary-$binary-$BASE_VERSION.tar.gz \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \
