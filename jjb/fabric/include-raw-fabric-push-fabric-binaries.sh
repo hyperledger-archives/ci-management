@@ -32,7 +32,7 @@ if [ "${IS_RELEASE}" == "false" ]; then
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$BASE_VERSION \
+        -Dversion=$binary-$BASE_VERSION-SNAPSHOT \
         -DartifactId=fabric-binary \
         -DgeneratePom=true \
         -DuniqueVersion=false \
