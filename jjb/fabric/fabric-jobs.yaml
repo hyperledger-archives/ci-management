@@ -25,8 +25,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     properties:
       - 'fabric-{arch}'
@@ -72,8 +72,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     properties:
       - 'fabric-{arch}'
@@ -121,8 +121,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     properties:
       - 'fabric-{arch}'
@@ -171,10 +171,8 @@
       - 'fabric-{arch}'
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     parameters:
       - project-parameter:
@@ -216,8 +214,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     disabled: false
 
@@ -269,10 +267,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     parameters:
       - project-parameter:
@@ -314,8 +310,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     properties:
       - 'fabric-{arch}'

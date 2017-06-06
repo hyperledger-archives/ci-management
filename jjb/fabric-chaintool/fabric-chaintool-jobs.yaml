@@ -17,10 +17,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 10
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 14
+      artifactDaysToKeep: 14
 
     properties:
       - 'fabric-chaintool-{arch}'
