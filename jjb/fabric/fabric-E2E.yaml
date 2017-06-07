@@ -19,8 +19,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     properties:
       - 'fabric-{arch}'
@@ -68,8 +68,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     properties:
       - 'fabric-{arch}'

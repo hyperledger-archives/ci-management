@@ -23,8 +23,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     properties:
       - 'fabric-{arch}'
@@ -72,8 +72,8 @@
       - 'fabric-{arch}'
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -115,8 +115,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     properties:
       - 'fabric-s390x'
@@ -164,8 +164,8 @@
       - 'fabric-s390x'
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -207,8 +207,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     disabled: true
 
@@ -258,8 +258,8 @@
       - 'fabric-ppc64le'
 
     logrotate:
-      daysToKeep: 14
-      artifactDaysToKeep: 14
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     disabled: true
 
