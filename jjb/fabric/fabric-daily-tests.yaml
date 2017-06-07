@@ -49,5 +49,4 @@
     publishers:
       - hyperledger-infra-shiplogs:
           maven-version: 'mvn33'
-      - dockerlog
       - daily-test-results

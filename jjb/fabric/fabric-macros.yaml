@@ -182,7 +182,7 @@
           cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
 
           # mount xml files from container to local machine
-          docker cp cli:/opt/gopath/src/github.com/hyperledger/fabric/peer/test-reports .
+          #docker cp cli:/opt/gopath/src/github.com/hyperledger/fabric/peer/test-reports .
 
 - builder:
     name: push-fabric-binaries
