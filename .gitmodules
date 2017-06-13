@@ -1,0 +1,3 @@
+[submodule "jjb/global-jjb"]
+	path = jjb/global-jjb
+	url = https://gerrit.linuxfoundation.org/infra/releng/global-jjb

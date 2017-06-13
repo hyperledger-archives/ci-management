@@ -11,3 +11,7 @@
     ssh-credentials: 'b706b536-ceb2-4f3b-a616-c483bd16c216'
 
     global-settings-file: 'global-settings'
+
+    # lf-infra defaults
+    jenkins-ssh-credential: hyperledger-jenkins-ssh
+    gerrit-server-name: Hyperledger
