@@ -42,3 +42,7 @@ gulp || exit 1
 gulp ca || exit 1
 rm -rf node_modules/fabric-ca-client && npm install
 gulp test
+
+# copy debug log file to $WORKSPACE directory
+
+cp /tmp/hfc/test-log/*.log $WORKSPACE
