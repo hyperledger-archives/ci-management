@@ -50,8 +50,7 @@
       - clean-environment
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -96,6 +95,5 @@
       - clean-environment
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report

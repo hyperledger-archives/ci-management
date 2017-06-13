@@ -57,8 +57,7 @@
       - ca-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report
 
 - job-template:
@@ -102,8 +101,7 @@
       - ca-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report
 
 
@@ -149,8 +147,7 @@
       - ca-unit-tests-s390x
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report
 
 - job-template:
@@ -194,8 +191,7 @@
       - ca-unit-tests-s390x
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report
 
 
@@ -243,8 +239,7 @@
       - ca-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report
 
 - job-template:
@@ -290,6 +285,5 @@
       - ca-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - ca-code-coverage-report

@@ -47,6 +47,5 @@
       - daily-chaincode-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - daily-test-results

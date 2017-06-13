@@ -51,5 +51,4 @@
       - fabric-chaintool-verify
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish

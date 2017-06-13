@@ -55,8 +55,7 @@
       - fabric-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -103,6 +102,5 @@
       - fabric-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report

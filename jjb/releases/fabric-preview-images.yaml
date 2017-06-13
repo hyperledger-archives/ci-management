@@ -52,8 +52,7 @@
       - preview-docker-image
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-preview-image-merge-docker-ppc64le'
@@ -95,8 +94,7 @@
       - preview-docker-image
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-preview-image-release-docker-ppc64le'
@@ -138,5 +136,4 @@
       - preview-docker-image-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish

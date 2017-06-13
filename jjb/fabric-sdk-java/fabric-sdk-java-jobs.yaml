@@ -58,8 +58,7 @@
 
     publishers:
       - jacoco-coverage-report
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - sdk-logs
 
 # Merge job
@@ -109,8 +108,7 @@
 
     publishers:
       - jacoco-coverage-report
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - sdk-logs
 
 # release job
@@ -157,6 +155,5 @@
 
     publishers:
       - jacoco-coverage-report
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - sdk-logs

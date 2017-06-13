@@ -56,8 +56,7 @@
       - fabric-sdk-go-integration-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -103,6 +102,5 @@
       - fabric-sdk-go-integration-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report

@@ -51,7 +51,6 @@
       - cello-verify
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - archive-artifacts:
           artifacts: '.tox/**/*.log'

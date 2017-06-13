@@ -59,8 +59,7 @@
       - ca-nexus-docker-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-ca-release-{arch}'
@@ -103,8 +102,7 @@
       - ca-docker-image-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-ca-release-ppc64le'
@@ -148,8 +146,7 @@
       - ca-docker-image-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-ca-release-s390x'
@@ -192,5 +189,4 @@
       - ca-docker-image-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish

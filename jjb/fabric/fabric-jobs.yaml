@@ -59,8 +59,7 @@
       - nexus-docker-push
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 # gerrit changes
 
@@ -110,8 +109,7 @@
       - fabric-nexus-docker-release
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-verify-{arch}'
@@ -156,8 +154,7 @@
       - fabric-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -202,8 +199,7 @@
       - fabric-unit-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -250,8 +246,7 @@
       - fabric-behave-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - dockerlog
 
 - job-template:
@@ -298,8 +293,7 @@
       - fabric-behave-tests
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
       - dockerlog
 
 - job-template:
@@ -346,5 +340,4 @@
       - push-fabric-binaries
 
     publishers:
-      - hyperledger-infra-shiplogs:
-          maven-version: 'mvn33'
+      - lf-infra-publish
