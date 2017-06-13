@@ -36,6 +36,8 @@
           credentials-id: '{ssh-credentials}'
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
+          submodule:
+            recursive: true
 
     wrappers:
       - ssh-agent-credentials:
@@ -97,6 +99,8 @@
           credentials-id: '{ssh-credentials}'
           refspec: ''
           choosing-strategy: 'default'
+          submodule:
+            recursive: true
 
     wrappers:
       - ssh-agent-credentials:
