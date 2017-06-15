@@ -22,7 +22,7 @@
       artifactDaysToKeep: 7
 
     triggers:
-      - timed: 'H */11 * * *'
+      - timed: '0 0 1-31/2 * *'
 
     properties:
       - 'fabric-{arch}'
@@ -37,8 +37,6 @@
 
     wrappers:
       - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
 
     builders:
       - baseimage-clean-environment

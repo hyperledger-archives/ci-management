@@ -176,13 +176,17 @@
     name: daily-chaincode-tests
     builders:
       - shell: |
-          #!/bin/bash -eu
+          #!/bin/bash -exu
           set -o pipefail
 
-          cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/daily
+          ./runDailyTestSuite.sh
 
-          # mount xml files from container to local machine
-          #docker cp cli:/opt/gopath/src/github.com/hyperledger/fabric/peer/test-reports .
+          #py.test -v --junitxml results.xml ./test_pte.py
+          # Copy .csv files to $WORKSPACE directory
+          cp -r /tmp/experiments .
+          # Test Chaincode ex02
+          cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
 
 - builder:
     name: push-fabric-binaries
