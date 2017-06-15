@@ -338,6 +338,7 @@
           fabric-settings-file: '{mvn-settings}'
           global-settings-file: 'global-settings'
       - push-fabric-binaries
+      - push-fabric-byfn
 
     publishers:
       - lf-infra-publish

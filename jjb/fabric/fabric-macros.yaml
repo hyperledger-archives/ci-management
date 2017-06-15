@@ -191,6 +191,12 @@
           !include-raw: include-raw-fabric-push-fabric-binaries.sh
 
 - builder:
+    name: push-fabric-byfn
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-push-fabric-byfn.sh
+
+- builder:
     name: fabric-busybox-test
     builders:
       - shell: |
