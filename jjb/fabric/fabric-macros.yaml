@@ -355,3 +355,22 @@
     publishers:
       - junit:
           results: '**/*.xml'
+
+- builder:
+    name: fabric-goast-scan
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+          cd gopath/src/github.com/hyperledger/fabric
+
+          go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
+
+- publisher:
+    name: daily-goast-scan-results
+    publishers:
+      - archive:
+          artifacts: 'gopath/src/github.com/hyperledger/fabric/*.json'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true

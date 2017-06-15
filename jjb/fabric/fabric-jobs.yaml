@@ -9,6 +9,7 @@
       - 'fabric-nexus-docker-daily-{arch}'
       - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
+      - 'fabric-goast-daily-{arch}'
 
     project: 'fabric'
     arch:
@@ -341,3 +342,46 @@
 
     publishers:
       - lf-infra-publish
+
+- job-template:
+    name: 'fabric-goast-daily-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-fabric-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 30
+      artifactDaysToKeep: 30
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H */6 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '5'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-goast-scan
+
+    publishers:
+      - lf-infra-publish
+      - daily-goast-scan-results
