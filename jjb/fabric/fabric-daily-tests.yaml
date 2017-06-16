@@ -14,7 +14,7 @@
     name: 'fabric-daily-chaincode-tests-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:

@@ -21,7 +21,7 @@
     name: 'fabric-nexus-docker-daily-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -67,7 +67,7 @@
     name: 'fabric-nexus-docker-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -115,7 +115,7 @@
     name: 'fabric-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -161,7 +161,7 @@
     name: 'fabric-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -206,7 +206,7 @@
     name: 'fabric-verify-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -253,7 +253,7 @@
     name: 'fabric-merge-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -300,7 +300,7 @@
     name: 'fabric-binaries-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
