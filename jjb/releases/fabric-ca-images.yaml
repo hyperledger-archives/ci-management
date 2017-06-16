@@ -18,7 +18,7 @@
     name: 'fabric-ca-nexus-docker-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -65,7 +65,7 @@
     name: 'fabric-ca-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:

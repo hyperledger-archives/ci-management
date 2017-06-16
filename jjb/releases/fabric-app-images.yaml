@@ -67,7 +67,7 @@
     name: 'fabric-app-image-verify-docker-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -211,7 +211,7 @@
     name: 'fabric-app-image-merge-docker-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -347,7 +347,7 @@
     name: 'fabric-app-image-release-docker-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
