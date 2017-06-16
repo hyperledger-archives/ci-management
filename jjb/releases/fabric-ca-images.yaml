@@ -152,7 +152,7 @@
     name: 'fabric-ca-release-s390x'
 
     project-type: freestyle
-    node: 'hyp-fabric-z'
+    node: 'hyp-z'
     concurrent: true
 
     properties:

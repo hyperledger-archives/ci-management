@@ -109,7 +109,7 @@
     name: 'fabric-ca-verify-s390x'
 
     project-type: freestyle
-    node: 'hyp-fabric-z'
+    node: 'hyp-z'
     concurrent: true
 
     logrotate:
@@ -154,7 +154,7 @@
     name: 'fabric-ca-merge-s390x'
 
     project-type: freestyle
-    node: 'hyp-fabric-z'
+    node: 'hyp-z'
     concurrent: true
 
     properties:
