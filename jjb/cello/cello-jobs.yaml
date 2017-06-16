@@ -13,7 +13,7 @@
     name: 'cello-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-cello-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
