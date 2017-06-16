@@ -199,7 +199,7 @@
     name: 'fabric-ca-verify-ppc64le'
 
     project-type: freestyle
-    node: 'hyp-fabric-power'
+    node: 'hyp-p'
     concurrent: true
 
     logrotate:
@@ -246,7 +246,7 @@
     name: 'fabric-ca-merge-ppc64le'
 
     project-type: freestyle
-    node: 'hyp-fabric-power'
+    node: 'hyp-p'
     concurrent: true
 
     properties:

@@ -15,7 +15,7 @@
     name: 'fabric-verify-power-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-power'
+    node: 'hyp-p'
     concurrent: true
 
     logrotate:
@@ -62,7 +62,7 @@
     name: 'fabric-merge-power-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-power'
+    node: 'hyp-p'
     concurrent: true
 
     properties:
