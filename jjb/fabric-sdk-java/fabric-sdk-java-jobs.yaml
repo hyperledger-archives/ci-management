@@ -15,7 +15,7 @@
     name: 'fabric-sdk-java-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-sdk-java-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -66,7 +66,7 @@
     name: 'fabric-sdk-java-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-sdk-java-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -116,7 +116,7 @@
     name: 'fabric-sdk-java-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-sdk-java-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
