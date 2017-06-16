@@ -23,7 +23,7 @@
     name: 'fabric-baseimage-release-trigger'
 
     project-type: freestyle
-    node: 'hyp-fabric-x86_64'
+    node: 'hyp-x'
     concurrent: true
 
     properties:
