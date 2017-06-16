@@ -17,7 +17,7 @@
     name: 'fabric-sdk-node-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-node-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -111,7 +111,7 @@
     name: 'fabric-sdk-node-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-node-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -210,7 +210,7 @@
        Job Builder. Do not edit via web.
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
