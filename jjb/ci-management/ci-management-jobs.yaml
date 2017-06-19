@@ -3,9 +3,10 @@
     name: ci-management-jobs
     jobs:
       - '{project-name}-ci-jobs'
-      - '{project-name}-verify-tox-master'
+      - '{project-name}-python-jobs'
 
     project: 'ci-management'
     project-name: ci-management
+    stream: master
     branch: master
     build-node: hyp-x
