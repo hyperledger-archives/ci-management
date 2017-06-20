@@ -2,6 +2,30 @@
 
 # vim: ts=4 sw=4 sts=4 et tw=72 :
 
+ensure_ubuntu_install() {
+    # Workaround for mirrors occassionally failing to install a package.
+    # On Ubuntu sometimes the mirrors fail to install a package. This wrapper
+    # checks that a package is successfully installed before moving on.
+
+   packages=($@)
+
+   for pkg in "${packages[@]}"
+    do
+        # Retry installing package 5 times if necessary
+        for i in {0..5}
+        do
+            if [ "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
+                apt-cache policy "$pkg"
+                apt-get install "$pkg"
+                continue
+            else
+                echo "$pkg already installed."
+                break
+            fi
+        done
+    done
+}
+
 rh_systems() {
     # Handle the occurance where SELINUX is actually disabled
     SELINUX=$(grep -E '^SELINUX=(disabled|permissive|enforcing)$' /etc/selinux/config)
@@ -85,6 +109,13 @@ EOF
     ########################
     # --- START LFTOOLS DEPS
 
+    # Haskel Packages
+    # Cabal update fails on a 1G system so workaround that with a swap file
+    dd if=/dev/zero of=/tmp/swap bs=1M count=1024
+    mkswap /tmp/swap
+    swapon /tmp/swap
+
+    # ShellCheck
     yum install -y cabal-install
     cabal update
     cabal install "Cabal<1.18"  # Pull Cabal version that is capable of building shellcheck
@@ -151,6 +182,12 @@ EOF
 
     ########################
     # --- START LFTOOLS DEPS
+
+    # Haskel Packages
+    # Cabal update fails on a 1G system so workaround that with a swap file
+    dd if=/dev/zero of=/tmp/swap bs=1M count=1024
+    mkswap /tmp/swap
+    swapon /tmp/swap
 
     # ShellCheck
     ensure_ubuntu_install cabal-install
