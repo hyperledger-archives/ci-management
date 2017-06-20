@@ -55,7 +55,7 @@ EOF
     # separate group installs from package installs since a non-existing
     # group with dnf based systems (F21+) will fail the install if such
     # a group does not exist
-    yum install -y -q unzip xz puppet git git-review perl-XML-XPath ShellCheck xmlstarlet facter
+    yum install -y -q unzip xz puppet git git-review perl-XML-XPath xmlstarlet facter
 
     # All of our systems require Java (because of Jenkins)
     # Install all versions of the OpenJDK devel but force 1.7.0 to be the
@@ -82,9 +82,20 @@ EOF
         ;;
     esac
 
+    ########################
+    # --- START LFTOOLS DEPS
+
+    yum install -y cabal-install
+    cabal update
+    cabal install "Cabal<1.18"  # Pull Cabal version that is capable of building shellcheck
+    cabal install --bindir=/usr/local/bin "shellcheck-0.4.6"  # Pin shellcheck version
+
     # Needed to parse OpenStack commands used by infra stack commands
     # to initialize Heat template based systems.
     yum install -y jq
+
+    # --- END LFTOOLS DEPS
+    ########################
 }
 
 ubuntu_systems() {
@@ -122,7 +133,7 @@ EOF
     # add in stuff we know we need
     echo "---> Installing base packages"
     apt-get install unzip xz-utils puppet git git-review libxml-xpath-perl \
-                    shellcheck xmlstarlet facter
+                    xmlstarlet facter
 
     # install Java 7
     echo "---> Configuring OpenJDK"
@@ -138,9 +149,20 @@ EOF
     update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
     update-alternatives --set javac /usr/lib/jvm/java-7-openjdk-amd64/bin/javac
 
+    ########################
+    # --- START LFTOOLS DEPS
+
+    # ShellCheck
+    ensure_ubuntu_install cabal-install
+    cabal update
+    cabal install --bindir=/usr/local/bin "shellcheck-0.4.6"  # Pin shellcheck version
+
     # Needed to parse OpenStack commands used by infra stack commands
     # to initialize Heat template based systems.
     apt-get install jq
+
+    # --- END LFTOOLS DEPS
+    ########################
 
     # disable unattended upgrades & daily updates
     echo '---> Disabling automatic daily upgrades'
