@@ -27,14 +27,6 @@ files = jenkins-scripts/**/*.sh,
     packer/**/*.sh,
     scripts/**/*.sh,
     vagrant/**/*.sh
-ignore = jjb/include-raw-deploy-archives.sh,
-    jjb/fabric/*.sh,
-    jenkins-scripts/x86.sh,
-    jjb/fabric-sdk-java/*.sh,
-    jjb/fabric-sdk-go/*.sh,
-    packer/provision/docker.sh,
-    jjb/releases/*.sh,
-    vagrant/fabric/bootstrap.sh,
-    jenkins-scripts/init_system.sh
+ignore = jjb/include-raw-deploy-archives.sh
 shell = bash
 
