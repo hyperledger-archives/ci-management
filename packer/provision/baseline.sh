@@ -12,6 +12,7 @@ ensure_ubuntu_install() {
    for pkg in "${packages[@]}"
     do
         # Retry installing package 5 times if necessary
+        # shellcheck disable=SC2034
         for i in {0..5}
         do
             if [ "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
