@@ -38,7 +38,7 @@ deb_install_rocksdb() {
         --depth 1 \
         https://github.com/facebook/rocksdb.git /tmp/rocksdb
 
-    cd /tmp/rocksdb
+    cd /tmp/rocksdb || exit
     make shared_lib
     INSTALL_PATH='/usr/local' make install-shared
     ldconfig

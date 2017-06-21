@@ -3,7 +3,7 @@
 # vim: sw=4 ts=4 sts=4 et :
 
 # change to the script location dir and make sure everything is executable
-cd "${0%/*}"
+cd "${0%/*}" || exit
 chmod +x ./*.sh
 
 # Determine our system type

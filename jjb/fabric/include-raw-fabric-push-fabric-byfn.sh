@@ -8,7 +8,7 @@ echo "Publish fabric byfn"
 echo
 export FABRIC_ROOT_DIR=$WORKSPACE/gopath/src/github.com/hyperledger/fabric
 
-cd $FABRIC_ROOT_DIR
+cd $FABRIC_ROOT_DIR || exit
 
 BASE_VERSION=`cat Makefile | grep BASE_VERSION | awk '{print $3}' | head -1`
 echo "=============> $BASE_VERSION"
@@ -21,7 +21,7 @@ echo "=======>" $IS_RELEASE
 
 if [ "${IS_RELEASE}" == "false" ]; then
 
-       cd $FABRIC_ROOT_DIR/examples/byfn
+       cd $FABRIC_ROOT_DIR/examples/byfn || exit
        mkdir -p channel-artifacts
        tar -czf hyperledger-fabric-byfn-$BASE_VERSION-snapshot.tar.gz *
        echo "Pushing hyperledger-fabric-byfn-$BASE_VERSION-snapshot.tar.gz to maven snapshots..."
@@ -38,7 +38,7 @@ if [ "${IS_RELEASE}" == "false" ]; then
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
      echo "========> DONE <======="
   else
-       cd $FABRIC_ROOT_DIR/examples/byfn
+       cd $FABRIC_ROOT_DIR/examples/byfn || exit
        mkdir -p channel-artifacts
        tar -czf hyperledger-fabric-byfn-$BASE_VERSION.tar.gz *
        echo "Pushing hyperledger-fabric-byfn-$BASE_VERSION.tar.gz to maven releases..."

@@ -8,7 +8,7 @@ echo "Publish fabric binaries"
 echo
 export FABRIC_ROOT_DIR=$WORKSPACE/gopath/src/github.com/hyperledger/fabric
 
-cd $FABRIC_ROOT_DIR
+cd $FABRIC_ROOT_DIR || exit
 make release-clean dist-clean dist-all
 
 BASE_VERSION=`cat Makefile | grep BASE_VERSION | awk '{print $3}' | head -1`

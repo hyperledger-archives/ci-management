@@ -1,7 +1,7 @@
 #!/bin/bash
 set -o pipefail
 
-cd gopath/src/github.com/hyperledger/fabric
+cd gopath/src/github.com/hyperledger/fabric || exit
 
 IS_RELEASE=`cat Makefile | grep IS_RELEASE | awk '{print $3 }'`
 

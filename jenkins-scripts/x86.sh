@@ -10,8 +10,8 @@ npm install -g typescript
 npm install -g typings
 npm install -g typedoc
 
-cd /usr/local
+cd /usr/local || exit
 wget https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
 unzip protoc-3.0.0-linux-x86_64.zip
 rm protoc-3.0.0-linux-x86_64.zip
-cd -
+cd - || exit
