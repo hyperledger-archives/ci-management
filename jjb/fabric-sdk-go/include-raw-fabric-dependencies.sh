@@ -1,6 +1,7 @@
 #!/bin/bash -exu
 set -o pipefail
 
+# shellcheck source=/dev/null
 source ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-go/test/scripts/fabric_test_commitlevel.sh
 
 if [ "$USE_PREBUILT_IMAGES" == false ]

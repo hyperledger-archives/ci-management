@@ -1,6 +1,7 @@
 #!/bin/bash -exu
 set -o pipefail
 
+# shellcheck source=/dev/null
 source ${WORKSPACE}/src/test/fabric_test_commitlevel.sh
 
 # Clone fabric git repository
