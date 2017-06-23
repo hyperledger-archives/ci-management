@@ -347,7 +347,7 @@
     name: 'fabric-goast-daily-{arch}'
 
     project-type: freestyle
-    node: 'hyp-fabric-{arch}'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
