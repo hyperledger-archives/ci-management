@@ -35,8 +35,8 @@ if [ "${IS_RELEASE}" == "false" ]; then
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$BASE_VERSION-SNAPSHOT \
-        -DartifactId=fabric-binary \
+        -Dversion=$binary-$PROJECT_VERSION-SNAPSHOT \
+        -DartifactId=hyperledger-fabric \
         -DgeneratePom=true \
         -DuniqueVersion=false \
         -Dpackaging=tar.gz \
@@ -52,7 +52,7 @@ if [ "${IS_RELEASE}" == "false" ]; then
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \
         -Dversion=$binary-$PROJECT_VERSION \
-        -DartifactId=fabric-binary \
+        -DartifactId=hyperledger-fabric \
         -DgeneratePom=true \
         -DuniqueVersion=false \
         -Dpackaging=tar.gz \
