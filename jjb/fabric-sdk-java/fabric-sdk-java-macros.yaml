@@ -8,7 +8,7 @@
             JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/go1.7.linux.amd64
-            PATH=/opt/go/go1.7.linux.amd64/bin:$GOPATH/bin:~/npm/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH
 
 - scm:
     name: hyperledger-fabric-sdk-java-gerrit
