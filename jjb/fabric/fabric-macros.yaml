@@ -172,20 +172,28 @@
           cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
 
 - builder:
-    name: daily-chaincode-tests
+    name: daily-tests
     builders:
       - shell: |
           #!/bin/bash -exu
           set -o pipefail
 
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/daily
+          #Comment out behave tests from DailyTestSuite.sh
+          sed -i '16,19 s/^/#/' runDailyTestSuite.sh
           ./runDailyTestSuite.sh
 
-          #py.test -v --junitxml results.xml ./test_pte.py
           # Copy .csv files to $WORKSPACE directory
           cp -r /tmp/experiments .
           # Test Chaincode ex02
-          cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
+          # Disable example02 chaincode tests
+          # cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
+
+- builder:
+    name: daily-behave-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-behave-tests.sh
 
 - builder:
     name: push-fabric-binaries
@@ -354,6 +362,15 @@
     publishers:
       - junit:
           results: '**/*.xml'
+
+- publisher:
+    name: test-logs
+    publishers:
+      - archive:
+          artifacts: '**/*.csv, **/*.log'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true
 
 - builder:
     name: fabric-goast-scan

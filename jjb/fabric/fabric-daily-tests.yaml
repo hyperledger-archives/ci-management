@@ -2,7 +2,7 @@
 - project:
     name: fabric-daily-tests
     jobs:
-      - 'fabric-daily-chaincode-tests-{arch}'
+      - 'fabric-daily-tests-{arch}'
 
     project: 'fabric'
     arch:
@@ -11,7 +11,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-daily-chaincode-tests-{arch}'
+    name: 'fabric-daily-tests-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -22,7 +22,7 @@
       artifactDaysToKeep: 7
 
     triggers:
-      - timed: '0 0 1-31/2 * *'
+      - timed: 'H 10 * * *'
 
     properties:
       - 'fabric-{arch}'
@@ -42,8 +42,10 @@
       - baseimage-clean-environment
       - output-environment
       - build-docker-images
-      - daily-chaincode-tests
+      - daily-tests
+      - daily-behave-tests
 
     publishers:
       - lf-infra-publish
       - daily-test-results
+      - test-logs
