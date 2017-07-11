@@ -1,0 +1,47 @@
+---
+- project:
+    name: fabric-release-tests
+    jobs:
+      - 'fabric-release-tests-{arch}'
+
+    project: 'fabric'
+    arch:
+      - 'x86_64'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-release-tests-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - build-docker-images
+      - release-tests
+      - daily-behave-tests
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results

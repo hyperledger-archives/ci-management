@@ -190,6 +190,17 @@
           # cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
 
 - builder:
+    name: release-tests
+    builders:
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
+          chmod +x runReleaseTestSuite.sh
+          ./runReleaseTestSuite.sh
+
+- builder:
     name: daily-behave-tests
     builders:
       - shell:
