@@ -42,7 +42,7 @@ npmPublish() {
   else
 
       case $RELEASE in
-      alpha*|beta*|rc*)
+      alpha*|beta*|rc*|1.0.0)
          echo "===> PUBLISH --> $RELEASE"
          npm publish
       ;;
