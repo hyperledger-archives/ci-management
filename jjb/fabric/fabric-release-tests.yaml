@@ -38,10 +38,11 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - release-docker-images
       - release-tests
       - daily-behave-tests
 
     publishers:
       - lf-infra-publish
       - daily-test-results
+      - test-logs

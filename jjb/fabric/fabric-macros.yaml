@@ -87,6 +87,12 @@
           !include-raw: include-raw-fabric-build-docker-images.sh
 
 - builder:
+    name: release-docker-images
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-release-docker-images.sh
+
+- builder:
     name: nexus-docker-images
     builders:
       - shell:
@@ -198,7 +204,12 @@
 
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
           chmod +x runReleaseTestSuite.sh
+
+          sed -i '51,52 s/^/#/' runReleaseTestSuite.sh
           ./runReleaseTestSuite.sh
+
+          # Copy .csv files to $WORKSPACE directory
+          cp -r /tmp/experiments .
 
 - builder:
     name: daily-behave-tests
