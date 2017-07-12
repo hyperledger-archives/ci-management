@@ -40,7 +40,7 @@
       - output-environment
       - release-docker-images
       - release-tests
-      - daily-behave-tests
+      - release-behave-tests
 
     publishers:
       - lf-infra-publish
