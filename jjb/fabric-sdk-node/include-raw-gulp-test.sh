@@ -45,4 +45,14 @@ gulp test
 
 # copy debug log file to $WORKSPACE directory
 
+if [ $? == 0 ]; then
+
+# Copy Debug log to $WORKSPACE
 cp /tmp/hfc/test-log/*.log $WORKSPACE
+
+else
+
+# Copy Debug log to $WORKSPACE
+cp /tmp/hfc/test-log/*.log $WORKSPACE
+
+fi
