@@ -3,10 +3,12 @@
     name: fabric-chaintool-jobs
     jobs:
       - 'fabric-chaintool-verify-{arch}'
+      - 'fabric-chaintool-binaries'
 
     project: 'fabric-chaintool'
     arch:
       - 'x86_64'
+    mvn-settings: 'fabric-settings'
 
 # Verify job
 - job-template:
@@ -49,6 +51,52 @@
     builders:
       - verify-commit-message
       - fabric-chaintool-verify
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-chaintool-binaries'
+
+    project-type: freestyle
+    node: 'hyp-x86_64'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-chaintool-x86_64'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - gerrit-trigger-scm:
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - verify-commit-message
+      - provide-maven-settings:
+          fabric-settings-file: '{mvn-settings}'
+          global-settings-file: 'global-settings'
+      - push-chaintool-binaries
 
     publishers:
       - lf-infra-publish

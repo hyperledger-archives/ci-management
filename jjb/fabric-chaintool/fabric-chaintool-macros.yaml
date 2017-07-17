@@ -13,3 +13,9 @@
     builders:
       - shell: |
           ./lein test
+
+- builder:
+    name: push-chaintool-binaries
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-push-chaintool-binaries.sh
