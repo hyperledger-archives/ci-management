@@ -1,5 +1,4 @@
-#!/bin/bash -exu
-set -o pipefail
+#!/bin/bash -xu
 
 # Clone fabric git repository
 #############################
@@ -49,10 +48,9 @@ if [ $? == 0 ]; then
 
 # Copy Debug log to $WORKSPACE
 cp /tmp/hfc/test-log/*.log $WORKSPACE
-
 else
-
 # Copy Debug log to $WORKSPACE
 cp /tmp/hfc/test-log/*.log $WORKSPACE
+exit 1
 
 fi
