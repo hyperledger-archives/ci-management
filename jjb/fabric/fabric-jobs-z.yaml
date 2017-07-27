@@ -64,8 +64,8 @@
       - fabric-s390x
 
     logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:

@@ -32,8 +32,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -76,10 +76,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -124,10 +122,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -172,10 +168,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -220,8 +214,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -264,8 +258,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -310,8 +304,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -356,8 +350,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -402,8 +396,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -448,8 +442,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:

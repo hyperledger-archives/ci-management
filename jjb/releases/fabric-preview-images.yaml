@@ -21,10 +21,8 @@
       - 'fabric-ppc64le'
 
     logrotate:
-      daysToKeep: 30
-      numToKeep: 40
-      artifactDaysToKeep: 10
-      artifactNumToKeep: 10
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -65,8 +63,8 @@
       - 'fabric-ppc64le'
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:
@@ -107,8 +105,8 @@
       - 'fabric-ppc64le'
 
     logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     parameters:
       - project-parameter:

@@ -19,8 +19,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     properties:
       - 'fabric-sdk-java-{arch}'
@@ -70,8 +70,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     properties:
       - 'fabric-sdk-java-{arch}'
@@ -120,8 +120,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      daysToKeep: 1
+      artifactDaysToKeep: 1
 
     properties:
       - 'fabric-sdk-java-{arch}'
