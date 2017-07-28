@@ -1,0 +1,30 @@
+---
+
+# fabric-samples scm configuration
+
+- scm:
+    name: hyperledger-fabric-samples-gerrit
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-samples'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric-samples'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+# fabric-samples Builder script
+
+- builder:
+    name: fabric-byfn-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-samples-byfn-e2e.sh
+
+- builder:
+    name: fabric-samples-clean-environment
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-samples-clean-environment.sh
