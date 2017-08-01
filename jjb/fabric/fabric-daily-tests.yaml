@@ -18,8 +18,8 @@
     concurrent: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     triggers:
       - timed: 'H 10 * * *'

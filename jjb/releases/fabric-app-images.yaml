@@ -32,8 +32,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -76,8 +76,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -122,8 +122,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -168,8 +168,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -214,8 +214,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -258,8 +258,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -304,8 +304,8 @@
     disabled: true
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -350,8 +350,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -396,8 +396,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -442,8 +442,8 @@
     disabled: false
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:

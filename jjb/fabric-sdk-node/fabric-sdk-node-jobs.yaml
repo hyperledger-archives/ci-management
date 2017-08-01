@@ -24,8 +24,8 @@
       - 'fabric-{arch}'
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -72,8 +72,8 @@
       - 'fabric-s390x'
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -118,8 +118,8 @@
       - 'fabric-{arch}'
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -167,8 +167,8 @@
       - 'fabric-s390x'
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -217,8 +217,8 @@
       - 'fabric-{arch}'
 
     logrotate:
-      daysToKeep: 1
-      artifactDaysToKeep: 1
+      daysToKeep: 7
+      artifactDaysToKeep: 7
 
     triggers:
       - timed: 'H */6 * * *'
