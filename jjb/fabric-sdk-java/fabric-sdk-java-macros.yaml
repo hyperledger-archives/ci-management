@@ -55,6 +55,15 @@
           default-excludes: false
           allow-empty: true
 
+- publisher:
+    name: java-sdk-logs
+    publishers:
+      - archive:
+          artifacts: '**/*.log,**/*.xz'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true
+
 - builder:
     name: fabric-sdk-java-end-to-end-test
     builders:

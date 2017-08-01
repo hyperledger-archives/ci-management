@@ -55,3 +55,6 @@ export GOPATH=$WD/src/test/fixture
 cd $WD/src/test
 chmod +x cirun.sh
 source cirun.sh
+
+cd $WD
+tar cvf - target | xz -9zke >target.xz

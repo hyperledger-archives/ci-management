@@ -59,7 +59,7 @@
     publishers:
       - jacoco-coverage-report
       - lf-infra-publish
-      - sdk-logs
+      - java-sdk-logs
 
 # Merge job
 - job-template:
@@ -109,7 +109,7 @@
     publishers:
       - jacoco-coverage-report
       - lf-infra-publish
-      - sdk-logs
+      - java-sdk-logs
 
 # release job
 - job-template:
