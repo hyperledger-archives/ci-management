@@ -370,7 +370,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: 'H */6 * * *'
+      - timed: 'H 10 * * *'
 
     wrappers:
       - hyperledger-infra-wrappers
