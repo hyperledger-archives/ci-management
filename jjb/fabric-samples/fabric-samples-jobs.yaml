@@ -50,7 +50,6 @@
       - verify-commit-message
       - fabric-samples-clean-environment
       - build-docker-images
-      - output-environment
       - fabric-byfn-tests
 
     publishers:
