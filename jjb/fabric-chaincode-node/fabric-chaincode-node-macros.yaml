@@ -1,0 +1,22 @@
+---
+# Chaincode-node SCM
+- scm:
+    name: hyperledger-fabric-chaincode-node
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-chaincode-node'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric-chaincode-node'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+# chaincode-node Integration test
+
+- builder:
+    name: chaincode-node-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-gulp-chaincode-test.sh
