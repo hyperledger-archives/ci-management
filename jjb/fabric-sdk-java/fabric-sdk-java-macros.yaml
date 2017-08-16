@@ -69,3 +69,9 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-sdk-java-end-to-end-tests.sh
+
+- builder:
+    name: fabric-sdk-java-1.0.0-test
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-sdk-java-1.0.0-test.sh
