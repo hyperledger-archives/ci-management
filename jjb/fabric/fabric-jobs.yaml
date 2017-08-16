@@ -139,7 +139,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-x:
           name: '{project}'
           branch: ''
 
@@ -232,7 +232,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-behave:
           name: '{project}'
           branch: ''
 

@@ -35,7 +35,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-z:
           name: '{project}'
           branch: ''
 
