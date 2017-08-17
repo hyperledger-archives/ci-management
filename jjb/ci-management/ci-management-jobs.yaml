@@ -10,3 +10,22 @@
     stream: master
     branch: master
     build-node: hyp-x
+
+- project:
+    name: packer-jobs
+    # packer jobs templates are defined in global-jjb
+    jobs:
+      - '{project-name}-packer-jobs'
+    project: 'ci-management'
+    project-name: 'ci-management'
+    branch: master
+    archive-artifacts: '**/*.log'
+    build-node: hyp-x
+
+    platforms:
+      - ubuntu-14.04
+      - ubuntu-16.04
+
+    templates:
+      - basebuild
+      - docker
