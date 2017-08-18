@@ -20,3 +20,9 @@
     builders:
       - shell:
           !include-raw: include-raw-gulp-chaincode-test.sh
+
+- builder:
+    name: chaincode-npm-publish
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-chaincode-npm-publish.sh

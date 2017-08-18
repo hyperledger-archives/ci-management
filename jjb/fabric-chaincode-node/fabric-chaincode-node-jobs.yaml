@@ -96,6 +96,7 @@
       - output-environment
       - build-docker-images
       - chaincode-node-tests
+      - chaincode-npm-publish
 
     publishers:
       - sdk-logs
