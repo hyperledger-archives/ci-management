@@ -23,7 +23,7 @@ pip install python-slugify
 pip install pyyaml
 
 # Build Peer and images
-make docker && make native
+make behave-deps
 docker images | grep hyperledger
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/feature
 behave --junit --junit-directory test/regression/daily/. --tags=-skip --tags=daily
