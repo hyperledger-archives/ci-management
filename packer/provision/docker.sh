@@ -169,10 +169,21 @@ deb_install_softhsm() {
 deb_install_node() {
     # Node install
     pushd /usr/local
-    curl https://nodejs.org/dist/v7.4.0/node-v7.4.0-linux-x64.tar.xz | tar xJf - --strip-components=1
+    nvm install 8.4.0
+    nvm install 7.4.0
+    nvm ls
     popd
     echo "npm -v: `npm -v`"
     echo "node -v: `node -v`"
+}
+
+deb_install_nvm() {
+    # Install nvm
+    echo "----> nvm install"
+    apt-get update
+    apt-get install build-essential
+    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+    command -v nvm
 }
 
 deb_install_pkgs() {
@@ -226,6 +237,7 @@ ubuntu_changes() {
     deb_install_pip_pkgs
     add_jenkins_user
     deb_install_docker_compose
+    deb_install_nvm
     deb_install_node
     deb_install_softhsm
     deb_install_rocksdb
