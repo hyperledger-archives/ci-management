@@ -183,6 +183,9 @@ deb_install_nvm() {
     apt-get update
     apt-get install build-essential
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+    export NVM_DIR="$HOME/.nvm"
+    # shellcheck source=/dev/null
+    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
     command -v nvm
 }
 
