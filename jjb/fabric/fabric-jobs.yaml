@@ -162,7 +162,7 @@
     name: 'fabric-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     properties:
@@ -207,7 +207,7 @@
     name: 'fabric-verify-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     logrotate:
@@ -254,7 +254,7 @@
     name: 'fabric-merge-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     properties:
