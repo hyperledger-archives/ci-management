@@ -68,6 +68,20 @@
       - shell:
           !include-raw: include-raw-gulp-test.sh
 
+# Node SDK unit-test
+- builder:
+    name: sdk-node6-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-node6-test.sh
+
+# Node SDK unit-test
+- builder:
+    name: sdk-node8-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-node8-test.sh
+
 - builder:
     name: npm-publish
     builders:

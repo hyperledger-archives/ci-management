@@ -2,8 +2,10 @@
 - project:
     name: fabric-sdk-node-job
     jobs:
-      - 'fabric-sdk-node-verify-{arch}'
-      - 'fabric-sdk-node-merge-{arch}'
+      - 'fabric-sdk-node8-verify-{arch}'
+      - 'fabric-sdk-node8-merge-{arch}'
+      - 'fabric-sdk-node6-verify-{arch}'
+      - 'fabric-sdk-node6-merge-{arch}'
       - 'fabric-sdk-node-verify-s390x'
       - 'fabric-sdk-node-merge-s390x'
       - 'FIT-node-{arch}'
@@ -14,7 +16,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-sdk-node-verify-{arch}'
+    name: 'fabric-sdk-node8-verify-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -52,12 +54,57 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - sdk-node-tests
+      - sdk-node8-tests
 
     publishers:
       - sdk-logs
       - lf-infra-publish
       - sdk-node-coverage-report
+
+- job-template:
+    name: 'fabric-sdk-node6-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - verify-commit-message
+      - baseimage-clean-environment
+      - output-environment
+      - sdk-node6-tests
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
 
 # gerrit changes
 
@@ -108,7 +155,7 @@
       - sdk-node-coverage-report
 
 - job-template:
-    name: 'fabric-sdk-node-merge-{arch}'
+    name: 'fabric-sdk-node8-merge-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -145,7 +192,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - sdk-node-tests
+      - sdk-node8-tests
       - npm-publish
       - gulp-doc
 
@@ -153,6 +200,52 @@
       - sdk-logs
       - lf-infra-publish
       - sdk-node-coverage-report
+
+- job-template:
+    name: 'fabric-sdk-node6-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - sdk-node6-tests
+      - npm-publish
+      - gulp-doc
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
 
 # gerrit changes
 
