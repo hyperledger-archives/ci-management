@@ -1,4 +1,5 @@
 #!/bin/bash -e
+set -o pipefail
 
 # Clone fabric git repository
 #############################
@@ -29,31 +30,46 @@ echo "======> CA_COMMIT <======= $CA_COMMIT"
 make docker
 docker images | grep hyperledger
 
-## Test gulp test
+## Test fabric-sdk-node tests
+################################
+
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node/test/fixtures || exit
 docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 30
 docker ps -a
 
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node || exit
+
+# Install nvm to install multi node versions
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 # shellcheck source=/dev/null
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# Install nodejs version 6.9.5
 nvm install 6.9.5 || true
+
+# use nodejs 6.9.5 version
 nvm use 6.9.5
+echo "npm version ======>"
 npm -v
+echo "node version =======>"
 node -v
+
 npm install
 npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp || exit 1
 gulp ca || exit 1
 rm -rf node_modules/fabric-ca-client && npm install
+
+# Execute unit test and code coverage
+echo "############"
+echo "Run unit tests and Code coverage report"
+echo "############"
+
 gulp test
 
 # copy debug log file to $WORKSPACE directory
-
 if [ $? == 0 ]; then
 
 # Copy Debug log to $WORKSPACE

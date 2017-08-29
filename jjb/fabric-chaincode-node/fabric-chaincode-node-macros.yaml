@@ -26,3 +26,28 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-chaincode-npm-publish.sh
+
+# Chaincode-node Cobertura coverage report
+
+- publisher:
+    name: chaincode-node-coverage-report
+    publishers:
+      - cobertura:
+          report-file: "**/cobertura-coverage.xml"
+          targets:
+            - files:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - method:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - line:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
+            - packages:
+                healthy: 80
+                unhealthy: 50
+                failing: 0
