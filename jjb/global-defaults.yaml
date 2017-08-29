@@ -15,3 +15,4 @@
     # lf-infra defaults
     jenkins-ssh-credential: 'b706b536-ceb2-4f3b-a616-c483bd16c216'
     gerrit-server-name: hyperledger
+    lftools-version: <1.0.0
