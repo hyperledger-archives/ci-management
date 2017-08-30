@@ -1,30 +1,45 @@
 {
   "variables": {
+    "stack_tenant": null,
+    "stack_user": null,
+    "stack_pass": null,
+    "stack_network": null,
     "base_image": null,
-    "network": null,
-    "flavor": null,
-    "region": null,
-    "ssh_interface": null,
+    "cloud_user": null,
     "distro": null,
     "cloud_user_data": null
   },
   "builders": [
     {
       "type": "openstack",
-      "name": "public_cloud",
-      "region": "{{user `region`}}",
-      "ssh_interface": "{{user `ssh_interface`}}",
-      "ssh_username": "ubuntu",
+      "identity_endpoint": "https://auth.vexxhost.net/v2.0/",
+      "tenant_name": "{{user `stack_tenant`}}",
+      "username": "{{user `stack_user`}}",
+      "password": "{{user `stack_pass`}}",
+      "region": "ca-ymq-1",
+      "ssh_username": "{{user `cloud_user`}}",
       "image_name": "{{user `distro`}} - fabric - {{isotime \"20060102-1504\"}}",
       "source_image_name": "{{user `base_image`}}",
-      "flavor": "{{user `flavor`}}",
+      "flavor": "v1-standard-1",
+      "availability_zone": "ca-ymq-2",
       "networks": [
-        "{{user `network`}}"
+        "{{user `stack_network`}}"
       ],
       "user_data_file": "{{user `cloud_user_data`}}"
     }
   ],
   "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "mkdir -p /tmp/packer"
+      ]
+    },
+    {
+      "type": "file",
+      "source": "provision/",
+      "destination": "/tmp/packer"
+    },
     {
       "type": "shell",
       "scripts": [
