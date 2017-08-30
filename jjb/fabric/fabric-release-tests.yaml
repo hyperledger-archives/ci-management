@@ -14,7 +14,7 @@
     name: 'fabric-release-tests-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     logrotate:
