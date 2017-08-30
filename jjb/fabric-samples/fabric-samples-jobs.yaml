@@ -14,7 +14,7 @@
     name: 'fabric-byfn-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     logrotate:
@@ -60,7 +60,7 @@
     name: 'fabric-byfn-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     properties:
