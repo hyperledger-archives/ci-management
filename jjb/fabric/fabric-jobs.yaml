@@ -354,6 +354,8 @@
       daysToKeep: 7
       artifactDaysToKeep: 7
 
+    disabled: true
+
     properties:
       - 'fabric-{arch}'
 
