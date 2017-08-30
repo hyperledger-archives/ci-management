@@ -1,0 +1,7 @@
+---
+# Fabric SDK REST tests
+- builder:
+    name: sdk-rest-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-rest-test.sh
