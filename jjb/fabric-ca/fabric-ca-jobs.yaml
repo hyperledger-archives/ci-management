@@ -19,7 +19,7 @@
     name: 'fabric-ca-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     logrotate:
@@ -64,7 +64,7 @@
     name: 'fabric-ca-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: 'hyp-{arch}-p'
     concurrent: true
 
     properties:
