@@ -89,7 +89,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - sdk-node-tests
+      - sdk-rest-tests
 
     publishers:
       - sdk-logs
