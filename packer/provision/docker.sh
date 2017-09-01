@@ -9,9 +9,21 @@ add_jenkins_user() {
 
 rh_changes() {
     echo "---> RH changes"
+    # Following directions from
+    # https://docs.docker.com/engine/installation/linux/docker-ce/centos/
+
+    # remove old docker
+    yum remove -y docker docker-common docker-selinux docker-engine
+
+    # set up the repository
+    yum install -y yum-utils device-mapper-persistent-data lvm2
+    yum-config-manager --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+    yum clean -y metadata
+
     # install docker and enable it
     echo "---> Installing docker"
-    yum install -y docker supervisor bridge-utils
+    yum install -y docker-ce supervisor bridge-utils
     systemctl enable docker
 
     # configure docker networking so that it does not conflict with LF
@@ -22,10 +34,14 @@ DOCKER_NETWORK_OPTIONS='--bip=10.250.0.254/24'
 EOL
     # configure docker daemon to listen on port 5555 enabling remote
     # managment
-    sed -i -e "s#='--selinux-enabled'#='--selinux-enabled --mtu 1392 -H unix:///var/run/docker.sock -H tcp://0.0.0.0:5555'#g" /etc/sysconfig/docker
-
-    # docker group doesn't get created by default for some reason
-    groupadd docker
+    mkdir /etc/docker
+    touch /etc/docker/daemon.json
+    cat <<EOL > /etc/docker/daemon.json
+{
+"selinux-enabled": true,
+"hosts": ["unix:///var/run/docker.sock", "tcp://0.0.0.0:5555"]
+}
+EOL
 
     # Install python dependencies
     yum install -y python-{devel,virtualenv,setuptools,pip}
@@ -108,17 +124,34 @@ deb_install_rocksdb() {
 }
 
 deb_add_docker_repo() {
+    # Following directions from
+    # https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
+
+    # remove old docker
+    sudo apt-get remove -y docker docker-engine docker.io
+
+    # set up the repository
     echo '---> Installing the Docker Repo'
-    apt-key adv \
-      --keyserver hkp://p80.pool.sks-keyservers.net:80 \
-      --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
-    echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main"|tee /etc/apt/sources.list.d/docker.list
-    apt-get update
+    sudo apt-get update
+    sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+
+    # install docker and enable it
+    sudo apt-get update
+    sudo apt-get install -y docker-ce
 }
 
 deb_install_docker_compose() {
     echo '---> Installing Docker Compose'
-    curl -sL "https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
+    curl -sL "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     docker-compose --version
 }
