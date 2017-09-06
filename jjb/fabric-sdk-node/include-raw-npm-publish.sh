@@ -40,16 +40,13 @@ npmPublish() {
     fi
 
   else
-
-      case $RELEASE in
-      alpha*|beta*|rc*|1.0.0|1.0.1|1.0.2)
-         echo "===> PUBLISH --> $RELEASE"
-         npm publish
-      ;;
-      *) echo "$RELEASE: No such release."
-         exit 1
-      ;;
-      esac
+      if [[ "$RELEASE" =~ alpha*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
+        echo "===> PUBLISH --> $RELEASE"
+        npm publish
+      else
+        echo "$RELEASE: No such release."
+        exit 1
+      fi
   fi
 }
 
