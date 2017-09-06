@@ -204,10 +204,10 @@
 
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
           chmod +x runReleaseTestSuite.sh
-          sed -i s/1.0.0-rc1/1.0.0/g run_byfn_cli_release_tests.sh
-          sed -i s/1.0.0-rc1/1.0.0/g run_e2e_node_sdk.sh
-          sed -i s/1.0.0-rc1/1.0.0/g run_e2e_java_sdk.sh
-          sed -i s/1.0.0-rc1/1.0.0/g run_node_sdk_byfn.sh
+          sed -i s/1.0.1/1.0.2/g run_byfn_cli_release_tests.sh
+          sed -i s/1.0.1/1.0.2/g run_e2e_node_sdk.sh
+          sed -i s/1.0.1/1.0.2/g run_e2e_java_sdk.sh
+          sed -i s/1.0.1/1.0.2/g run_node_sdk_byfn.sh
           ./runReleaseTestSuite.sh
 
           # Copy .csv files to $WORKSPACE directory

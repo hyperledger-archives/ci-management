@@ -46,6 +46,7 @@
 
     builders:
       - clean-environment
+      - output-environment
       - fabric-unit-tests
       - clean-environment
 
@@ -82,7 +83,7 @@
     triggers:
       - gerrit-trigger-patch-merged:
           name: '{project}'
-          branch: 'master'
+          branch: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -91,6 +92,7 @@
 
     builders:
       - clean-environment
+      - output-environment
       - fabric-unit-tests
       - clean-environment
 

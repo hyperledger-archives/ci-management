@@ -31,3 +31,6 @@ rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
 rm -rf /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
 
 rm -rf /var/hyperledger/*
+
+clearContainers
+removeUnwantedImages
