@@ -44,6 +44,18 @@
           choosing-strategy: 'gerrit'
 
 - scm:
+    name: hyperledger-fabric-test-gerrit
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-test'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/fabric-test'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+- scm:
     name: hyperledger-fabric-busybox-gerrit
     scm:
       - git:
@@ -196,6 +208,21 @@
           # cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
 
 - builder:
+    name: fabric-tests
+    builders:
+      - shell: |
+          #!/bin/bash -exu
+          set -o pipefail
+
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/daily
+          #Comment out behave tests from DailyTestSuite.sh
+          sed -i '16,19 s/^/#/' runDailyTestSuite.sh
+          ./runDailyTestSuite.sh
+
+          # Copy .csv files to $WORKSPACE directory
+          cp -r /tmp/experiments .
+
+- builder:
     name: release-tests
     builders:
       - shell: |
@@ -219,6 +246,11 @@
       - shell:
           !include-raw: include-raw-fabric-behave-tests.sh
 
+- builder:
+    name: fabric-behave-smoke-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-test-behave-smoke.sh
 - builder:
     name: release-behave-tests
     builders:
