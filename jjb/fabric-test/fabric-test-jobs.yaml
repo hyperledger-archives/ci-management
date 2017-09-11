@@ -1,0 +1,118 @@
+---
+- project:
+    name: fabric-test-jobs
+    jobs:
+      - 'fabric-test-merge-{arch}'
+      - 'fabric-test-verify-{arch}'
+
+    project: 'fabric-test'
+    arch:
+      - 'x86_64'
+    mvn-settings: 'fabric-settings'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-test-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - verify-commit-message
+      - baseimage-clean-environment
+      - output-environment
+      - build-docker-images
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd gopath/src/github.com/hyperledger/fabric
+         make peer && make orderer && make configtxgen && make cryptogen
+      - fabric-behave-smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - test-logs
+
+- job-template:
+    name: 'fabric-test-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - baseimage-clean-environment
+      - build-docker-images
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd gopath/src/github.com/hyperledger/fabric
+         make peer && make orderer && make configtxgen && make cryptogen
+      - fabric-behave-smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - test-logs
