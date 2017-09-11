@@ -7,7 +7,7 @@
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/go1.7.linux.amd64
             JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin
+            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin
             ARCH=x86_64
 
 - property:
@@ -17,7 +17,7 @@
           properties-content: |
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/
-            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin:$PATH
             ARCH=s390x
 
 - property:
