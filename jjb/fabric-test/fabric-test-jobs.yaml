@@ -64,6 +64,7 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - daily-test-results
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
@@ -116,3 +117,4 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - daily-test-results

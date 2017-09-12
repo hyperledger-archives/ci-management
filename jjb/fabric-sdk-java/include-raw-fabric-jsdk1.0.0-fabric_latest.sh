@@ -59,7 +59,7 @@ docker images | grep hyperledger
 export GOPATH=$WD/src/test/fixture
 
 cd $WD/src/test
-JAVA_SDK_COMMIT_LEVEL=$(git log -1 --prettry=format:"%h")
+JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "JAVA COMMIT =====> $JAVA_SDK_COMMIT_LEVEL"
 chmod +x cirun.sh
 source cirun.sh
