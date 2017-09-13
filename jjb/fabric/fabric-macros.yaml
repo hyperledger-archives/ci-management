@@ -187,7 +187,7 @@
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
-          cd gopath/src/github.com/hyperledger/fabric && make linter && make unit-test
+          cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
 
 - builder:
     name: daily-tests
@@ -281,7 +281,7 @@
       - shell: |
           #!/bin/bash -exu
           set -o pipefail
-          make test
+          time make test
 
 - builder:
     name: fabric-busybox-release
@@ -289,7 +289,7 @@
       - shell: |
           #!/bin/bash -exu
           set -o pipefail
-          make install
+          time make install
 
 - publisher:
     name: archive-behave-logs
