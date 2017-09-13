@@ -247,10 +247,17 @@
           !include-raw: include-raw-fabric-behave-tests.sh
 
 - builder:
-    name: fabric-behave-smoke-tests
+    name: fabric-test-behave-smoke-tests
     builders:
       - shell:
           !include-raw: include-raw-fabric-test-behave-smoke.sh
+
+- builder:
+    name: fabric-test-behave-daily-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-test-behave-daily.sh
+
 - builder:
     name: release-behave-tests
     builders:
