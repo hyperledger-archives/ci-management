@@ -17,7 +17,7 @@ pip install grpcio-tools
 pip install "pysha3==1.0b1"
 pip install b3j0f.aop
 pip install jinja2
-pip install pyopenssl
+pip install "pyopenssl==17.2.0"
 pip install ecdsa
 pip install python-slugify
 pip install pyyaml
