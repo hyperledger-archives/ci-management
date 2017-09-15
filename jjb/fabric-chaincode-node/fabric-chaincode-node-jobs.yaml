@@ -55,6 +55,7 @@
     publishers:
       - sdk-logs
       - lf-infra-publish
+      - sdk-node-coverage-report
 
 - job-template:
     name: 'fabric-chaincode-node-merge-{arch}'
