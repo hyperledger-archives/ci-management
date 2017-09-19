@@ -4,10 +4,14 @@ set -o pipefail
 # Test fabric-chaincode-node tests
 ##################################
 
+rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples
 REPO_PATH="${WORKSPACE}/gopath/src/github.com/hyperledger"
 cd $REPO_PATH
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-samples
 cd $REPO_PATH/fabric-chaincode-node
+
+rm -rf $NVM_DIR ~/.npm ~/.nvm
+npm config delete prefix
 
 # Install nvm to install multi node versions
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash

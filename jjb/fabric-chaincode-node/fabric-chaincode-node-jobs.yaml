@@ -4,6 +4,9 @@
     jobs:
       - 'fabric-chaincode-node-verify-{arch}'
       - 'fabric-chaincode-node-merge-{arch}'
+      - 'fabric-chaincode-node-verify-s390x'
+      - 'fabric-chaincode-node-merge-s390x'
+
     project: 'fabric-chaincode-node'
     arch:
       - 'x86_64'
@@ -98,6 +101,101 @@
       - build-docker-images
       - chaincode-node-tests
       - chaincode-npm-publish
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
+      - chaincode-node-coverage-report
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-chaincode-node-verify-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-chaincode-node
+
+    triggers:
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - verify-commit-message
+      - baseimage-clean-environment
+      - output-environment
+      - build-docker-images
+      - chaincode-node-tests
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
+      - sdk-node-coverage-report
+
+- job-template:
+    name: 'fabric-chaincode-node-merge-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-chaincode-node
+
+    triggers:
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - build-docker-images
+      - chaincode-node-tests
 
     publishers:
       - sdk-logs

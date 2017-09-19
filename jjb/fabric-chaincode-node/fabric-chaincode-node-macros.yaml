@@ -22,6 +22,12 @@
           !include-raw: include-raw-gulp-chaincode-test.sh
 
 - builder:
+    name: chaincode-node-tests-s390x
+    builders:
+      - shell:
+          !include-raw: include-raw-gulp-chaincode-test-s390x.sh
+
+- builder:
     name: chaincode-npm-publish
     builders:
       - shell:
