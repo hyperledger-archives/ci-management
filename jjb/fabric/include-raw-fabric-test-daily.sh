@@ -24,9 +24,21 @@ pip install ecdsa
 pip install python-slugify
 pip install pyyaml
 pip install pykafka
+pip install requests
+pip install pyexecjs
+pip install pyjnius
+
+cd regression/daily
+
+echo "==========> Ledger component performance tests..."
+py.test -v --junitxml results_ledger_lte.xml ledger_lte.py
+
+echo "==========> System Test Performance Stress tests driven by PTE tool..."
+py.test -v --junitxml results_systest_pte.xml systest_pte.py
 
 # Execute behave smoke tests
-cd feature
+cd ../../feature
 behave --junit --junit-directory . -t daily
 cd -
 deactivate
+

@@ -166,7 +166,7 @@
 
          cd gopath/src/github.com/hyperledger/fabric
          make peer && make orderer && make configtxgen && make cryptogen
-      - fabric-test-behave-daily-tests
+      - fabric-test-daily-tests
 
     publishers:
       - lf-infra-publish
