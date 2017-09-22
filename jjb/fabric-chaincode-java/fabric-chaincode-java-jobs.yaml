@@ -50,8 +50,8 @@
       - verify-commit-message
       - output-environment
       - shell: |
-
          #!/bin/bash -exu
+
          set -o pipefail
          # gradlew build from fabric-chaincode-java repo
          ./gradlew build
@@ -98,8 +98,8 @@
       - verify-commit-message
       - output-environment
       - shell: |
-
          #!/bin/bash -exu
+
          set -o pipefail
          # gladlew build from fabric-chaincode-java repo
          ./gradlew build
