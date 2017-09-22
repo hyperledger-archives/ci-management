@@ -91,6 +91,18 @@
           skip-tag: true
           wipe-workspace: true
 
+# Chaincode-java SCM
+- scm:
+    name: hyperledger-fabric-chaincode-java
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-chaincode-java'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
 #
 # Wrappers
 #

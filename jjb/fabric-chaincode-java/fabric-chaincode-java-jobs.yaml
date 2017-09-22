@@ -1,0 +1,108 @@
+---
+- project:
+    name: fabric-chaincode-java
+    jobs:
+      - 'fabric-chaincode-java-verify-{arch}'
+      - 'fabric-chaincode-java-merge-{arch}'
+
+    project: 'fabric-chaincode-java'
+    arch:
+      - 'x86_64'
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-chaincode-java-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-chaincode-java
+
+    triggers:
+      - gerrit-trigger-release-verify:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '20'
+
+    builders:
+      - verify-commit-message
+      - output-environment
+      - shell: |
+
+         #!/bin/bash -exu
+         set -o pipefail
+         # gradlew build from fabric-chaincode-java repo
+         ./gradlew build
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-chaincode-java-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-chaincode-java
+
+    triggers:
+      - gerrit-trigger-release-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '20'
+
+    builders:
+      - verify-commit-message
+      - output-environment
+      - shell: |
+
+         #!/bin/bash -exu
+         set -o pipefail
+         # gladlew build from fabric-chaincode-java repo
+         ./gradlew build
+
+    publishers:
+      - lf-infra-publish
