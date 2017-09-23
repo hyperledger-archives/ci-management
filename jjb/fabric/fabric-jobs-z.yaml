@@ -42,7 +42,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '70'
+          timeout: '120'
 
     builders:
       - clean-environment
@@ -88,7 +88,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '70'
+          timeout: '120'
 
     builders:
       - clean-environment
