@@ -24,6 +24,10 @@ pip install ecdsa
 pip install python-slugify
 pip install pyyaml
 pip install pykafka
+pip install requests
+pip install pyexecjs
+pip install cython
+pip install pyjnius
 
 # Execute behave smoke tests
 cd feature

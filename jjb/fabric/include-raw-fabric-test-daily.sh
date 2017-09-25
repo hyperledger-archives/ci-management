@@ -26,6 +26,7 @@ pip install pyyaml
 pip install pykafka
 pip install requests
 pip install pyexecjs
+pip install cython
 pip install pyjnius
 
 cd regression/daily
