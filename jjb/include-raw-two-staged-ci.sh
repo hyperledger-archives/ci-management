@@ -8,6 +8,7 @@ cd gopath/src/github.com/hyperledger/fabric || exit
 
 REVIEWS=`curl https://gerrit.hyperledger.org/r/changes/$GERRIT_CHANGE_ID/reviewers | grep '"Code-Review": "+2"' | wc -l`
 
+echo "=====> $GERRIT_CHANGE_ID"
 echo "=====> $REVIEWS"
 
 # No need to have these comment outputed, unless you want to see what is getting
@@ -19,10 +20,12 @@ echo "=====> $REVIEWS"
 if [ "$REVIEWS" -ge "2" ];
 then
    export JOB_TYPE="FULL"
-   echo "=====> JOB_TYPE"
+   echo "=====> $JOB_TYPE"
+   time make linter && time make unit-test
    echo
 else
    export JOB_TYPE="VERIFY"
-   echo "=====> JOB_TYPE"
+   echo "=====> $JOB_TYPE"
+   time make linter && time make unit-test
    echo
 fi
