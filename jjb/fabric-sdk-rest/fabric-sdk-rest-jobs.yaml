@@ -90,6 +90,7 @@
       - baseimage-clean-environment
       - output-environment
       - sdk-rest-tests
+      - rest-npm-publish
 
     publishers:
       - sdk-logs

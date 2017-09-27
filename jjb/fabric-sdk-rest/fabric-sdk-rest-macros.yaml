@@ -5,3 +5,9 @@
     builders:
       - shell:
           !include-raw: include-raw-rest-test.sh
+
+- builder:
+    name: rest-npm-publish
+    builders:
+      - shell:
+          !include-raw: include-raw-rest-npm-publish.sh
