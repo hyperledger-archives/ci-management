@@ -139,7 +139,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: 'H 10 * * *'
+      - timed: 'H */8 * * *'
 
     properties:
       - 'fabric-{arch}'

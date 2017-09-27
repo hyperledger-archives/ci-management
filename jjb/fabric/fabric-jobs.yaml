@@ -154,7 +154,6 @@
       - clean-environment
       - output-environment
       - two-staged-ci
-      - fabric-unit-tests
 
     publishers:
       - lf-infra-publish
