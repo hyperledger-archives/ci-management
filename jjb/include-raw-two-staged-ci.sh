@@ -22,10 +22,22 @@ then
    export JOB_TYPE="FULL"
    echo "=====> $JOB_TYPE"
    time make linter && time make unit-test
-   echo
+   res=$?
+   if [ $res -ne 0 ] ; then
+      echo " ==========> FAILED <=========="
+      exit 1
+else
+      echo " ==========> PASSED <=========="
+   fi
 else
    export JOB_TYPE="VERIFY"
    echo "=====> $JOB_TYPE"
    time make linter && time make unit-test
-   echo
+   res=$?
+   if [ $res -ne 0 ] ; then
+      echo " ==========> FAILED <=========="
+      exit 1
+else
+      echo " ==========> PASSED <=========="
+   fi
 fi
