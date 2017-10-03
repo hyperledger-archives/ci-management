@@ -13,7 +13,7 @@ echo "peer image: " $PEER_IMAGE
 echo "membersrvc image: " $MEMBERSERVC_IMAGE
 
 echo "--> Logging into Docker Hub"
-docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 
 echo "--> Pushing Docker Tags to Docker Hub"
 docker push hyperledger/fabric-peer:$TAG

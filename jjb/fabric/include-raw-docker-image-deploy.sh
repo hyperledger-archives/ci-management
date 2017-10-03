@@ -18,7 +18,7 @@ docker tag $MEMBER_IMAGE hyperledger/fabric-membersrvc:$ARCH-$BRANCH-$TAG
 docker tag -f $MEMBER_IMAGE hyperledger/fabric-membersrvc:latest
 
 echo "--> Logging into Docker Hub"
-docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 
 echo "--> Pushing Docker Tags to Docker Hub"
 docker push hyperledger/fabric-peer:$ARCH-$BRANCH-$TAG

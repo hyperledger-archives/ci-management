@@ -6,7 +6,7 @@ echo "FABRIC Images TAG ID is: " $FABRIC_TAG
 echo
 ORG_NAME="hyperledger/fabric"
 
-docker login --email=$DOCKER_HUB_EMAIL --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 # Push docker images to nexus repository
 
 dockerFabricPush() {
