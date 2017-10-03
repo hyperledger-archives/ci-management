@@ -23,7 +23,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -49,6 +49,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - end-to-end-JAVA
@@ -71,7 +72,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -97,6 +98,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - end-to-end-JAVA

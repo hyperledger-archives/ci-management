@@ -5,7 +5,17 @@
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            GOROOT=/opt/go/go1.7.linux.amd64
+            GOROOT=/opt/go/go1.9.linux.amd64
+            JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
+            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin
+            ARCH=x86_64
+
+- property:
+    name: 'fabric-go-x86_64'
+    properties:
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
             JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
             PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin
             ARCH=x86_64
@@ -65,6 +75,15 @@
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
           refspec: '$GERRIT_REFSPEC'
+
+- builder:
+    name: golang-environment-x86_64
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-content: |
+            GOROOT=/opt/go/go$GO_VER.linux.amd64
+            PATH=$GOROOT/bin:$PATH
 
 - builder:
     name: output-environment

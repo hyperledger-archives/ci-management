@@ -125,7 +125,7 @@
       artifactDaysToKeep: 30
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -152,6 +152,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - two-staged-ci
 
@@ -166,12 +167,12 @@
     node: 'hyp-{arch}-p'
     concurrent: true
 
+    properties:
+      - 'fabric-go-{arch}'
+
     logrotate:
       daysToKeep: 7
       artifactDaysToKeep: 7
-
-    properties:
-      - 'fabric-{arch}'
 
     parameters:
       - project-parameter:
@@ -198,6 +199,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-unit-tests
 
@@ -213,7 +215,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7
@@ -243,6 +245,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-unit-tests
 
@@ -264,7 +267,7 @@
     disabled: false
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -290,6 +293,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-behave-tests
 
@@ -305,7 +309,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     disabled: false
 
@@ -337,6 +341,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-behave-tests
 
@@ -356,7 +361,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -381,6 +386,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
@@ -404,7 +410,7 @@
     disabled: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -428,6 +434,7 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-goast-scan
 

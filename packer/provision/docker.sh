@@ -94,7 +94,9 @@ deb_install_go() {
     curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
     chmod +x /usr/local/bin/gimme
 
-    gimme 1.7 /opt/go
+    #install both Go 1.7.5 and Go 1.9
+    gimme 1.7.5 /opt/go
+    gimme 1.9 /opt/go
 }
 
 deb_docker_pull_baseimage() {
