@@ -33,6 +33,12 @@
       - shell:
           !include-raw: include-raw-fabric-chaincode-npm-publish.sh
 
+- builder:
+    name: chaincode-gulp-doc
+    builders:
+      - shell:
+          !include-raw: include-raw-chaincode-node-doc.sh
+
 # Chaincode-node Cobertura coverage report
 
 - publisher:

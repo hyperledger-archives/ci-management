@@ -101,6 +101,7 @@
       - build-docker-images
       - chaincode-node-tests
       - chaincode-npm-publish
+      - chaincode-gulp-doc
 
     publishers:
       - sdk-logs
