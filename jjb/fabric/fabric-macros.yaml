@@ -21,12 +21,21 @@
             ARCH=x86_64
 
 - property:
+    name: 'fabric-go-s390x'
+    properties:
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
+            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin:$PATH
+            ARCH=s390x
+
+- property:
     name: 'fabric-s390x'
     properties:
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            GOROOT=/opt/go/
+            GOROOT=/opt/go/go1.9.linux.s390x
             PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.4.0/bin:$PATH
             ARCH=s390x
 
@@ -83,6 +92,15 @@
           properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.amd64
+            PATH=$GOROOT/bin:$PATH
+
+- builder:
+    name: golang-environment-s390x
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-content: |
+            GOROOT=/opt/go/go$GO_VER.linux.s390x
             PATH=$GOROOT/bin:$PATH
 
 - builder:

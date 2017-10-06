@@ -6,6 +6,7 @@
       - 'fabric-verify-z'
 
     project: 'fabric'
+    arch: 's390x'
 
 # gerrit changes
 
@@ -17,7 +18,7 @@
     concurrent: true
 
     properties:
-      - fabric-s390x
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7
@@ -45,6 +46,8 @@
           timeout: '120'
 
     builders:
+
+      - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
       - fabric-unit-tests
@@ -62,7 +65,7 @@
     concurrent: true
 
     properties:
-      - fabric-s390x
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7
@@ -91,6 +94,8 @@
           timeout: '120'
 
     builders:
+
+      - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
       - fabric-unit-tests
