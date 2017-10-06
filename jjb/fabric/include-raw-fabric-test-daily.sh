@@ -41,5 +41,8 @@ py.test -v --junitxml results_systest_pte.xml systest_pte.py
 cd ../../feature
 behave --junit --junit-directory . -t daily
 cd -
-deactivate
 
+# Copy .csv files to $WORKSPACE directory
+cp -r /tmp/experiments .
+
+deactivate

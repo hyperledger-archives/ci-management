@@ -430,6 +430,16 @@
                 failing: 0
 
 - publisher:
+    name: java-chaincode-coverage-report
+    publishers:
+      - html-publisher:
+          name: "Test Summary"
+          dir: "$WORKSPACE/shim/build/reports/tests/test"
+          files: "index.html"
+          keep-all: true
+          link-to-last-build: true
+
+- publisher:
     name: behave-test-results
     publishers:
       - junit:

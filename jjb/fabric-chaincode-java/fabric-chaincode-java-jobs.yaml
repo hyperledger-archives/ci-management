@@ -57,6 +57,8 @@
          ./gradlew build
 
     publishers:
+
+      - java-chaincode-coverage-report
       - lf-infra-publish
 
 - job-template:
@@ -105,4 +107,6 @@
          ./gradlew build
 
     publishers:
+
+      - java-chaincode-coverage-report
       - lf-infra-publish
