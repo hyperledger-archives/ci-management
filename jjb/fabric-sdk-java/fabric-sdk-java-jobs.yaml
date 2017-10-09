@@ -279,6 +279,8 @@
     properties:
       - 'fabric-sdk-java-{arch}'
 
+    disabled: true
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -329,6 +331,8 @@
 
     properties:
       - 'fabric-sdk-java-{arch}'
+
+    disabled: true
 
     parameters:
       - project-parameter:
