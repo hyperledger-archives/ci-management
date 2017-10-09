@@ -10,6 +10,6 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 REPO_NAME=fabric
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
 cd $WD
-git checkout tags/v1.0.2
-curl -sSL https://goo.gl/Gci9ZX | bash
+git checkout tags/v1.0.3
+curl -sSL https://goo.gl/Q3YRTi | bash
 docker images | grep hyperledger

@@ -40,7 +40,6 @@
 
     builders:
       - baseimage-clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - build-docker-images
       - daily-tests
