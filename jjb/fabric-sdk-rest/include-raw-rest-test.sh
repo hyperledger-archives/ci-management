@@ -6,9 +6,6 @@ if [ -d "${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples" ] ; then
         echo "Delete fabric-samples Directory"
 	rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples
         echo
-else
-        echo "Create hyperledger Directory"
-        mkdir -p gopath/src/github.com/hyperledger
 fi
 
 export WD="${WORKSPACE}/gopath/src/github.com/hyperledger"
@@ -30,7 +27,8 @@ fi
 cd fabcar
 ./startFabric.sh
 
-cd $WD && git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-rest && cd $WD/fabric-sdk-rest/packages/
+#cd $WD && git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-rest &&
+cd $WD/fabric-sdk-rest/packages/
 # Install nvm
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 # shellcheck source=/dev/null

@@ -32,6 +32,9 @@
       - gerrit-refspec-parameter:
           refspec: ''
 
+    scm:
+      - hyperledger-fabric-sdk-rest
+
     triggers:
       - gerrit-trigger-release-verify:
           name: '{project}'
@@ -75,6 +78,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
+    scm:
+      - hyperledger-fabric-sdk-rest
 
     triggers:
       - gerrit-trigger-release-merged:
