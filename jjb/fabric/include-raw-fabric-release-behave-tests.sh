@@ -28,7 +28,7 @@ pip install cython
 pip install pyjnius
 
 # Build Peer and images
-curl -sSL https://goo.gl/Gci9ZX | bash
+curl -sSL https://goo.gl/Q3YRTi | bash
 docker images | grep hyperledger
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/feature
 behave --junit --junit-directory test/regression/daily/. --tags=-skip --tags=daily
