@@ -300,6 +300,8 @@
                 exclude-no-code-change: 'false'
             - draft-published-event
             - comment-added-contains-event:
+                comment-contains-value: 'rebuild-approve'
+            - comment-added-contains-event:
                 comment-contains-value: 'reverify-approve'
             - comment-added-event:
                 approval-category: 'CRVW'
