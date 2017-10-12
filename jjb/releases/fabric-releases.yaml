@@ -186,9 +186,6 @@
       - output-environment
       - fabric-docker-local
 
-    publishers:
-      - lf-infra-publish
-
 - job-template:
     name: 'fabric-baseimage-merge-docker-{arch}'
 
@@ -315,9 +312,6 @@
       - output-environment
       - fabric-docker-local
 
-    publishers:
-      - lf-infra-publish
-
 - job-template:
     name: 'fabric-baseimage-release-docker-{arch}'
 
@@ -440,6 +434,3 @@
       - baseimage-clean-environment
       - output-environment
       - fabric-docker-release
-
-    publishers:
-      - lf-infra-publish

@@ -154,7 +154,6 @@
 
     publishers:
       - sdk-logs
-      - lf-infra-publish
       - sdk-node-coverage-report
 
 - job-template:
@@ -200,5 +199,4 @@
 
     publishers:
       - sdk-logs
-      - lf-infra-publish
       - chaincode-node-coverage-report

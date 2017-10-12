@@ -54,7 +54,6 @@
       - clean-environment
 
     publishers:
-      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -102,5 +101,4 @@
       - clean-environment
 
     publishers:
-      - lf-infra-publish
       - code-coverage-report

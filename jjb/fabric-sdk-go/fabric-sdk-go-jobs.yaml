@@ -151,7 +151,6 @@
       - fabric-sdk-go-integration-tests
 
     publishers:
-      - lf-infra-publish
       - code-coverage-report
 
 - job-template:
@@ -197,5 +196,4 @@
       - fabric-sdk-go-integration-tests
 
     publishers:
-      - lf-infra-publish
       - code-coverage-report

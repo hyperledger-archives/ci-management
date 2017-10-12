@@ -198,9 +198,6 @@
       - output-environment
       - buildimages
 
-    publishers:
-      - lf-infra-publish
-
 - job-template:
     name: 'fabric-app-image-merge-docker-{arch}'
 
@@ -334,8 +331,6 @@
       - output-environment
       - buildimages
 
-    publishers:
-      - lf-infra-publish
 
 - job-template:
     name: 'fabric-app-image-release-docker-{arch}'
@@ -471,6 +466,3 @@
       - output-environment
       - buildimages
       - app-docker-image-release
-
-    publishers:
-      - lf-infra-publish
