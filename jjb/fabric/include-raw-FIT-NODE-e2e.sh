@@ -47,4 +47,25 @@ echo "############"
 
 istanbul cover --report cobertura test/integration/e2e.js
 
-docker rm -f "$(docker ps -aq)" || true
+function clearContainers () {
+    CONTAINER_IDS=$(docker ps -aq)
+        if [ -z "$CONTAINER_IDS" ] || [ "$CONTAINER_IDS" = " " ]; then
+                echo "---- No containers available for deletion ----"
+        else
+                docker rm -f $CONTAINER_IDS || true
+                docker ps -a
+        fi
+}
+
+function removeUnwantedImages() {
+        DOCKER_IMAGE_IDS=$(docker images | grep "dev\|none\|test-vp\|peer[0-9]-" | awk '{print $3}')
+        if [ -z "$DOCKER_IMAGE_IDS" ] || [ "$DOCKER_IMAGE_IDS" = " " ]; then
+                echo "---- No images available for deletion ----"
+        else
+                docker rmi -f $DOCKER_IMAGE_IDS || true
+                docker images
+        fi
+}
+
+clearContainers
+removeUnwantedImages
