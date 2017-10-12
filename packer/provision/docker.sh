@@ -160,20 +160,20 @@ deb_install_docker_compose() {
 
 deb_install_pip_pkgs() {
     PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools"
-    PIP_PACKAGES="behave nose"
+    PIP_PACKAGES="behave nose google protobuf pyyaml pykafka requests pyexecjs cython pyjnius"
     GRPC_PACKAGES="grpcio==1.0.4"
     JINJA2_PACKAGES="jinja2"
     B3J0F_PACKAGES="b3j0f.aop"
     PIP_VERSIONED_PACKAGES="flask==0.10.1 \
         python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 \
-        flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1"
+        flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1 pyopenssl==17.2.0"
 
     echo '---> Installing Pip Packages'
-    pip3 install -U pip
-    pip3 install $PIP_PACKAGE_DEPS
-    pip3 install $PIP_PACKAGES
-    pip3 install -I $PIP_VERSIONED_PACKAGES
-    pip3 install -U $GRPC_PACKAGES $JINJA2_PACKAGES $B3J0F_PACKAGES
+    pip2 install -U pip
+    pip2 install $PIP_PACKAGE_DEPS
+    pip2 install $PIP_PACKAGES
+    pip2 install -I $PIP_VERSIONED_PACKAGES
+    pip2 install -U $GRPC_PACKAGES $JINJA2_PACKAGES $B3J0F_PACKAGES
 }
 
 deb_update_alternatives() {
