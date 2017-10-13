@@ -170,8 +170,8 @@ deb_install_pip_pkgs() {
 
     echo '---> Installing Pip Packages'
     pip2 install -U pip
-    pip2 install $PIP_PACKAGE_DEPS
-    pip2 install $PIP_PACKAGES
+    pip2 install -U $PIP_PACKAGE_DEPS
+    pip2 install -U $PIP_PACKAGES
     pip2 install -I $PIP_VERSIONED_PACKAGES
     pip2 install -U $GRPC_PACKAGES $JINJA2_PACKAGES $B3J0F_PACKAGES
 }
