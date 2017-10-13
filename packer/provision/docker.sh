@@ -159,8 +159,8 @@ deb_install_docker_compose() {
 }
 
 deb_install_pip_pkgs() {
-    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools"
-    PIP_PACKAGES="behave nose google protobuf pyyaml pykafka requests pyexecjs cython pyjnius"
+    PIP_PACKAGE_DEPS="urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools cython"
+    PIP_PACKAGES="behave nose google protobuf pyyaml pykafka requests pyexecjs pyjnius"
     GRPC_PACKAGES="grpcio==1.0.4"
     JINJA2_PACKAGES="jinja2"
     B3J0F_PACKAGES="b3j0f.aop"
