@@ -99,6 +99,12 @@
       - shell:
           !include-raw: include-raw-publish-doc.sh
 
+- builder:
+    name: fabric-sdk-node-vulnerable-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-vulnerable-tests.sh
+
 # Node SDK Cobertura coverage report
 - publisher:
     name: sdk-node-coverage-report
