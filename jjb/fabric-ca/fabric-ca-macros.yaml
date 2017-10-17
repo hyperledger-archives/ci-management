@@ -58,3 +58,21 @@
           docker rm -f $(docker ps -aq) || true
           make clean || true
           docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
+
+- builder:
+    name: ca-golang-environment-x86_64
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/ci.properties
+          properties-content: |
+            GOROOT=/opt/go/go$GO_VER.linux.amd64
+            PATH=$GOROOT/bin:$PATH
+
+- builder:
+    name: ca-golang-environment-s390x
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/ci.properties
+          properties-content: |
+            GOROOT=/opt/go/go$GO_VER.linux.s390x
+            PATH=$GOROOT/bin:$PATH

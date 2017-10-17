@@ -53,6 +53,7 @@
     builders:
       - verify-commit-message
       - ca-clean-environment
+      - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
 
@@ -97,6 +98,7 @@
 
     builders:
       - ca-clean-environment
+      - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
 
@@ -143,6 +145,7 @@
     builders:
       - verify-commit-message
       - ca-clean-environment
+      - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
 
@@ -187,6 +190,7 @@
 
     builders:
       - ca-clean-environment
+      - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
 
