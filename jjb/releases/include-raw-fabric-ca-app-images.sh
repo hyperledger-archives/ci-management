@@ -7,12 +7,12 @@ echo
 ORG_NAME="hyperledger/fabric"
 
 docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
-# Push docker images to nexus repository
+# Push docker images to hyperledger dockerhub repository
 
 dockerCaPush() {
 
   # shellcheck disable=SC2043
-  for IMAGES in ca; do
+  for IMAGES in ca ca-peer ca-orderer ca-tools; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_CA_TAG
     echo
@@ -21,7 +21,7 @@ dockerCaPush() {
   done
 }
 
-# Push Fabric Docker Images to Nexus Repository
+# Push Fabric Docker Images to hyperledger dockerhub Repository
 dockerCaPush
 
 # Listout all docker images Before and After Push to NEXUS
