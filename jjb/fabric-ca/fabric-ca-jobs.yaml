@@ -27,7 +27,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -69,7 +69,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7
@@ -119,7 +119,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
 
     parameters:
       - project-parameter:
@@ -161,7 +161,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
 
     logrotate:
       daysToKeep: 7
