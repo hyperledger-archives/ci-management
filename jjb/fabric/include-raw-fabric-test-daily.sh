@@ -3,46 +3,16 @@ set -o pipefail
 
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-test
 
+# update submodules
 git submodule update --init --recursive
 
-# Create virtual Environment to test behave tests
+# intialize govendor for chaincode tests
+cd ../fabric/examples/chaincode/go/enccc_example
+go get -u github.com/kardianos/govendor && govendor init && govendor add +external
 
-virtualenv -p /usr/bin/python2.7 venv
-export PS1="test"
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python2.7
-source venv/bin/activate
-
-# Install all required python modules
-
-pip install behave
-pip install grpcio-tools
-pip install "pysha3==1.0b1"
-pip install b3j0f.aop
-pip install jinja2
-pip install "pyopenssl==17.2.0"
-pip install ecdsa
-pip install python-slugify
-pip install pyyaml
-pip install pykafka
-pip install requests
-pip install pyexecjs
-pip install cython
-pip install pyjnius
-
-cd regression/daily
-
-echo "==========> Ledger component performance tests..."
-py.test -v --junitxml results_ledger_lte.xml ledger_lte.py
-
-echo "==========> System Test Performance Stress tests driven by PTE tool..."
-py.test -v --junitxml results_systest_pte.xml systest_pte.py
-
-# Execute behave smoke tests
-cd ../../feature
-behave --junit --junit-directory . -t daily
-cd -
+# Run Dailytestsuite
+cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-test/regression/daily
+./runDailyTestSuite.sh
 
 # Copy .csv files to $WORKSPACE directory
 cp -r /tmp/experiments .
-
-deactivate
