@@ -57,7 +57,7 @@
          ./gradlew build
 
     publishers:
-
+      - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
       - lf-infra-publish
 
@@ -107,6 +107,6 @@
          ./gradlew build
 
     publishers:
-
+      - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
       - lf-infra-publish
