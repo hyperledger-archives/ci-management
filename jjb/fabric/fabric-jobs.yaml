@@ -11,6 +11,8 @@
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-daily-{arch}'
       - 'fabric-verify-two-staged-ci-check-{arch}'
+      - 'fabric-smoke-tests-verify-{arch}'
+      - 'fabric-smoke-tests-merge-{arch}'
 
     project: 'fabric'
     arch:
@@ -441,3 +443,110 @@
     publishers:
       - lf-infra-publish
       - daily-goast-scan-results
+
+
+- job-template:
+    name: 'fabric-smoke-tests-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted-smoke:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - verify-commit-message
+      - 'golang-environment-{arch}'
+      - clean-environment
+      - output-environment
+      - dockerimages
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd gopath/src/github.com/hyperledger/fabric
+         make native
+      - fabric-smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+      - daily-test-results
+
+- job-template:
+    name: 'fabric-smoke-tests-merge-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-merge-smoke:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - verify-commit-message
+      - 'golang-environment-{arch}'
+      - clean-environment
+      - output-environment
+      - dockerimages
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd gopath/src/github.com/hyperledger/fabric
+         make native
+      - fabric-smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+      - daily-test-results

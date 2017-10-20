@@ -53,14 +53,37 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - pull-repos
+      - shell: |
+         #!/bin/bash -exu
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # update submodules
+         git submodule update --init --recursive
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         cd gopath/src/github.com/hyperledger/fabric
-         make peer && make orderer && make configtxgen && make cryptogen
-      - fabric-test-behave-smoke-tests
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
+         make docker && make native
+         echo "=======> Docker Images"
+         docker images
+         echo "=======> Build fabric-ca docker images"
+         cd ../fabric-ca && make docker
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         # intialize govendor for chaincode tests
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
+         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
+
+         echo "=======> Run Smoke Tests..."
+         echo
+         cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+
+         # copy .csv files to $WORKSPACE directory
+         cp -r /tmp/experiments .
 
     publishers:
       - lf-infra-publish
@@ -107,14 +130,39 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - pull-repos
+      - shell: |
+         #!/bin/bash -exu
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # update submodules
+         git submodule update --init --recursive
+
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         cd gopath/src/github.com/hyperledger/fabric
-         make peer && make orderer && make configtxgen && make cryptogen
-      - fabric-test-behave-smoke-tests
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
+         # Build binaries
+         make docker && make native
+         echo "=======> Docker Images"
+         docker images
+         echo "=======> Build fabric-ca docker images"
+         cd ../fabric-ca && make docker
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         # intialize govendor for chaincode tests
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
+         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
+
+         echo "========> Run Smoke Tests..."
+         echo
+         cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+
+         # copy .csv files to $WORKSPACE directory
+         cp -r /tmp/experiments .
 
     publishers:
       - lf-infra-publish
@@ -159,14 +207,41 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - pull-repos
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         cd gopath/src/github.com/hyperledger/fabric
-         make peer && make orderer && make configtxgen && make cryptogen
-      - fabric-test-daily-tests
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # update submodules
+         git submodule update --init --recursive
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
+         # Build binaries
+         make docker && make native
+         echo "=======> Docker Images"
+         docker images
+         echo "=======> Build fabric-ca docker images"
+         cd ../fabric-ca
+         make docker
+         docker images
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         # intialize govendor for chaincode tests
+         cd gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
+         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
+
+         echo "=======> Run Daily test suite..."
+         echo
+         cd ../../../../../fabric-test/regression/daily && ./runDailyTestSuite.sh
+
+         # copy .csv files to $WORKSPACE directory
+         cp -r /tmp/experiments .
 
     publishers:
       - lf-infra-publish

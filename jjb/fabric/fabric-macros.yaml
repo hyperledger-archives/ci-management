@@ -136,6 +136,11 @@
           !include-raw: include-raw-fabric-build-docker-images.sh
 
 - builder:
+    name: pull-repos
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-clone-repos.sh
+- builder:
     name: release-docker-images
     builders:
       - shell:
@@ -284,18 +289,6 @@
           !include-raw: include-raw-fabric-behave-tests.sh
 
 - builder:
-    name: fabric-test-behave-smoke-tests
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-test-behave-smoke.sh
-
-- builder:
-    name: fabric-test-daily-tests
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-test-daily.sh
-
-- builder:
     name: release-behave-tests
     builders:
       - shell:
@@ -311,6 +304,12 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-push-fabric-byfn.sh
+
+- builder:
+    name: fabric-smoke-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-smoke-tests.sh
 
 - builder:
     name: fabric-busybox-test
