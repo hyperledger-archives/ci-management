@@ -41,18 +41,15 @@ npmPublish() {
 
   else
 
-      case $RELEASE in
-      alpha*|beta*|rc*|1.0.0|1.0.1|1.0.2)
+      if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
          echo "===> PUBLISH --> $RELEASE"
          npm publish
-      ;;
-      *) echo "$RELEASE: No such release."
+      else
+         echo "$RELEASE: No such release."
          exit 1
-      ;;
-      esac
-  fi
+      fi
+fi
 }
-
 versions() {
 
   CURRENT_RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }')

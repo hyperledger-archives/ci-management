@@ -40,7 +40,7 @@ npmPublish() {
     fi
 
   else
-      if [[ "$RELEASE" =~ alpha*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
+      if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
         echo "===> PUBLISH --> $RELEASE"
         npm publish
       else
