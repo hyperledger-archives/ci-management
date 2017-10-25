@@ -12,6 +12,9 @@
       - 'fabric-baseimage-release-docker-ppc64le'
       - 'fabric-baseimage-release-docker-s390x'
       - 'fabric-baseimage-release-trigger'
+      - 'fabric-baseimage-nexus-release-docker-{arch}'
+      - 'fabric-baseimage-nexus-release-docker-ppc64le'
+      - 'fabric-baseimage-nexus-release-docker-s390x'
 
     project: 'fabric-baseimage'
     arch:
@@ -434,3 +437,136 @@
       - baseimage-clean-environment
       - output-environment
       - fabric-docker-release
+
+
+- job-template:
+    name: 'fabric-baseimage-nexus-release-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - docker-login
+      - fabric-docker-local
+      - baseimage-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-baseimage-nexus-release-docker-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-ppc64le'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - docker-login
+      - fabric-docker-local
+      - baseimage-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-baseimage-nexus-release-docker-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - docker-login
+      - fabric-docker-local
+      - baseimage-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish

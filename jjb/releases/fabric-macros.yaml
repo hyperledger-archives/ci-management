@@ -32,7 +32,7 @@
           docker rm -f $(docker ps -aq) || true
           make clean || true
           docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
-          rm -rf /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store || true
+          rm -rf /tmp/hfc* /tmp/fabric-shim /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store || true
 
 - builder:
     name: appimage-clean-environment
@@ -121,6 +121,11 @@
       - shell:
           !include-raw: include-raw-fabric-ca-nexus-docker-release.sh
 
+- builder:
+    name: baseimage-nexus-docker-release
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-baseimage-nexus-docker-release.sh
 - builder:
     name: ca-docker-image
     builders:
