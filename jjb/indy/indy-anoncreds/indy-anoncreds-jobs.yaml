@@ -1,0 +1,8 @@
+---
+- project:
+    name: indy-anoncreds-jobs
+    jobs:
+      - 'indy-ci-pipeline-template'
+    repo: 'indy-anoncreds'
+    arch:
+      - 'x86_64'
