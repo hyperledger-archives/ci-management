@@ -1,0 +1,28 @@
+---
+- scm:
+    name: indy-git-pr-scm
+    scm:
+      - git:
+          name: origin
+          url: 'https://github.com/hyperledger/{repo}'
+          credentials-id: '{credentials_id}'
+          branches: '{branches}'
+          skip-tag: true
+          wipe-workspace: true
+          refspec: +refs/pull/*:refs/remotes/origin/pr/*
+
+- parameter:
+    name: indy-agent-label-linux-docker-parameter
+    parameters:
+      - string:
+          name: INDY_AGENT_LINUX_DOCKER_LABEL
+          default: '{label}'
+          description: 'Label for agent with ability to build and run linux containers'
+
+- parameter:
+    name: indy-commit-id-build-parameter
+    parameters:
+      - string:
+          name: sha1
+          default: master
+          description: 'Commit id to build or refname (e.g. origin/pr/10/head, origin/pr/10/merge)'
