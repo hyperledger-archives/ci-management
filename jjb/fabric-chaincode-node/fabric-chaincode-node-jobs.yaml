@@ -155,6 +155,7 @@
     publishers:
       - sdk-logs
       - sdk-node-coverage-report
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-chaincode-node-merge-s390x'
@@ -200,3 +201,4 @@
     publishers:
       - sdk-logs
       - chaincode-node-coverage-report
+      - lf-infra-publish

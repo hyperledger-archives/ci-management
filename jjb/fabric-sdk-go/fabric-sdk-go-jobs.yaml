@@ -152,6 +152,7 @@
 
     publishers:
       - code-coverage-report
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-sdk-go-tests-merge-s390x'
@@ -197,3 +198,4 @@
 
     publishers:
       - code-coverage-report
+      - lf-infra-publish

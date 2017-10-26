@@ -55,6 +55,7 @@
 
     publishers:
       - code-coverage-report
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-merge-z'
@@ -102,3 +103,4 @@
 
     publishers:
       - code-coverage-report
+      - lf-infra-publish
