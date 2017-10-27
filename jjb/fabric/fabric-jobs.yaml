@@ -491,6 +491,7 @@
 
          cd gopath/src/github.com/hyperledger/fabric
          make native
+      - npm-install
       - fabric-smoke-tests
 
     publishers:
@@ -544,6 +545,7 @@
 
          cd gopath/src/github.com/hyperledger/fabric
          make native
+      - npm-install
       - fabric-smoke-tests
 
     publishers:

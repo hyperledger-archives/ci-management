@@ -23,6 +23,3 @@ go get -u github.com/kardianos/govendor && govendor init && govendor add +extern
 echo "========== Behave feature and system tests..."
 echo
 cd ../../../../../fabric-test/regression/smoke/ && ./runSmokeTestSuite.sh
-
-# Copy .csv files to $WORKSPACE directory
-cp -r /tmp/experiments .

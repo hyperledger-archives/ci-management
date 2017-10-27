@@ -60,6 +60,7 @@
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
          # update submodules
          git submodule update --init --recursive
+      - npm-install
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
@@ -82,12 +83,9 @@
          echo
          cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
-         # copy .csv files to $WORKSPACE directory
-         cp -r /tmp/experiments .
-
     publishers:
       - lf-infra-publish
-      - test-logs
+      - dockerlog
       - daily-test-results
 
 - job-template:
@@ -137,7 +135,7 @@
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
          # update submodules
          git submodule update --init --recursive
-
+      - npm-install
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
@@ -161,12 +159,9 @@
          echo
          cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
-         # copy .csv files to $WORKSPACE directory
-         cp -r /tmp/experiments .
-
     publishers:
       - lf-infra-publish
-      - test-logs
+      - dockerlog
       - daily-test-results
 
 # gerrit changes
@@ -215,6 +210,7 @@
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
          # update submodules
          git submodule update --init --recursive
+      - npm-install
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
@@ -241,7 +237,7 @@
          cd ../../../../../fabric-test/regression/daily && ./runDailyTestSuite.sh
 
          # copy .csv files to $WORKSPACE directory
-         cp -r /tmp/experiments .
+         cp -r /tmp/experiments . || true
 
     publishers:
       - lf-infra-publish
