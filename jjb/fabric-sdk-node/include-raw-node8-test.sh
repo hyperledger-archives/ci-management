@@ -1,5 +1,4 @@
-#!/bin/bash -e
-set -o pipefail
+#!/bin/bash -x
 
 # Clone fabric git repository
 #############################
