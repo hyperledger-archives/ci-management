@@ -165,18 +165,18 @@ EOF
 
     # add in stuff we know we need
     echo "---> Installing base packages"
-    apt-get install unzip xz-utils puppet git git-review libxml-xpath-perl \
-                    xmlstarlet facter maven libltdl-dev python-tox crudini
+    ensure_ubuntu_install unzip xz-utils puppet git git-review libxml-xpath-perl \
+                          xmlstarlet facter maven libltdl-dev python-tox crudini
 
     # install Java 7
     echo "---> Configuring OpenJDK"
-    apt-get install openjdk-7-jdk
+    ensure_ubuntu_install openjdk-7-jdk
 
     # make jdk8 available
     add-apt-repository -y ppa:openjdk-r/ppa
     apt-get update
     # We need to force openjdk-8-jdk to install
-    apt-get install openjdk-8-jdk
+    ensure_ubuntu_install openjdk-8-jdk
 
     # make sure that we still default to openjdk 7
     update-alternatives --set java /usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java
@@ -198,7 +198,7 @@ EOF
 
     # Needed to parse OpenStack commands used by infra stack commands
     # to initialize Heat template based systems.
-    apt-get install jq
+    ensure_ubuntu_install jq
 
     # --- END LFTOOLS DEPS
     ########################
