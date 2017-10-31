@@ -45,6 +45,11 @@
       - gerrit-trigger-release-verify:
           name: '{project}'
           branch: ''
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node8-x'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -91,6 +96,11 @@
       - gerrit-trigger-release-verify:
           name: '{project}'
           branch: ''
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node6-x'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -138,6 +148,11 @@
       - gerrit-trigger-node-patch-submitted:
           name: '{project}'
           branch: ''
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node-z'
 
     wrappers:
       - hyperledger-infra-wrappers
