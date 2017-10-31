@@ -45,10 +45,18 @@
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            GOROOT=/usr/local/go/
+            GOROOT=/usr/local/go/go1.9.linux.ppc64le
             PATH=$GOROOT/bin:$GOPATH/bin:$PATH
             ARCH=ppc64le
 
+- property:
+    name: 'fabric-go-ppc64le'
+    properties:
+      - inject:
+          properties-content: |
+            GOPATH=$WORKSPACE/gopath
+            PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+            ARCH=ppc64le
 - scm:
     name: hyperledger-fabric-gerrit
     scm:
@@ -101,6 +109,15 @@
           properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.s390x
+            PATH=$GOROOT/bin:$PATH
+
+- builder:
+    name: golang-environment-ppc64le
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-content: |
+            GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
             PATH=$GOROOT/bin:$PATH
 
 - builder:
@@ -273,14 +290,11 @@
 
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
           chmod +x runReleaseTestSuite.sh
-          sed -i s/1.0.0/1.0.3/g run_byfn_cli_release_tests.sh
-          sed -i s/1.0.0/1.0.3/g run_e2e_node_sdk.sh
-          sed -i s/1.0.0/1.0.3/g run_e2e_java_sdk.sh
-          sed -i s/1.0.0/1.0.3/g run_node_sdk_byfn.sh
+          sed -i s/1.0.1/1.0.4/g run_byfn_cli_release_tests.sh
+          sed -i s/1.0.1/1.0.4/g run_e2e_node_sdk.sh
+          sed -i s/1.0.1/1.0.4/g run_e2e_java_sdk.sh
+          sed -i s/1.0.1/1.0.4/g run_node_sdk_byfn.sh
           ./runReleaseTestSuite.sh
-
-          # Copy .csv files to $WORKSPACE directory
-          cp -r /tmp/experiments .
 
 - builder:
     name: daily-behave-tests

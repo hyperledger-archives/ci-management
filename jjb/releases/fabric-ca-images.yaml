@@ -26,7 +26,7 @@
       artifactDaysToKeep: 7
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     parameters:
       - project-parameter:
@@ -50,6 +50,7 @@
 
     builders:
       - ca-image-clean-environment
+      - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-docker-image
       - provide-maven-settings:
@@ -69,7 +70,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7
@@ -97,6 +98,7 @@
 
     builders:
       - ca-image-clean-environment
+      - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-docker-image
       - ca-docker-image-release
@@ -112,7 +114,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-ppc64le'
+      - 'fabric-go-ppc64le'
 
 
     logrotate:
@@ -141,6 +143,7 @@
 
     builders:
       - ca-image-clean-environment
+      - 'ca-golang-environment-ppc64le'
       - output-environment
       - ca-docker-image
       - ca-docker-image-release
@@ -156,7 +159,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
 
     logrotate:
       daysToKeep: 7
@@ -184,6 +187,7 @@
 
     builders:
       - ca-image-clean-environment
+      - 'ca-golang-environment-s390x'
       - output-environment
       - ca-docker-image
       - ca-docker-image-release

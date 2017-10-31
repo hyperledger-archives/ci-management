@@ -344,7 +344,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     disabled: false
 
@@ -375,6 +375,7 @@
 
     builders:
       - appimage-clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
       - buildimages
       - app-docker-image-release
@@ -390,7 +391,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-ppc64le'
+      - 'fabric-go-ppc64le'
 
     disabled: false
 
@@ -421,6 +422,7 @@
 
     builders:
       - appimage-clean-environment
+      - 'golang-environment-ppc64le'
       - output-environment
       - buildimages
       - app-docker-image-release
@@ -436,7 +438,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
 
     disabled: false
 
@@ -467,6 +469,7 @@
 
     builders:
       - appimage-clean-environment
+      - 'golang-environment-s390x'
       - output-environment
       - buildimages
       - app-docker-image-release
