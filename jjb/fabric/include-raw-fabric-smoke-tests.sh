@@ -16,10 +16,6 @@ echo "FABRIC TEST COMMIT ========> $FABRIC_TEST_COMMIT" >> ${WORKSPACE}/gopath/s
 # update submodules
 git submodule update --init --recursive
 
-# intialize govendor for chaincode tests
-cd ../fabric/examples/chaincode/go/enccc_example || exit
-go get -u github.com/kardianos/govendor && govendor init && govendor add +external
-
 echo "========== Behave feature and system tests..."
 echo
-cd ../../../../../fabric-test/regression/smoke/ && ./runSmokeTestSuite.sh
+cd regression/smoke && ./runSmokeTestSuite.sh

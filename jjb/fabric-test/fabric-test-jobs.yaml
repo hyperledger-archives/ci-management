@@ -75,13 +75,9 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         # intialize govendor for chaincode tests
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
-         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
-
          echo "=======> Run Smoke Tests..."
          echo
-         cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
     publishers:
       - lf-infra-publish
@@ -151,13 +147,9 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         # intialize govendor for chaincode tests
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
-         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
-
          echo "========> Run Smoke Tests..."
          echo
-         cd ../../../../../fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
     publishers:
       - lf-infra-publish
@@ -228,13 +220,9 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         # intialize govendor for chaincode tests
-         cd gopath/src/github.com/hyperledger/fabric/examples/chaincode/go/enccc_example || exit
-         go get -u github.com/kardianos/govendor && govendor init && govendor add +external
-
          echo "=======> Run Daily test suite..."
          echo
-         cd ../../../../../fabric-test/regression/daily && ./runDailyTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/daily && ./runDailyTestSuite.sh
 
          # copy .csv files to $WORKSPACE directory
          cp -r /tmp/experiments . || true

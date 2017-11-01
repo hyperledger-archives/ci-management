@@ -40,7 +40,8 @@
       - output-environment
       - release-docker-images
       - release-tests
-      - release-behave-tests
+      - npm-install
+      - fabric-smoke-tests
 
     publishers:
       - lf-infra-publish
