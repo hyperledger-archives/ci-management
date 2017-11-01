@@ -290,7 +290,7 @@
 
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
           chmod +x runReleaseTestSuite.sh
-          sed -i s/1.0.1/1.0.4/g run_byfn_cli_release_tests.sh
+          sed -i s/1.0.1/1.1.0-preview/g run_byfn_cli_release_tests.sh
           sed -i '16,16 s/^/#/' run_e2e_java_sdk.sh
           sed -i '17,17 s/^/#/' run_node_sdk_byfn.sh
           #Comment out behave tests from DailyTestSuite.sh
