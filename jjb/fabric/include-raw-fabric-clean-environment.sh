@@ -28,7 +28,7 @@ make dist-clean || true
 rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
 
 # remove tmp/hfc and hfc-key-store data
-rm -rf /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
+rm -rf /home/jenkins/.nvm /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
 
 rm -rf /var/hyperledger/*
 

@@ -32,7 +32,7 @@
           docker rm -f $(docker ps -aq) || true
           make clean || true
           docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
-          rm -rf /tmp/hfc* /tmp/fabric-shim /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store || true
+          rm -rf /home/jenkins/.nvm /tmp/hfc* /tmp/fabric-shim /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store || true
 
 - builder:
     name: appimage-clean-environment
