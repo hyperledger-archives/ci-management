@@ -75,7 +75,9 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         echo "=======> Run Smoke Tests..."
+         echo "=========> Install govendor"
+         go get -u github.com/kardianos/govendor
+         echo "=========> Run Smoke Tests..."
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
@@ -147,8 +149,10 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         echo "========> Run Smoke Tests..."
+         echo "=========> Install govendor"
+         go get -u github.com/kardianos/govendor
          echo
+         echo "=========> Run Smoke Tests..."
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
 
     publishers:
@@ -220,6 +224,9 @@
          #!/bin/bash -exu
          set -o pipefail
 
+         echo "=========> Install govendor"
+         go get -u github.com/kardianos/govendor
+         echo
          echo "=======> Run Daily test suite..."
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/daily && ./runDailyTestSuite.sh
