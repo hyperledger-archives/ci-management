@@ -6,8 +6,8 @@
       - 'fabric-sdk-node8-merge-{arch}'
       - 'fabric-sdk-node6-verify-{arch}'
       - 'fabric-sdk-node6-merge-{arch}'
-      - 'fabric-sdk-node-verify-s390x'
-      - 'fabric-sdk-node-merge-s390x'
+      - 'fabric-sdk-node8-verify-s390x'
+      - 'fabric-sdk-node8-merge-s390x'
       - 'fabric-sdk-node-vulnerable-tests-{arch}'
       - 'FIT-node-{arch}'
     project: 'fabric-sdk-node'
@@ -42,7 +42,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-verify:
+      - gerrit-trigger-node8-patch-submitted-{arch}:
           name: '{project}'
           branch: ''
 
@@ -88,7 +88,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-verify:
+      - gerrit-trigger-node6-patch-submitted-{arch}:
           name: '{project}'
           branch: ''
 
@@ -110,7 +110,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-sdk-node-verify-s390x'
+    name: 'fabric-sdk-node8-verify-s390x'
 
     project-type: freestyle
     node: 'hyp-z'
@@ -135,7 +135,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-node-patch-submitted:
+      - gerrit-trigger-node8-patch-submitted-s390x:
           name: '{project}'
           branch: ''
 
@@ -181,7 +181,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: ''
 
@@ -228,7 +228,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: ''
 
@@ -249,7 +249,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-sdk-node-merge-s390x'
+    name: 'fabric-sdk-node8-merge-s390x'
 
     project-type: freestyle
     node: 'hyp-z'
@@ -360,7 +360,7 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-release-verify:
+      - gerrit-trigger-node8-patch-submitted-vul-{arch}:
           name: '{project}'
           branch: ''
 
