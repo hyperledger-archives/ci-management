@@ -15,6 +15,7 @@ ensure_ubuntu_install() {
         # shellcheck disable=SC2034
         for i in {0..5}
         do
+            while pgrep apt > /dev/null; do sleep 1; done
             if [ "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null | grep -c "ok installed")" -eq 0 ]; then
                 apt-cache policy "$pkg"
                 apt-get install "$pkg"
