@@ -53,24 +53,6 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - pull-repos
-      - shell: |
-         #!/bin/bash -exu
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-         # update submodules
-         git submodule update --init --recursive
-      - npm-install
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
-         make docker && make native
-         echo "=======> Docker Images"
-         docker images
-         echo "=======> Build fabric-ca docker images"
-         cd ../fabric-ca && make docker
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
@@ -79,7 +61,7 @@
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
 
     publishers:
       - lf-infra-publish
@@ -126,34 +108,14 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - pull-repos
-      - shell: |
-         #!/bin/bash -exu
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-         # update submodules
-         git submodule update --init --recursive
-      - npm-install
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
-         # Build binaries
-         make docker && make native
-         echo "=======> Docker Images"
-         docker images
-         echo "=======> Build fabric-ca docker images"
-         cd ../fabric-ca && make docker
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
-         echo
          echo "=========> Run Smoke Tests..."
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/smoke && ./runSmokeTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
 
     publishers:
       - lf-infra-publish
@@ -178,7 +140,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: 'H */8 * * *'
+      - timed: 'H 10 * * *'
 
     properties:
       - 'fabric-{arch}'
@@ -198,38 +160,15 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - pull-repos
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-         # update submodules
-         git submodule update --init --recursive
-      - npm-install
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric
-         # Build binaries
-         make docker && make native
-         echo "=======> Docker Images"
-         docker images
-         echo "=======> Build fabric-ca docker images"
-         cd ../fabric-ca
-         make docker
-         docker images
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
-         echo
          echo "=======> Run Daily test suite..."
          echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/daily && ./runDailyTestSuite.sh
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
 
          # copy .csv files to $WORKSPACE directory
          cp -r /tmp/experiments . || true
