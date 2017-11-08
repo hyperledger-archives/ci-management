@@ -1,9 +1,9 @@
 ---
 - project:
-    name: fabric-jobs-z
+    name: fabric-jobs-s390x
     jobs:
-      - 'fabric-merge-z'
-      - 'fabric-verify-z'
+      - 'fabric-merge-s390x'
+      - 'fabric-verify-s390x'
 
     project: 'fabric'
     arch: 's390x'
@@ -11,7 +11,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-verify-z'
+    name: 'fabric-verify-s390x'
 
     project-type: freestyle
     node: 'hyp-z'
@@ -22,8 +22,6 @@
 
     logrotate:
       daysToKeep: 7
-
-    disabled: true
 
     parameters:
       - project-parameter:
@@ -60,7 +58,7 @@
       - lf-infra-publish
 
 - job-template:
-    name: 'fabric-merge-z'
+    name: 'fabric-merge-s390x'
 
     project-type: freestyle
     node: 'hyp-z'
@@ -72,8 +70,6 @@
     logrotate:
       daysToKeep: 7
       artifactDaysToKeep: 7
-
-    disabled: true
 
     parameters:
       - project-parameter:
