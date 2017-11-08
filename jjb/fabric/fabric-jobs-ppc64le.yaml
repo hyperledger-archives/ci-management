@@ -1,9 +1,9 @@
 ---
 - project:
-    name: fabric-jobs-power
+    name: fabric-jobs-ppc64le
     jobs:
-      - 'fabric-merge-power-{arch}'
-      - 'fabric-verify-power-{arch}'
+      - 'fabric-merge-ppc64le'
+      - 'fabric-verify-ppc64le'
 
     project: 'fabric'
     arch:
@@ -12,7 +12,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-verify-power-{arch}'
+    name: 'fabric-verify-ppc64le'
 
     project-type: freestyle
     node: 'hyp-p'
@@ -25,7 +25,7 @@
     disabled: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-ppc64le'
 
     parameters:
       - project-parameter:
@@ -59,14 +59,14 @@
       - code-coverage-report
 
 - job-template:
-    name: 'fabric-merge-power-{arch}'
+    name: 'fabric-merge-ppc64le'
 
     project-type: freestyle
     node: 'hyp-p'
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-ppc64le'
 
     logrotate:
       daysToKeep: 7
