@@ -240,6 +240,8 @@
                 comment-contains-value: 'reverify'
             - comment-added-contains-event:
                 comment-contains-value: 'rebuild-z'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-s390x'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
