@@ -12,7 +12,7 @@ cd $WD || exit
 #sed -i -e 's/127.0.0.1:7050\b/'"orderer:7050"'/g' $WD/common/configtx/tool/configtx.yaml
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "=======> FABRIC_COMMIT <======= $FABRIC_COMMIT"
-make docker
+make peer-docker && make orderer-docker && make couchdb
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
@@ -26,7 +26,7 @@ git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAM
 cd $WD || exit
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "======> CA_COMMIT <======= $CA_COMMIT"
-make docker
+make docker-fabric-ca
 docker images | grep hyperledger
 
 ## Test gulp test
@@ -35,7 +35,26 @@ docker-compose up >> dockerlogfile.log 2>&1 &
 sleep 30
 docker ps -a
 
-cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node && npm install
+cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node || exit
+
+# Install nvm to install multi node versions
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+# shellcheck source=/dev/null
+export NVM_DIR="$HOME/.nvm"
+# shellcheck source=/dev/null
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+# Install nodejs version 8.9.0
+nvm install 8.9.0 || true
+
+# use nodejs 8.9.0 version
+nvm use --delete-prefix v8.9.0 --silent
+
+echo "npm version ======>"
+npm -v
+echo "node version =======>"
+node -v
+
+npm install
 npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
 gulp || exit 1
 gulp ca || exit 1

@@ -8,6 +8,8 @@
       - 'fabric-sdk-node6-merge-{arch}'
       - 'fabric-sdk-node8-verify-s390x'
       - 'fabric-sdk-node8-merge-s390x'
+      - 'fabric-sdk-node6-verify-s390x'
+      - 'fabric-sdk-node6-merge-s390x'
       - 'fabric-sdk-node-vulnerable-tests-{arch}'
       - 'FIT-node-{arch}'
     project: 'fabric-sdk-node'
@@ -148,7 +150,56 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - sdk-node-tests
+      - sdk-node8-tests
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
+      - sdk-node-coverage-report
+
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-node6-verify-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-node6-patch-submitted-s390x:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - verify-commit-message
+      - baseimage-clean-environment
+      - output-environment
+      - sdk-node6-tests
 
     publishers:
       - sdk-logs
@@ -286,7 +337,54 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - sdk-node-tests
+      - sdk-node8-tests
+
+    publishers:
+      - sdk-logs
+      - lf-infra-publish
+      - sdk-node-coverage-report
+
+# gerrit changes
+
+- job-template:
+    name: 'fabric-sdk-node6-merge-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-node-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - baseimage-clean-environment
+      - output-environment
+      - sdk-node6-tests
 
     publishers:
       - sdk-logs
@@ -324,7 +422,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - chaincode-node-docker-images
       - end-to-end-tests
 
     publishers:
