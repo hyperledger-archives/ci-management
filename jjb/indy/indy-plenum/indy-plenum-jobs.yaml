@@ -1,8 +1,0 @@
----
-- project:
-    name: indy-plenum-jobs
-    jobs:
-      - 'indy-ci-pipeline-template'
-    repo: indy-plenum
-    arch:
-      - 'x86_64'

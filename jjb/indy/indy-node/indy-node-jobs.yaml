@@ -1,8 +1,0 @@
----
-- project:
-    name: indy-node-jobs
-    jobs:
-      - 'indy-ci-pipeline-template'
-    repo: indy-node
-    arch:
-      - 'x86_64'
