@@ -38,7 +38,7 @@ export NVM_DIR="$HOME/.nvm"
 # Install 6.9.5 node js version
 nvm install 6.9.5 || true
 # use npm 6.9.5
-nvm use 6.9.5
+nvm use --delete-prefix v6.9.5 --silent
 echo "npm version ====>" 
 echo
 npm -v

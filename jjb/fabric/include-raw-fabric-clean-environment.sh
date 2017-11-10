@@ -13,7 +13,7 @@ function clearContainers () {
 }
 
 function removeUnwantedImages() {
-        DOCKER_IMAGE_IDS=$(docker images | grep "dev\|none\|test-vp\|peer[0-9]-" | awk '{print $3}')
+        DOCKER_IMAGE_IDS=$(docker images | grep -v "hyperledger/fabric-base*" | awk '{print $3}')
         if [ -z "$DOCKER_IMAGE_IDS" ] || [ "$DOCKER_IMAGE_IDS" = " " ]; then
                 echo "---- No images available for deletion ----"
         else
@@ -28,7 +28,7 @@ make dist-clean || true
 rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config
 
 # remove tmp/hfc and hfc-key-store data
-rm -rf /home/jenkins/.nvm /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
+rm -rf /home/jenkins/.nvm /home/jenkins/npm /tmp/fabric-shim /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
 
 rm -rf /var/hyperledger/*
 

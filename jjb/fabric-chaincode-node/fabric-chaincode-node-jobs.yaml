@@ -52,7 +52,7 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - chaincode-node-docker-images
       - chaincode-node-tests
 
     publishers:
@@ -98,7 +98,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - chaincode-node-docker-images
       - chaincode-node-tests
       - chaincode-npm-publish
       - chaincode-gulp-doc
@@ -149,7 +149,7 @@
       - verify-commit-message
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - chaincode-node-docker-images
       - chaincode-node-tests-s390x
 
     publishers:
@@ -195,7 +195,7 @@
     builders:
       - baseimage-clean-environment
       - output-environment
-      - build-docker-images
+      - chaincode-node-docker-images
       - chaincode-node-tests-s390x
 
     publishers:

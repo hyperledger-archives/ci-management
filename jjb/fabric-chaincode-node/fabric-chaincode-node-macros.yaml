@@ -22,6 +22,12 @@
           !include-raw: include-raw-gulp-chaincode-test.sh
 
 - builder:
+    name: chaincode-node-docker-images
+    builders:
+      - shell:
+          !include-raw: include-raw-chaincode-node-docker-images.sh
+
+- builder:
     name: chaincode-node-tests-s390x
     builders:
       - shell:
