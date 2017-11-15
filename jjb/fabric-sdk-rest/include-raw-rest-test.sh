@@ -1,34 +1,7 @@
 #!/bin/bash -e
 set -o pipefail
 
-# Setup fabric sdk rest CI Configuration
-if [ -d "${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples" ] ; then
-        echo "Delete fabric-samples Directory"
-	rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples
-        echo
-fi
-
-export WD="${WORKSPACE}/gopath/src/github.com/hyperledger"
-SAMPLES_REPO_NAME=fabric-samples
-cd $WD
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$SAMPLES_REPO_NAME && cd fabric-samples
-COMMIT=ca8fad315128a528dc8f3eab2395105723d5f95b
-# Checkout to Commit "$COMMIT"
-git checkout $COMMIT
-COMMIT_VALUE=$(git log --pretty=format:"%H" -n1)
-if [ "$COMMIT_VALUE" == "$COMMIT" ] ; then
-    echo "========== CHECKOUT SUCCESSFUL=========="
-    echo
-else
-    echo "=========== ERROR !!! FAILED ==========="
-    exit 1
-fi
-
-cd fabcar
-./startFabric.sh
-
-#cd $WD && git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-sdk-rest &&
-cd $WD/fabric-sdk-rest/packages/
+cd gopath/src/github.com/hyperledger/fabric-sdk-rest/packages || exit
 # Install nvm
 wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 # shellcheck source=/dev/null
@@ -39,18 +12,22 @@ export NVM_DIR="$HOME/.nvm"
 nvm install 6.9.5 || true
 # use npm 6.9.5
 nvm use --delete-prefix v6.9.5 --silent
-echo "npm version ====>" 
+echo "npm version ====>"
 echo
 npm -v
-echo "nodejs version ==="
+echo "nodejs version ====>"
 echo
 node -v
 npm install loopback-connector-fabric && npm install fabric-rest
-cd ../
 
-# Setup Data sources
-./setup.sh -sukadf $WD/fabric-samples/basic-network &
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-rest/packages/fabric-rest/server/private
 
-sleep 30
+# Generate keys for TLS
+openssl req -x509 -newkey rsa:4096 -keyout privatekey.pem -out certificate.pem \
+        -days 365 -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com" -nodes
+
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-rest || exit
+
+npm install
 # Run the fabric-sdk-rest tests
-python tests/test_fabcar.py
+./tests/fullRun.sh
