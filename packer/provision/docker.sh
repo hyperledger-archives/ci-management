@@ -101,7 +101,9 @@ deb_install_go() {
 
 deb_docker_pull_baseimage() {
     echo "---> Pulling Fabric Baseimage"
-    docker pull hyperledger/fabric-baseimage:x86_64-0.0.10
+    docker pull hyperledger/fabric-baseimage:x86_64-0.4.2
+    docker pull hyperledger/fabric-baseimage:x86_64-0.3.2
+    docker pull hyperledger/fabric-baseimage:x86_64-0.3.1
 }
 
 deb_create_hyperledger_vardir() {
