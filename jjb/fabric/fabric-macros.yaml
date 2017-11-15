@@ -565,6 +565,14 @@
 
           go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
 
+- builder:
+    name: fabric-docs-build
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          cd gopath/src/github.com/hyperledger/fabric/docs
+          make html
+
 - publisher:
     name: daily-goast-scan-results
     publishers:
@@ -597,3 +605,12 @@
           npm -v
           echo "node version =======>"
           node -v
+
+- publisher:
+    name: fabric-docs-publish
+    publishers:
+      - html-publisher:
+          name: "fabric docs output"
+          dir: "$GOPATH/src/github.com/hyperledger/fabric/docs/build/html"
+          files: "index.html"
+          keep-all: true

@@ -14,6 +14,7 @@
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-verify-behave-tests-{arch}'
       - 'fabric-multihost-tests-{arch}'
+      - 'fabric-docs-build-{arch}'
 
     project: 'fabric'
     arch:
@@ -596,3 +597,52 @@
     publishers:
       - lf-infra-publish
       - dockerlog
+      - daily-test-results
+
+- job-template:
+    name: 'fabric-docs-build-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'rebuild-docs'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - fabric-docs-build
+
+    publishers:
+      - lf-infra-publish
+      - fabric-docs-publish
