@@ -236,6 +236,12 @@
           !include-raw: include-raw-nexus-docker-push.sh
 
 - builder:
+    name: nexus-stable-docker-push
+    builders:
+      - shell:
+          !include-raw: include-raw-nexus-stable-docker-push.sh
+
+- builder:
     name: fabric-nexus-docker-release
     builders:
       - shell:

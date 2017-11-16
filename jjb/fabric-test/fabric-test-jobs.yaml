@@ -172,6 +172,11 @@
 
          # copy .csv files to $WORKSPACE directory
          cp -r /tmp/experiments . || true
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - nexus-stable-docker-push
 
     publishers:
       - lf-infra-publish
