@@ -45,6 +45,15 @@
           default-excludes: false
           allow-empty: true
 
+- publisher:
+    name: OWASP-results
+    publishers:
+      - html-publisher:
+          name: "OWSP Dependency Check Results"
+          dir: "$WORKSPACE"
+          files: "dependency-check-report.html"
+          keep-all: true
+
 - builder:
     name: fabric-sdk-java-end-to-end-test
     builders:

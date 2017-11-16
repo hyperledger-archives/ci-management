@@ -9,6 +9,7 @@
       - 'fabric-sdk-java-merge-1.0.0-{arch}'
       - 'fabric-sdk-java-merge-{arch}'
       - 'fabric-sdk-java-release-{arch}'
+      - 'fabric-sdk-java-owasp-weekly-{arch}'
 
     mvn-settings: 'fabric-settings'
     project-name: 'fabric-sdk-java'
@@ -267,3 +268,51 @@
       - jacoco-coverage-report
       - lf-infra-publish
       - java-sdk-logs
+
+- job-template:
+    name: 'fabric-sdk-java-owasp-weekly-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-sdk-java-gerrit
+
+    triggers:
+      - timed: '@weekly'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - fabric-sdk-java-end-to-end-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "----> ", $(find . -name "*.xml")
+
+    publishers:
+      - jacoco-coverage-report
+      - lf-infra-publish
+      - java-sdk-logs
+      - OWASP-results
