@@ -19,7 +19,7 @@
     name: 'fabric-ca-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}-ca-p'
     concurrent: true
 
     logrotate:
@@ -33,7 +33,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -65,7 +65,7 @@
     name: 'fabric-ca-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}-ca-p'
     concurrent: true
 
     properties:
