@@ -18,7 +18,7 @@
     name: 'fabric-sdk-go-tests-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-go-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -65,7 +65,7 @@
     name: 'fabric-sdk-go-tests-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-go-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:

@@ -166,7 +166,7 @@
     name: 'fabric-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -213,7 +213,7 @@
     name: 'fabric-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -259,7 +259,7 @@
     name: 'fabric-verify-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -307,7 +307,7 @@
     name: 'fabric-merge-behave-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -449,7 +449,7 @@
     name: 'fabric-smoke-tests-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -503,7 +503,7 @@
     name: 'fabric-smoke-tests-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:

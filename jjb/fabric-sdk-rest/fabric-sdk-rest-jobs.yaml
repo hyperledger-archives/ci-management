@@ -14,7 +14,7 @@
     name: 'fabric-sdk-rest-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-rest'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -61,7 +61,7 @@
     name: 'fabric-sdk-rest-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-rest'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:

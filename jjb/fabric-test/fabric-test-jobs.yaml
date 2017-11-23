@@ -17,7 +17,7 @@
     name: 'fabric-test-verify-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:
@@ -72,7 +72,7 @@
     name: 'fabric-test-merge-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
@@ -128,7 +128,7 @@
     name: 'fabric-test-daily-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     logrotate:

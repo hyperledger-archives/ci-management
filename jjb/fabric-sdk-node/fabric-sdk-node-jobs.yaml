@@ -400,7 +400,7 @@
        Job Builder. Do not edit via web.
 
     project-type: freestyle
-    node: 'hyp-{arch}-fit-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
