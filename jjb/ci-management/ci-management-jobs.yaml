@@ -9,7 +9,7 @@
     project-name: ci-management
     stream: master
     branch: master
-    build-node: hyp-x-ci-p
+    build-node: hyp-x
 
 - project:
     name: packer-jobs
@@ -20,7 +20,7 @@
     project-name: 'ci-management'
     branch: master
     archive-artifacts: '**/*.log'
-    build-node: hyp-x-ci-p
+    build-node: hyp-x
 
     platforms:
       - ubuntu-14.04
