@@ -455,6 +455,8 @@
     properties:
       - 'fabric-go-{arch}'
 
+    disabled: true
+
     logrotate:
       daysToKeep: 7
       artifactDaysToKeep: 7
@@ -508,6 +510,8 @@
 
     properties:
       - 'fabric-go-{arch}'
+
+    disabled: true
 
     logrotate:
       daysToKeep: 7
