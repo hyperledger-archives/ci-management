@@ -4,6 +4,7 @@
     jobs:
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-verify-{arch}'
+      - 'fabric-smoke-test-daily-verify-{arch}'
       - 'fabric-test-daily-{arch}'
 
     project: 'fabric-test'
@@ -47,7 +48,60 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '240'
+          timeout: '120'
+
+    builders:
+      - verify-commit-message
+      - baseimage-clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "=========> Install govendor"
+         go get -u github.com/kardianos/govendor
+         echo "=========> Run Smoke Tests..."
+         echo
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+      - daily-test-results
+
+- job-template:
+    name: 'fabric-smoke-test-daily-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: '* */4 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
 
     builders:
       - verify-commit-message
@@ -102,7 +156,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '240'
+          timeout: '120'
 
     builders:
       - verify-commit-message
