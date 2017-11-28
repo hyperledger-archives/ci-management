@@ -20,12 +20,6 @@ echo
 node -v
 npm install loopback-connector-fabric && npm install fabric-rest
 
-cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-rest/packages/fabric-rest/server/private
-
-# Generate keys for TLS
-openssl req -x509 -newkey rsa:4096 -keyout privatekey.pem -out certificate.pem \
-        -days 365 -subj "/C=US/ST=Oregon/L=Portland/O=Company Name/OU=Org/CN=www.example.com" -nodes
-
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-rest || exit
 
 npm install
