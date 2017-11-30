@@ -96,7 +96,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: '* */4 * * *'
+      - timed: 'H H * * *'
 
     wrappers:
       - hyperledger-infra-wrappers
