@@ -651,6 +651,21 @@
             - developers
             - recipients
 
+- publisher:
+    name: fabric-email-notification
+    publishers:
+      - email-ext:
+          recipients: '$GERRIT_CHANGE_OWNER_EMAIL'
+          reply-to: 'noreply@hyperledger.org'
+          content-type: default
+          subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+          body: |
+                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+                Check console output at $BUILD_URL to view the results.
+          failed: true
+          unstable: true
+          fixed: true
 #
 # Builders
 #
@@ -719,14 +734,6 @@
           criteria: success
           condition: equal
 
-- builder:
-    name: downstream-more-checks
-    builders:
-      - trigger-builds:
-          - project:
-              - fabric-byfn-verify-checks-x86_64
-            current-parameters: true
-
 - publisher:
     name: fabric-test-email-notification
     publishers:
@@ -742,5 +749,25 @@
           unstable: true
           failed: true
           send-to:
-            - developers
             - recipients
+
+- builder:
+    name: downstream-smoke-job
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-verify-byfn-checks-x86_64
+            current-parameters: true
+            predefined-parameters:
+              GIT_COMMIT="$GIT_COMMIT"
+
+- builder:
+    name: downstream-more-checks
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-verify-unit-tests-x86_64
+              - fabric-verify-behave-tests-x86_64
+            current-parameters: true
+            predefined-parameters:
+              GIT_COMMIT="$GIT_COMMIT"

@@ -10,9 +10,9 @@
       - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-daily-{arch}'
-      - 'fabric-verify-two-staged-ci-check-{arch}'
-      - 'fabric-smoke-tests-verify-{arch}'
-      - 'fabric-smoke-tests-merge-{arch}'
+      - 'fabric-verify-build-checks-{arch}'
+      - 'fabric-verify-unit-tests-{arch}'
+      - 'fabric-verify-behave-tests-{arch}'
 
     project: 'fabric'
     arch:
@@ -116,55 +116,6 @@
       - lf-infra-publish
 
 - job-template:
-    name: 'fabric-verify-two-staged-ci-check-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    logrotate:
-      daysToKeep: 30
-      artifactDaysToKeep: 30
-
-    properties:
-      - 'fabric-go-{arch}'
-
-    disabled: true
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: ''
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - hyperledger-fabric-gerrit:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - gerrit-trigger-patch-approved-silent:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - two-staged-ci
-
-    publishers:
-      - lf-infra-publish
-      - code-coverage-report
-
-- job-template:
     name: 'fabric-verify-{arch}'
 
     project-type: freestyle
@@ -204,7 +155,6 @@
       - verify-commit-message
       - clean-environment
       - 'golang-environment-{arch}'
-      - pull-images
       - output-environment
       - fabric-unit-tests
 
@@ -251,7 +201,6 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
-      - pull-images
       - output-environment
       - fabric-unit-tests
 
@@ -282,7 +231,8 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
-
+      - git-commit:
+          commit: ''
     scm:
       - hyperledger-fabric-gerrit:
           credentials-id: 'hyperledger-jobbuilder'
@@ -448,9 +398,8 @@
       - lf-infra-publish
       - daily-goast-scan-results
 
-
 - job-template:
-    name: 'fabric-smoke-tests-verify-{arch}'
+    name: 'fabric-verify-build-checks-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -458,8 +407,6 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    disabled: true
 
     logrotate:
       daysToKeep: 7
@@ -486,27 +433,73 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - verify-commit-message
       - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
-      - dockerimages
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
+      - docker-login
+      - fabric-build-artifacts
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - publish-fabric-binary-nexus
+      - downstream-smoke-job
 
-         cd gopath/src/github.com/hyperledger/fabric
-         make native
-      - npm-install
-      - fabric-smoke-tests
+    publishers:
+      - lf-infra-publish
+      - fabric-email-notification
+
+- job-template:
+    name: 'fabric-verify-behave-tests-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-go-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - git-commit:
+          commit: ''
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - pull-images
+      - docker-login
+      - pull-images-binaries
+      - shell: |
+          #!/bin/bash -ex
+          set -o pipefail
+
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric && make build/bin/block-listener
+          cd bddtests && behave -k -D logs=force -D cache-deployment-spec
 
     publishers:
       - lf-infra-publish
       - dockerlog
-      - daily-test-results
 
 - job-template:
-    name: 'fabric-smoke-tests-merge-{arch}'
+    name: 'fabric-verify-unit-tests-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -514,8 +507,6 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    disabled: true
 
     logrotate:
       daysToKeep: 7
@@ -528,35 +519,27 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
+      - git-commit:
+          commit: ''
 
     scm:
       - hyperledger-fabric-gerrit:
           credentials-id: 'hyperledger-jobbuilder'
 
-    triggers:
-      - gerrit-trigger-patch-merged-silent:
-          name: '{project}'
-          branch: ''
-
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
 
     builders:
-      - verify-commit-message
-      - 'golang-environment-{arch}'
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
-      - dockerimages
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd gopath/src/github.com/hyperledger/fabric
-         make native
-      - npm-install
-      - fabric-smoke-tests
+      - pull-images
+      - docker-login
+      - pull-images-binaries
+      - fabric-unit-tests
 
     publishers:
       - lf-infra-publish
-      - dockerlog
-      - daily-test-results
+      - code-coverage-report

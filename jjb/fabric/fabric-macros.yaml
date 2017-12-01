@@ -140,6 +140,23 @@
           docker images
           docker ps -a
 
+
+- builder:
+    name: fabric-build-artifacts
+    builders:
+      - shell: !include-raw: jjb/fabric/verify-commit-checks.sh
+
+
+- builder:
+    name: publish-fabric-binary-nexus
+    builders:
+      - shell: !include-raw: jjb/fabric/push-fabric-binaries-nexus.sh
+
+- builder:
+    name: pull-images-binaries
+    builders:
+      - shell: !include-raw: include-raw-pull-fabric-images-binaries.sh
+
 - builder:
     name: buildimages
     builders:
@@ -163,6 +180,7 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-clone-repos.sh
+
 - builder:
     name: release-docker-images
     builders:
@@ -510,14 +528,6 @@
           cd gopath/src/github.com/hyperledger/fabric
 
           go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
-
-- builder:
-    name: downstream-smoke-job
-    builders:
-      - trigger-builds:
-          - project:
-              - fabric-smoke-test-check-x86_64
-            current-parameters: true
 
 - publisher:
     name: daily-goast-scan-results

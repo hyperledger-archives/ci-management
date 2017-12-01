@@ -4,6 +4,7 @@
     jobs:
       - 'fabric-byfn-merge-{arch}'
       - 'fabric-byfn-verify-{arch}'
+      - 'fabric-verify-byfn-checks-{arch}'
 
     project: 'fabric-samples'
     arch:
@@ -97,6 +98,45 @@
       - output-environment
       - build-docker-images
       - fabric-byfn-tests
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+
+- job-template:
+    name: 'fabric-verify-byfn-checks-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - git-commit:
+          commit: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - docker-login
+      - fabric-byfn-smoke-tests
+      - downstream-more-checks
 
     publishers:
       - lf-infra-publish

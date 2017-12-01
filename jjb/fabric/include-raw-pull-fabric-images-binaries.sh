@@ -5,17 +5,19 @@ set -o pipefail
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
-MARCH=$(shell uname -m)
-VERSION=`cat Makefile | grep PREV_VERSION | awk '{print $3 }'`
+MARCH=$(uname -m)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
+export VERSION=1.1.0-preview
 
-cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric && mkdir -p build && cd build
 
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/linux-amd64-$GIT_COMMIT/hyperledger-fabric-linux-amd64.$GIT_COMMIT.tar.gz | tar xz
+curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/linux-amd64-$GIT_COMMIT/hyperledger-fabric-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
+
+cp -r bin/ $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release
 
 dockerTag() {
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper tools; do
+  for IMAGES in peer orderer ccenv javaenv tools; do
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
@@ -23,10 +25,10 @@ dockerTag() {
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
   done
 }
+
 # Tag Fabric Nexus docker images to hyperledger
 dockerTag
 docker tag $NEXUS_URL/$ORG_NAME-ccenv:$GIT_COMMIT $ORG_NAME-ccenv:$MARCH-$VERSION-snapshot-$CCENV_TAG
 
 # Listout all docker images
-docker images | grep "nexus*"
 docker images | grep "hyperledger*"
