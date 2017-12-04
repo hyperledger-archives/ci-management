@@ -23,6 +23,8 @@
           days-to-keep: 7
           artifact-days-to-keep: 7
 
+    disabled: true
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -70,6 +72,8 @@
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
+
+    disabled: true
 
     parameters:
       - project-parameter:
