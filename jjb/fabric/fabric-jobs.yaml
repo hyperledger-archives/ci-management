@@ -204,6 +204,7 @@
       - verify-commit-message
       - clean-environment
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - fabric-unit-tests
 
@@ -250,6 +251,7 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - fabric-unit-tests
 
