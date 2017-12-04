@@ -129,6 +129,8 @@
     properties:
       - 'fabric-go-{arch}'
 
+    disabled: true
+
     parameters:
       - project-parameter:
           project: '{project}'
