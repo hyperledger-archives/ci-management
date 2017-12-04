@@ -147,6 +147,12 @@
           !include-raw: include-raw-buildimages.sh
 
 - builder:
+    name: pull-images
+    builders:
+      - shell:
+          !include-raw: include-raw-pull-thirdparty-images.sh
+
+- builder:
     name: build-docker-images
     builders:
       - shell:

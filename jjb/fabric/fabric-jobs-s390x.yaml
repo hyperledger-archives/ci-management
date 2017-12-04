@@ -49,6 +49,7 @@
 
       - 'golang-environment-{arch}'
       - clean-environment
+      - pull-images
       - output-environment
       - fabric-unit-tests
       - clean-environment
@@ -97,6 +98,7 @@
 
       - 'golang-environment-{arch}'
       - clean-environment
+      - pull-images
       - output-environment
       - fabric-unit-tests
       - clean-environment
