@@ -52,7 +52,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -105,7 +105,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -160,7 +160,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -212,7 +212,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - shell: |
          #!/bin/bash -exu

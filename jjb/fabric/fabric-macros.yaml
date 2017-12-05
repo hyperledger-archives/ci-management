@@ -182,12 +182,6 @@
           !include-raw: include-raw-fabric-clean-environment.sh
 
 - builder:
-    name: busybox-clean-environment
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-busybox-clean-environment.sh
-
-- builder:
     name: fabric-x86_64-docker-deploy
     builders:
       - shell:

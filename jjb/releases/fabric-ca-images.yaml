@@ -49,7 +49,7 @@
           timeout: '60'
 
     builders:
-      - ca-image-clean-environment
+      - clean-environment
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-docker-image
@@ -97,7 +97,7 @@
           timeout: '60'
 
     builders:
-      - ca-image-clean-environment
+      - clean-environment
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-docker-image
@@ -142,7 +142,7 @@
           timeout: '60'
 
     builders:
-      - ca-image-clean-environment
+      - clean-environment
       - 'ca-golang-environment-ppc64le'
       - output-environment
       - ca-docker-image
@@ -186,7 +186,7 @@
           timeout: '60'
 
     builders:
-      - ca-image-clean-environment
+      - clean-environment
       - 'ca-golang-environment-s390x'
       - output-environment
       - ca-docker-image

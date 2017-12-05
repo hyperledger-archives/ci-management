@@ -45,7 +45,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - preview-docker-image
 
@@ -87,7 +87,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - preview-docker-image
 
@@ -128,7 +128,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - preview-docker-image
       - preview-docker-image-release

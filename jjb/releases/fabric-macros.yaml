@@ -23,31 +23,6 @@
           refspec: '$GERRIT_REFSPEC'
 
 - builder:
-    name: baseimage-clean-environment
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          docker rm -f $(docker ps -aq) || true
-          make clean || true
-          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
-          rm -rf /home/jenkins/.nvm /home/jenkins/npm /tmp/hfc* /tmp/fabric-shim /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store || true
-
-- builder:
-    name: appimage-clean-environment
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric
-
-          docker rm -f $(docker ps -aq) || true
-          make dist-clean || true
-          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
-
-- builder:
     name: baseimage-release
     builders:
       - shell:
@@ -135,16 +110,3 @@
 
          cd gopath/src/github.com/hyperledger/fabric-ca
          make docker
-
-- builder:
-    name: ca-image-clean-environment
-    builders:
-      - shell: |
-           #!/bin/bash -exu
-           set -o pipefail
-
-           cd gopath/src/github.com/hyperledger/fabric-ca
-           make dist-clean || true
-           docker rmi -f $(docker images | grep dev | awk '{print $3}') || true
-           docker rmi -f $(docker images | grep none | awk '{print $3}') || true
-           docker rm -f $(docker ps -aq) || true

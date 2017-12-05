@@ -22,9 +22,3 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-samples-byfn-e2e.sh
-
-- builder:
-    name: fabric-samples-clean-environment
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-samples-clean-environment.sh

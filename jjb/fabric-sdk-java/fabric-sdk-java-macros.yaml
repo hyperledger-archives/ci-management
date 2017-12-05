@@ -36,16 +36,6 @@
           maven-version: Maven3
           goals: compile
 
-- builder:
-    name: sdk-clean-environment
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          docker rm -f $(docker ps -aq) || true
-          docker rmi -f $(docker images -aq) || true
-
 - publisher:
     name: sdk-logs
     publishers:

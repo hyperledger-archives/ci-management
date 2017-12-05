@@ -55,7 +55,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node8-tests
 
@@ -101,7 +101,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node6-tests
 
@@ -148,7 +148,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node8-tests
 
@@ -197,7 +197,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node6-tests
 
@@ -242,7 +242,7 @@
           timeout: '60'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node8-tests
       - npm-publish
@@ -289,7 +289,7 @@
           timeout: '60'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node6-tests
 
@@ -335,7 +335,7 @@
           timeout: '40'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node8-tests
 
@@ -382,7 +382,7 @@
           timeout: '40'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - sdk-node6-tests
 
@@ -420,7 +420,7 @@
           timeout: '60'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - chaincode-node-docker-images
       - end-to-end-tests
@@ -469,7 +469,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - fabric-sdk-node-vulnerable-tests
 

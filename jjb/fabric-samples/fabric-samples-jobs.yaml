@@ -48,7 +48,7 @@
 
     builders:
       - verify-commit-message
-      - fabric-samples-clean-environment
+      - clean-environment
       - build-docker-images
       - fabric-byfn-tests
 
@@ -93,7 +93,7 @@
           timeout: '240'
 
     builders:
-      - fabric-samples-clean-environment
+      - clean-environment
       - output-environment
       - build-docker-images
       - fabric-byfn-tests

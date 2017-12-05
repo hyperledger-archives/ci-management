@@ -50,7 +50,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests
@@ -96,7 +96,7 @@
           timeout: '60'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests
@@ -147,7 +147,7 @@
 
     builders:
       - verify-commit-message
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests-s390x
@@ -193,7 +193,7 @@
           timeout: '60'
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests-s390x

@@ -53,7 +53,7 @@
           timeout: '10'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - app-image-release
 
@@ -102,7 +102,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -148,7 +148,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -194,7 +194,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -237,7 +237,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -283,7 +283,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -329,7 +329,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - output-environment
       - buildimages
 
@@ -374,7 +374,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
       - buildimages
@@ -421,7 +421,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - 'golang-environment-ppc64le'
       - output-environment
       - buildimages
@@ -468,7 +468,7 @@
           timeout: '120'
 
     builders:
-      - appimage-clean-environment
+      - clean-environment
       - 'golang-environment-s390x'
       - output-environment
       - buildimages

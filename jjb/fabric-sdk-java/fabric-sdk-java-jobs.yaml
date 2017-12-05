@@ -52,7 +52,7 @@
 
     builders:
       - verify-commit-message
-      - sdk-clean-environment
+      - clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
@@ -102,7 +102,7 @@
           timeout: '40'
 
     builders:
-      - sdk-clean-environment
+      - clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
@@ -147,7 +147,7 @@
           timeout: '40'
 
     builders:
-      - sdk-clean-environment
+      - clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
@@ -200,7 +200,7 @@
 
     builders:
       - verify-commit-message
-      - sdk-clean-environment
+      - clean-environment
       - fabric-sdk-java-1.0.0-test
       - shell: |
           echo "----> ", $(pwd)
@@ -250,7 +250,7 @@
           timeout: '40'
 
     builders:
-      - sdk-clean-environment
+      - clean-environment
       - fabric-sdk-java-1.0.0-test
       - shell: |
           echo "----> ", $(pwd)
@@ -304,7 +304,7 @@
 
     builders:
       - verify-commit-message
-      - sdk-clean-environment
+      - clean-environment
       - fabric-jsdk1.0.0-fabric_latest
       - shell: |
           echo "----> ", $(pwd)
@@ -357,7 +357,7 @@
 
     builders:
       - verify-commit-message
-      - sdk-clean-environment
+      - clean-environment
       - fabric-jsdk1.0.0-fabric_latest
       - shell: |
           echo "----> ", $(pwd)

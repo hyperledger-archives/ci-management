@@ -36,7 +36,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - release-docker-images
       - release-tests

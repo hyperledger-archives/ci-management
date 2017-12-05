@@ -39,7 +39,7 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - baseimage-clean-environment
+      - clean-environment
       - output-environment
       - build-docker-images
       - daily-tests

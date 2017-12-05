@@ -52,7 +52,7 @@
 
     builders:
       - verify-commit-message
-      - fabric-sdk-go-clean-environment
+      - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests
@@ -98,7 +98,7 @@
           timeout: '40'
 
     builders:
-      - fabric-sdk-go-clean-environment
+      - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests
@@ -145,7 +145,7 @@
 
     builders:
       - verify-commit-message
-      - fabric-sdk-go-clean-environment
+      - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests
@@ -191,7 +191,7 @@
           timeout: '40'
 
     builders:
-      - fabric-sdk-go-clean-environment
+      - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests

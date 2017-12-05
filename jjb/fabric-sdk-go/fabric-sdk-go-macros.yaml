@@ -13,16 +13,6 @@
           choosing-strategy: 'gerrit'
 
 - builder:
-    name: fabric-sdk-go-clean-environment
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          rm -rf /var/hyperledger/* || true
-          make clean || true
-          docker rm -f $(docker ps -aq) || true
-          docker rmi -f $(docker ps -aq) || true
-
-- builder:
     name: fabric-sdk-go-unit-tests
     builders:
       - shell: |

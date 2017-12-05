@@ -47,19 +47,6 @@
           make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
-    name: ca-clean-environment
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric-ca
-
-          docker rm -f $(docker ps -aq) || true
-          make clean || true
-          docker rmi -f $(docker images | grep -v 'hyperledger/fabric-base*' | awk {'print $3'}) || true
-
-- builder:
     name: ca-golang-environment-x86_64
     builders:
       - inject:
