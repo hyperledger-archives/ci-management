@@ -321,6 +321,12 @@
           !include-raw: include-raw-fabric-push-fabric-binaries.sh
 
 - builder:
+    name: push-stable-fabric-binaries
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-push-stable-binaries.sh
+
+- builder:
     name: push-fabric-byfn
     builders:
       - shell:

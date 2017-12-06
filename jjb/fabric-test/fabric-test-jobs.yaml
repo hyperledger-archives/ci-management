@@ -224,13 +224,12 @@
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
 
-         # copy .csv files to $WORKSPACE directory
-         cp -r /tmp/experiments . || true
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - nexus-stable-docker-push
+      - push-stable-fabric-binaries
 
     publishers:
       - lf-infra-publish
