@@ -255,24 +255,6 @@
           cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
 
 - builder:
-    name: daily-tests
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/daily
-          #Comment out behave tests from DailyTestSuite.sh
-          sed -i '16,19 s/^/#/' runDailyTestSuite.sh
-          ./runDailyTestSuite.sh
-
-          # Copy .csv files to $WORKSPACE directory
-          cp -r /tmp/experiments .
-          # Test Chaincode ex02
-          # Disable example02 chaincode tests
-          # cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/test/regression/daily/chaincodeTests && ./runChaincodes.sh
-
-- builder:
     name: fabric-tests
     builders:
       - shell: |
@@ -302,12 +284,6 @@
           #Comment out behave tests from DailyTestSuite.sh
           sed -i '51,52 s/^/#/' runReleaseTestSuite.sh
           ./runReleaseTestSuite.sh
-
-- builder:
-    name: daily-behave-tests
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-behave-tests.sh
 
 - builder:
     name: release-behave-tests
