@@ -23,6 +23,18 @@
           make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
+    name: ca-clone
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          CA_REPO_NAME=fabric-ca
+          WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${CA_REPO_NAME}"
+          rm -rf $WD
+          git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
+
+- builder:
     name: ca-tests
     builders:
       - shell: |

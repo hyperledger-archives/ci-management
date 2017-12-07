@@ -80,11 +80,6 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - hyperledger-fabric-ca-gerrit
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -98,6 +93,7 @@
 
     builders:
       - clean-environment
+      - ca-clone
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
@@ -172,11 +168,6 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - hyperledger-fabric-ca-gerrit
 
     triggers:
       - gerrit-trigger-ca-patch-merged:
@@ -190,6 +181,7 @@
 
     builders:
       - clean-environment
+      - ca-clone
       - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
@@ -267,11 +259,6 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - hyperledger-fabric-ca-gerrit
 
     triggers:
       - gerrit-trigger-patch-merged-silent:
@@ -285,6 +272,7 @@
 
     builders:
       - clean-environment
+      - ca-clone
       - output-environment
       - ca-tests
 
