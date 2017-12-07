@@ -15,6 +15,8 @@ echo "=======> $BASE_VERSION"
 # Push fabric-binaries to nexus2
 
      for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+     cd release/$binary && tar -czf hyperledger-fabric-$binary.DAILY_STABLE.tar.gz *
+     cd $FABRIC_ROOT_DIR || exit
        echo "Pushing hyperledger-fabric-$binary.DAILY_STABLE.tar.gz to maven snapshots..."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.DAILY_STABLE.tar.gz \
