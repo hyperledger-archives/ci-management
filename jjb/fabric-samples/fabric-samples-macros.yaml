@@ -22,3 +22,9 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-samples-byfn-e2e.sh
+
+- builder:
+    name: fabric-byfn-tests-smoke
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-samples-byfn-smoke.sh

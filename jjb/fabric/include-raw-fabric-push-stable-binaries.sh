@@ -23,7 +23,7 @@ echo "=======> $BASE_VERSION"
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-DAILY_STABLE \
+        -Dversion=$binary-DAILY_STABLE-SNAPSHOT \
         -DartifactId=hyperledger-fabric \
         -DgeneratePom=true \
         -DuniqueVersion=false \

@@ -242,6 +242,12 @@
           !include-raw: include-raw-nexus-stable-docker-push.sh
 
 - builder:
+    name: build-check
+    builders:
+      - shell:
+          !include-raw: include-raw-verify-commit-checks.sh
+
+- builder:
     name: fabric-nexus-docker-release
     builders:
       - shell:
@@ -314,6 +320,11 @@
       - shell:
           !include-raw: include-raw-fabric-smoke-tests.sh
 
+- builder:
+    name: fabric-images-binaries-pull
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-images-binaries-pull.sh
 - builder:
     name: fabric-busybox-test
     builders:
@@ -499,6 +510,14 @@
           cd gopath/src/github.com/hyperledger/fabric
 
           go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
+
+- builder:
+    name: downstream-smoke-job
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-smoke-tests-checks-x86_64
+            current-parameters: true
 
 - publisher:
     name: daily-goast-scan-results

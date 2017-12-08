@@ -6,6 +6,7 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-smoke-test-daily-verify-{arch}'
       - 'fabric-test-daily-{arch}'
+      - 'fabric-build-checks-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -235,3 +236,55 @@
       - lf-infra-publish
       - daily-test-results
       - test-logs
+
+- job-template:
+    name: 'fabric-build-checks-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - build-check
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - push-stable-fabric-binaries
+      - downstream-more-checks
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+      - daily-test-results
+      - fabric-test-email-notification

@@ -52,6 +52,13 @@
           default: '**'
           description: "Git branch to checkout after clone"
 
+- parameter:
+    name: git-commit
+    parameters:
+      - string:
+          name: GIT_COMMIT
+          default: '{commit}'
+          description: "GIT_COMMIT parameter if not given by trigger"
 #
 # SCMS
 #
@@ -711,3 +718,29 @@
             - fabric-app-image-release-docker-s390x
           criteria: success
           condition: equal
+
+- builder:
+    name: downstream-more-checks
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-byfn-verify-checks-x86_64
+            current-parameters: true
+
+- publisher:
+    name: fabric-test-email-notification
+    publishers:
+      - email-ext:
+          recipients: 'rameshbabu.thoomu@gmail.com'
+          reply-to: 'nobody@hyperledger.org'
+          content-type: default
+          subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+          body: |
+                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+                Check console output at $BUILD_URL to view the results.
+          unstable: true
+          failed: true
+          send-to:
+            - developers
+            - recipients
