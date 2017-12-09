@@ -7,6 +7,8 @@
 # Verify if the commit message contains JIRA URLs.
 # its-jira pluggin attempts to process jira links and breaks.
 
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test || exit
+
 JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
 if [[ ! -z "$JIRA_LINK" ]]
 then
@@ -34,8 +36,6 @@ if [ ! -z ${FOUND_TRAILING+x} ];
 then
   exit 1
 fi
-
-cd $GOPATH/src/github.com/hyperledger/fabric-test || exit
 
 WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
 echo "======> $WIP"

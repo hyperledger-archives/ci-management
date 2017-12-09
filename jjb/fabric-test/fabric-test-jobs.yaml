@@ -5,6 +5,7 @@
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-verify-{arch}'
       - 'fabric-smoke-test-daily-verify-{arch}'
+      - 'fabric-smoke-test-check-{arch}'
       - 'fabric-test-daily-{arch}'
       - 'fabric-build-checks-{arch}'
 
@@ -124,6 +125,55 @@
       - daily-test-results
 
 - job-template:
+    name: 'fabric-smoke-test-check-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'fabric-{arch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - git-commit:
+          commit: ''
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - docker-login
+      - pull-fabric-images-binaries
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+      - daily-test-results
+
+- job-template:
     name: 'fabric-test-merge-{arch}'
 
     project-type: freestyle
@@ -225,13 +275,6 @@
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
 
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - nexus-stable-docker-push
-      - push-stable-fabric-binaries
-
     publishers:
       - lf-infra-publish
       - daily-test-results
@@ -275,13 +318,15 @@
 
     builders:
       - clean-environment
+      - 'golang-environment-{arch}'
       - output-environment
+      - docker-login
       - build-check
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - push-stable-fabric-binaries
-      - downstream-more-checks
+      - downstream-smoke-job
 
     publishers:
       - lf-infra-publish

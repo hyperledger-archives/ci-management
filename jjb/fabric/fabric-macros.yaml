@@ -321,10 +321,10 @@
           !include-raw: include-raw-fabric-smoke-tests.sh
 
 - builder:
-    name: fabric-images-binaries-pull
+    name: pull-fabric-images-binaries
     builders:
       - shell:
-          !include-raw: include-raw-fabric-images-binaries-pull.sh
+          !include-raw: include-raw-pull-fabric-images-binaries.sh
 - builder:
     name: fabric-busybox-test
     builders:
@@ -516,7 +516,7 @@
     builders:
       - trigger-builds:
           - project:
-              - fabric-smoke-tests-checks-x86_64
+              - fabric-smoke-test-check-x86_64
             current-parameters: true
 
 - publisher:

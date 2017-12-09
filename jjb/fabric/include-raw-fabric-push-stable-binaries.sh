@@ -7,27 +7,26 @@ echo
 export FABRIC_ROOT_DIR=$WORKSPACE/gopath/src/github.com/hyperledger/fabric
 
 cd $FABRIC_ROOT_DIR || exit
-make release-clean dist-clean dist-all
+make dist-clean && make dist
 
 BASE_VERSION=`cat Makefile | grep BASE_VERSION | awk '{print $3}' | head -1`
 echo "=======> $BASE_VERSION"
+binary="linux-amd64"
 
 # Push fabric-binaries to nexus2
 
-     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
-     cd release/$binary && tar -czf hyperledger-fabric-$binary.DAILY_STABLE.tar.gz *
+     cd release/$binary && tar -czf hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz *
      cd $FABRIC_ROOT_DIR || exit
-       echo "Pushing hyperledger-fabric-$binary.DAILY_STABLE.tar.gz to maven snapshots..."
+       echo "Pushing hyperledger-fabric-$binary-$GIT_COMMIT.tar.gz to maven..."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.DAILY_STABLE.tar.gz \
-        -DrepositoryId=hyperledger-snapshots \
-        -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
+        -DrepositoryId=hyperledger-releases \
+        -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-DAILY_STABLE-SNAPSHOT \
+        -Dversion=$binary-$GIT_COMMIT \
         -DartifactId=hyperledger-fabric \
         -DgeneratePom=true \
         -DuniqueVersion=false \
         -Dpackaging=tar.gz \
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-     done
      echo "========> DONE <======="
