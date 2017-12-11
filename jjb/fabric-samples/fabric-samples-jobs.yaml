@@ -134,6 +134,9 @@
 
     builders:
       - clean-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
       - downstream-more-checks

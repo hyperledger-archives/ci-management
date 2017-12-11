@@ -436,11 +436,11 @@
       - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
-      - docker-login
-      - fabric-build-artifacts
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-build-artifacts
       - publish-fabric-binary-nexus
       - downstream-smoke-job
 
@@ -484,8 +484,11 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
-      - pull-images
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
+      - pull-images
       - pull-images-binaries
       - shell: |
           #!/bin/bash -ex
@@ -536,6 +539,9 @@
       - 'golang-environment-{arch}'
       - output-environment
       - pull-images
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
       - pull-images-binaries
       - fabric-unit-tests
