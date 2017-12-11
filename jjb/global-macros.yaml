@@ -691,6 +691,16 @@
               variable: 'SETTINGS_FILE'
 
 - builder:
+    name: provide-maven-gradle-settings
+    builders:
+      - config-file-provider:
+          files:
+            - file-id: '{global-settings-file}'
+              variable: 'MAVEN_SETTINGS_LOCATION'
+            - file-id: '{fabric-settings-file}'
+              variable: 'SETTINGS_FILE'
+
+- builder:
     name: hyperledger-fabric-ship-java-jar
     builders:
       - maven-target:

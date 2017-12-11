@@ -9,6 +9,8 @@
     arch:
       - 'x86_64'
 
+    mvn-settings: 'fabric-settings'
+
 # gerrit changes
 
 - job-template:
@@ -99,12 +101,10 @@
     builders:
       - verify-commit-message
       - output-environment
-      - shell: |
-         #!/bin/bash -exu
-
-         set -o pipefail
-         # gladlew build from fabric-chaincode-java repo
-         ./gradlew build
+      - provide-maven-gradle-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - shell: !include-raw-escape: include-raw-publish-nexus-gradle.sh
 
     publishers:
       - chaincode-java-jacoco-coverage-report
