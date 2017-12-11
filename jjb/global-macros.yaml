@@ -759,7 +759,7 @@
               - fabric-verify-byfn-checks-x86_64
             current-parameters: true
             predefined-parameters:
-              GIT_COMMIT="$GIT_COMMIT"
+              GIT_COMMIT=$GIT_COMMIT
 
 - builder:
     name: downstream-more-checks
@@ -770,4 +770,4 @@
               - fabric-verify-behave-tests-x86_64
             current-parameters: true
             predefined-parameters:
-              GIT_COMMIT="$GIT_COMMIT"
+              GIT_COMMIT=$GIT_COMMIT

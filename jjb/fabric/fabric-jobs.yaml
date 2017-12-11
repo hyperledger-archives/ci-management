@@ -156,6 +156,7 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
+      - pull-images
       - fabric-unit-tests
 
     publishers:
@@ -201,6 +202,7 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - fabric-unit-tests
 
@@ -250,6 +252,7 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - fabric-behave-tests
 
@@ -298,6 +301,7 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - fabric-behave-tests
 
@@ -446,7 +450,7 @@
 
     publishers:
       - lf-infra-publish
-      - fabric-email-notification
+      - fabric-test-email-notification
 
 - job-template:
     name: 'fabric-verify-behave-tests-{arch}'
