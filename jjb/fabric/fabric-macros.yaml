@@ -285,7 +285,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && time make linter
+          cd gopath/src/github.com/hyperledger/fabric && make linter && make testenv
           cd unit-test && docker-compose up --abort-on-container-exit --force-recreate && docker-compose down
 
 - builder:
