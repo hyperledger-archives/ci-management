@@ -8,7 +8,7 @@ ORG_NAME="hyperledger/fabric"
 MARCH=$(uname -m)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
-export VERSION=1.1.0-preview
+export VERSION=1.1.0-alpha
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric && mkdir -p build && cd build
 
