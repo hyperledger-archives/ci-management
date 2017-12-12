@@ -381,6 +381,12 @@
           set -o pipefail
           time make install
 
+- builder:
+    name: fabric-multihost-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-multihost-tests.sh
+
 - publisher:
     name: archive-behave-logs
     publishers:

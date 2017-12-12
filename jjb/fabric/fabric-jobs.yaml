@@ -13,6 +13,7 @@
       - 'fabric-verify-build-checks-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-verify-behave-tests-{arch}'
+      - 'fabric-multihost-tests-{arch}'
 
     project: 'fabric'
     arch:
@@ -553,3 +554,42 @@
     publishers:
       - lf-infra-publish
       - code-coverage-report
+
+- job-template:
+    name: 'fabric-multihost-tests-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    triggers:
+      - timed: 'H 10 * * *'
+
+    builders:
+      - clean-environment
+      - provide-fabric-multihost-settings:
+          cloud-settings-file: 'clouds.yaml'
+          private-key-settings-file: 'FDPrivateKey'
+          public-key-settings-file: 'FDPublicKey'
+      - fabric-multihost-tests
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
