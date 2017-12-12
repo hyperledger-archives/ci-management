@@ -85,7 +85,7 @@ ORG_NAME="hyperledger/fabric"
 # tag fabric images to nexusrepo
 
 dockerTag() {
-  for IMAGES in peer ordere ccenv javaenv tools; do
+  for IMAGES in peer orderer ccenv javaenv tools; do
     echo "==> $IMAGES"
     echo
     docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
