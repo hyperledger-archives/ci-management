@@ -548,7 +548,7 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - pull-images-binaries
-      - fabric-unit-tests
+      - fabric-unit-tests-verification
 
     publishers:
       - lf-infra-publish

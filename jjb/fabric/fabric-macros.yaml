@@ -140,7 +140,6 @@
           docker images
           docker ps -a
 
-
 - builder:
     name: fabric-build-artifacts
     builders:
@@ -270,6 +269,7 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-nexus-docker-release.sh
+
 - builder:
     name: fabric-unit-tests
     builders:
@@ -277,6 +277,16 @@
           #!/bin/bash -eu
           set -o pipefail
           cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
+
+- builder:
+    name: fabric-unit-tests-verification
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric && time make linter
+          cd unit-test && docker-compose up --abort-on-container-exit --force-recreate && docker-compose down
 
 - builder:
     name: fabric-tests
