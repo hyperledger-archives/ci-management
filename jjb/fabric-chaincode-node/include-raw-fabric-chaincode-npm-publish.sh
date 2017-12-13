@@ -65,3 +65,7 @@ npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 cd src
 versions
 npmPublish fabric-shim
+
+cd ../fabric-shim-crypto
+versions
+npmPublish fabric-shim-crypto
