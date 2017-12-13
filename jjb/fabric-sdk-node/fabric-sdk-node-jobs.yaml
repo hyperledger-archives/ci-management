@@ -56,6 +56,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node8-tests
 
@@ -102,6 +103,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node6-tests
 
@@ -149,6 +151,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node8-tests
 
@@ -198,6 +201,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node6-tests
 
@@ -243,6 +247,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node8-tests
       - npm-publish
@@ -290,6 +295,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node6-tests
 
@@ -336,6 +342,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node8-tests
 
@@ -383,6 +390,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - sdk-node6-tests
 
@@ -422,6 +430,7 @@
     builders:
       - clean-environment
       - output-environment
+      - pull-images
       - chaincode-node-docker-images
       - end-to-end-tests
 

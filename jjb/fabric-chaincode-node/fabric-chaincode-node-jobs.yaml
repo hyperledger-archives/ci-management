@@ -51,6 +51,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests
@@ -97,6 +98,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests
@@ -148,6 +150,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests-s390x
@@ -194,6 +197,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - chaincode-node-docker-images
       - chaincode-node-tests-s390x
