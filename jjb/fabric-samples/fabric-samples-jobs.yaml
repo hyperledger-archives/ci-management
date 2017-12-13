@@ -50,6 +50,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - build-docker-images
       - fabric-byfn-tests
 
@@ -95,6 +96,7 @@
 
     builders:
       - clean-environment
+      - pull-images
       - output-environment
       - build-docker-images
       - fabric-byfn-tests
