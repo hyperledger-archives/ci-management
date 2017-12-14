@@ -61,7 +61,8 @@ fi
 
 # BUILD DOCKER IMAGES && BINARIES
 
-make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
+time make linter -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
+time make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
 
 ORG_NAME=hyperledger/fabric
 dockerFabricCheck() {
