@@ -181,6 +181,18 @@
           !include-raw: include-raw-fabric-clone-repos.sh
 
 - builder:
+    name: publish-daily-images
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-daily-images.sh
+
+- builder:
+    name: publish-daily-binaries
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-daily-binaries.sh
+
+- builder:
     name: release-docker-images
     builders:
       - shell:

@@ -771,3 +771,12 @@
             current-parameters: true
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
+
+
+- builder:
+    name: publish-daily-images-binaries
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-daily-stable-images-x86_64
+            current-parameters: true

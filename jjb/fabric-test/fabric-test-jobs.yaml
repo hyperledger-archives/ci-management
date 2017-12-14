@@ -6,6 +6,7 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-smoke-test-daily-verify-{arch}'
       - 'fabric-test-daily-{arch}'
+      - 'fabric-daily-stable-images-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -213,6 +214,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-images
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -223,6 +225,64 @@
          echo "=======> Run Daily test suite..."
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
+      - publish-daily-images-binaries
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
+
+- job-template:
+    name: 'fabric-daily-stable-images-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    scm:
+      - hyperledger-fabric-test-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "=========> Install govendor"
+         go get -u github.com/kardianos/govendor
+         echo "=========> Run Smoke Tests..."
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make git-update && make fabric && make ca
+         make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric
+         make docker-fabric-ca -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
+         make dist-all -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - publish-daily-images
+      - publish-daily-binaries
 
     publishers:
       - lf-infra-publish
