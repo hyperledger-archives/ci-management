@@ -695,10 +695,12 @@
     builders:
       - config-file-provider:
           files:
-            - file-id: '{global-settings-file}'
+            - file-id: '{fabric-settings-file}'
               variable: 'MAVEN_SETTINGS_LOCATION'
             - file-id: '{fabric-settings-file}'
               variable: 'SETTINGS_FILE'
+            - file-id: '{global-settings-file}'
+              variable: 'GLOBAL_SETTINGS_FILE'
 
 - builder:
     name: hyperledger-fabric-ship-java-jar
