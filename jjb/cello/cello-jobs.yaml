@@ -3,6 +3,8 @@
     name: cello-jobs
     jobs:
       - 'cello-verify-{arch}'
+      - 'cello-release-s390x'
+      - 'cello-release-ppc64le'
 
     project: 'cello'
     arch:
@@ -54,3 +56,98 @@
       - lf-infra-publish
       - archive-artifacts:
           artifacts: '.tox/**/*.log'
+
+# s390x Release job
+- job-template:
+    name: 'cello-release-s390x'
+
+    project-type: freestyle
+    node: 'hyp-s390x'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'cello-s390x'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - gerrit-trigger-scm:
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+          branch: 'master'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - verify-commit-message
+      - shell: |
+         #!/bin/bash -exu
+         make docker
+         make install
+
+    publishers:
+      - lf-infra-publish
+
+# ppc64le Release job
+- job-template:
+    name: 'cello-release-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-p'
+    concurrent: true
+
+    logrotate:
+      daysToKeep: 7
+      artifactDaysToKeep: 7
+
+    properties:
+      - 'cello-ppc64le'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - gerrit-trigger-scm:
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '40'
+
+    builders:
+      - verify-commit-message
+      - shell: |
+         #!/bin/bash -exu
+         make docker
+         make install
+
+    publishers:
+      - lf-infra-publish
