@@ -48,7 +48,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '50'
 
     builders:
       - verify-commit-message
@@ -95,7 +95,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '50'
 
     builders:
       - clean-environment
@@ -141,7 +141,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '50'
 
     builders:
       - verify-commit-message
@@ -188,7 +188,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '50'
 
     builders:
       - clean-environment
