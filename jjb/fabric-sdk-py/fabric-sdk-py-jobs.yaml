@@ -16,12 +16,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-sdk-py-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:

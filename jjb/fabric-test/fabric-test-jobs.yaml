@@ -22,12 +22,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -77,12 +76,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -132,10 +130,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -186,10 +183,6 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     scm:
       - hyperledger-fabric-test-gerrit:
           credentials-id: 'hyperledger-jobbuilder'
@@ -199,6 +192,9 @@
 
     properties:
       - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -241,10 +237,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:

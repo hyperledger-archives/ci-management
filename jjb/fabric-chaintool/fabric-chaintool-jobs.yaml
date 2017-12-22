@@ -18,12 +18,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-chaintool-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -62,12 +61,11 @@
     node: 'hyp-x86_64'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-chaintool-x86_64'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:

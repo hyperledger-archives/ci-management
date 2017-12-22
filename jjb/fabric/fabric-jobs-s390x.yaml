@@ -19,9 +19,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -67,10 +67,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:

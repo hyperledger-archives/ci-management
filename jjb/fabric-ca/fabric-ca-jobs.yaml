@@ -22,12 +22,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -70,10 +69,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -110,12 +108,11 @@
     node: 'hyp-z'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-go-s390x'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -158,10 +155,9 @@
 
     properties:
       - 'fabric-go-s390x'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -198,14 +194,13 @@
     node: 'hyp-p'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     disabled: true
 
     properties:
       - 'fabric-ppc64le'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -247,10 +242,9 @@
 
     properties:
       - 'fabric-ppc64le'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     disabled: true
 

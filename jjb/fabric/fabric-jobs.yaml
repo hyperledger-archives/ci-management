@@ -29,12 +29,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -75,12 +74,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -125,10 +123,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -173,10 +170,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -218,14 +214,13 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     disabled: false
 
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -270,12 +265,11 @@
 
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     disabled: false
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
 
     parameters:
       - project-parameter:
@@ -317,12 +311,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -364,14 +357,13 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     disabled: true
 
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -412,10 +404,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -460,12 +451,11 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
-
     properties:
       - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -515,10 +505,9 @@
 
     properties:
       - 'fabric-go-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -562,9 +551,10 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+    properties:
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
