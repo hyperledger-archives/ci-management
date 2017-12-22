@@ -16,7 +16,7 @@
     parameters:
       - string:
           name: INDY_AGENT_LINUX_DOCKER_LABEL
-          default: '{label}'
+          default: 'hyp-x'
           description: 'Label for agent with ability to build and run linux containers'
 
 - parameter:
