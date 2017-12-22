@@ -32,10 +32,9 @@
 
     properties:
       - 'fabric-x86_64'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -73,10 +72,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -116,10 +114,9 @@
 
     properties:
       - 'fabric-ppc64le'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -159,10 +156,9 @@
 
     properties:
       - 'fabric-s390x'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -201,10 +197,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -244,10 +239,9 @@
 
     properties:
       - 'fabric-ppc64le'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -287,10 +281,9 @@
 
     properties:
       - 'fabric-s390x'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -329,10 +322,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -371,10 +363,9 @@
 
     properties:
       - 'fabric-ppc64le'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -413,10 +404,9 @@
 
     properties:
       - 'fabric-s390x'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -455,10 +445,9 @@
 
     properties:
       - 'fabric-{arch}'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -502,10 +491,9 @@
 
     properties:
       - 'fabric-ppc64le'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
@@ -549,10 +537,9 @@
 
     properties:
       - 'fabric-s390x'
-
-    logrotate:
-      daysToKeep: 7
-      artifactDaysToKeep: 7
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
 
     parameters:
       - project-parameter:
