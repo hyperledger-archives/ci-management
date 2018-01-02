@@ -164,6 +164,21 @@
                   branch-pattern: '**/{branch}'
 
 - trigger:
+    name: gerrit-comment-trigger
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-comment}'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+
+- trigger:
     name: gerrit-trigger-patch-submitted-x
     triggers:
       - gerrit:
@@ -186,7 +201,6 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-
 
 - trigger:
     name: gerrit-trigger-patch-submitted-smoke

@@ -470,6 +470,12 @@
       - hyperledger-fabric-gerrit:
           credentials-id: 'hyperledger-jobbuilder'
 
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'rebuild-behave'
+
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
@@ -527,6 +533,12 @@
       - hyperledger-infra-wrappers
       - build-timeout:
           timeout: '240'
+
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'rebuild-unit-tests'
 
     builders:
       - clean-environment

@@ -126,6 +126,12 @@
       - git-commit:
           commit: ''
 
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'rebuild-byfn'
+
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
