@@ -474,7 +474,7 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'rebuild-behave'
+          trigger-comment: 'rebuild-behave-tests'
 
     wrappers:
       - hyperledger-infra-wrappers
