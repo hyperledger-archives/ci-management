@@ -387,6 +387,14 @@
       - shell:
           !include-raw: include-raw-fabric-multihost-tests.sh
 
+- builder:
+    name: conditional-builder
+    builders:
+      - conditional-step:
+          condition-kind: always
+          steps:
+            - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
+
 - publisher:
     name: archive-behave-logs
     publishers:

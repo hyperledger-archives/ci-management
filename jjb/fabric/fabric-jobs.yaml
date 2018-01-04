@@ -591,6 +591,7 @@
           private-key-settings-file: 'FDPrivateKey'
           public-key-settings-file: 'FDPublicKey'
       - fabric-multihost-tests
+      - conditional-builder
 
     publishers:
       - lf-infra-publish
