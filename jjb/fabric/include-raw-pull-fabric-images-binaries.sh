@@ -12,7 +12,7 @@ export VERSION=1.1.0-alpha
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric && mkdir -p build && cd build
 
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/linux-amd64-$GIT_COMMIT/hyperledger-fabric-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
+curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$GIT_COMMIT/hyperledger-fabric-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
 
 cp -r bin/ $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release
 

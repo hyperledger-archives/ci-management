@@ -416,6 +416,8 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
+      - conditional-parameter:
+          next_task: ''
 
     scm:
       - hyperledger-fabric-gerrit:
@@ -439,7 +441,10 @@
       - docker-login
       - fabric-build-artifacts
       - publish-fabric-binary-nexus
-      - downstream-smoke-job
+      - conditional-parameter-builder
+      - conditional-step1
+      - conditional-step2
+      - conditional-step3
 
     publishers:
       - lf-infra-publish
@@ -467,6 +472,9 @@
           refspec: ''
       - git-commit:
           commit: ''
+      - conditional-parameter:
+          next_task: ''
+
     scm:
       - hyperledger-fabric-gerrit:
           credentials-id: 'hyperledger-jobbuilder'
@@ -525,6 +533,8 @@
           refspec: ''
       - git-commit:
           commit: ''
+      - conditional-parameter:
+          next_task: ''
 
     scm:
       - hyperledger-fabric-gerrit:

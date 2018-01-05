@@ -125,6 +125,8 @@
           refspec: ''
       - git-commit:
           commit: ''
+      - conditional-parameter:
+          next_task: ''
 
     triggers:
       - gerrit-comment-trigger:

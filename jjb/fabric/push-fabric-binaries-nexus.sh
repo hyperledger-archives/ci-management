@@ -19,7 +19,7 @@ make release-clean dist-clean dist-all
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
 	-DgroupId=org.hyperledger.fabric \
         -Dversion=$binary-$GIT_COMMIT \
-        -DartifactId=hyperledger-fabric \
+        -DartifactId=hyperledger-fabric-build \
         -DgeneratePom=true \
         -DuniqueVersion=false \
         -Dpackaging=tar.gz \

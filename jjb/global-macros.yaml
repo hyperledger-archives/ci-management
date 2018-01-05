@@ -59,6 +59,15 @@
           name: GIT_COMMIT
           default: '{commit}'
           description: "GIT_COMMIT parameter if not given by trigger"
+
+- parameter:
+    name: conditional-parameter
+    parameters:
+      - string:
+          name: NEXT_TASK
+          default: '{next_task}'
+          description: "Conditional based build trigger"
+#
 #
 # SCMS
 #
@@ -796,12 +805,21 @@
             - recipients
 
 - builder:
+    name: downstream-doc-build
+    builders:
+      - trigger-builds:
+          - project:
+              - fabric-docs-build-x86_64
+            property-file: env.properties
+
+- builder:
     name: downstream-smoke-job
     builders:
       - trigger-builds:
           - project:
               - fabric-verify-byfn-checks-x86_64
             current-parameters: true
+            property-file: env.properties
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
 
@@ -813,6 +831,7 @@
               - fabric-verify-unit-tests-x86_64
               - fabric-verify-behave-tests-x86_64
             current-parameters: true
+            property-file: env.properties
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
 

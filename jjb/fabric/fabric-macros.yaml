@@ -121,6 +121,12 @@
             PATH=$GOROOT/bin:$PATH
 
 - builder:
+    name: conditional-parameter-builder
+    builders:
+      - inject:
+          properties-file: env.properties
+
+- builder:
     name: output-environment
     builders:
       - shell: |
@@ -297,8 +303,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && make linter && make testenv
-          cd unit-test && docker-compose up --abort-on-container-exit --force-recreate && docker-compose down
+          cd gopath/src/github.com/hyperledger/fabric && time make unit-test
 
 - builder:
     name: fabric-tests
@@ -394,6 +399,47 @@
           condition-kind: always
           steps:
             - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
+
+- builder:
+    name: conditional-step1
+    builders:
+      - conditional-step:
+          condition-kind: strings-match
+          condition-string1: $NEXT_TASK
+          condition-string2: nothing
+          condition-case-insensitive: true
+          steps:
+            - shell: echo "=======> IGNORE WIP BUILD <======="
+
+- builder:
+    name: conditional-step2
+    builders:
+      - conditional-step:
+          condition-kind: strings-match
+          condition-string1: $NEXT_TASK
+          condition-string2: doc_build
+          condition-case-insensitive: true
+          steps:
+            - trigger-builds:
+                - project:
+                    - fabric-docs-build-x86_64
+                  property-file: env.properties
+                  predefined-parameters: GIT_COMMIT=$GIT_COMMIT
+
+- builder:
+    name: conditional-step3
+    builders:
+      - conditional-step:
+          condition-kind: strings-match
+          condition-string1: $NEXT_TASK
+          condition-string2: fabric_build
+          condition-case-insensitive: true
+          steps:
+            - trigger-builds:
+                - project:
+                    - fabric-verify-byfn-checks-x86_64
+                  property-file: env.properties
+                  predefined-parameters: GIT_COMMIT=$GIT_COMMIT
 
 - publisher:
     name: archive-behave-logs

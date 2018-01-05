@@ -44,8 +44,8 @@ echo
 if [[ ! -z "$WIP" ]];
 then
   echo 'Ignore this patch set as this is a WIP'
-  echo 'Ignore this Build'
-  exit 1
+  NEXT_TASK=nothing
+  echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
 fi
 
 DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
@@ -55,9 +55,12 @@ echo
 if [[ ! -z "$DOC" ]];
 then
    echo 'Ignore this patch set as changes are related to docs'
-   echo 'Ignore This Build'
-   exit 1
+   NEXT_TASK=doc_build
+   echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
 fi
+
+NEXT_TASK=fabric_build
+echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
 
 # BUILD DOCKER IMAGES && BINARIES
 
