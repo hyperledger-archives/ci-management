@@ -1,3 +1,9 @@
 [submodule "jjb/global-jjb"]
 	path = jjb/global-jjb
 	url = https://github.com/lfit/releng-global-jjb
+[submodule "lf-ansible"]
+	path = lf-ansible
+	url = https://gerrit.linuxfoundation.org/infra/releng/lf-ansible.git
+[submodule "packer/common-packer"]
+	path = packer/common-packer
+	url = https://gerrit.linuxfoundation.org/infra/releng/common-packer.git
