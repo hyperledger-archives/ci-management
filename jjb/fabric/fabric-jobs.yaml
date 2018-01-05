@@ -607,7 +607,6 @@
     publishers:
       - lf-infra-publish
       - dockerlog
-      - daily-test-results
 
 - job-template:
     name: 'fabric-docs-build-{arch}'
