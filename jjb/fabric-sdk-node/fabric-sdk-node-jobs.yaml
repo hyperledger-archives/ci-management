@@ -81,7 +81,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: 'release'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -91,7 +91,7 @@
     triggers:
       - gerrit-trigger-node6-patch-submitted-{arch}:
           name: '{project}'
-          branch: ''
+          branch: 'release'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -177,7 +177,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: 'release'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -187,7 +187,7 @@
     triggers:
       - gerrit-trigger-node6-patch-submitted-s390x:
           name: '{project}'
-          branch: ''
+          branch: 'release'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -270,7 +270,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: 'release'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -280,7 +280,7 @@
     triggers:
       - gerrit-trigger-node-patch-merged:
           name: '{project}'
-          branch: ''
+          branch: 'release'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -363,7 +363,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: 'release'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -373,7 +373,7 @@
     triggers:
       - gerrit-trigger-node-patch-merged:
           name: '{project}'
-          branch: ''
+          branch: 'release'
 
     wrappers:
       - hyperledger-infra-wrappers
