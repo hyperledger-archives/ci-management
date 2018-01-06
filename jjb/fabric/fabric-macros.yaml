@@ -149,13 +149,7 @@
 - builder:
     name: fabric-build-artifacts
     builders:
-      - shell: !include-raw: jjb/fabric/verify-commit-checks.sh
-
-
-- builder:
-    name: publish-fabric-binary-nexus
-    builders:
-      - shell: !include-raw: jjb/fabric/push-fabric-binaries-nexus.sh
+      - shell: !include-raw: jjb/fabric/fabric-build-script.sh
 
 - builder:
     name: pull-images-binaries
@@ -303,7 +297,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && time make unit-test
+          cd gopath/src/github.com/hyperledger/fabric && time make enable_ci_only_tests
 
 - builder:
     name: fabric-tests

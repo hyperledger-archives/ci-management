@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # This script makes several basic commit message validations.
 # This is with the purpose of keeping up with the aesthetics
@@ -6,6 +6,12 @@
 
 # Verify if the commit message contains JIRA URLs.
 # its-jira pluggin attempts to process jira links and breaks.
+
+# Also, verifies if the commit message contains WIP or only .rst
+# changes. If commit has .rst files changed, set NEXT_TASK to doc_build
+# if WIP, set NEXT_TASK to nothing and ignore the rest of the build process
+# if any other changes, set NEXT_TASK to fabric_build and trigger the
+# downstream jobs (fabric-verify-unit-tests, fabric-verify-behave-tests)
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
 
@@ -38,34 +44,30 @@ then
 fi
 
 WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
-echo "======> $WIP"
-echo
+   echo "======> $WIP"
+   echo
 
 if [[ ! -z "$WIP" ]];
 then
-  echo 'Ignore this patch set as this is a WIP'
-  NEXT_TASK=nothing
-  echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
-fi
-
-DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
-echo "======> $DOC"
-echo
-
+   echo 'Ignore this patch set as this is a WIP'
+   NEXT_TASK=nothing
+   echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
+else
+   DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
+   echo "======> $DOC"
+   echo
 if [[ ! -z "$DOC" ]];
 then
    echo 'Ignore this patch set as changes are related to docs'
    NEXT_TASK=doc_build
    echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
-fi
+else
+   NEXT_TASK=fabric_build
+   echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
 
-NEXT_TASK=fabric_build
-echo "NEXT_TASK=$NEXT_TASK" > $WORKSPACE/env.properties
+# Build docker images and perform build process
 
-# BUILD DOCKER IMAGES && BINARIES
-
-time make linter -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
-time make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
+time make basic-checks docker
 
 ORG_NAME=hyperledger/fabric
 dockerFabricCheck() {
@@ -82,11 +84,8 @@ done
 }
 dockerFabricCheck
 
-# PUSH DOCKER IMAGES
-
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
-# tag fabric images to nexusrepo
 
 dockerTag() {
   for IMAGES in peer orderer ccenv javaenv tools; do
@@ -96,7 +95,6 @@ dockerTag() {
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
   done
 }
-# Push docker images to nexus repository
 
 dockerFabricPush() {
   for IMAGES in peer orderer ccenv javaenv tools; do
@@ -115,3 +113,28 @@ dockerFabricPush
 
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
+
+echo
+echo "Publish fabric binaries"
+echo
+binary=linux-amd64
+time make release-clean dist-clean dist
+
+# Push fabric-binaries to nexus2
+    cd release/$binary && tar -czf hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz *
+    cd $FABRIC_ROOT_DIR || exit
+    echo "Pushing hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz to maven.."
+       mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
+        -DrepositoryId=hyperledger-releases \
+        -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
+	    -DgroupId=org.hyperledger.fabric \
+        -Dversion=$binary-$GIT_COMMIT \
+        -DartifactId=hyperledger-fabric-build \
+        -DgeneratePom=true \
+        -DuniqueVersion=false \
+        -Dpackaging=tar.gz \
+        -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+    echo "========> DONE <======="
+fi
+fi
