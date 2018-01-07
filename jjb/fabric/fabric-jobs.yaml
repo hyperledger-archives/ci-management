@@ -424,9 +424,10 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted-silent:
+      - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
+          trigger-name: 'rebuild-build-x'
 
     wrappers:
       - hyperledger-infra-wrappers

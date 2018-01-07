@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # This script makes several basic commit message validations.
 # This is with the purpose of keeping up with the aesthetics
