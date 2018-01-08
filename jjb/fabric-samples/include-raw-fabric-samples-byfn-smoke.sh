@@ -35,7 +35,7 @@ REPO_NAME=fabric-samples
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
 cd $WD
 
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$GIT_COMMIT/hyperledger-fabric-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
+curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$GIT_COMMIT/hyperledger-fabric-build-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
 
 cd first-network
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
