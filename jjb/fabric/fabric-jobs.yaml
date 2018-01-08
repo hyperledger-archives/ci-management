@@ -599,8 +599,8 @@
       - clean-environment
       - provide-fabric-multihost-settings:
           cloud-settings-file: 'clouds.yaml'
-          private-key-settings-file: 'FDPrivateKey'
-          public-key-settings-file: 'FDPublicKey'
+          private-key-settings-file: 'fd-private'
+          public-key-settings-file: 'fd-public'
       - fabric-multihost-tests
       - conditional-builder
 
