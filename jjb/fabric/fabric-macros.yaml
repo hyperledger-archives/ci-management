@@ -432,7 +432,6 @@
             - trigger-builds:
                 - project:
                     - fabric-verify-byfn-checks-x86_64
-                  property-file: env.properties
                   predefined-parameters: GIT_COMMIT=$GIT_COMMIT
 
 - publisher:

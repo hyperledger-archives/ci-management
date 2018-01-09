@@ -150,4 +150,3 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog

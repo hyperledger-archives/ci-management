@@ -858,7 +858,6 @@
               - fabric-verify-unit-tests-x86_64
               - fabric-verify-behave-tests-x86_64
             current-parameters: true
-            property-file: env.properties
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
 
