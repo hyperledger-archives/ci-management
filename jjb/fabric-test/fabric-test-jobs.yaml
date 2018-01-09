@@ -4,7 +4,7 @@
     jobs:
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-verify-{arch}'
-      - 'fabric-smoke-test-daily-verify-{arch}'
+      - 'fabric-smoke-test-daily-{arch}'
       - 'fabric-test-daily-{arch}'
       - 'fabric-daily-stable-images-{arch}'
 
@@ -70,7 +70,7 @@
       - daily-test-results
 
 - job-template:
-    name: 'fabric-smoke-test-daily-verify-{arch}'
+    name: 'fabric-smoke-test-daily-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'

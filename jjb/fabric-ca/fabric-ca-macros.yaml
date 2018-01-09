@@ -33,6 +33,9 @@
           WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${CA_REPO_NAME}"
           rm -rf $WD
           git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
+          cd $WD && CA_COMMIT=$(git log -1 --pretty=format:"%h")
+          echo "CA_COMMIT =========> $CA_COMMIT"
+          echo
 
 - builder:
     name: ca-tests
