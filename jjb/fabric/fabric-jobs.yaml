@@ -416,8 +416,6 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
-      - conditional-parameter:
-          next_task: ''
 
     scm:
       - hyperledger-fabric-gerrit:
@@ -427,7 +425,9 @@
       - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
-          trigger-name: 'rebuild-build-x'
+          trigger-name1: 'rebuild-build-x'
+          trigger-name2: 'reverify'
+          fabric-build-check: '$JOB_NAME finish successful - $TRIGGER_COMMENT'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -441,10 +441,6 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-build-artifacts
-      - conditional-parameter-builder
-      - conditional-step1
-      - conditional-step2
-      - conditional-step3
 
     publishers:
       - lf-infra-publish
@@ -470,10 +466,6 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
-      - git-commit:
-          commit: ''
-      - conditional-parameter:
-          next_task: ''
 
     scm:
       - hyperledger-fabric-gerrit:
@@ -483,7 +475,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'rebuild-behave-tests'
+          trigger-comment1: '$JOB_NAME finish successful - functional'
+          trigger-comment2: 'rebuild-behave-tests'
+          fabric-build-check: '$JOB_NAME finish successful'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -531,10 +525,6 @@
           branch: ''
       - gerrit-refspec-parameter:
           refspec: ''
-      - git-commit:
-          commit: ''
-      - conditional-parameter:
-          next_task: ''
 
     scm:
       - hyperledger-fabric-gerrit:
@@ -549,7 +539,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'rebuild-unit-tests'
+          trigger-comment1: '$JOB_NAME finish successful - functional'
+          trigger-comment2: 'rebuild-x86_64'
+          fabric-build-check: '$JOB_NAME finish successful'
 
     builders:
       - clean-environment
@@ -638,7 +630,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'rebuild-docs'
+          trigger-comment1: '$JOB_NAME finish successful - DOCS'
+          trigger-comment2: 'rebuild-docs'
+          fabric-build-check: '$JOB_NAME finish successful'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -646,7 +640,6 @@
           timeout: '240'
 
     builders:
-      - verify-commit-message
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment

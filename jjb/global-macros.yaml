@@ -64,8 +64,8 @@
     name: conditional-parameter
     parameters:
       - string:
-          name: NEXT_TASK
-          default: '{next_task}'
+          name: TIGGER_COMMENT
+          default: '{TIGGER_COMMENT}'
           description: "Conditional based build trigger"
 #
 #
@@ -179,13 +179,22 @@
           server-name: 'hyperledger'
           trigger-on:
             - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment}'
+                comment-contains-value: '{trigger-comment1}'
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-comment2}'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
+          successful-message: '{fabric-build-check}'
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
+          silent-start: 'true'
 
 - trigger:
     name: gerrit-trigger-patch-submitted-x
@@ -349,13 +358,17 @@
             - comment-added-contains-event:
                 comment-contains-value: 'recheck'
             - comment-added-contains-event:
-                comment-contains-value: '{trigger-name}'
+                comment-contains-value: '{trigger-name1}'
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-name2}'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
+          successful-message: '{fabric-build-check}'
+
           skip-vote:
             successful: false
             failed: true

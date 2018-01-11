@@ -271,7 +271,7 @@
           !include-raw: include-raw-nexus-stable-docker-push.sh
 
 - builder:
-    name: build-check
+    name: fabric-build-check
     builders:
       - shell:
           !include-raw: include-raw-verify-commit-checks.sh
@@ -393,46 +393,6 @@
           condition-kind: always
           steps:
             - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
-
-- builder:
-    name: conditional-step1
-    builders:
-      - conditional-step:
-          condition-kind: strings-match
-          condition-string1: $NEXT_TASK
-          condition-string2: nothing
-          condition-case-insensitive: true
-          steps:
-            - shell: echo "=======> IGNORE WIP BUILD <======="
-
-- builder:
-    name: conditional-step2
-    builders:
-      - conditional-step:
-          condition-kind: strings-match
-          condition-string1: $NEXT_TASK
-          condition-string2: doc_build
-          condition-case-insensitive: true
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-docs-build-x86_64
-                  property-file: env.properties
-                  predefined-parameters: GIT_COMMIT=$GIT_COMMIT
-
-- builder:
-    name: conditional-step3
-    builders:
-      - conditional-step:
-          condition-kind: strings-match
-          condition-string1: $NEXT_TASK
-          condition-string2: fabric_build
-          condition-case-insensitive: true
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-verify-byfn-checks-x86_64
-                  predefined-parameters: GIT_COMMIT=$GIT_COMMIT
 
 - publisher:
     name: archive-behave-logs
