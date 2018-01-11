@@ -123,16 +123,14 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
-      - git-commit:
-          commit: ''
-      - conditional-parameter:
-          next_task: ''
 
     triggers:
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'rebuild-byfn'
+          trigger-comment1: '$JOB_NAME finish successful - SMOKE'
+          trigger-comment2: 'rebuild-byfn'
+          fabric-build-check: '$JOB_NAME finish successful - functional'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -141,12 +139,12 @@
 
     builders:
       - clean-environment
+      - pull-images
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
-      - downstream-more-checks
 
     publishers:
       - lf-infra-publish
