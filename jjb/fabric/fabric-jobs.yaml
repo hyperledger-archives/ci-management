@@ -215,7 +215,7 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    disabled: false
+    disabled: true
 
     properties:
       - 'fabric-go-{arch}'
@@ -270,7 +270,7 @@
           days-to-keep: 7
           artifact-days-to-keep: 7
 
-    disabled: false
+    disabled: true
 
     parameters:
       - project-parameter:
