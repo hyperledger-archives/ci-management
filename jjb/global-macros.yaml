@@ -142,10 +142,10 @@
       - ssh-agent-credentials:
           users:
             - 'hyperledger-jobbuilder'
-#      - jclouds:
-#          single-use: true
-#      - openstack:
-#          single-use: true
+      - jclouds:
+          single-use: true
+      - openstack:
+          single-use: true
 
 #
 # Triggers
@@ -194,7 +194,6 @@
             failed: true
             unstable: true
             notbuilt: true
-          silent-start: 'true'
 
 - trigger:
     name: gerrit-trigger-patch-submitted-x

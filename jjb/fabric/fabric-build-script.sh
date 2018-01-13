@@ -44,99 +44,87 @@ then
 fi
 
 WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
-  echo "======> $WIP"
   echo
-
 if [[ ! -z "$WIP" ]];
 then
-  echo 'Ignore this patch set as this is a WIP'
-  TRIGGER_COMMENT='WIP'
-  echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
+    echo 'Ignore this patch set as this is a WIP'
+    TRIGGER_COMMENT='WIP'
+    echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
 else
-   DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
-   echo "======> $DOC"
-   echo
-      if [[ ! -z "$DOC" ]]; then
-          echo 'Ignore this patch set as changes are related to docs'
-          TRIGGER_COMMENT='DOCS'
-          echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
-      else
-          TRIGGER_COMMENT='SMOKE'
-          echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
-          # Build docker images and perform build process
-          echo " ====> Perform basic checks"
-          time make basic-checks
-              if [ $? = 0 ]; then
-                 echo
-                 echo " ===> Build DOCKER IMAGES"
-                 time make docker
-                 ORG_NAME=hyperledger/fabric
-                 dockerFabricCheck() {
-
-                 # shellcheck disable=SC2043
-                 docker images
-                    for IMAGES in peer orderer ccenv javaenv tools; do
-                       echo "=======> $IMAGES"
-                       docker images $ORG_NAME-$IMAGES
-                       echo "Images are available"
-                       echo "=======> $ORG_NAME-$IMAGES"
-                       echo
-                    done
+    DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
+    echo
+        if [[ ! -z "$DOC" ]]; then
+            echo 'Trigger fabric documentation build job'
+            TRIGGER_COMMENT='DOCS'
+            echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
+        else
+            TRIGGER_COMMENT='SMOKE'
+            echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
+            # Build docker images and perform build process
+            echo " ======> Perform basic checks"
+                make basic-checks
+                if [ $? = 0 ]; then
+                    echo
+                    echo " ======> Build DOCKER IMAGES"
+                    make docker
+                         if [ $? = 0 ]; then
+                              ORG_NAME=hyperledger/fabric
+                              NEXUS_URL=nexus3.hyperledger.org:10003
+                              ORG_NAME="hyperledger/fabric"
+                              dockerTag() {
+                                   for IMAGES in peer orderer ccenv javaenv tools; do
+                                       echo "==> $IMAGES"
+                                       echo
+                                       docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
+                                       echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
+                                   done
 }
-                 dockerFabricCheck
-                 NEXUS_URL=nexus3.hyperledger.org:10003
-                 ORG_NAME="hyperledger/fabric"
-                 dockerTag() {
-                    for IMAGES in peer orderer ccenv javaenv tools; do
-                       echo "==> $IMAGES"
-                       echo
-                       docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
-                       echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
-                    done
+                              dockerFabricPush() {
+                                  for IMAGES in peer orderer ccenv javaenv tools; do
+                                       echo "==> $IMAGES"
+                                       docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
+                                       echo
+                                       echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
+                                  done
 }
-                 dockerFabricPush() {
-                  for IMAGES in peer orderer ccenv javaenv tools; do
-                     echo "==> $IMAGES"
-                     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
-                     echo
-                     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
-                  done
-}
-
-                 # Tag Fabric Docker Images to Nexus Repository
-                 dockerTag
-
-                 # Push Fabric Docker Images to Nexus Repository
-                 dockerFabricPush
-
-                 # Listout all docker images Before and After Push to NEXUS
-                 docker images | grep "nexus*"
-
-                 echo
-                 echo "Publish fabric binaries"
-                 echo
-                 binary=linux-amd64
-                 time make release-clean dist-clean dist
-
-                 # Push fabric-binaries to nexus2
-                 cd release/$binary && tar -czf hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz *
-                 cd $FABRIC_ROOT_DIR || exit
-                 echo "Pushing hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz to maven.."
-                 mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-                 -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
-                 -DrepositoryId=hyperledger-releases \
-                 -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
-	         -DgroupId=org.hyperledger.fabric \
-                 -Dversion=$binary-$GIT_COMMIT \
-                 -DartifactId=hyperledger-fabric-build \
-                 -DgeneratePom=true \
-                 -DuniqueVersion=false \
-                 -Dpackaging=tar.gz \
-                 -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-                 echo "========> DONE <======="
-           else
-                 echo " =======> fabric build checks are failed <======="
-                 exit 1
-      fi
+                              # Tag Fabric Docker Images to Nexus Repository
+                              dockerTag
+                              # Push Fabric Docker Images to Nexus Repository
+                              dockerFabricPush
+                              # Listout all docker images Before and After Push to NEXUS
+                              docker images | grep "nexus*"
+                              echo
+                              echo "build & publish fabric binaries"
+                              echo
+                              binary=linux-amd64
+                              make release-clean dist-clean
+			      make dist
+                              if [ $? = 0 ]; then
+                                     # Push fabric-binaries to nexus2
+                                     cd release/$binary && tar -czf hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz *
+                                     cd $FABRIC_ROOT_DIR || exit
+                                     echo "Pushing hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz to maven.."
+                                     mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+                                     -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
+                                     -DrepsitoryId=hyperledger-releases \
+                                     -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
+	                             -DgroupId=org.hyperledger.fabric \
+                                     -Dversion=$binary-$GIT_COMMIT \
+                                     -DartifactId=hyperledger-fabric-build \
+                                     -DgeneratePom=true \
+                                     -DuniqueVersion=false \
+                                     -Dpackaging=tar.gz \
+                                     -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+                                     echo "========> DONE <======="
+                              else
+                                     echo " =======> fabric binary test failed <======="
+                                     exit 1
+                              fi
+                              echo " =======> fabric make docker test failed <======="
+                              exit 1
+                         fi
+                    echo " =======> fabric make docker test failed <======="
+                    exit 1
            fi
+   fi
 fi
