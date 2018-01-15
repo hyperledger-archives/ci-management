@@ -811,10 +811,10 @@
           condition: equal
 
 - publisher:
-    name: fabric-test-email-notification
+    name: fabric-email-notification
     publishers:
       - email-ext:
-          recipients: 'rameshbabu.thoomu@gmail.com'
+          recipients: '{email-ids}'
           reply-to: 'nobody@hyperledger.org'
           content-type: default
           subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'

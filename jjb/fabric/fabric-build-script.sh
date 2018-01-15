@@ -47,7 +47,7 @@ WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
   echo
 if [[ ! -z "$WIP" ]];
 then
-    echo 'Ignore this patch set as this is a WIP'
+    echo '=====> Ignore this patch set as this is a WIP'
     TRIGGER_COMMENT='WIP'
     echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
 else
@@ -65,7 +65,11 @@ else
                 make basic-checks
                 if [ $? = 0 ]; then
                     echo
-                    echo " ======> Build DOCKER IMAGES"
+                    echo "======> Build DOCKER IMAGES"
+		else
+		    echo "======> Basic checks FAILED"
+		    exit 1
+		fi
                     make docker
                          if [ $? = 0 ]; then
                               ORG_NAME=hyperledger/fabric
@@ -94,6 +98,10 @@ else
                               # Listout all docker images Before and After Push to NEXUS
                               docker images | grep "nexus*"
                               echo
+			 else
+			      echo "=====> make docker failed"
+			      exit 1
+			 fi
                               echo "build & publish fabric binaries"
                               echo
                               binary=linux-amd64
@@ -120,11 +128,5 @@ else
                                      echo " =======> fabric binary test failed <======="
                                      exit 1
                               fi
-                              echo " =======> fabric make docker test failed <======="
-                              exit 1
-                         fi
-                    echo " =======> fabric make docker test failed <======="
-                    exit 1
-           fi
-   fi
+          fi
 fi

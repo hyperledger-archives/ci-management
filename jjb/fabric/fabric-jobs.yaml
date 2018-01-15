@@ -444,7 +444,8 @@
 
     publishers:
       - lf-infra-publish
-      - fabric-test-email-notification
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com'
 
 - job-template:
     name: 'fabric-verify-unit-tests-{arch}'
