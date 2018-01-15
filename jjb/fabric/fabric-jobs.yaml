@@ -440,6 +440,7 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-build-artifacts
+      - conditional-parameter-builder
 
     publishers:
       - lf-infra-publish

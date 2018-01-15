@@ -106,9 +106,9 @@ else
                                      echo "Pushing hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz to maven.."
                                      mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
                                      -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
-                                     -DrepsitoryId=hyperledger-releases \
+                                     -DrepositoryId=hyperledger-releases \
                                      -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
-	                             -DgroupId=org.hyperledger.fabric \
+                                     -DgroupId=org.hyperledger.fabric \
                                      -Dversion=$binary-$GIT_COMMIT \
                                      -DartifactId=hyperledger-fabric-build \
                                      -DgeneratePom=true \
