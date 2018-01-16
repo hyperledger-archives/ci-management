@@ -47,13 +47,13 @@ WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
   echo
 if [[ ! -z "$WIP" ]];
 then
-    echo '=====> Ignore this patch set as this is a WIP'
+    echo '=====> Ignore this build as this is a WIP patch set'
     TRIGGER_COMMENT='WIP'
     echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
 else
-    DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt')
+    DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md$|.rst$|.txt$')
     echo
-        if [[ ! -z "$DOC" ]]; then
+        if [[ -z "$DOC" ]]; then
             echo 'Trigger fabric documentation build job'
             TRIGGER_COMMENT='DOCS'
             echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties

@@ -426,7 +426,7 @@
           branch: ''
           trigger-name1: 'rebuild-build-x'
           trigger-name2: 'reverify'
-          fabric-build-check: 'Build finish successful - $TRIGGER_COMMENT'
+          fabric-build-check: 'Build $TRIGGER_COMMENT'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -481,9 +481,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'Build finish successful - functional'
+          trigger-comment1: 'Build functional'
           trigger-comment2: 'rebuild-x86_64'
-          fabric-build-check: '$JOB_NAME finish successful'
+          fabric-build-check: '$JOB_NAME finished successfully'
 
     builders:
       - clean-environment
@@ -572,9 +572,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'Build finish successful - DOCS'
+          trigger-comment1: 'Build DOCS'
           trigger-comment2: 'rebuild-docs'
-          fabric-build-check: '$JOB_NAME finish successful'
+          fabric-build-check: '$JOB_NAME finished successfully'
 
     wrappers:
       - hyperledger-infra-wrappers
