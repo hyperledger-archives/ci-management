@@ -44,7 +44,7 @@
           #!/bin/bash -exu
           set -o pipefail
 
-          make docker
+          make docker && make dependent-images
 
 - builder:
     name: app-docker-image
@@ -77,6 +77,12 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-preview-docker-image.sh
+
+- builder:
+    name: fabric-thirdparty-images
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-thirdparty-images.sh
 
 - builder:
     name: app-image-release

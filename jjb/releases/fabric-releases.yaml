@@ -15,6 +15,9 @@
       - 'fabric-baseimage-nexus-release-docker-{arch}'
       - 'fabric-baseimage-nexus-release-docker-ppc64le'
       - 'fabric-baseimage-nexus-release-docker-s390x'
+      - 'fabric-thirdparty-image-release-{arch}'
+      - 'fabric-thirdparty-image-release-ppc64le'
+      - 'fabric-thirdparty-image-release-s390x'
 
     project: 'fabric-baseimage'
     arch:
@@ -570,6 +573,147 @@
       - docker-login
       - fabric-docker-local
       - baseimage-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-thirdparty-image-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "========> Build Dependent Images"
+         make dependent-images
+      - fabric-thirdparty-images
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-thirdparty-image-release-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-ppc64le'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "========> Build Dependent Images"
+         make dependent-images
+      - fabric-thirdparty-images
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-thirdparty-image-release-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "========> Build Dependent Images"
+         make dependent-images
+      - fabric-thirdparty-images
 
     publishers:
       - lf-infra-publish
