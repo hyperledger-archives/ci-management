@@ -128,9 +128,9 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: '$JOB_NAME finish successful - SMOKE'
+          trigger-comment1: 'Build finish successful - SMOKE'
           trigger-comment2: 'rebuild-byfn'
-          fabric-build-check: '$JOB_NAME finish successful - functional'
+          fabric-build-check: 'Build finish successful - functional'
 
     wrappers:
       - hyperledger-infra-wrappers
