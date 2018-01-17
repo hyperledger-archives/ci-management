@@ -12,7 +12,7 @@ docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 dockerFabricPush() {
 
   # shellcheck disable=SC2043
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper tools; do
+  for IMAGES in peer orderer ccenv javaenv tools; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
