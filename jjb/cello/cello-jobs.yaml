@@ -61,7 +61,7 @@
     name: 'cello-release-s390x'
 
     project-type: freestyle
-    node: 'hyp-s390x'
+    node: 'hyp-z'
     concurrent: true
 
     properties:
