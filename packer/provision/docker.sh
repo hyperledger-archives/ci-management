@@ -101,12 +101,15 @@ deb_install_go() {
 
 deb_docker_pull_baseimage() {
     echo "---> Pulling Fabric Baseimage & thirdparty images"
+
+    docker pull hyperledger/fabric-couchdb:x86_64-0.4.5
+    docker pull hyperledger/fabric-kafka:x86_64-0.4.5
+    docker pull hyperledger/fabric-zookeeper:x86_64-0.4.5
     docker pull hyperledger/fabric-couchdb:x86_64-1.1.0-preview
     docker pull hyperledger/fabric-kafka:x86_64-1.1.0-preview
     docker pull hyperledger/fabric-zookeeper:x86_64-1.1.0-preview
+    docker pull hyperledger/fabric-baseimage:x86_64-0.4.5
     docker pull hyperledger/fabric-baseimage:x86_64-0.4.2
-    docker pull hyperledger/fabric-baseimage:x86_64-0.3.2
-    docker pull hyperledger/fabric-baseimage:x86_64-0.3.1
 }
 
 deb_create_hyperledger_vardir() {
@@ -209,6 +212,7 @@ deb_install_softhsm() {
 deb_install_node() {
     # Node install
     pushd /usr/local
+    nvm install 8.9.1
     nvm install 8.4.0
     nvm install 7.4.0
     nvm ls
