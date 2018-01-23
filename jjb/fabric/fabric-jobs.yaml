@@ -14,6 +14,7 @@
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-multihost-tests-{arch}'
       - 'fabric-docs-build-{arch}'
+      - 'fabric-unit-tests-coverage-daily-{arch}'
 
     project: 'fabric'
     arch:
@@ -590,3 +591,54 @@
     publishers:
       - lf-infra-publish
       - fabric-docs-publish
+
+
+- job-template:
+    name: 'fabric-unit-tests-coverage-daily-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H 10 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - pull-images
+      - 'golang-environment-{arch}'
+      - output-environment
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric && sed -i '121,121 s/\"//g' unit-test/run.sh
+          cat unit-test/run.sh | grep -r run_tests_with_coverage
+          time make linter && time make profile
+
+    publishers:
+      - lf-infra-publish
+      - code-coverage-report
