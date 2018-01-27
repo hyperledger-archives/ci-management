@@ -579,14 +579,6 @@
 
           go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
 
-- builder:
-    name: fabric-docs-build
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          cd gopath/src/github.com/hyperledger/fabric/docs
-          make html
-
 - publisher:
     name: daily-goast-scan-results
     publishers:
