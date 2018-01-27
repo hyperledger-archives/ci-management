@@ -13,8 +13,25 @@
       - 'fabric-verify-build-checks-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-multihost-tests-{arch}'
-      - 'fabric-docs-build-{arch}'
       - 'fabric-unit-tests-coverage-daily-{arch}'
+      - gerrit-rtd-verify:
+          project-name: fabric
+          project-pattern: fabric
+          build-node: hyp-x86_64-p
+          build-timeout: 30
+          stream: master
+          branch: master
+          rtd-project: hyperledger-fabric
+
+          gerrit_trigger_file_paths:
+            - compare-type: ANT
+              pattern: '**/*.md'
+            - compare-type: ANT
+              pattern: '**/*.rst'
+            - compare-type: ANT
+              pattern: '**/*.txt'
+            - compare-type: ANT
+              pattern: '**/conf.py'
 
     project: 'fabric'
     arch:
