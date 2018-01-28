@@ -13,6 +13,17 @@
 - job-template:
     name: 'fabric-release-tests-{arch}'
 
+    ######################
+    # Default parameters #
+    ######################
+
+    node-version: '8.9.1'
+    nvm-version: '0.33.2'
+
+    #####################
+    # Job Configuration #
+    #####################
+
     project-type: freestyle
     node: 'hyp-{arch}'
     concurrent: true
@@ -39,7 +50,9 @@
       - output-environment
       - release-docker-images
       - release-tests
-      - npm-install
+      - npm-install:
+          node-version: '{node-version}'
+          nvm-version: '{nvm-version}'
       - fabric-smoke-tests
 
     publishers:
