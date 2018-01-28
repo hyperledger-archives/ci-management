@@ -57,31 +57,23 @@
             GOPATH=$WORKSPACE/gopath
             PATH=$GOROOT/bin:$GOPATH/bin:$PATH
             ARCH=ppc64le
-- scm:
-    name: hyperledger-fabric-gerrit
-    scm:
-      - git:
-          credentials-id: 'hyperledger-jobbuilder'
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/fabric'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
 
 - scm:
-    name: hyperledger-fabric-test-gerrit
+    name: fabric-gerrit-scm
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
     scm:
       - git:
-          credentials-id: 'hyperledger-jobbuilder'
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-test'
+          credentials-id: '{credentials-id}'
+          url: '$GIT_BASE'
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/fabric-test'
+          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
           refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
+          choosing-strategy: gerrit
+
 - scm:
     name: hyperledger-fabric-busybox-gerrit
     scm:

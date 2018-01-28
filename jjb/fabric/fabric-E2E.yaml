@@ -33,7 +33,7 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -81,7 +81,7 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:

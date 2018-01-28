@@ -37,7 +37,7 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-test-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -93,7 +93,7 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-test-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -145,7 +145,7 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-test-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -188,7 +188,7 @@
     concurrent: true
 
     scm:
-      - hyperledger-fabric-test-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -259,7 +259,7 @@
           timeout: '120'
 
     scm:
-      - hyperledger-fabric-test-gerrit:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     builders:
