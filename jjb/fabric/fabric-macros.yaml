@@ -634,11 +634,13 @@
     name: fabric-goast-scan
     builders:
       - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-          cd gopath/src/github.com/hyperledger/fabric
+          #!/bin/bash
 
-          go get github.com/GoASTScanner/gas && gas -fmt=json -out=results.json ./...
+          cd gopath/src/github.com/hyperledger/fabric
+          go get github.com/GoASTScanner/gas/cmd/gas/...
+          for packages in bccsp common core events gossip idemix msp orderer peer protos; do
+          gas -fmt=json -out=$packages.json ./$packages/...
+          done
 
 - publisher:
     name: daily-goast-scan-results

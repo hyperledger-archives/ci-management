@@ -819,6 +819,7 @@
                 Check console output at $BUILD_URL to view the results.
           unstable: true
           failed: true
+          attachments: '{output_format}'
           send-to:
             - recipients
 
@@ -831,7 +832,7 @@
             current-parameters: true
             condition: SUCCESS
             property-file: env.properties
-            predefined-parameters:
+            predefined-parameters: |
               GIT_COMMIT=$GIT_COMMIT
               GERRIT_REFSPEC=$GERRIT_REFSPEC
 
@@ -843,7 +844,7 @@
               - fabric-verify-unit-tests-x86_64
             current-parameters: true
             condition: SUCCESS
-            predefined-parameters:
+            predefined-parameters: |
               GIT_COMMIT=$GIT_COMMIT
               GERRIT_REFSPEC=$GERRIT_REFSPEC
 
