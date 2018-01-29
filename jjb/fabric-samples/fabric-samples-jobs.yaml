@@ -123,14 +123,17 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
+      - conditional-parameter:
+          trigger_value: ''
+      - git-commit:
+          commit: ''
 
     triggers:
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'Build SMOKE'
+          trigger-comment1: 'reverify'
           trigger-comment2: 'rebuild-byfn'
-          fabric-build-check: 'Build functional'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -145,6 +148,8 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
+      - downstream-more-checks
 
     publishers:
       - lf-infra-publish
+      - dockerlog

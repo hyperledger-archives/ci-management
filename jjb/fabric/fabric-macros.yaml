@@ -127,6 +127,67 @@
           properties-file: env.properties
 
 - builder:
+    name: pull-fabric
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          FABRIC_REPO_NAME=fabric
+          WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
+          rm -rf $WD
+          git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO_NAME $WD
+          cd $WD
+          git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
+          FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
+          echo "FABRIC_COMMIT ========> $FABRIC_COMMIT"
+
+- builder:
+    name: conditional-step1
+    builders:
+      - conditional-step:
+          condition-kind: strings-match
+          condition-string1: $TRIGGER_VALUE
+          condition-string2: nothing
+          condition-case-insensitive: true
+          steps:
+            - shell: echo "=======> IGNORE WIP BUILD <======="
+
+- builder:
+    name: conditional-step2
+    builders:
+      - conditional-step:
+          condition-kind: strings-match
+          condition-string1: $TRIGGER_VALUE
+          condition-string2: SMOKE
+          condition-case-insensitive: true
+          steps:
+            - trigger-builds:
+                - project:
+                    - fabric-verify-byfn-checks-x86_64
+                  property-file: env.properties
+                  predefined-parameters: |
+                     GIT_COMMIT=$GIT_COMMIT
+                     GERRIT_REFSPEC=$GERRIT_REFSPEC
+
+- builder:
+    name: fabric-clone
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          FABRIC_REPO_NAME=fabric
+          WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
+          rm -rf $WD
+          git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO_NAME $WD
+          cd $WD
+          git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
+          FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
+          echo "FABRIC_COMMIT ========> $FABRIC_COMMIT"
+          echo
+
+- builder:
     name: fabric-pull
     builders:
       - shell: |
@@ -312,7 +373,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && time make enable_ci_only_tests
+          cd gopath/src/github.com/hyperledger/fabric && time make unit-test
 
 - builder:
     name: fabric-tests

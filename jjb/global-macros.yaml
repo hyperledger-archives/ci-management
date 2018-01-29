@@ -64,9 +64,9 @@
     name: conditional-parameter
     parameters:
       - string:
-          name: TIGGER_COMMENT
-          default: '{TIGGER_COMMENT}'
-          description: "Conditional based build trigger"
+          name: TIGGER_VALUE
+          default: ''
+          description: "Sets TRIGGER VALUE based on the condition assigned in the build check job"
 #
 #
 # SCMS
@@ -188,7 +188,6 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-          successful-message: '{fabric-build-check}'
           skip-vote:
             successful: false
             failed: true
@@ -355,8 +354,6 @@
                 exclude-no-code-change: 'false'
             - draft-published-event
             - comment-added-contains-event:
-                comment-contains-value: 'recheck'
-            - comment-added-contains-event:
                 comment-contains-value: '{trigger-name1}'
             - comment-added-contains-event:
                 comment-contains-value: '{trigger-name2}'
@@ -366,7 +363,6 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-          successful-message: '{fabric-build-check}'
 
           skip-vote:
             successful: false
@@ -827,23 +823,17 @@
             - recipients
 
 - builder:
-    name: downstream-doc-build
-    builders:
-      - trigger-builds:
-          - project:
-              - fabric-docs-build-x86_64
-            property-file: env.properties
-
-- builder:
     name: downstream-smoke-job
     builders:
       - trigger-builds:
           - project:
               - fabric-verify-byfn-checks-x86_64
             current-parameters: true
+            condition: SUCCESS
             property-file: env.properties
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
+              GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:
     name: downstream-more-checks
@@ -851,11 +841,11 @@
       - trigger-builds:
           - project:
               - fabric-verify-unit-tests-x86_64
-              - fabric-verify-behave-tests-x86_64
             current-parameters: true
+            condition: SUCCESS
             predefined-parameters:
               GIT_COMMIT=$GIT_COMMIT
-
+              GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:
     name: publish-daily-images-binaries

@@ -48,18 +48,11 @@ WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
 if [[ ! -z "$WIP" ]];
 then
     echo '=====> Ignore this build as this is a WIP patch set'
-    TRIGGER_COMMENT='WIP'
-    echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
+    TRIGGER_VALUE='WIP'
+    echo "TRIGGER_VALUE=$TRIGGER_VALUE" > $WORKSPACE/env.properties
 else
-    DOC=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md$|.rst$|.txt$')
-    echo
-        if [[ -z "$DOC" ]]; then
-            echo 'Trigger fabric documentation build job'
-            TRIGGER_COMMENT='DOCS'
-            echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
-        else
-            TRIGGER_COMMENT='SMOKE'
-            echo "TRIGGER_COMMENT=$TRIGGER_COMMENT" > $WORKSPACE/env.properties
+            TRIGGER_VALUE='SMOKE'
+            echo "TRIGGER_VALUE=$TRIGGER_VALUE" > $WORKSPACE/env.properties
             # Build docker images and perform build process
             echo " ======> Perform basic checks"
                 make basic-checks
@@ -129,4 +122,4 @@ else
                                      exit 1
                               fi
           fi
-fi
+
