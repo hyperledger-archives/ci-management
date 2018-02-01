@@ -181,7 +181,7 @@
           steps:
             - trigger-builds:
                 - project:
-                    - fabric-verify-unit-tests-86_64
+                    - fabric-verify-unit-tests-x86_64
                   predefined-parameters: |
                      GERRIT_REFSPEC=$GERRIT_REFSPEC
 
