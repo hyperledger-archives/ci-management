@@ -130,7 +130,7 @@
 
     triggers:
       - gerrit-comment-trigger:
-          name: '{project}'
+          name: 'fabric'
           branch: ''
           trigger-comment1: 'reverify'
           trigger-comment2: 'rebuild-byfn'
@@ -148,7 +148,7 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
-      - downstream-more-checks
+      - conditional-step3
 
     publishers:
       - lf-infra-publish

@@ -2,15 +2,6 @@
 
 set -o pipefail
 
-     if [ -z "${GIT_COMMIT:-}" ]; then
-            echo "=====> GIT_COMMIT is unset and no value assigned"
-            GIT_COMMIT=$GERRIT_PATCHSET_VERSION
-	    echo "=====> GERRIT_PATCHSET_VERSION value (GIT_COMMIT): $GIT_COMMIT"
-     else
-            GIT_COMMIT=$GIT_COMMIT
-	    echo "=====> GIT_COMMIT: $GIT_COMMIT"
-     fi
-
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
