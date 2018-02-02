@@ -186,6 +186,20 @@
                      GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:
+    name: push-daily-images
+    builders:
+      - conditional-step:
+          condition-kind: current-status
+          condition-worst: FAILURE
+          condition-best: SUCCESS
+          on-evaluation-failure: fail
+          steps:
+            - trigger-builds:
+                - project:
+                    - fabric-daily-stable-images-x86_64
+                  current-parameters: true
+
+- builder:
     name: fabric-pull
     builders:
       - shell: |

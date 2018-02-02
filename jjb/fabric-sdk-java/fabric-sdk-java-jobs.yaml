@@ -48,6 +48,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x'
+          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -98,6 +100,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x'
+          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -193,6 +197,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x'
+          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -243,6 +249,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x'
+          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -295,6 +303,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x'
+          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -347,6 +357,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x'
+          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers

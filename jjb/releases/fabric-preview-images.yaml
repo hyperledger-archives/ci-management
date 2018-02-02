@@ -36,9 +36,11 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-release-verify:
+      - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: 'v0.6'
+          trigger-comment1: 'reverify-p'
+          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -77,9 +79,11 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-release-merged:
+      - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: 'v0.6'
+          trigger-comment1: 'remerge-p'
+          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
