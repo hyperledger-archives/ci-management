@@ -158,11 +158,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-x:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -210,8 +208,6 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -258,11 +254,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-behave:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-behave'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -311,8 +305,6 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -455,8 +447,8 @@
       - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-build-x'
-          trigger-comment2: ''
+          trigger-name1: 'rebuild-build-x'
+          trigger-name2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -516,7 +508,7 @@
           name: '{project}'
           branch: ''
           trigger-comment1: 'rebuild-x'
-          trigger-comment2: ''
+          trigger-comment2: 'reverify'
 
     builders:
       - clean-environment
@@ -618,8 +610,9 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric
-          time make profile
+          cd gopath/src/github.com/hyperledger/fabric && sed -i '121,121 s/\"//g' unit-test/run.sh
+          cat unit-test/run.sh | grep -r run_tests_with_coverage
+          time make linter && time make profile
 
     publishers:
       - lf-infra-publish

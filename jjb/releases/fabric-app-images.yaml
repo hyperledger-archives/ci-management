@@ -90,11 +90,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-release-verify:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -137,11 +135,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-release-verify:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'reverify-p'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -184,11 +180,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
-          branch: 'master'
+      - gerrit-trigger-release-verify:
           name: '{project}'
-          trigger-comment1: 'reverify-z'
-          trigger-comment2: 'reverify'
+          branch: 'master'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -230,11 +224,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -275,11 +267,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'remerge-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -322,11 +312,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'remerge-z'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers

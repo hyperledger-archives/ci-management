@@ -91,11 +91,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-release-verify:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -135,11 +133,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-release-verify:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-p'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -179,11 +175,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-release-verify:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-z'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -222,11 +216,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -266,11 +258,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-p'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -310,11 +300,9 @@
       - hyperledger-fabric-baseimage
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-release-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-z'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers

@@ -43,11 +43,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-node8-patch-submitted-{arch}:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-node8'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -91,11 +89,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-node6-patch-submitted-{arch}:
           name: '{project}'
           branch: 'release'
-          trigger-comment1: 'reverify-node6-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -140,11 +136,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-node8-patch-submitted-s390x:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-node8-z'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -191,11 +185,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-node6-patch-submitted-s390x:
           name: '{project}'
           branch: 'release'
-          trigger-comment1: 'reverify-node6-z'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -239,11 +231,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-node8-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -288,11 +278,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: 'release'
-          trigger-comment1: 'remerge-node6-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -336,11 +324,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-node8-z'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -385,11 +371,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-node-patch-merged:
           name: '{project}'
           branch: 'release'
-          trigger-comment1: 'remerge-node6-z'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -473,11 +457,9 @@
       - hyperledger-fabric-sdk-node
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-node8-patch-submitted-vul-{arch}:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-vul'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers

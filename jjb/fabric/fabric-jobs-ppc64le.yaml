@@ -39,11 +39,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted-skip:
+      - gerrit-trigger-patch-submitted-silent:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-p'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -87,11 +85,9 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-merged-skip:
+      - gerrit-trigger-patch-merged-silent:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'reverify-p'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers

@@ -13,6 +13,152 @@
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
 
+- trigger:
+    name: gerrit-trigger-node8-patch-submitted-s390x
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node8-s390x'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
+
+- trigger:
+    name: gerrit-trigger-node6-patch-submitted-s390x
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node6-s390x'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+          skip-vote:
+            successful: false
+            failed: true
+            unstable: true
+            notbuilt: true
+
+- trigger:
+    name: gerrit-trigger-node6-patch-submitted-x86_64
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node6-x, rebuild-node6-x86_64'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-node8-patch-submitted-x86_64
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node8-x, rebuild-node8-x86_64'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-node8-patch-submitted-vul-x86_64
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'false'
+            - draft-published-event
+            - comment-added-contains-event:
+                comment-contains-value: 'recheck'
+            - comment-added-contains-event:
+                comment-contains-value: 'reverify'
+            - comment-added-contains-event:
+                comment-contains-value: 'rebuild-node8-vul'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-node-patch-merged
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - change-merged-event
+            - comment-added-contains-event:
+                comment-contains-value: 'remerge'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+
 # Node SDK unit-test
 - builder:
     name: sdk-node6-tests

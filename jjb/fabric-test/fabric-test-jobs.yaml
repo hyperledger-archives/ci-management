@@ -44,8 +44,6 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -152,8 +150,6 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
-          trigger-comment2: 'remerge'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -225,7 +221,7 @@
          echo "=======> Run Daily test suite..."
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
-      - publish-daily-images
+      - publish-daily-images-binaries
 
     publishers:
       - lf-infra-publish
@@ -280,7 +276,8 @@
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - push-daily-images
+      - publish-daily-images
+      - publish-daily-binaries
 
     publishers:
       - lf-infra-publish

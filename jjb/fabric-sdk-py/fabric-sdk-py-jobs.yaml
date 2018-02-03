@@ -39,8 +39,6 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: 'master'
-          trigger-comment1: 'reverify-x'
-          trigger-comment2: 'reverify'
 
     wrappers:
       - hyperledger-infra-wrappers
