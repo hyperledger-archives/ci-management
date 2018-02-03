@@ -161,7 +161,7 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-x'
+          trigger-comment1: '/^reverify-x$/'
           trigger-comment2: 'reverify'
 
     wrappers:
@@ -210,7 +210,7 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
+          trigger-comment1: '/^remerge-x$/'
           trigger-comment2: 'remerge'
 
     wrappers:
@@ -261,7 +261,7 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-behave'
+          trigger-comment1: '/^reverify-behave$/'
           trigger-comment2: 'reverify'
 
     wrappers:
@@ -311,7 +311,7 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'remerge-x'
+          trigger-comment1: '/^remerge-x$/'
           trigger-comment2: 'remerge'
 
     wrappers:
@@ -455,7 +455,7 @@
       - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-build-x'
+          trigger-comment1: '/^reverify-build-x$/'
           trigger-comment2: ''
 
     wrappers:
@@ -515,7 +515,7 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'rebuild-x'
+          trigger-comment1: '/^rebuild-x$/'
           trigger-comment2: ''
 
     builders:
