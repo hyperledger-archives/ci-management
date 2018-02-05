@@ -833,7 +833,6 @@
             condition: SUCCESS
             property-file: env.properties
             predefined-parameters: |
-              GIT_COMMIT=$GIT_COMMIT
               GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:
@@ -845,7 +844,6 @@
             current-parameters: true
             condition: SUCCESS
             predefined-parameters: |
-              GIT_COMMIT=$GIT_COMMIT
               GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:

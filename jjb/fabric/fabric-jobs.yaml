@@ -448,7 +448,7 @@
           name: '{project}'
           branch: ''
           trigger-name1: 'rebuild-build-x'
-          trigger-name2: 'reverify'
+          trigger-name2: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -508,7 +508,7 @@
           name: '{project}'
           branch: ''
           trigger-comment1: 'rebuild-x'
-          trigger-comment2: 'reverify'
+          trigger-comment2: ''
 
     builders:
       - clean-environment
