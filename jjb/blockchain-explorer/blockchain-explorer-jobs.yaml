@@ -1,0 +1,130 @@
+---
+- project:
+    name: blockchain-explorer
+    jobs:
+      - '{project}-node6-verify-{arch}'
+      - '{project}-node6-merge-{arch}'
+    project: 'blockchain-explorer'
+    arch:
+      - 'x86_64'
+
+# gerrit changes
+
+- job-template:
+    name: '{project}-node6-verify-{arch}'
+
+    ######################
+    # Default parameters #
+    ######################
+
+    node-version: '6.9.5'
+    nvm-version: '0.33.2'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - blockchain-explorer-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - blockchain-explorer-gerrit-patch-submitted:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '20'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - npm-install:
+          node-version: '{node-version}'
+          nvm-version: '{nvm-version}'
+      - shell: |
+          #!/bin/bash -e
+          set -o pipefail
+
+          npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
+          cd app/test
+          npm run test
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: '{project}-node6-merge-{arch}'
+
+    ######################
+    # Default parameters #
+    ######################
+
+    node-version: '6.9.5'
+    nvm-version: '0.33.2'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - blockchain-explorer-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - blockchain-explorer-gerrit-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '20'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - npm-install:
+          node-version: '{node-version}'
+          nvm-version: '{nvm-version}'
+      - shell: |
+          #!/bin/bash -e
+          set -o pipefail
+
+          npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
+          cd app/test
+          npm run test
+
+    publishers:
+      - lf-infra-publish
