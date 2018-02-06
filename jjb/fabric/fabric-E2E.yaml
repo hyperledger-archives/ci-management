@@ -37,9 +37,11 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-e2e-patch-submitted:
+      - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-e2e$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -83,7 +85,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-e2e-patch-merged:
+      - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
 

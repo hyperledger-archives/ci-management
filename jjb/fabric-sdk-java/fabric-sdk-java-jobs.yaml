@@ -48,6 +48,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -193,6 +195,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-1.0.0$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -295,7 +299,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
-
+          trigger-comment1: 'reverify-latest$'
+          trigger-comment2: 'reverify$'
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:

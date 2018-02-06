@@ -158,9 +158,11 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted-x:
+      - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -254,9 +256,11 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted-behave:
+      - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-behave$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -447,8 +451,8 @@
       - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
-          trigger-name1: 'rebuild-build-x'
-          trigger-name2: ''
+          trigger-comment1: 'reverify-build-x$'
+          trigger-comment2: 'rebuild$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -507,8 +511,8 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'rebuild-x'
-          trigger-comment2: ''
+          trigger-comment1: 'reverify-unit-tests$'
+          trigger-comment2: 'notrigger$'
 
     builders:
       - clean-environment
@@ -610,9 +614,7 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && sed -i '121,121 s/\"//g' unit-test/run.sh
-          cat unit-test/run.sh | grep -r run_tests_with_coverage
-          time make linter && time make profile
+          cd gopath/src/github.com/hyperledger/fabric && time make profile
 
     publishers:
       - lf-infra-publish

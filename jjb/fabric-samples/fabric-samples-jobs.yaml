@@ -40,6 +40,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -130,8 +132,8 @@
       - gerrit-comment-trigger:
           name: 'fabric'
           branch: ''
-          trigger-comment1: ''
-          trigger-comment2: 'rebuild-byfn'
+          trigger-comment1: 'rebuild$'
+          trigger-comment2: 'rebuild-byfn$'
 
     scm:
       - fabric-gerrit-scm:

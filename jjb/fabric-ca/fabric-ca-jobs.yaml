@@ -43,6 +43,8 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -126,9 +128,11 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-ca-patch-submitted:
+      - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-z$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -166,7 +170,7 @@
           branch: 'master'
 
     triggers:
-      - gerrit-trigger-ca-patch-merged:
+      - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
 
@@ -214,9 +218,11 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-patch-submitted-silent:
+      - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'reverify-p$'
+          trigger-comment2: 'reverify$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -255,7 +261,7 @@
           branch: 'master'
 
     triggers:
-      - gerrit-trigger-patch-merged-silent:
+      - gerrit-trigger-patch-merged-skip:
           name: '{project}'
           branch: ''
 
