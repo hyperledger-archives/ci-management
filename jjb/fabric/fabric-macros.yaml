@@ -260,7 +260,7 @@
           !include-raw: include-raw-fabric-clone-repos.sh
 
 - builder:
-    name: publish-daily-images
+    name: publish-daily-stable-images
     builders:
       - shell:
           !include-raw: include-raw-publish-daily-images.sh

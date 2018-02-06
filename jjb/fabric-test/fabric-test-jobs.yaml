@@ -223,9 +223,9 @@
          echo "=======> Run Daily test suite..."
          echo
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
-      - publish-daily-images-binaries
 
     publishers:
+      - publish-daily-images
       - lf-infra-publish
       - daily-test-results
       - test-logs
@@ -273,13 +273,11 @@
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make git-update && make fabric && make ca
          make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric
          make docker-fabric-ca -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
-         make dist-all -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - publish-daily-images
-      - publish-daily-binaries
+      - publish-daily-stable-images
 
     publishers:
       - lf-infra-publish
