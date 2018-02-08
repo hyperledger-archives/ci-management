@@ -87,7 +87,7 @@ EOF
     # group with dnf based systems (F21+) will fail the install if such
     # a group does not exist
     yum install -y -q unzip xz puppet git git-review perl-XML-XPath xmlstarlet facter \
-                      maven libltdl-dev python-tox crudini
+                      maven libltdl-dev python-tox crudini ansible
 
     # All of our systems require Java (because of Jenkins)
     # Install all versions of the OpenJDK devel but force 1.7.0 to be the
@@ -178,6 +178,12 @@ EOF
     echo "---> Installing base packages"
     ensure_ubuntu_install unzip xz-utils puppet git git-review libxml-xpath-perl \
                           xmlstarlet facter maven libltdl-dev python-tox crudini
+
+    # install newer Ansible
+    echo "---> Installing ansible"
+    apt-add-repository -y ppa:ansible/ansible
+    apt-get update
+    ensure_ubuntu_install ansible
 
     # install Java 7
     echo "---> Configuring OpenJDK"
