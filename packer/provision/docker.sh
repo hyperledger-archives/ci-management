@@ -118,21 +118,6 @@ deb_create_hyperledger_vardir() {
     chown $USER:$USER /var/hyperledger
 }
 
-deb_install_rocksdb() {
-    #cd scripts/provision/ && chmod +x host.sh && sudo ./host.sh
-    echo "---> Installing RocksDB"
-
-    git clone --branch v4.1 \
-        --single-branch \
-        --depth 1 \
-        https://github.com/facebook/rocksdb.git /tmp/rocksdb
-
-    cd /tmp/rocksdb || exit
-    make shared_lib
-    INSTALL_PATH='/usr/local' make install-shared
-    ldconfig
-}
-
 deb_add_docker_repo() {
     # Following directions from
     # https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/
@@ -287,7 +272,6 @@ ubuntu_changes() {
     deb_install_nvm
     deb_install_node
     deb_install_softhsm
-    deb_install_rocksdb
     deb_update_alternatives
     deb_docker_pull_baseimage
     deb_docker_fix
