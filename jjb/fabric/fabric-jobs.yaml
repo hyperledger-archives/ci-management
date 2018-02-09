@@ -419,6 +419,7 @@
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: '**/*.json'
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-verify-build-checks-{arch}'
@@ -477,6 +478,7 @@
       - fabric-email-notification:
           email-ids: 'rameshbabu.thoomu@gmail.com'
           output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-verify-unit-tests-{arch}'

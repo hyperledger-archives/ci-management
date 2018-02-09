@@ -159,3 +159,4 @@
       - fabric-email-notification:
           email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,gregory.haskins@gmail.com,rameshbabu.thoomu@gmail.com,harrijk63@gmail.com'
           output_format: ''
+          developer-email: 'developers'

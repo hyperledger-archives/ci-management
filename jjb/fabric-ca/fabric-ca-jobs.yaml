@@ -59,6 +59,11 @@
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -99,11 +104,19 @@
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
       - ca-code-coverage-report
-
+      - fabric-email-notification:
+          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-ca-verify-s390x'
@@ -147,6 +160,11 @@
       - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -187,11 +205,19 @@
       - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
       - ca-code-coverage-report
-
+      - fabric-email-notification:
+          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-ca-verify-ppc64le'
@@ -236,6 +262,11 @@
       - clean-environment
       - output-environment
       - ca-tests
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -277,6 +308,11 @@
       - ca-clone
       - output-environment
       - ca-tests
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish

@@ -417,6 +417,7 @@
           attachments: '{output_format}'
           send-to:
             - recipients
+            - '{developer-email}'
 
 - builder:
     name: downstream-smoke-job
