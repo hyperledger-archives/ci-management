@@ -443,6 +443,8 @@
       - conditional-parameter:
           trigger_value:
 
+    disabled: true
+
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
