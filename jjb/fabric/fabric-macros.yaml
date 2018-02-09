@@ -59,6 +59,22 @@
             ARCH=ppc64le
 
 - scm:
+    name: fabric-gerrit-scm-test
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
+    scm:
+      - git:
+          credentials-id: '{credentials-id}'
+          branches:
+            - 'refs/heads/$GERRIT_BRANCH'
+          url: '$GIT_BASE'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
+          refspec: ''  # blank string to fetch the project code later in the script
+          choosing-strategy: gerrit
+
+- scm:
     name: fabric-gerrit-scm
     # scm for the fabric project which uses basedir for a golang project
     # Parameters:
@@ -66,9 +82,9 @@
     scm:
       - git:
           credentials-id: '{credentials-id}'
-          url: '$GIT_BASE'
           branches:
             - 'origin/$GERRIT_BRANCH'
+          url: '$GIT_BASE'
           wipe-workspace: true
           basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
           refspec: '$GERRIT_REFSPEC'

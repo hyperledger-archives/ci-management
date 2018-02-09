@@ -31,7 +31,7 @@ cd $WORKSPACE/fabric-test/tools/ATD/ || exit
 
 # execute FAB-3989-4i-TLS test case
 ansible-playbook -i ../../cello/src/agent/ansible/run/runhosts \
-  --extra-vars "chaincode=samplecc testcase=FAB-3989-4i-TLS" -e "mode=apply env=bc1st tool_type=pte" ptesetup.yml --skip-tags="code"
+  --extra-vars "chaincode=samplecc testcase=FAB-3989-4i-TLS" -e "mode=apply env=bc1st tool_type=pte" ptesetup.yml --skip-tags="code,make"
 
 # here we add invocation steps to start test playbooks
 ansible-playbook -i ../../cello/src/agent/ansible/run/runhosts \
