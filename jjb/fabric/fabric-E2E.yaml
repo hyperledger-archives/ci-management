@@ -54,6 +54,8 @@
       - output-environment
       - dockerimages
       - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
 
     publishers:
       - lf-infra-publish
@@ -100,6 +102,8 @@
       - output-environment
       - dockerimages
       - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
 
     publishers:
       - lf-infra-publish

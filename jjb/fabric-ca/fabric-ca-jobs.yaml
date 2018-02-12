@@ -8,6 +8,8 @@
       - 'fabric-ca-verify-ppc64le'
       - 'fabric-ca-merge-s390x'
       - 'fabric-ca-verify-s390x'
+      - 'fabric-ca-verify-end-2-end-{arch}'
+      - 'fabric-ca-merge-end-2-end-{arch}'
 
     project: 'fabric-ca'
     arch:
@@ -279,3 +281,101 @@
     publishers:
       - lf-infra-publish
       - ca-code-coverage-report
+
+- job-template:
+    name: 'fabric-ca-verify-end-2-end-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+          trigger-comment1: 'reverify-e2e$'
+          trigger-comment2: 'reverify$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '50'
+
+    builders:
+      - clean-environment
+      - 'ca-golang-environment-{arch}'
+      - output-environment
+      - dockercaimages
+      - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog
+
+- job-template:
+    name: 'fabric-ca-merge-end-2-end-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '50'
+
+    builders:
+      - clean-environment
+      - 'ca-golang-environment-{arch}'
+      - output-environment
+      - dockercaimages
+      - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
+
+    publishers:
+      - lf-infra-publish
+      - dockerlog

@@ -88,3 +88,9 @@
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.s390x
             PATH=$GOROOT/bin:$PATH
+
+- builder:
+    name: dockercaimages
+    builders:
+      - shell:
+          !include-raw: include-raw-FIT-dockercaimages.sh
