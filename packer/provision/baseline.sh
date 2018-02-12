@@ -70,11 +70,6 @@ Defaults:jenkins !requiretty
 jenkins ALL = NOPASSWD: /usr/sbin/alternatives
 EOF
 
-    mkdir /w
-    cat <<EOF >>/etc/fstab
-none /w tmpfs defaults,size=2g 0 0
-EOF
-
     echo "---> Updating operating system"
     yum clean all -q
     yum install -y -q deltarpm
