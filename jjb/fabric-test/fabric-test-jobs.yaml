@@ -32,12 +32,12 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: ''
       - gerrit-refspec-parameter:
-          refspec: 'refs/heads/master'
+          refspec: ''
 
     scm:
-      - fabric-gerrit-scm-test:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
@@ -53,21 +53,9 @@
           timeout: '120'
 
     builders:
-
       - verify-commit-message
       - clean-environment
       - output-environment
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $GOPATH/src/github.com/hyperledger/$PROJECT
-         echo "---> Fetching project"
-         git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
-         GIT_COMMIT=$(git log -1 --pretty=format:"%H")
-         echo "GIT_COMMIT After Fetch: =========> $GIT_COMMIT"
-         echo
-
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
@@ -76,7 +64,6 @@
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
 
     publishers:
