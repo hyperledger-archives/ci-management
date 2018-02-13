@@ -110,6 +110,10 @@ deb_docker_pull_baseimage() {
     docker pull hyperledger/fabric-zookeeper:x86_64-1.1.0-preview
     docker pull hyperledger/fabric-baseimage:x86_64-0.4.5
     docker pull hyperledger/fabric-baseimage:x86_64-0.4.2
+
+    echo "---> Pulling Indy images"
+
+    docker pull hyperledger/indy-core-baseci:0.0.1
 }
 
 deb_create_hyperledger_vardir() {
