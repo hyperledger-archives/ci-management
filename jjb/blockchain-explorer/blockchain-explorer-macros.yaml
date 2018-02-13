@@ -9,6 +9,7 @@
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
           refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: gerrit
 
 # Triggers
 #
