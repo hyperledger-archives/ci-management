@@ -67,7 +67,7 @@
 
     parameters:
       - indy-agent-label-linux-docker-parameter:
-        label: 'hyp-{arch}'
+        label: 'hyp-{arch}-indy'
       - indy-commit-id-build-parameter
 
     properties:
