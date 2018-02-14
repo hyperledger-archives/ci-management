@@ -15,11 +15,11 @@ export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# Install nodejs version 8.9.1
-nvm install 8.9.1 || true
+# Install nodejs version 8.9.4
+nvm install 8.9.4 || true
 
-# Use nodejs 8.9.1 version
-nvm use --delete-prefix v8.9.1 --silent
+# Use nodejs 8.9.4 version
+nvm use --delete-prefix v8.9.4 --silent
 echo "npm version ===>"
 npm -v
 echo "Node version ====>"
