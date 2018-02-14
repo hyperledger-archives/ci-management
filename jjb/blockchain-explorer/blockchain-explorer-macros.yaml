@@ -48,3 +48,14 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
+
+- publisher:
+    name: BE-coverage-report
+    publishers:
+      - html-publisher:
+          name: "Code Coverage Report"
+          dir: "$WORKSPACE/client/coverage/lcov-report"
+          files: "index.html"
+          keep-all: true
+          allow-missing: true
+          link-to-last-build: true

@@ -75,6 +75,7 @@
           fi
     publishers:
       - lf-infra-publish
+      - BE-coverage-report
 
 - job-template:
     name: '{project}-node6-merge-{arch}'
@@ -140,3 +141,4 @@
           fi
     publishers:
       - lf-infra-publish
+      - BE-coverage-report
