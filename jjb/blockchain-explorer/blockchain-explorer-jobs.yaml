@@ -63,10 +63,16 @@
           #!/bin/bash -e
           set -o pipefail
 
+          echo "---> Run npm tests"
           npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
-          cd app/test
+          cd app/test && npm install
           npm run test
 
+          if [ "$GERRIT_BRANCH" != "master" ]; then
+               echo "====> GERRIT_BRANCH: = $GERRIT_BRANCH"
+               cd ../../client && npm install
+               npm test -- -u --coverage && npm run build
+          fi
     publishers:
       - lf-infra-publish
 
@@ -122,9 +128,15 @@
           #!/bin/bash -e
           set -o pipefail
 
+          echo "---> Run npm tests"
           npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
-          cd app/test
+          cd app/test && npm install
           npm run test
 
+          if [ "$GERRIT_BRANCH" != "master" ]; then
+              echo "====> GERRIT_BRANCH = $GERRIT_BRANCH"
+              cd ../../client && npm install
+              npm test -- -u --coverage && npm run build
+          fi
     publishers:
       - lf-infra-publish
