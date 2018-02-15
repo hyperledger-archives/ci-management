@@ -266,6 +266,12 @@
           !include-raw: include-raw-publish-daily-images.sh
 
 - builder:
+    name: publish-dev-stable-images
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-dev-images.sh
+
+- builder:
     name: publish-daily-binaries
     builders:
       - shell:
@@ -472,6 +478,11 @@
           condition-kind: always
           steps:
             - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
+
+- builder:
+    name: end-to-end-BYFN
+    builders:
+      - shell: !include-raw: jjb/fabric/include-raw-byfn.sh
 
 - publisher:
     name: archive-behave-logs

@@ -443,10 +443,19 @@
               GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - publisher:
+    name: publish-dev-images
+    publishers:
+      - downstream-ext:
+          projects:
+            - fabric-dev-stable-images-x86_64
+          condition: equal
+          criteria: success
+
+- publisher:
     name: publish-daily-images
     publishers:
       - downstream-ext:
           projects:
             - fabric-daily-stable-images-x86_64
-          criteria: success
           condition: equal
+          criteria: success
