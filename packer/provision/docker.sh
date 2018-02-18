@@ -102,17 +102,14 @@ deb_install_go() {
 deb_docker_pull_baseimage() {
     echo "---> Pulling Fabric Baseimage & thirdparty images"
 
-    docker pull hyperledger/fabric-couchdb:x86_64-0.4.5
-    docker pull hyperledger/fabric-kafka:x86_64-0.4.5
-    docker pull hyperledger/fabric-zookeeper:x86_64-0.4.5
-    docker pull hyperledger/fabric-couchdb:x86_64-1.1.0-preview
-    docker pull hyperledger/fabric-kafka:x86_64-1.1.0-preview
-    docker pull hyperledger/fabric-zookeeper:x86_64-1.1.0-preview
-    docker pull hyperledger/fabric-baseimage:x86_64-0.4.5
-    docker pull hyperledger/fabric-baseimage:x86_64-0.4.2
-
+    # List of images to be generated and pushed
+    export IMAGES_LIST=(couchdb kafka zookeeper baseimage baseos)
+    THIRDPARTY_IMAGE_VERSION=0.4.6
+    echo "---> Pulling Thirdparty Images"
+    for image in ${IMAGES_LIST[*]}; do
+         docker pull hyperledger/fabric-$image:$THIRDPARTY_IMAGE_VERSION
+    done
     echo "---> Pulling Indy images"
-
     docker pull hyperledger/indy-core-baseci:0.0.1
 }
 

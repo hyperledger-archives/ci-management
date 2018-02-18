@@ -54,11 +54,9 @@ gulp test-e2e
 if [ $? == 0 ]; then
    # Copy Debug log to $WORKSPACE
    cp /tmp/fabric-shim/logs/*.log $WORKSPACE
-   rm -rf /tmp/fabric-shim/*
 else
    # Copy Debug log to $WORKSPACE
    cp /tmp/fabric-shim/logs/*.log $WORKSPACE
-   rm -rf /tmp/fabric-shim/*
 exit 1
 
 fi

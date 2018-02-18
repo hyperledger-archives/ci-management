@@ -5,7 +5,7 @@ set -o pipefail
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
 MARCH=`uname -m`
-VERSION=$MARCH-0.4.5
+VERSION=$MARCH-0.4.6
 
 dockerTag() {
   for IMAGES in couchdb kafka zookeeper; do
