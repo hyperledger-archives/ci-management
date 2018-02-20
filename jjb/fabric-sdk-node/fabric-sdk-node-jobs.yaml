@@ -447,6 +447,8 @@
     node: 'hyp-{arch}'
     concurrent: true
 
+    disabled: true
+
     properties:
       - 'fabric-{arch}'
       - build-discarder:
