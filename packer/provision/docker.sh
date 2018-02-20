@@ -107,7 +107,7 @@ deb_docker_pull_baseimage() {
     THIRDPARTY_IMAGE_VERSION=0.4.6
     echo "---> Pulling Thirdparty Images"
     for image in ${IMAGES_LIST[*]}; do
-         docker pull hyperledger/fabric-$image:$THIRDPARTY_IMAGE_VERSION
+         docker pull hyperledger/fabric-$image:x86_64-$THIRDPARTY_IMAGE_VERSION
     done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
