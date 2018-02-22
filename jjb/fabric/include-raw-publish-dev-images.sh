@@ -62,6 +62,7 @@ dockerTag() {
     echo
     docker tag $ORG_NAME-$IMAGES:latest $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG"
+    echo
   done
 }
 dockerCaTag() {
@@ -76,6 +77,7 @@ dockerFabricPush() {
     echo "==> $IMAGES"
     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
+    docker push $NEXUS_URL/$ORG_NAME-$IMAGES
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG"
   done
 }
@@ -83,6 +85,7 @@ dockerFabricPush() {
 dockerCaPush() {
   docker push $NEXUS_URL/$ORG_NAME-ca:$CA_TAG
   echo
+  docker push $NEXUS_URL/$ORG_NAME-ca
   echo "==> $NEXUS_URL/$ORG_NAME-ca:$CA_TAG"
 }
 
