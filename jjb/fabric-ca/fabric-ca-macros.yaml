@@ -23,6 +23,12 @@
           make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
+    name: push-fabric-ca-binaries
+    builders:
+      - shell:
+          !include-raw: include-raw-push-fabric-ca-binaries.sh
+
+- builder:
     name: ca-clone
     builders:
       - shell: |
