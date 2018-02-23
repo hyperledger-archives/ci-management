@@ -61,6 +61,7 @@ dockerTag() {
     echo "==> $IMAGES"
     echo
     docker tag $ORG_NAME-$IMAGES:latest $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
+    docker tag $ORG_NAME-$IMAGES:latest $NEXUS_URL/$ORG_NAME-$IMAGES
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG"
     echo
   done
@@ -68,6 +69,7 @@ dockerTag() {
 dockerCaTag() {
   echo
   docker tag $ORG_NAME-ca:latest $NEXUS_URL/$ORG_NAME-ca:$CA_TAG
+  docker tag $ORG_NAME-ca:latest $NEXUS_URL/$ORG_NAME-ca
   echo "==> $NEXUS_URL/$ORG_NAME-ca:$CA_TAG"
 }
 # Push docker images to nexus repository

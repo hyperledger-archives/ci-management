@@ -11,7 +11,6 @@
       - 'fabric-sdk-node6-verify-s390x'
       - 'fabric-sdk-node6-merge-s390x'
       - 'fabric-sdk-node-vulnerable-tests-{arch}'
-      - 'FIT-node-{arch}'
     project: 'fabric-sdk-node'
     arch:
       - 'x86_64'
@@ -162,7 +161,6 @@
       - sdk-logs
       - lf-infra-publish
       - sdk-node-coverage-report
-
 
 # gerrit changes
 
@@ -397,45 +395,6 @@
     publishers:
       - sdk-logs
       - lf-infra-publish
-      - sdk-node-coverage-report
-
-- job-template:
-    name: 'FIT-node-{arch}'
-    description: |
-       This Job covers Functional integration Testing on fabric-sdk node
-       repository and it runs for every 6 hrs on latest commits of fabric,
-       fabric/ca and fabric/sdk-node repos. This Job is Managed by Jenkins
-       Job Builder. Do not edit via web.
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    triggers:
-      - timed: 'H */6 * * *'
-
-    wrappers:
-
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - pull-images
-      - chaincode-node-docker-images
-      - end-to-end-tests
-
-    publishers:
-      - lf-infra-publish
-      - sdk-logs
       - sdk-node-coverage-report
 
 # gerrit changes

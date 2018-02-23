@@ -33,11 +33,6 @@
     builders:
       - shell:
           !include-raw: include-raw-npm-publish.sh
-- builder:
-    name: end-to-end-tests
-    builders:
-      - shell:
-          !include-raw: include-raw-FIT-node-e2e.sh
 
 - builder:
     name: gulp-doc
