@@ -12,25 +12,31 @@ cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/
 cd first-network
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 # Execute below tests
+echo "############## BYFN,EYFN DEFAULT CHANNEL TEST####################"
+echo "#################################################################"
+
+echo y | ./byfn.sh -m down
+echo y | ./byfn.sh -m up -t 60
+echo y | ./eyfn.sh -m up -t 60
+echo y | ./byfn.sh -m down
 echo
-echo "======> DEFAULT CHANNEL <======"
+echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
+echo "#########################################################"
 
-echo y | ./byfn.sh -m down
-echo y | ./byfn.sh -m generate
-echo y | ./byfn.sh -m up -t 10
-echo y | ./byfn.sh -m down
-
+echo y | ./byfn.sh -m up -c fabricrelease -t 60
+echo y | ./eyfn.sh -m up -c fabricrelease -t 60
+echo y | ./eyfn.sh -m down
 echo
-echo "======> CUSTOM CHANNEL <======="
+echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
+echo "#########################################################################"
 
-echo y | ./byfn.sh -m generate -c fabricrelease
-echo y | ./byfn.sh -m up -c fabricrelease -t 10
+echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
 echo y | ./byfn.sh -m down
-
-
 echo
-echo "======> CouchDB tests <======="
+echo "############### BYFN,EYFN WITH NODE LANG. TEST ################"
+echo "###############################################################"
 
-echo y | ./byfn.sh -m generate -c couchdbtest
-echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
-echo y | ./byfn.sh -m down
+echo y | ./byfn.sh -m up -l node -t 60
+echo y | ./eyfn.sh -m up -l node -t 60
+echo y | ./eyfn.sh -m down
