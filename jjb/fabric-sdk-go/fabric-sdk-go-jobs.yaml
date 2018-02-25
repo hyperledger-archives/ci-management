@@ -53,6 +53,7 @@
 
     builders:
       - verify-commit-message
+      - fabric-sdk-go-golang-environment-{arch}
       - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
@@ -99,6 +100,7 @@
 
     builders:
       - clean-environment
+      - fabric-sdk-go-golang-environment-{arch}
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests
@@ -146,6 +148,7 @@
 
     builders:
       - verify-commit-message
+      - fabric-sdk-go-golang-environment-s390x
       - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
@@ -192,6 +195,7 @@
 
     builders:
       - clean-environment
+      - fabric-sdk-go-golang-environment-s390x
       - output-environment
       - fabric-sdk-go-unit-tests
       - fabric-sdk-go-integration-tests
