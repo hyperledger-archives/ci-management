@@ -9,13 +9,12 @@ ORG_NAME="hyperledger/fabric"
 docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 # Push docker images to nexus repository
 
-#TODO: this is a temporary change to push 1.0.6 thirdparty images
-#This process has to steamline or add other fabric images to the below list
+#TODO: this is a temporary change to push 1.0.x thirdparty images
 
 docker_Fabric_Thirdparty_Push() {
 
   # shellcheck disable=SC2043
-  for IMAGES in kafka couchdb zookeeper; do
+  for IMAGES in kafka zookeper couchdb; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
@@ -27,7 +26,7 @@ docker_Fabric_Thirdparty_Push() {
 docker_Fabric_Push() {
 
   # shellcheck disable=SC2043
-  for IMAGES in peer orderer ccenv javaenv tools; do
+  for IMAGES in peer orderer javaenv ccenv tools; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
@@ -35,19 +34,22 @@ docker_Fabric_Push() {
     echo
   done
 }
-echo "-----> GERRIT_REFSPEC is: $GERRIT_REFSPEC"
-echo $GERRIT_REFSPEC | grep 'v1.0.*'
-if [ $? != '0' ]; then
 
-     # Push Fabric Docker Images
+BRANCH=$(echo $GIT_BRANCH | grep 'v1.0.*')
+REFSPEC=$(echo $GERRIT_REFSPEC | grep 'v1.0.*')
+
+if [ -z "$BRANCH" ] && [ -z "$REFSPEC" ]; then
+     # Push Fabric Docker Images from master branch
      echo "-----> Release tag: $GERRIT_REFSPEC"
-     echo "-----> Pushing fabric and thirdparty docker imges"
+     echo "-----> GIT_BRANCH: $GIT_BRANCH"
+     echo "-----> Pushing fabric docker images from master branch"
      docker_Fabric_Push
 else
-     # Push Fabric & Thirdparty Docker Images
+     # Push Fabric & Thirdparty Docker Images from release branch
      echo "-----> Release tag: $GERRIT_REFSPEC"
-     echo "-----> Pushing fabric and thirdparty docker imges"
+     echo "-----> GIT_BRANCH: $GIT_BRANCH"
+     echo "-----> Pushing fabric and thirdparty docker images from release branch"
      docker_Fabric_Thirdparty_Push
 fi
-# Listout all docker images Before and After Push to NEXUS
+# Listout all the docker images Before and After Push
 docker images | grep "hyperledger*"
