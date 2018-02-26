@@ -97,20 +97,19 @@ dockerCaPush() {
 }
 
 dockerThirdPartyDockerTag() {
-  for IMAGES in peer kafka zookeeper couchdb; do
-     docker pull $ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE
-     docker tag $ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE $NEXUS_URL/$ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE
-     docker tag $ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE $NEXUS_URL/$ORG_NAME-$IMAGES
-     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE"
+  for IMAGES in kafka zookeeper couchdb; do
+     docker pull $ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE
+     docker tag $ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE
+     docker tag $ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE $NEXUS_URL/$ORG_NAME-$IMAGES
+     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE"
   done
 }
 dockerThirdPartyDockerPush() {
   for IMAGES in kafka zookeeper couchdb; do
-    docker pull $ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE
-    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE
+    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE
     echo
     docker push $NEXUS_URL/$ORG_NAME-$IMAGES
-    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$BASE_IMAGE_RELEASE"
+    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES"
   done
 }
 

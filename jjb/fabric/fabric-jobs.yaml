@@ -6,7 +6,6 @@
       - 'fabric-verify-{arch}'
       - 'fabric-merge-behave-{arch}'
       - 'fabric-verify-behave-{arch}'
-      - 'fabric-nexus-docker-daily-{arch}'
       - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-weekly-{arch}'
@@ -39,51 +38,6 @@
     arch:
       - 'x86_64'
     mvn-settings: 'fabric-settings'
-
-# gerrit changes
-
-- job-template:
-    name: 'fabric-nexus-docker-daily-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: ''
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '20'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - nexus-docker-images
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - nexus-docker-push
-
-    publishers:
-      - lf-infra-publish
 
 # gerrit changes
 

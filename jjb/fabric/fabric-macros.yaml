@@ -344,12 +344,6 @@
           !include-raw: include-raw-FIT-JAVA-e2e.sh
 
 - builder:
-    name: nexus-docker-push
-    builders:
-      - shell:
-          !include-raw: include-raw-nexus-docker-push.sh
-
-- builder:
     name: nexus-stable-docker-push
     builders:
       - shell:
