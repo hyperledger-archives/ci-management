@@ -719,3 +719,7 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
+          output_format: ''
+          developer-email: ''
