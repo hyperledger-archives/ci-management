@@ -8,12 +8,14 @@
       - 'fabric-ca-verify-ppc64le'
       - 'fabric-ca-merge-s390x'
       - 'fabric-ca-verify-s390x'
+      - 'fabric-ca-binaries-{arch}'
       - 'fabric-ca-verify-end-2-end-{arch}'
       - 'fabric-ca-merge-end-2-end-{arch}'
 
     project: 'fabric-ca'
     arch:
       - 'x86_64'
+    mvn-settings: 'fabric-settings'
 
 # publish fabric-binaries
 - job-template:

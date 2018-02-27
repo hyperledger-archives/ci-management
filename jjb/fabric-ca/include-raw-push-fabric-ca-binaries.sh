@@ -17,12 +17,12 @@ echo "=======>" $IS_RELEASE
 # Findout PROJECT_VERSION
 
 if [ $IS_RELEASE != "true" ]; then
-EXTRA_VERSION=snapshot-$(git rev-parse --short HEAD)
-PROJECT_VERSION=$BASE_VERSION-$EXTRA_VERSION
-echo "=======>" $PROJECT_VERSION
+      EXTRA_VERSION=snapshot-$(git rev-parse --short HEAD)
+      PROJECT_VERSION=$BASE_VERSION-$EXTRA_VERSION
+      echo "=======>" $PROJECT_VERSION
 else
-PROJECT_VERSION=$BASE_VERSION
-echo "=======>" $PROJECT_VERSION
+      PROJECT_VERSION=$BASE_VERSION
+      echo "=======>" $PROJECT_VERSION
 fi
 
 # Push fabric-ca-binaries to nexus2
