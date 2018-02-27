@@ -57,7 +57,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-byfn-merge-{arch}'
@@ -103,7 +103,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-verify-byfn-checks-{arch}'
@@ -157,4 +157,4 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts

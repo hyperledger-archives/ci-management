@@ -6,7 +6,6 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-smoke-test-daily-{arch}'
       - 'fabric-test-daily-{arch}'
-      - 'fabric-daily-stable-images-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -68,7 +67,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
       - daily-test-results
 
 - job-template:
@@ -120,7 +119,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
       - daily-test-results
 
 - job-template:
@@ -173,7 +172,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
       - daily-test-results
 
 # gerrit changes
@@ -225,60 +224,6 @@
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
 
     publishers:
-      - publish-daily-images
       - lf-infra-publish
       - daily-test-results
-      - test-logs
-
-- job-template:
-    name: 'fabric-daily-stable-images-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         echo "=========> Install govendor"
-         go get -u github.com/kardianos/govendor
-         echo "=========> Run Smoke Tests..."
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make git-update && make fabric && make ca
-         make docker -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric
-         make docker-fabric-ca -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - publish-daily-stable-images
-
-    publishers:
-      - lf-infra-publish
       - test-logs

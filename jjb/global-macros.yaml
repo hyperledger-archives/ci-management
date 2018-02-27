@@ -373,33 +373,6 @@
     builders:
       - shell: !include-raw: include-raw-docker-login.sh
 
-- builder:
-    name: two-staged-ci
-    builders:
-      - shell: !include-raw: include-raw-two-staged-ci.sh
-
-- publisher:
-    name: downstream-jobs
-    publishers:
-      - downstream-ext:
-          projects:
-            - fabric-baseimage-release-docker-x86_64
-            - fabric-baseimage-release-docker-ppc64le
-            - fabric-baseimage-release-docker-s390x
-          criteria: success
-          condition: equal
-
-- publisher:
-    name: image-downstream-jobs
-    publishers:
-      - downstream-ext:
-          projects:
-            - fabric-app-image-release-docker-x86_64
-            - fabric-app-image-release-docker-ppc64le
-            - fabric-app-image-release-docker-s390x
-          criteria: success
-          condition: equal
-
 - publisher:
     name: fabric-email-notification
     publishers:
@@ -448,14 +421,5 @@
       - downstream-ext:
           projects:
             - fabric-dev-stable-images-x86_64
-          condition: equal
-          criteria: success
-
-- publisher:
-    name: publish-daily-images
-    publishers:
-      - downstream-ext:
-          projects:
-            - fabric-daily-stable-images-x86_64
           condition: equal
           criteria: success

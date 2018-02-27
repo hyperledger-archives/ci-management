@@ -67,23 +67,3 @@
                 failing: 0
             - packages:
                 healthy: 80
-
-# Node SDK log file
-- publisher:
-    name: archive-sdk-node-logs
-    publishers:
-      - archive:
-          artifacts: 'gopath/src/github.com/hyperledger/fabric/test/unit/*.log'
-          fingerprint: true
-          default-excludes: false
-          allow-empty: true
-
-# COMMIT log file
-- publisher:
-    name: archive-commit-logs
-    publishers:
-      - archive:
-          artifacts: '**/*.log'
-          fingerprint: true
-          default-excludes: false
-          allow-empty: true

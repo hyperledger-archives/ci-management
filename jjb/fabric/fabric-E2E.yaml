@@ -59,7 +59,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-merge-end-2-end-{arch}'
@@ -107,4 +107,4 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts

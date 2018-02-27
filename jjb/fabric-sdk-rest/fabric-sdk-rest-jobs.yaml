@@ -53,7 +53,7 @@
       - sdk-rest-tests
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - lf-infra-publish
 
 # gerrit changes
@@ -98,5 +98,5 @@
       - rest-npm-publish
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - lf-infra-publish

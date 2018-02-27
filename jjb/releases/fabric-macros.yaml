@@ -23,12 +23,6 @@
           refspec: '$GERRIT_REFSPEC'
 
 - builder:
-    name: baseimage-release
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-baseimage.sh
-
-- builder:
     name: fabric-docker-release
     builders:
       - shell: |

@@ -58,7 +58,7 @@
       - chaincode-node-tests
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - lf-infra-publish
       - sdk-node-coverage-report
 
@@ -106,7 +106,7 @@
       - chaincode-gulp-doc
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - lf-infra-publish
       - chaincode-node-coverage-report
 
@@ -157,7 +157,7 @@
       - chaincode-node-tests-s390x
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - sdk-node-coverage-report
       - lf-infra-publish
 
@@ -203,6 +203,6 @@
       - chaincode-node-tests-s390x
 
     publishers:
-      - sdk-logs
+      - log-artifacts
       - chaincode-node-coverage-report
       - lf-infra-publish

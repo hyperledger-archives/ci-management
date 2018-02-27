@@ -232,7 +232,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-merge-behave-{arch}'
@@ -280,7 +280,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-binaries-{arch}'
@@ -530,7 +530,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
 
 - job-template:
     name: 'fabric-unit-tests-coverage-daily-{arch}'
@@ -625,7 +625,7 @@
 
     publishers:
       - lf-infra-publish
-      - dockerlog
+      - log-artifacts
       - fabric-email-notification:
           email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
           output_format: ''

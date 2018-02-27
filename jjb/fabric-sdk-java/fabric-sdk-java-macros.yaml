@@ -37,15 +37,6 @@
           goals: compile
 
 - publisher:
-    name: sdk-logs
-    publishers:
-      - archive:
-          artifacts: '**/*.log'
-          fingerprint: true
-          default-excludes: false
-          allow-empty: true
-
-- publisher:
     name: java-sdk-logs
     publishers:
       - archive:

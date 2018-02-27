@@ -260,12 +260,6 @@
           !include-raw: include-raw-fabric-clone-repos.sh
 
 - builder:
-    name: publish-daily-stable-images
-    builders:
-      - shell:
-          !include-raw: include-raw-publish-daily-images.sh
-
-- builder:
     name: publish-dev-stable-images
     builders:
       - shell:
@@ -479,16 +473,7 @@
       - shell: !include-raw: jjb/fabric/include-raw-byfn.sh
 
 - publisher:
-    name: archive-behave-logs
-    publishers:
-      - archive:
-          artifacts: 'gopath/src/github.com/hyperledger/fabric/bddtests/*.log'
-          fingerprint: true
-          default-excludes: false
-          allow-empty: true
-
-- publisher:
-    name: dockerlog
+    name: log-artifacts
     publishers:
       - archive:
           artifacts: '**/*.log'

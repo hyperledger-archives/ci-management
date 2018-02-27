@@ -164,7 +164,7 @@
     publishers:
       - jacoco-coverage-report
       - lf-infra-publish
-      - sdk-logs
+      - log-artifacts
 
 # Verify 1.0.0 job
 - job-template:
