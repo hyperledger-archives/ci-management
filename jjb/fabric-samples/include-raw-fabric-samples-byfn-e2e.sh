@@ -22,7 +22,7 @@ if [ $GERRIT_BRANCH == "master" ]; then
 	echo y | ./byfn.sh -m down
 	echo y | ./byfn.sh -m up -t 60
 	echo y | ./eyfn.sh -m up -t 60
-	echo y | ./byfn.sh -m down
+        echo y | ./eyfn.sh -m down
 	echo
 	echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 	echo "#########################################################"
@@ -36,7 +36,7 @@ if [ $GERRIT_BRANCH == "master" ]; then
 
 	echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
 	echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
-	echo y | ./byfn.sh -m down
+	echo y | ./eyfn.sh -m down
 	echo
 	echo "############### BYFN,EYFN WITH NODE LANG. TEST ################"
 	echo "###############################################################"
@@ -61,5 +61,5 @@ else
         echo "#########################################################################"
         echo y | ./byfn.sh -m down
 	echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
-
+        echo y | ./byfn.sh -m down
 fi
