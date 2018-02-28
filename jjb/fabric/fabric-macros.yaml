@@ -470,7 +470,13 @@
 - builder:
     name: end-to-end-BYFN
     builders:
-      - shell: !include-raw: jjb/fabric/include-raw-byfn.sh
+      - shell: !include-raw: jjb/fabric/include-raw-fabric-byfn-daily-tests.sh
+
+- builder:
+    name: fabric-byfn-release-tests
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-byfn-release-tests.sh
 
 - publisher:
     name: log-artifacts

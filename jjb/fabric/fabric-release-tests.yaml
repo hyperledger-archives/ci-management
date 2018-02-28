@@ -3,6 +3,9 @@
     name: fabric-release-tests
     jobs:
       - 'fabric-release-tests-{arch}'
+      - 'fabric-byfn-release-test-{arch}'
+      - 'fabric-byfn-release-test-s390x'
+      - 'fabric-byfn-release-test-ppc64le'
 
     project: 'fabric'
     arch:
@@ -58,4 +61,111 @@
     publishers:
       - lf-infra-publish
       - daily-test-results
+      - test-logs
+
+# BYFN Checks
+
+- job-template:
+    name: 'fabric-byfn-release-test-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-byfn-release-tests
+
+    publishers:
+      - lf-infra-publish
+      - test-logs
+
+- job-template:
+    name: 'fabric-byfn-release-test-s390x'
+
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+
+    properties:
+      - 'fabric-s390x'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-byfn-release-tests
+
+    publishers:
+      - lf-infra-publish
+      - test-logs
+
+- job-template:
+    name: 'fabric-byfn-release-test-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-ppc64le'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-byfn-release-tests
+
+    publishers:
+      - lf-infra-publish
       - test-logs
