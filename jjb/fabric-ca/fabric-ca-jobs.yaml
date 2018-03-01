@@ -15,7 +15,7 @@
     project: 'fabric-ca'
     arch:
       - 'x86_64'
-    mvn-settings: 'fabric-settings'
+    mvn-settings: 'fabric-ca-settings'
 
 # publish fabric-binaries
 - job-template:
