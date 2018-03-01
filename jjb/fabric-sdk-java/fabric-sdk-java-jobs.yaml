@@ -3,7 +3,6 @@
     name: fabric-sdk-java-jobs
     jobs:
       - gerrit-maven-clm:
-          java-version: ''
           build-node: hyp-x
       - 'fabric-sdk-java-verify-{arch}'
       - 'fabric-sdk-java-verify-1.0.0-{arch}'
