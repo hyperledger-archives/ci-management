@@ -1,0 +1,16 @@
+---
+- scm:
+    name: fabric-gerrit-scm-test
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
+    scm:
+      - git:
+          credentials-id: '{credentials-id}'
+          url: '$GIT_BASE'
+          branches:
+            - 'refs/heads/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
+          refspec: ''
+          choosing-strategy: default

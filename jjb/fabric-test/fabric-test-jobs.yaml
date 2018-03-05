@@ -31,7 +31,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -63,7 +63,7 @@
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
+         make ci-smoke -C $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT
 
     publishers:
       - lf-infra-publish
@@ -141,10 +141,10 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm:
+      - fabric-gerrit-scm-test:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
