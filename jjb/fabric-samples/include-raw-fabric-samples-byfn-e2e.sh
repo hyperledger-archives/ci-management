@@ -51,17 +51,17 @@ if [ $GERRIT_BRANCH == "master" ]; then
 	echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 	echo "#########################################################"
 
-	echo y | ./byfn.sh -m up -c custom_channel -t 60
-	echo y | ./eyfn.sh -m up -c custom_channel -t 60
-        copy_logs custom_channel
+	echo y | ./byfn.sh -m up -c custom-channel -t 60
+	echo y | ./eyfn.sh -m up -c custom-channel -t 60
+        copy_logs custom-channel
 	echo y | ./eyfn.sh -m down
 	echo
 	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
 	echo "#########################################################################"
 
-	echo y | ./byfn.sh -m up -c custom_channel_couch -s couchdb -t 60
-	echo y | ./eyfn.sh -m up -c custom_channel_couch -s couchdb -t 60
-        copy_logs custom_channel_couch
+	echo y | ./byfn.sh -m up -c custom-channel-couch -s couchdb -t 60
+	echo y | ./eyfn.sh -m up -c custom-channel-couch -s couchdb -t 60
+        copy_logs custom-channel-couch
 	echo y | ./eyfn.sh -m down
 	echo
 	echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
@@ -83,13 +83,13 @@ else
 
         echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
         echo "#########################################################"
-        echo y | ./byfn.sh -m up -c custom_channel -t 60
-        copy_logs custom_channel
+        echo y | ./byfn.sh -m up -c custom-channel -t 60
+        copy_logs custom-channel
 
 	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
         echo "#########################################################################"
         echo y | ./byfn.sh -m down
-	echo y | ./byfn.sh -m up -c custom_channel_couch -s couchdb -t 60
-        copy_logs custom_channel_couch
+	echo y | ./byfn.sh -m up -c custom-channel-couch -s couchdb -t 60
+        copy_logs custom-channel-couch
         echo y | ./byfn.sh -m down
 fi

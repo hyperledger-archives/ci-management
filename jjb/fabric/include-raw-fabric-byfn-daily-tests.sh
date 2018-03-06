@@ -59,9 +59,9 @@ echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 echo "#########################################################"
 
 echo y | ./byfn.sh -m generate -c custom_channel
-echo y | ./byfn.sh -m up -c custom_channel -t 60
-echo y | ./eyfn.sh -m up -c custom_channel -t 60
-copy_logs custom_channel
+echo y | ./byfn.sh -m up -c custom-channel -t 60
+echo y | ./eyfn.sh -m up -c custom-channel -t 60
+copy_logs custom-channel
 echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN COUCHDB TEST #############"
