@@ -423,3 +423,15 @@
             - fabric-dev-stable-images-x86_64
           condition: equal
           criteria: success
+
+- builder:
+    name: artifact-logs
+    builders:
+      - shell: |
+
+          #!/bin/bash -eu
+          set -o pipefail
+
+          echo "---> Archiving generated logs"
+          mkdir -p "$WORKSPACE/archives"
+          mv "$WORKSPACE/Docker_Container_Logs" archives/

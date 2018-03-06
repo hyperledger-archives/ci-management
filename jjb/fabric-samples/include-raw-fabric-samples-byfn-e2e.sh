@@ -9,6 +9,9 @@ cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/
 
 cd first-network || exit
 
+# Create Logs directory
+mkdir -p $WORKSPACE/Docker_Container_Logs
+
 #Set INFO to DEBUG
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 
@@ -18,7 +21,7 @@ export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 logs() {
 
 for CONTAINER in ${CONTAINER_LIST[*]}; do
-    docker logs $CONTAINER.example.com >& $WORKSPACE/$CONTAINER-$1.log #2>&1 &
+    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log #2>&1 &
     echo
 done
 }

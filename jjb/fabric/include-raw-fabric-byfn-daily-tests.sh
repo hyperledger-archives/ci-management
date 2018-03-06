@@ -18,6 +18,9 @@ echo "FABRIC_SAMPLES_COMMIT ========> $FABRIC_SAMPLES_COMMIT" >> ${WORKSPACE}/go
 # copy /bin directory to fabric-samples
 cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
 
+# Create Logs directory
+mkdir -p $WORKSPACE/Docker_Container_Logs
+
 cd first-network || exit
 #Set INFO to DEBUG
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
@@ -27,7 +30,7 @@ export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 logs() {
 
 for CONTAINER in ${CONTAINER_LIST[*]}; do
-    docker logs $CONTAINER.example.com >& $WORKSPACE/$CONTAINER-$1.log #2>&1 &
+    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log #2>&1 &
     echo
 done
 }
@@ -58,7 +61,7 @@ echo
 echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 echo "#########################################################"
 
-echo y | ./byfn.sh -m generate -c custom_channel
+echo y | ./byfn.sh -m generate -c custom-channel
 echo y | ./byfn.sh -m up -c custom-channel -t 60
 echo y | ./eyfn.sh -m up -c custom-channel -t 60
 copy_logs custom-channel
