@@ -1,5 +1,4 @@
-#!/bin/bash -eu
-set -o pipefail
+#!/bin/bash
 
 # RUN BYFN END-to-END Tests
 ######################
@@ -19,7 +18,7 @@ echo "FABRIC_SAMPLES_COMMIT ========> $FABRIC_SAMPLES_COMMIT" >> ${WORKSPACE}/go
 # copy /bin directory to fabric-samples
 cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
 
-cd first-network
+cd first-network || exit
 #Set INFO to DEBUG
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
@@ -33,6 +32,18 @@ for CONTAINER in ${CONTAINER_LIST[*]}; do
 done
 }
 
+copy_logs() {
+
+if [ $? == 0 ]; then
+    # Call logs function
+    logs $1
+else
+    # Calls logs function
+    logs $1
+    exit 1
+fi
+}
+
 # Execute below tests
 echo "############## BYFN,EYFN DEFAULT TEST####################"
 echo "#########################################################"
@@ -41,16 +52,16 @@ echo y | ./byfn.sh -m down
 echo y | ./byfn.sh -m generate
 echo y | ./byfn.sh -m up -t 60
 echo y | ./eyfn.sh -m up
-logs mychannel
+copy_logs default_channel
 echo y | ./eyfn.sh -m down
 echo
 echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 echo "#########################################################"
 
-echo y | ./byfn.sh -m generate -c fabricrelease
-echo y | ./byfn.sh -m up -c fabricrelease -t 60
-echo y | ./eyfn.sh -m up -c fabricrelease -t 60
-logs fabricrelease
+echo y | ./byfn.sh -m generate -c custom_channel
+echo y | ./byfn.sh -m up -c custom_channel -t 60
+echo y | ./eyfn.sh -m up -c custom_channel -t 60
+copy_logs custom_channel
 echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN COUCHDB TEST #############"
@@ -59,13 +70,13 @@ echo "####################################################"
 echo y | ./byfn.sh -m generate -c couchdbtest
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
 echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
-logs couchdbtest
+copy_logs custom_channel_couchdb
 echo y | ./eyfn.sh -m down
 echo
-echo "############### BYFN,EYFN NODE TEST ################"
+echo "############### BYFN,EYFN NODE Chaincode TEST ################"
 echo "####################################################"
 
 echo y | ./byfn.sh -m up -l node -t 60
 echo y | ./eyfn.sh -m up -l node -t 60
-logs node
+copy_logs default_channel_node
 echo y | ./eyfn.sh -m down
