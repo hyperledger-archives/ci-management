@@ -54,6 +54,7 @@
       - pull-images
       - build-docker-images
       - fabric-byfn-tests
+      - artifact-logs
 
     publishers:
       - lf-infra-publish
@@ -100,6 +101,7 @@
       - output-environment
       - build-docker-images
       - fabric-byfn-tests
+      - artifact-logs
 
     publishers:
       - lf-infra-publish

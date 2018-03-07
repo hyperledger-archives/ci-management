@@ -1,4 +1,4 @@
-#!/bin/bash -xu
+#!/bin/bash -e
 
 # Clone fabric git repository
 #############################

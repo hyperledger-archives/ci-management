@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash -e
 
 # Clone fabric git repository
 #############################
@@ -13,7 +13,7 @@ cd $WD || exit
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "=======> FABRIC_COMMIT <======= $FABRIC_COMMIT"
 make peer-docker && make orderer-docker
-docker images | grep hyperledger
+docker images | grep hyperledger || true
 
 # Clone fabric-ca git repository
 ################################
@@ -27,7 +27,7 @@ cd $WD || exit
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "======> CA_COMMIT <======= $CA_COMMIT"
 make docker-fabric-ca
-docker images | grep hyperledger
+docker images | grep hyperledger || true
 
 ## Test fabric-sdk-node tests
 ################################
