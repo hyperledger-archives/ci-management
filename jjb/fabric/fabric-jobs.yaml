@@ -622,7 +622,6 @@
       - end-to-end-NODE
       - end-to-end-JAVA
       - end-to-end-BYFN
-      - artifact-logs
 
     publishers:
       - lf-infra-publish

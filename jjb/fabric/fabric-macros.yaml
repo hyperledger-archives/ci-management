@@ -468,6 +468,14 @@
             - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
 
 - builder:
+    name: conditional-builder-logs
+    builders:
+      - conditional-step:
+          condition-kind: always
+          steps:
+            - shell: !include-raw: jjb/fabric/include-raw-artifact-logs.sh
+
+- builder:
     name: end-to-end-BYFN
     builders:
       - shell: !include-raw: jjb/fabric/include-raw-fabric-byfn-daily-tests.sh
