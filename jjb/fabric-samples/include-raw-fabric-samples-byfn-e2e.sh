@@ -63,7 +63,7 @@ if [ $GERRIT_BRANCH == "master" ]; then
 	echo y | ./byfn.sh -m down
 	echo y | ./byfn.sh -m up -t 60
 	echo y | ./eyfn.sh -m up -t 60
-        copy_logs $1 default-channel
+        copy_logs $? default-channel
         echo y | ./eyfn.sh -m down
 	echo
 	echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
@@ -71,15 +71,15 @@ if [ $GERRIT_BRANCH == "master" ]; then
 
 	echo y | ./byfn.sh -m up -c custom-channel -t 60
 	echo y | ./eyfn.sh -m up -c custom-channel -t 60
-        copy_logs $1 custom-channel
+        copy_logs $? custom-channel
 	echo y | ./eyfn.sh -m down
 	echo
 	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
 	echo "#########################################################################"
 
-	echo y | ./byfn.sh -m up -c custom-channel-couch -s couchdb -t 60
-	echo y | ./eyfn.sh -m up -c custom-channel-couch -s couchdb -t 60
-        copy_logs $1 custom-channel-couch couchdb
+	echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+	echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        copy_logs $? custom-channel-couch couchdb
 	echo y | ./eyfn.sh -m down
 	echo
 	echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
@@ -87,7 +87,7 @@ if [ $GERRIT_BRANCH == "master" ]; then
 
 	echo y | ./byfn.sh -m up -l node -t 60
 	echo y | ./eyfn.sh -m up -l node -t 60
-        copy_logs $1 default-channel-node
+        copy_logs $? default-channel-node
 	echo y | ./eyfn.sh -m down
 
 else
@@ -95,20 +95,20 @@ else
 	echo "#################################################################"
 	echo y | ./byfn.sh -m down
         echo y | ./byfn.sh -m up -t 60
-        copy_logs $1 default-channel
+        copy_logs $? default-channel
 	echo y | ./byfn.sh -m down
         echo
 
         echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
         echo "#########################################################"
         echo y | ./byfn.sh -m up -c custom-channel -t 60
-        copy_logs $1 custom-channel
+        copy_logs $? custom-channel
 
 	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
         echo "#########################################################################"
         echo y | ./byfn.sh -m down
-	echo y | ./byfn.sh -m up -c custom-channel-couch -s couchdb -t 60
-        copy_logs $1 custom-channel-couch couchdb
+	echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        copy_logs $? custom-channel-couchdb couchdb
         echo y | ./byfn.sh -m down
 fi
 artifacts

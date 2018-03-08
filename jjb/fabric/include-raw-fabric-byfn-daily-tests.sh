@@ -71,7 +71,7 @@ echo y | ./byfn.sh -m down
 echo y | ./byfn.sh -m generate
 echo y | ./byfn.sh -m up -t 60
 echo y | ./eyfn.sh -m up
-copy_logs $1 default-channel
+copy_logs $? default-channel
 echo y | ./eyfn.sh -m down
 echo
 echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
@@ -80,7 +80,7 @@ echo "#########################################################"
 echo y | ./byfn.sh -m generate -c custom-channel
 echo y | ./byfn.sh -m up -c custom-channel -t 60
 echo y | ./eyfn.sh -m up -c custom-channel -t 60
-copy_logs $1 custom-channel
+copy_logs $? custom-channel
 echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN COUCHDB TEST #############"
@@ -89,7 +89,7 @@ echo "####################################################"
 echo y | ./byfn.sh -m generate -c couchdbtest
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
 echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
-copy_logs $1 custom_channel_couchdb couchdb
+copy_logs $? custom_channel_couchdb couchdb
 echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN NODE Chaincode TEST ################"
@@ -97,7 +97,7 @@ echo "####################################################"
 
 echo y | ./byfn.sh -m up -l node -t 60
 echo y | ./eyfn.sh -m up -l node -t 60
-copy_logs $1 default-channel-node
+copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m down
 
 artifacts
