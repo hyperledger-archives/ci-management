@@ -35,6 +35,12 @@
           !include-raw: include-raw-npm-publish.sh
 
 - builder:
+    name: npm-release-publish
+    builders:
+      - shell:
+          !include-raw: include-raw-npm-release-publish.sh
+
+- builder:
     name: gulp-doc
     builders:
       - shell:

@@ -40,6 +40,12 @@
           !include-raw: include-raw-fabric-chaincode-npm-publish.sh
 
 - builder:
+    name: chaincode-release-npm-publish
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-chaincode-release-npm-publish.sh
+
+- builder:
     name: chaincode-gulp-doc
     builders:
       - shell:

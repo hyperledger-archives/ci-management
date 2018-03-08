@@ -42,11 +42,7 @@ npmPublish() {
   else
 
       if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
-         echo "===> PUBLISH --> $RELEASE"
-         npm publish
-      else
-         echo "$RELEASE: No such release."
-         exit 1
+         echo "----> Publish $RELEASE from fabric-chaincode-node-npm-release-x86_64"
       fi
 fi
 }

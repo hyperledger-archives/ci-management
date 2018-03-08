@@ -6,6 +6,7 @@
       - 'fabric-sdk-node8-merge-{arch}'
       - 'fabric-sdk-node6-verify-{arch}'
       - 'fabric-sdk-node6-merge-{arch}'
+      - 'fabric-sdk-node-npm-release-{arch}'
       - 'fabric-sdk-node8-verify-s390x'
       - 'fabric-sdk-node8-merge-s390x'
       - 'fabric-sdk-node6-verify-s390x'
@@ -403,3 +404,45 @@
       - log-artifacts
       - lf-infra-publish
       - sdk-node-coverage-report
+
+- job-template:
+    name: 'fabric-sdk-node-npm-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - npm-release-publish
+
+    publishers:
+      - lf-infra-publish

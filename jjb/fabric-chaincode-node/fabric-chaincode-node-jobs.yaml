@@ -4,6 +4,7 @@
     jobs:
       - 'fabric-chaincode-node-verify-{arch}'
       - 'fabric-chaincode-node-merge-{arch}'
+      - 'fabric-chaincode-node-npm-release-{arch}'
       - 'fabric-chaincode-node-verify-s390x'
       - 'fabric-chaincode-node-merge-s390x'
 
@@ -209,4 +210,46 @@
     publishers:
       - log-artifacts
       - chaincode-node-coverage-report
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-chaincode-node-npm-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - chaincode-release-npm-publish
+
+    publishers:
       - lf-infra-publish
