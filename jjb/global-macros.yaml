@@ -326,24 +326,6 @@
             - file-id: '{fabric-settings-file}'
               variable: 'SETTINGS_FILE'
 
-#######
-#
-# Fabric Multihost Settings file
-#
-#######
-
-- builder:
-    name: provide-fabric-multihost-settings
-    builders:
-      - config-file-provider:
-          files:
-            - file-id: '{cloud-settings-file}'
-              target: clouds.yaml
-            - file-id: '{private-key-settings-file}'
-              target: fd
-            - file-id: '{public-key-settings-file}'
-              target: fd.pub
-
 - builder:
     name: provide-maven-gradle-settings
     builders:
