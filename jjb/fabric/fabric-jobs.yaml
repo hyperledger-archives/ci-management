@@ -498,6 +498,8 @@
     node: 'hyp-{arch}'
     concurrent: true
 
+    disabled: true
+
     properties:
       - build-discarder:
           days-to-keep: 7
