@@ -14,7 +14,7 @@ docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 docker_Fabric_Thirdparty_Push() {
 
   # shellcheck disable=SC2043
-  for IMAGES in kafka zookeper couchdb; do
+  for IMAGES in kafka zookeeper couchdb; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
@@ -49,6 +49,7 @@ else
      echo "-----> Release tag: $GERRIT_REFSPEC"
      echo "-----> GIT_BRANCH: $GIT_BRANCH"
      echo "-----> Pushing fabric and thirdparty docker images from release branch"
+     docker_Fabric_Push
      docker_Fabric_Thirdparty_Push
 fi
 # Listout all the docker images Before and After Push
