@@ -63,7 +63,7 @@
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         make ci-smoke -C $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
 
     publishers:
       - lf-infra-publish
@@ -144,8 +144,9 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-test:
+      - fabric-gerrit-scm-merge:
           credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:

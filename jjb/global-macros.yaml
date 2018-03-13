@@ -119,6 +119,26 @@
           wipe-workspace: true
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
+####
+#### Common SCM to clone the latest commits on merge patches ####
+####
+
+- scm:
+    name: fabric-gerrit-scm-merge
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
+    scm:
+      - git:
+          credentials-id: '{credentials-id}'
+          url: '$GIT_BASE'
+          branches:
+            - 'refs/heads/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: '{base-dir}'
+          refspec: ''
+          choosing-strategy: default
+
 #
 # Wrappers
 #
@@ -142,10 +162,10 @@
       - ssh-agent-credentials:
           users:
             - 'hyperledger-jobbuilder'
-      - jclouds:
-          single-use: true
-      - openstack:
-          single-use: true
+#      - jclouds:
+#          single-use: true
+#      - openstack:
+#          single-use: true
 
 #
 # Triggers

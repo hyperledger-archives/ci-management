@@ -134,6 +134,13 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -147,7 +154,6 @@
 
     builders:
       - clean-environment
-      - ca-clone
       - 'ca-golang-environment-{arch}'
       - output-environment
       - ca-unit-tests
@@ -235,6 +241,13 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -248,7 +261,6 @@
 
     builders:
       - clean-environment
-      - ca-clone
       - 'ca-golang-environment-s390x'
       - output-environment
       - ca-unit-tests-s390x
@@ -283,7 +295,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -333,13 +345,14 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm:
+      - fabric-gerrit-scm-merge:
           credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:

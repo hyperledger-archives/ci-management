@@ -106,8 +106,9 @@
           refspec: ''
 
     scm:
-      - blockchain-explorer-gerrit-scm:
+      - fabric-gerrit-scm-merge:
           credentials-id: 'hyperledger-jobbuilder'
+          base-dir: ''
 
     triggers:
       - blockchain-explorer-gerrit-patch-merged:

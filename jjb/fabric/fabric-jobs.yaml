@@ -101,7 +101,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -152,11 +152,12 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm:
+      - fabric-gerrit-scm-merge:
           credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -244,7 +245,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -346,7 +347,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
 
