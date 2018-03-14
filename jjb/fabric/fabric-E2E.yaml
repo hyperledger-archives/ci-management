@@ -37,7 +37,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-no-docs:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-e2e$'
