@@ -12,7 +12,7 @@ rm -rf ${GOPATH}/src/github.com/hyperledger/fabric-samples
 WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/Makefile > Makefile
-RELEASE_VERSION=$(cat Makefile | grep "PREV_VERSION =" | awk '{print $3}')
+RELEASE_VERSION=$(cat Makefile | grep "BASE_VERSION =" | awk '{print $3}')
 echo "--------> RELEASE_VERSION : $RELEASE_VERSION"
 
 # Delete temporary Makefile.
@@ -54,3 +54,10 @@ echo "####################################################"
 echo y | ./byfn.sh -m up -l node -t 60
 echo y | ./eyfn.sh -m up -l node -t 60
 echo y | ./eyfn.sh -m down
+
+echo "############## FABRIC CA SAMPLES ###################"
+echo "####################################################"
+
+cd $WD/fabric-ca || exit
+./start.sh
+./stop.sh

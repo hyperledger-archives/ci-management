@@ -63,8 +63,9 @@
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
           # yamllint disable-line rule:line-length
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
+          rm -rf $GOPATH/src/golang.org
 
-          cd gopath/src/github.com/hyperledger/fabric-ca && TMPDIR=/data/tmp make
+          cd gopath/src/github.com/hyperledger/fabric-ca && make
           make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:

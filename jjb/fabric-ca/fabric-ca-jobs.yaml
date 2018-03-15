@@ -110,7 +110,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -161,7 +161,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -217,7 +217,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -268,7 +268,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish

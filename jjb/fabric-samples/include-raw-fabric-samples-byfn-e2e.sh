@@ -90,6 +90,11 @@ if [ $GERRIT_BRANCH == "master" ]; then
         copy_logs $? default-channel-node
 	echo y | ./eyfn.sh -m down
 
+	echo "############### FABRIC-CA SAMPELS. TEST ################"
+	echo "###############################################################"
+        cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
+        ./start.sh && ./stop.sh
+
 else
 	echo "############## BYFN,EYFN DEFAULT CHANNEL TEST####################"
 	echo "#################################################################"

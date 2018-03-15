@@ -100,4 +100,9 @@ echo y | ./eyfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m down
 
+echo "############### fabric-ca samples TEST ################"
+echo "####################################################"
+
+cd $WD/fabric-ca && ./start.sh && ./stop.sh
+
 artifacts
