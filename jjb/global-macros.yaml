@@ -162,10 +162,8 @@
       - ssh-agent-credentials:
           users:
             - 'hyperledger-jobbuilder'
-#      - jclouds:
-#          single-use: true
-#      - openstack:
-#          single-use: true
+      - openstack:
+          single-use: true
 
 #
 # Triggers
