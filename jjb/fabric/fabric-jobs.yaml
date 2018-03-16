@@ -398,7 +398,7 @@
           refspec: ''
 
     scm:
-      - fabric-gerrit-scm:
+      - fabric-gerrit-release-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:

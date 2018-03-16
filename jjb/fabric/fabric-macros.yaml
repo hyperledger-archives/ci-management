@@ -75,6 +75,19 @@
           choosing-strategy: gerrit
 
 - scm:
+    name: fabric-gerrit-release-scm
+    scm:
+      - git:
+          credentials-id: '{credentials-id}'
+          url: '$GIT_BASE'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: default
+
+- scm:
     name: hyperledger-fabric-busybox-gerrit
     scm:
       - git:

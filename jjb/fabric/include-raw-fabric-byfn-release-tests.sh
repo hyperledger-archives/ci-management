@@ -59,5 +59,4 @@ echo "############## FABRIC CA SAMPLES ###################"
 echo "####################################################"
 
 cd $WD/fabric-ca || exit
-./start.sh
-./stop.sh
+./bootstrap.sh && ./start.sh && ./stop.sh
