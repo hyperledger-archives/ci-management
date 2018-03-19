@@ -55,64 +55,64 @@ fi
 
 # Execute below tests
 echo "------> BRANCH: " $GERRIT_BRANCH
-if [ $GERRIT_BRANCH == "master" ]; then
+if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
-	echo "############## BYFN,EYFN DEFAULT CHANNEL TEST####################"
-	echo "#################################################################"
+        echo "############## BYFN,EYFN DEFAULT CHANNEL TEST ###################"
+        echo "#################################################################"
 
-	echo y | ./byfn.sh -m down
-	echo y | ./byfn.sh -m up -t 60
-	echo y | ./eyfn.sh -m up -t 60
+        echo y | ./byfn.sh -m down
+        echo y | ./byfn.sh -m up -t 60
+        echo y | ./eyfn.sh -m up -t 60
         copy_logs $? default-channel
         echo y | ./eyfn.sh -m down
-	echo
-	echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
-	echo "#########################################################"
+        echo
+        echo "############## BYFN,EYFN CUSTOM CHANNEL TEST ############"
+        echo "#########################################################"
 
-	echo y | ./byfn.sh -m up -c custom-channel -t 60
-	echo y | ./eyfn.sh -m up -c custom-channel -t 60
+        echo y | ./byfn.sh -m up -c custom-channel -t 60
+        echo y | ./eyfn.sh -m up -c custom-channel -t 60
         copy_logs $? custom-channel
-	echo y | ./eyfn.sh -m down
-	echo
-	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
-	echo "#########################################################################"
+        echo y | ./eyfn.sh -m down
+        echo
+        echo "############### BYFN,EYFN CUSTOM CHANNEL WITH COUCHDB TEST ##############"
+        echo "#########################################################################"
 
-	echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
-	echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
         copy_logs $? custom-channel-couch couchdb
-	echo y | ./eyfn.sh -m down
-	echo
-	echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
-	echo "###############################################################"
+        echo y | ./eyfn.sh -m down
+        echo
+        echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
+        echo "####################################################################"
 
-	echo y | ./byfn.sh -m up -l node -t 60
-	echo y | ./eyfn.sh -m up -l node -t 60
+        echo y | ./byfn.sh -m up -l node -t 60
+        echo y | ./eyfn.sh -m up -l node -t 60
         copy_logs $? default-channel-node
-	echo y | ./eyfn.sh -m down
+        echo y | ./eyfn.sh -m down
 
-	echo "############### FABRIC-CA SAMPELS. TEST ################"
-	echo "###############################################################"
+        echo "############### FABRIC-CA SAMPLES TEST ########################"
+        echo "###############################################################"
         cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
         ./start.sh && ./stop.sh
 
 else
-	echo "############## BYFN,EYFN DEFAULT CHANNEL TEST####################"
-	echo "#################################################################"
-	echo y | ./byfn.sh -m down
+        echo "############## BYFN DEFAULT CHANNEL TEST#########################"
+        echo "#################################################################"
+        echo y | ./byfn.sh -m down
         echo y | ./byfn.sh -m up -t 60
         copy_logs $? default-channel
-	echo y | ./byfn.sh -m down
+        echo y | ./byfn.sh -m down
         echo
 
-        echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
+        echo "############## BYFN CUSTOM CHANNEL TEST #################"
         echo "#########################################################"
         echo y | ./byfn.sh -m up -c custom-channel -t 60
         copy_logs $? custom-channel
 
-	echo "############### BYFN,EYFN CUSTOME CHANNEL WITH COUCHDB TEST #############"
+        echo "############### BYFN CUSTOM CHANNEL WITH COUCHDB TEST ###################"
         echo "#########################################################################"
         echo y | ./byfn.sh -m down
-	echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
         copy_logs $? custom-channel-couchdb couchdb
         echo y | ./byfn.sh -m down
 fi

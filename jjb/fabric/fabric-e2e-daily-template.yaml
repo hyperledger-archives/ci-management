@@ -1,0 +1,51 @@
+---
+- job-template:
+    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H 2 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '50'
+
+    builders:
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - dockerimages
+      - end-to-end-CLI
+      - end-to-end-NODE
+      - end-to-end-JAVA
+      - clone-fabric-samples
+      - fabric-byfn-tests
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

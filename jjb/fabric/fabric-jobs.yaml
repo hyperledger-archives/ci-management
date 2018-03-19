@@ -9,7 +9,7 @@
       - 'fabric-goast-weekly-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-unit-tests-coverage-daily-{arch}'
-      - 'fabric-end-2-end-daily-{arch}'
+      - 'fabric-end-2-end-daily-master-{arch}'
       - 'fabric-dev-stable-images-{arch}'
       - gerrit-rtd-verify:
           project-name: fabric
@@ -377,7 +377,7 @@
       - code-coverage-report
 
 - job-template:
-    name: 'fabric-end-2-end-daily-{arch}'
+    name: 'fabric-end-2-end-daily-master-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'

@@ -488,6 +488,11 @@
       - shell: !include-raw: jjb/fabric/include-raw-fabric-byfn-daily-tests.sh
 
 - builder:
+    name: clone-fabric-samples
+    builders:
+      - shell: !include-raw: jjb/fabric/include-raw-fabric-samples-clone.sh
+
+- builder:
     name: fabric-byfn-release-tests
     builders:
       - shell:
