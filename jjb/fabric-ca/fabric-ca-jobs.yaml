@@ -48,7 +48,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '60'
 
     builders:
       - clean-environment
@@ -110,7 +110,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -161,7 +161,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -205,7 +205,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '60'
 
     builders:
       - verify-commit-message
@@ -217,7 +217,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -257,7 +257,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '40'
+          timeout: '60'
 
     builders:
       - clean-environment
@@ -268,7 +268,7 @@
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-tools rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -313,7 +313,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '50'
+          timeout: '60'
 
     builders:
       - clean-environment
@@ -362,7 +362,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '50'
+          timeout: '60'
 
     builders:
       - clean-environment
