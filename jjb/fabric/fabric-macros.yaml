@@ -385,6 +385,13 @@
 
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
 
+          res=$(echo $?)
+          if [ $res = 0 ]; then
+              ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F3-UnitTest=+1
+          else
+              ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F3-UnitTest=-1
+          fi
+
 - builder:
     name: fabric-tests
     builders:
@@ -683,11 +690,20 @@
               NVM_VERSION={nvm-version}
       - shell: !include-raw-escape: shell/npm-install.sh
 
-- publisher:
-    name: fabric-docs-publish
-    publishers:
-      - html-publisher:
-          name: "fabric docs output"
-          dir: "$GOPATH/src/github.com/hyperledger/fabric/docs/build/html"
-          files: "index.html"
-          keep-all: true
+- builder:
+    name: fabric-docs-build-comment
+    builders:
+      - shell: |
+          #!/bin/bash
+          cd gopath/src/github.com/hyperledger/fabric/docs
+          make html
+          echo "---> Archiving generated docs"
+          mkdir -p "$WORKSPACE/archives"
+          mv build/html archives/
+
+          res=$(echo $?)
+          if [ $res = 0 ]; then
+               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F2-DocBuild=+1
+          else
+               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-DocBuild=-1
+          fi

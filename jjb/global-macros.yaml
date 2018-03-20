@@ -220,9 +220,7 @@
           server-name: 'hyperledger'
           trigger-on:
             - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment1}'
-            - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment2}'
+                comment-contains-value: '{trigger-comment}'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
@@ -230,7 +228,7 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
           skip-vote:
-            successful: false
+            successful: true
             failed: true
             unstable: true
             notbuilt: true
@@ -263,18 +261,15 @@
                 exclude-no-code-change: 'false'
             - draft-published-event
             - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment1}'
-            - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment2}'
+                comment-contains-value: '{trigger-comment}'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-
           skip-vote:
-            successful: false
+            successful: true
             failed: true
             unstable: true
             notbuilt: true

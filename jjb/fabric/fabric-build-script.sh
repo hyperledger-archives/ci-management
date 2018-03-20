@@ -43,83 +43,105 @@ then
   exit 1
 fi
 
-WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
-  echo
-if [[ ! -z "$WIP" ]];
-then
-    echo '=====> Ignore this build as this is a WIP patch set'
-    TRIGGER_VALUE='WIP'
-    echo "TRIGGER_VALUE=$TRIGGER_VALUE" > $WORKSPACE/env.properties
-else
-            TRIGGER_VALUE='SMOKE'
-            echo "TRIGGER_VALUE=$TRIGGER_VALUE" > $WORKSPACE/env.properties
-            # Build docker images and perform build process
-            echo " ======> Perform basic checks"
-                make basic-checks
-                if [ $? = 0 ]; then
-                    echo
-                    echo "======> Build DOCKER IMAGES"
-		else
-		    echo "======> Basic checks FAILED"
-		    exit 1
-		fi
-                    make docker
-                         if [ $? = 0 ]; then
-                              ORG_NAME=hyperledger/fabric
-                              NEXUS_URL=nexus3.hyperledger.org:10003
-                              ORG_NAME="hyperledger/fabric"
-                              dockerTag() {
-                                   for IMAGES in peer orderer ccenv javaenv tools; do
-                                       echo "==> $IMAGES"
-                                       echo
-                                       docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
-                                       echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
-                                   done
-}
-                              dockerFabricPush() {
-                                  for IMAGES in peer orderer ccenv javaenv tools; do
-                                       echo "==> $IMAGES"
-                                       docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
-                                       echo
-                                       echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
-                                  done
-}
-                              # Tag Fabric Docker Images to Nexus Repository
-                              dockerTag
-                              # Push Fabric Docker Images to Nexus Repository
-                              dockerFabricPush
-                              # Listout all docker images Before and After Push to NEXUS
-                              docker images | grep "nexus*"
-                              echo
-			 else
-			      echo "=====> make docker failed"
-			      exit 1
-			 fi
-                              echo "build & publish fabric binaries"
-                              echo
-                              binary=linux-amd64
-                              make release-clean dist-clean
-			      make dist
-                              if [ $? = 0 ]; then
+codeChange() {
+
+             # Build docker images and perform build process
+             echo "-------> Perform basic checks"
+             make basic-checks
+                    if [ $? = 0 ]; then
+                         echo
+                         echo "------> Build docker images"
+                    else
+                         echo "------> Basic checks FAILED"
+                         ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Basic-checks are failed"' -l F1-VerifyBuild=-1
+                         exit 1
+                    fi
+             make docker
+                    if [ $? = 0 ]; then
+                         ORG_NAME=hyperledger/fabric
+                         NEXUS_URL=nexus3.hyperledger.org:10003
+                         ORG_NAME="hyperledger/fabric"
+                         TAG=$GIT_COMMIT
+                         export COMMIT_TAG=${TAG:0:7}
+
+                         dockerTag() {
+                               for IMAGES in peer orderer ccenv javaenv tools; do
+                                    echo "==> $IMAGES"
+                                    echo
+                                    docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
+                                    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG"
+                               done
+                               }
+
+                          dockerFabricPush() {
+                               for IMAGES in peer orderer ccenv javaenv tools; do
+                                    echo "==> $IMAGES"
+                                    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
+                                    echo
+                                    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG"
+                               done
+                               }
+
+                          # Tag Fabric Docker Images to Nexus Repository
+                          dockerTag
+                          # Push Fabric Docker Images to Nexus Repository
+                          dockerFabricPush
+                          # Listout all docker images Before and After Push to NEXUS
+                          docker images | grep "nexus*"
+                     else
+                          echo "-------> make docker failed"
+                          ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"make docker failed"' -l F1-VerifyBuild=-1
+                          exit 1
+                    fi
+               binary=linux-amd64
+               make release-clean dist-clean
+               make dist
+                    if [ $? = 0 ]; then
                                      # Push fabric-binaries to nexus2
-                                     cd release/$binary && tar -czf hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz *
+                                     cd release/$binary && tar -czf hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz *
                                      cd $FABRIC_ROOT_DIR || exit
-                                     echo "Pushing hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz to maven.."
+                                     echo "Pushing hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz to maven.."
                                      mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-                                     -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$GIT_COMMIT.tar.gz \
+                                     -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz \
                                      -DrepositoryId=hyperledger-releases \
                                      -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
                                      -DgroupId=org.hyperledger.fabric \
-                                     -Dversion=$binary-$GIT_COMMIT \
+                                     -Dversion=$binary-$COMMIT_TAG \
                                      -DartifactId=hyperledger-fabric-build \
                                      -DgeneratePom=true \
                                      -DuniqueVersion=false \
                                      -Dpackaging=tar.gz \
                                      -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-                                     echo "========> DONE <======="
-                              else
-                                     echo " =======> fabric binary test failed <======="
+                                     echo "-------> DONE <----------"
+                    else
+                                     echo "-------> Binary publish failed"
+                                     ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Binary build failed"' -l F1-VerifyBuild=-1
                                      exit 1
-                              fi
-          fi
+                    fi
+}
 
+WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
+echo
+if [[ ! -z "$WIP" ]];then
+    echo '-------> Ignore this build'
+    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"No Build"' -l F1-VerifyBuild=0
+else
+    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png')
+    echo "------> DOC_CHANGE = $DOC_CHANGE"
+    DOC_IGNORE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png')
+    echo "-------> DOC_IGNORE = $DOC_IGNORE"
+           if [ ! -z "$DOC_CHANGE" ] && [ -z "$DOC_IGNORE" ]; then
+                  echo "------> Only Doc change, trigger just doc build"
+                  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F2-SmokeTest=+1 -l F3-UnitTest=+1
+           else
+                  # Doc and code change
+               if [ ! -z "$DOC_CHANGE" ] && [ ! -z "$DOC_IGNORE" ]; then
+                    codeChange
+                    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1
+                    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1
+               else
+                    codeChange
+                    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
+               fi
+           fi
+fi

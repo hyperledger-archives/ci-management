@@ -4,7 +4,7 @@
     jobs:
       - 'fabric-byfn-merge-{arch}'
       - 'fabric-byfn-verify-{arch}'
-      - 'fabric-verify-byfn-checks-{arch}'
+      - 'fabric-smoke-tests-{arch}'
 
     project: 'fabric-samples'
     arch:
@@ -107,7 +107,7 @@
       - log-artifacts
 
 - job-template:
-    name: 'fabric-verify-byfn-checks-{arch}'
+    name: 'fabric-smoke-tests-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -126,15 +126,12 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
-      - conditional-parameter:
-          trigger_value: ''
 
     triggers:
       - gerrit-comment-trigger:
           name: 'fabric'
           branch: ''
-          trigger-comment1: 'rebuild$'
-          trigger-comment2: 'rebuild-byfn$'
+          trigger-comment: 'Run SmokeTest'
 
     scm:
       - fabric-gerrit-scm:
@@ -154,7 +151,6 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
-      - conditional-step3
 
     publishers:
       - lf-infra-publish

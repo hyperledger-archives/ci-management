@@ -18,6 +18,8 @@
     node: 'hyp-{arch}'
     concurrent: true
 
+    disabled: true
+
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
@@ -67,6 +69,8 @@
     project-type: freestyle
     node: 'hyp-{arch}'
     concurrent: true
+
+    disabled: true
 
     properties:
       - 'fabric-go-{arch}'

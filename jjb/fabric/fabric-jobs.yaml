@@ -10,24 +10,8 @@
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-end-2-end-daily-master-{arch}'
       - 'fabric-dev-stable-images-{arch}'
-      - gerrit-rtd-verify:
-          project-name: fabric
-          project-pattern: fabric
-          build-node: hyp-x86_64-p
-          build-timeout: 30
-          stream: master
-          branch: master
-          rtd-project: hyperledger-fabric
-
-          gerrit_trigger_file_paths:
-            - compare-type: ANT
-              pattern: '**/*.md'
-            - compare-type: ANT
-              pattern: '**/*.rst'
-            - compare-type: ANT
-              pattern: '**/*.txt'
-            - compare-type: ANT
-              pattern: '**/conf.py'
+      - 'fabric-verify-build-checks-{arch}'
+      - 'fabric-docs-build-{arch}'
 
     project: 'fabric'
     arch:
@@ -90,6 +74,8 @@
     node: 'hyp-{arch}'
     concurrent: true
 
+    disabled: true
+
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
@@ -138,6 +124,8 @@
     project-type: freestyle
     node: 'hyp-{arch}'
     concurrent: true
+
+    disabled: true
 
     properties:
       - 'fabric-go-{arch}'
@@ -296,7 +284,6 @@
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-          refspec: ''  # Leave blank!! A later script will handle fetching
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -307,8 +294,7 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-unit-tests$'
-          trigger-comment2: 'notrigger$'
+          trigger-comment: 'Run UnitTest$'
 
     builders:
       - clean-environment
@@ -316,11 +302,6 @@
       - 'golang-environment-{arch}'
       - output-environment
       - pull-images
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - pull-images-binaries
       - fabric-unit-tests-verification
 
     publishers:
@@ -424,3 +405,101 @@
           email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
           output_format: ''
           developer-email: ''
+
+- job-template:
+    name: 'fabric-verify-build-checks-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    disabled: true
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-patch-submitted-skip:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'VerifyBuild$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - 'golang-environment-{arch}'
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-build-artifacts
+
+    publishers:
+      - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+- job-template:
+    name: 'fabric-docs-build-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'Run DocBuild$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - fabric-docs-build-comment
+
+    publishers:
+      - lf-infra-publish
