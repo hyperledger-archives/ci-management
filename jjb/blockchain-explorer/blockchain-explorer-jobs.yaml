@@ -67,12 +67,10 @@
           npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
           cd app/test && npm install
           npm run test
+          cd ../../client && npm install
+          echo "--------> npm tests with code coverage"
+          npm test -- -u --coverage && npm run build
 
-          if [ "$GERRIT_BRANCH" != "master" ]; then
-               echo "====> GERRIT_BRANCH: = $GERRIT_BRANCH"
-               cd ../../client && npm install
-               npm test -- -u --coverage && npm run build
-          fi
     publishers:
       - lf-infra-publish
       - BE-coverage-report
@@ -134,12 +132,10 @@
           npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
           cd app/test && npm install
           npm run test
+          cd ../../client && npm install
+          echo "--------> npm tests with code coverage"
+          npm test -- -u --coverage && npm run build
 
-          if [ "$GERRIT_BRANCH" != "master" ]; then
-              echo "====> GERRIT_BRANCH = $GERRIT_BRANCH"
-              cd ../../client && npm install
-              npm test -- -u --coverage && npm run build
-          fi
     publishers:
       - lf-infra-publish
       - BE-coverage-report
