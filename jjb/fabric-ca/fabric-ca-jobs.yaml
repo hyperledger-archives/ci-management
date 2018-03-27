@@ -9,6 +9,24 @@
       - 'fabric-ca-binaries-{arch}'
       - 'fabric-ca-verify-end-2-end-{arch}'
       - 'fabric-ca-merge-end-2-end-{arch}'
+      - gerrit-rtd-verify:
+          project-name: fabric-ca
+          project-pattern: fabric-ca
+          build-node: hyp-x86_64-p
+          build-timeout: 30
+          stream: 'job'
+          branch: ''
+          rtd-project: hyperledger-fabric-ca
+
+          gerrit_trigger_file_paths:
+            - compare-type: ANT
+              pattern: '**/*.md'
+            - compare-type: ANT
+              pattern: '**/*.rst'
+            - compare-type: ANT
+              pattern: '**/*.txt'
+            - compare-type: ANT
+              pattern: '**/conf.py'
 
     project: 'fabric-ca'
     arch:
@@ -89,7 +107,7 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-no-docs:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-x$'
@@ -196,7 +214,7 @@
       - hyperledger-fabric-ca-gerrit
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-no-docs:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-z$'
@@ -304,7 +322,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-submitted-no-docs:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-e2e$'
