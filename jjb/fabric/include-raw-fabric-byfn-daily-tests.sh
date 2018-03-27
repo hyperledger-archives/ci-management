@@ -66,7 +66,8 @@ fi
 # Execute below tests
 echo "############## BYFN,EYFN DEFAULT TEST####################"
 echo "#########################################################"
-
+echo "Deleting Containers...."
+docker rm -f "$(docker ps -aq)"
 echo y | ./byfn.sh -m down
 echo y | ./byfn.sh -m generate
 echo y | ./byfn.sh -m up -t 60

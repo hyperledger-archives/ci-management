@@ -1,6 +1,7 @@
 ---
 - job-template:
-    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
+    name: '{project-name}-unit-tests-coverage-daily-{branch}-{arch}'
+
     project-type: freestyle
     node: 'hyp-{node}'
     concurrent: true
@@ -17,7 +18,7 @@
       - gerrit-parameter:
           branch: '{branch}'
       - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
+          refspec: ''
 
     scm:
       - fabric-gerrit-scm:
@@ -29,23 +30,19 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '50'
+          timeout: '240'
 
     builders:
       - clean-environment
+      - pull-images
       - 'golang-environment-{arch}'
       - output-environment
-      - dockerimages
-      - end-to-end-CLI
-      - end-to-end-NODE
-      - end-to-end-JAVA
-      - clone-fabric-samples
-      - fabric-byfn-tests
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric && time make profile
 
     publishers:
       - lf-infra-publish
-      - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+      - code-coverage-report

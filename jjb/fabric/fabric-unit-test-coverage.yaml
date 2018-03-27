@@ -1,0 +1,39 @@
+---
+# The below job triggers daily at 00 hours/12 AM UTC
+- project:
+    name: fabric-unit-test-coverage-daily-master-x86_64
+    jobs:
+      - '{project-name}-unit-tests-coverage-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    cron_time: 'H 0 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
+
+# The below jobs trigger daily at 01 hours/01 AM UTC
+
+- project:
+    name: fabric-unit-test-coverage-daily-release-1.1-x86_64
+    jobs:
+      - '{project-name}-unit-tests-coverage-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.1
+    cron_time: 'H 1 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
+
+- project:
+    name: fabric-unit-test-coverage-daily-release-1.0-x86_64
+    jobs:
+      - '{project-name}-unit-tests-coverage-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.0
+    cron_time: 'H 1 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'

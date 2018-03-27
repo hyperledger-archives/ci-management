@@ -1,0 +1,40 @@
+---
+# The below job triggers thrice every week at 00 hours/12 AM UTC
+
+- project:
+    name: fabric-end-2-end-daily-master-s390x
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    cron_time: 'H 0 1-31/2 * *'
+    arch: 's390x'
+    node: 'z'
+
+# The below jobs trigger daily at 02 hours/2 AM UTC
+
+- project:
+    name: fabric-end-2-end-daily-release-1.1-x86_64
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.1
+    cron_time: 'H 2 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
+
+- project:
+    name: fabric-end-2-end-daily-release-1.0-x86_64
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.0
+    cron_time: 'H 2 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'

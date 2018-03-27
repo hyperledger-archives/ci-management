@@ -1,0 +1,38 @@
+---
+# The below job triggers daily at 00 hours/12 AM UTC
+- project:
+    name: fabric-unit-test-daily-master-x86_64
+    jobs:
+      - '{project-name}-unit-test-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    cron_time: 'H 0 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
+
+# The below jobs trigger thrice every week at 00 hours/12 AM UTC
+- project:
+    name: fabric-unit-test-daily-release-1.1-s390x
+    jobs:
+      - '{project-name}-unit-test-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.1
+    cron_time: 'H 0 1-31/2 * *'
+    arch: 's390x'
+    node: 'z'
+
+- project:
+    name: fabric-unit-test-daily-release-1.0-s390x
+    jobs:
+      - '{project-name}-unit-test-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.0
+    cron_time: 'H 0 1-31/2 * *'
+    arch: 's390x'
+    node: 'z'

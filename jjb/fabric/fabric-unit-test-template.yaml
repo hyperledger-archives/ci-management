@@ -1,6 +1,6 @@
 ---
 - job-template:
-    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
+    name: '{project-name}-unit-test-daily-{branch}-{arch}'
     project-type: freestyle
     node: 'hyp-{node}'
     concurrent: true
@@ -29,23 +29,15 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '50'
+          timeout: '240'
 
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
-      - dockerimages
-      - end-to-end-CLI
-      - end-to-end-NODE
-      - end-to-end-JAVA
-      - clone-fabric-samples
-      - fabric-byfn-tests
+      - pull-images
+      - fabric-unit-tests
 
     publishers:
       - lf-infra-publish
-      - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+      - code-coverage-report

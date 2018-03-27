@@ -4,7 +4,7 @@ set -o pipefail
 set +e
 BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
 echo "---> BRANCH_NAME"
-if [ "$BRANCH_NAME" != "release-1.0" ]; then
+if [ "$BRANCH_NAME" != "release-1.0" ] | [ "$ARCH" != "s390x" ]; then
        echo "----> $GERRIT_BRANCH"
 set -e
        # Move to fabric-sdk-java repository and execute end-to-end tests

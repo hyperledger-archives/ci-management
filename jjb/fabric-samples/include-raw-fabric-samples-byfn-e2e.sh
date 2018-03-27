@@ -6,7 +6,12 @@ COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
 
 cd gopath/src/github.com/hyperledger/fabric-samples || exit
 # copy /bin directory to fabric-samples
-cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
+
+if [ "$ARCH" == "s390x" ]; then
+   cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-s390x/bin/ .
+else
+   cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
+fi
 
 cd first-network || exit
 
@@ -21,6 +26,7 @@ export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 artifacts() {
 
     echo "---> Archiving generated logs"
+    rm -rf $WORKSPACE/archives
     mkdir -p "$WORKSPACE/archives"
     mv "$WORKSPACE/Docker_Container_Logs" $WORKSPACE/archives/
 }
