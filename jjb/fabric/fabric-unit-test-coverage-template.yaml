@@ -1,6 +1,6 @@
 ---
 - job-template:
-    name: '{project-name}-unit-tests-coverage-daily-{branch}-{arch}'
+    name: '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
 
     project-type: freestyle
     node: 'hyp-{node}'
@@ -18,7 +18,7 @@
       - gerrit-parameter:
           branch: '{branch}'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
       - fabric-gerrit-scm:
