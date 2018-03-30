@@ -497,7 +497,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-docs-build-comment
 

@@ -26,15 +26,15 @@ dockerTag() {
   for IMAGES in peer orderer ccenv javaenv tools; do
     echo "==> $IMAGES"
     echo
-    docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
-    docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT $ORG_NAME-$IMAGES
-    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT"
+    docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG
+    docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG $ORG_NAME-$IMAGES
+    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG"
   done
 }
 
 # Tag Fabric Nexus docker images to hyperledger
 dockerTag
-docker tag $NEXUS_URL/$ORG_NAME-ccenv:$GIT_COMMIT $ORG_NAME-ccenv:$MARCH-$VERSION-snapshot-$CCENV_TAG
+docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-$VERSION-snapshot-$CCENV_TAG
 
 # Listout all docker images
 docker images | grep "hyperledger*"
@@ -47,7 +47,7 @@ cd $WD || exit
 git checkout $GERRIT_BRANCH
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-------> FABRIC_SAMPLES_COMMIT = $FABRIC_SAMPLES_COMMIT"
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$GIT_COMMIT/hyperledger-fabric-build-linux-amd64-$GIT_COMMIT.tar.gz | tar xz
+curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$CCENV_TAG/hyperledger-fabric-build-linux-amd64-$CCENV_TAG.tar.gz | tar xz
 
 cd first-network
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
