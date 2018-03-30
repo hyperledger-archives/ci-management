@@ -1,0 +1,222 @@
+---
+- job-template:
+    name: '{project-name}-verify-docker-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-baseimage
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+          trigger-comment1: 'reverify-{comment}$'
+          trigger-comment2: 'reverify$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-docker-local
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: '{project-name}-merge-docker-{arch}'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: ''
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-docker-local
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: '{project-name}-{arch}-release-jobs'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-docker-release
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: '{project-name}-{arch}-nexus-release-jobs'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-docker-local
+      - baseimage-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish
+
+- job-template:
+    name: '{project-name}-{arch}-thirdparty-image-release-jobs'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+         set -o pipefail
+
+         echo "========> Build Dependent Images"
+         make dependent-images
+      - fabric-thirdparty-images
+
+    publishers:
+      - lf-infra-publish
