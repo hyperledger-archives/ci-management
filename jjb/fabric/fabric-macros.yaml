@@ -390,6 +390,7 @@
               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F3-UnitTest=+1
           else
               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F3-UnitTest=-1
+              exit 1
           fi
 
 - builder:
@@ -696,6 +697,7 @@
       - shell: |
           #!/bin/bash
           cd gopath/src/github.com/hyperledger/fabric/docs
+          pip install recommonmark==0.4.0
           make html
           echo "---> Archiving generated docs"
           mkdir -p "$WORKSPACE/archives"
@@ -706,4 +708,5 @@
                ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F2-DocBuild=+1
           else
                ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-DocBuild=-1
+               exit 1
           fi

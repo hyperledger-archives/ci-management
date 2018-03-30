@@ -1,5 +1,4 @@
-#!/bin/bash -eu
-set -o pipefail
+#!/bin/bash
 
 # RUN END-to-END Tests
 ######################
@@ -11,12 +10,17 @@ MARCH=$(uname -m)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
 BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
-
+cd ${GOPATH}/src/github.com/hyperledger/fabric
+set +e
 if [ ! -z "$BRANCH_NAME" ]; then
       VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
+      echo "------> VERSION = $VERSION"
 else
       VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(PREV_VERSION)\n') p)
+      echo "------> VERSION = $VERSION"
 fi
+set -e
+cd -
 
 dockerTag() {
   for IMAGES in peer orderer ccenv javaenv tools; do
@@ -54,6 +58,7 @@ res=$(echo $?)
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
    else
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
+         exit 1
    fi
 }
 
