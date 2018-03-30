@@ -53,41 +53,50 @@ cd first-network
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 
 post_Result() {
-res=$(echo $?)
-   if [ $res = 0 ]; then
+   if [ $1 != 0 ]; then
+         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
+         exit 1
+   fi
+}
+
+complete_Result() {
+   if [ $1 = 0 ]; then
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
    else
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
          exit 1
    fi
 }
-
 # Execute below tests
 echo
 echo "======> DEFAULT CHANNEL <======"
 
 echo y | ./byfn.sh -m down
+post_Result $?
 echo y | ./byfn.sh -m generate
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m up -t 10
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m down
+post_Result $?
 
 echo
 echo "======> CUSTOM CHANNEL <======="
 
 echo y | ./byfn.sh -m generate -c fabricrelease
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m up -c fabricrelease -t 10
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m down
+post_Result $?
 
 
 echo
 echo "======> CouchDB tests <======="
 
 echo y | ./byfn.sh -m generate -c couchdbtest
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
-post_Result
+post_Result $?
 echo y | ./byfn.sh -m down
+complete_Result $?

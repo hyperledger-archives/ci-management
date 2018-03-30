@@ -41,21 +41,21 @@ echo "---> rtd-verify.sh"
 # DO NOT set -u
 set -xe -o pipefail
 
-echo "---> Generating docs"
-cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
-tox -edocs
-
-echo "---> Archiving generated docs"
-mkdir -p "$WORKSPACE/archives"
-cd -
-
-mv $GOPATH/src/github.com/hyperledger/fabric/docs/_build/html archives/
-
-res=$(echo $?)
-if [ $res = 0 ]; then
+post_Result() {
+if [ $1 = 0 ]; then
      ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F2-DocBuild=+1
 else
      ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-DocBuild=-1
      exit 1
 fi
+}
 
+echo "---> Generating docs"
+cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
+tox -edocs
+post_Result $?
+
+echo "---> Archiving generated docs"
+mkdir -p "$WORKSPACE/archives"
+cd -
+mv $GOPATH/src/github.com/hyperledger/fabric/docs/_build/html archives/
