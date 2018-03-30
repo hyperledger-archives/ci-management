@@ -1,0 +1,35 @@
+---
+# This job triggers on gerrit ref-tag event
+
+- project:
+    name: fabric-ca-images-release-s390x
+    jobs:
+      - '{project-name}-release-jobs-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 's390x'
+    build-node: 'hyp-z'
+
+- project:
+    name: fabric-ca-images-release-x86_64
+    jobs:
+      - '{project-name}-release-jobs-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x86_64'
+
+- project:
+    name: fabric-ca-images-release-ppc64le
+    jobs:
+      - '{project-name}-release-jobs-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 'ppc64le'
+    build-node: 'hyp-p'
