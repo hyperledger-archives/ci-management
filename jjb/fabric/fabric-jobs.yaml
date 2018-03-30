@@ -427,7 +427,7 @@
       - gerrit-refspec-parameter:
           refspec: ''
 
-    disabled: true
+    disabled: false
 
     scm:
       - fabric-gerrit-scm:
