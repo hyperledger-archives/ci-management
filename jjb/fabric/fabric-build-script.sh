@@ -47,7 +47,7 @@ codeChange() {
 
              # Build docker images and perform build process
              echo "-------> Perform basic checks"
-             make basic-checks
+             make linter
                     if [ $? = 0 ]; then
                          echo
                          echo "------> Build docker images"
