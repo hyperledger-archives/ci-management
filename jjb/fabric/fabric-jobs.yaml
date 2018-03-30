@@ -437,7 +437,7 @@
       - gerrit-trigger-patch-submitted-skip:
           name: '{project}'
           branch: ''
-          trigger-comment: 'VerifyBuild'
+          trigger-comment: 'VerifyBuild$'
 
     wrappers:
       - hyperledger-infra-wrappers
