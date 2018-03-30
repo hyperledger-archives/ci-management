@@ -144,6 +144,7 @@
 
     builders:
       - clean-environment
+      - output-environment
       - fabric-fetch
       - pull-images
       - provide-maven-settings:

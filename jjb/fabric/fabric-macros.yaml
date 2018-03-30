@@ -694,5 +694,4 @@
 - builder:
     name: fabric-docs-build-comment
     builders:
-      - shell: |
-          !include-raw: include-raw-fabric-build-docs.sh
+      - shell: !include-raw: include-raw-fabric-build-docs.sh

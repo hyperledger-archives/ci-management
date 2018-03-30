@@ -12,7 +12,7 @@ export CCENV_TAG=${TAG:0:7}
 BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
 cd ${GOPATH}/src/github.com/hyperledger/fabric
 set +e
-if [ ! -z "$BRANCH_NAME" ]; then
+if [ -z "$BRANCH_NAME" ]; then
       VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
       echo "------> VERSION = $VERSION"
 else
