@@ -3,6 +3,7 @@
 # RUN END-to-END Tests
 ######################
 set +e
+ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F2-SmokeTest=0 -l F3-UnitTest=0
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 MARCH=$(uname -m)

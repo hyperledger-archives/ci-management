@@ -15,6 +15,8 @@
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
 
+ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F2-DocBuild=0
+
 JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
 if [[ ! -z "$JIRA_LINK" ]]
 then

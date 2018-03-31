@@ -48,6 +48,9 @@ fi
 }
 
 set +e
+
+ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F2-DocBuild=0
+
 echo "---> Generating docs"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
 tox -edocs
