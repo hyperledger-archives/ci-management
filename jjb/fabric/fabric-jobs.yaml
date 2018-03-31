@@ -484,7 +484,7 @@
       - gerrit-comment-trigger:
           name: '{project}'
           branch: ''
-          trigger-comment: 'Run DocBuild$'
+          trigger-comment: 'Run DocBuild'
 
     wrappers:
       - hyperledger-infra-wrappers
