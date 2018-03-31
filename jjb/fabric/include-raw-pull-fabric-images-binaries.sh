@@ -17,7 +17,7 @@ curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger
 cp -r bin/ $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release
 
 dockerTag() {
-  for IMAGES in peer orderer ccenv javaenv tools; do
+  for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT

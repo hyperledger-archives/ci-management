@@ -26,7 +26,7 @@ docker_Fabric_Thirdparty_Push() {
 docker_Fabric_Push() {
 
   # shellcheck disable=SC2043
-  for IMAGES in peer orderer javaenv ccenv tools; do
+  for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo

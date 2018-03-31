@@ -67,7 +67,7 @@ codeChange() {
                          export COMMIT_TAG=${TAG:0:7}
 
                          dockerTag() {
-                               for IMAGES in peer orderer ccenv javaenv tools; do
+                               for IMAGES in peer orderer ccenv tools; do
                                     echo "==> $IMAGES"
                                     echo
                                     docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
@@ -76,7 +76,7 @@ codeChange() {
                                }
 
                           dockerFabricPush() {
-                               for IMAGES in peer orderer ccenv javaenv tools; do
+                               for IMAGES in peer orderer ccenv tools; do
                                     echo "==> $IMAGES"
                                     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
                                     echo

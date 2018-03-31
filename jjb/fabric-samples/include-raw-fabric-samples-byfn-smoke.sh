@@ -19,7 +19,7 @@ post_Result() {
 }
 
 dockerTag() {
-  for IMAGES in peer orderer ccenv javaenv tools; do
+  for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG

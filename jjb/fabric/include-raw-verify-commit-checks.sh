@@ -68,7 +68,7 @@ dockerFabricCheck() {
 
 # shellcheck disable=SC2043
 docker images
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper tools; do
+  for IMAGES in peer orderer couchdb ccenv kafka zookeeper tools; do
     echo "=======> $IMAGES"
     docker images $ORG_NAME-$IMAGES
     echo "Images are available"
@@ -85,7 +85,7 @@ ORG_NAME="hyperledger/fabric"
 # tag fabric images to nexusrepo
 
 dockerTag() {
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper; do
+  for IMAGES in peer orderer couchdb ccenv kafka zookeeper; do
     echo "==> $IMAGES"
     echo
     docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
@@ -95,7 +95,7 @@ dockerTag() {
 # Push docker images to nexus repository
 
 dockerFabricPush() {
-  for IMAGES in peer orderer couchdb ccenv javaenv kafka zookeeper; do
+  for IMAGES in peer orderer couchdb ccenv kafka zookeeper; do
     echo "==> $IMAGES"
     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$GIT_COMMIT
     echo

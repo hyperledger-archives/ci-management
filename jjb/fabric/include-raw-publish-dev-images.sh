@@ -64,7 +64,7 @@ else
 fi
 
 dockerFabricTag() {
-  for IMAGES in peer orderer ccenv javaenv tools; do
+  for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
     echo
     docker tag $ORG_NAME-$IMAGES:latest $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
@@ -74,7 +74,7 @@ dockerFabricTag() {
   done
 }
 dockerFabricPush() {
-  for IMAGES in peer orderer ccenv javaenv tools; do
+  for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
     docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
