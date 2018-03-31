@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # RUN END-to-END Tests
 ######################
@@ -41,6 +41,7 @@ docker images | grep "hyperledger*"
 
 WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
+rm -rf $WD
 
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
 cd $WD || exit
@@ -59,7 +60,7 @@ post_Result() {
    fi
 }
 
-complete_Result() {
+byfn_Result() {
    if [ $1 = 0 ]; then
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
    else
@@ -71,6 +72,7 @@ complete_Result() {
 echo
 echo "======> DEFAULT CHANNEL <======"
 
+set +e
 echo y | ./byfn.sh -m down
 post_Result $?
 echo y | ./byfn.sh -m generate
@@ -99,4 +101,5 @@ post_Result $?
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
 post_Result $?
 echo y | ./byfn.sh -m down
-complete_Result $?
+byfn_Result $?
+set -e

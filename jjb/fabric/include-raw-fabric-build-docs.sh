@@ -50,12 +50,15 @@ else
 fi
 }
 
+set +e
 echo "---> Generating docs"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
 tox -edocs
-post_Result $?
 
 echo "---> Archiving generated docs"
+rm -rf $WORKSPACE/archives
 mkdir -p "$WORKSPACE/archives"
 cd -
 mv $GOPATH/src/github.com/hyperledger/fabric/docs/_build/html archives/
+post_Result $?
+set -e

@@ -380,11 +380,10 @@
     name: fabric-unit-tests-verification
     builders:
       - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
+          #!/bin/bash -x
 
+          set +e
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
-
           res=$(echo $?)
           if [ $res = 0 ]; then
               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F3-UnitTest=+1
@@ -392,6 +391,7 @@
               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F3-UnitTest=-1
               exit 1
           fi
+          set -e
 
 - builder:
     name: fabric-tests
