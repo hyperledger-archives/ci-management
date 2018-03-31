@@ -125,7 +125,7 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    disabled: true
+    disabled: false
 
     properties:
       - 'fabric-go-{arch}'
@@ -147,7 +147,7 @@
           base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
-      - gerrit-trigger-patch-merged:
+      - gerrit-trigger-patch-merged-skip:
           name: '{project}'
           branch: ''
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # This script makes several basic commit message validations.
 # This is with the purpose of keeping up with the aesthetics
@@ -20,6 +20,7 @@ if [[ ! -z "$JIRA_LINK" ]]
 then
   echo 'Error: Remove JIRA URLs from commit message'
   echo 'Add jira references as: Issue: <JIRAKEY>-<ISSUE#>, instead of URLs'
+  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Add JIRA reference"' -l F1-VerifyBuild=-1
   exit 1
 fi
 
@@ -40,19 +41,20 @@ done
 
 if [ ! -z ${FOUND_TRAILING+x} ];
 then
+  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Trailing white spaces found"' -l F1-VerifyBuild=-1
   exit 1
 fi
 
 codeChange() {
 
              # Build docker images and perform build process
-             echo "-------> Perform basic checks"
+             echo "-------> Perform make linter"
              make linter
                     if [ $? = 0 ]; then
                          echo
                          echo "------> Build docker images"
                     else
-                         echo "------> Basic checks FAILED"
+                         echo "------> make linter FAILED"
                          ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"make linter failed"' -l F1-VerifyBuild=-1
                          exit 1
                     fi

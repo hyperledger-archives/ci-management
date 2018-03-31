@@ -2,32 +2,30 @@
 
 # RUN END-to-END Tests
 ######################
-
+set +e
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
-# tag fabric images
 MARCH=$(uname -m)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
-BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
 cd ${GOPATH}/src/github.com/hyperledger/fabric
-set +e
-if [ -z "$BRANCH_NAME" ]; then
-      VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
-      echo "------> VERSION = $VERSION"
-else
-      VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(PREV_VERSION)\n') p)
-      echo "------> VERSION = $VERSION"
-fi
-set -e
-cd -
+VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
+echo "------> BASE_VERSION = $VERSION"
+post_Result() {
+   if [ $1 != 0 ]; then
+         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
+         exit 1
+   fi
+}
 
 dockerTag() {
   for IMAGES in peer orderer ccenv javaenv tools; do
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG
+    post_Result $?
     docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG $ORG_NAME-$IMAGES
+    post_Result $?
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG"
   done
 }
@@ -36,7 +34,7 @@ dockerTag() {
 dockerTag
 docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-$VERSION-snapshot-$CCENV_TAG
 
-# Listout all docker images
+# List all hyperledger docker images
 docker images | grep "hyperledger*"
 
 WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
@@ -53,13 +51,6 @@ curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger
 cd first-network
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 
-post_Result() {
-   if [ $1 != 0 ]; then
-         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
-         exit 1
-   fi
-}
-
 byfn_Result() {
    if [ $1 = 0 ]; then
          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
@@ -72,7 +63,6 @@ byfn_Result() {
 echo
 echo "======> DEFAULT CHANNEL <======"
 
-set +e
 echo y | ./byfn.sh -m down
 post_Result $?
 echo y | ./byfn.sh -m generate

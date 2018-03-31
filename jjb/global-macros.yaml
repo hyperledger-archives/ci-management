@@ -290,7 +290,7 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
           skip-vote:
-            successful: false
+            successful: true
             failed: true
             unstable: true
             notbuilt: true
