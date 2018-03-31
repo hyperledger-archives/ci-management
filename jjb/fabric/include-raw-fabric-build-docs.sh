@@ -18,12 +18,9 @@ set -e -o pipefail
 virtualenv --quiet -p "$PYTHON_VERSION" "/tmp/v/tox"
 # shellcheck source=/tmp/v/tox/bin/activate disable=SC1091
 source "/tmp/v/tox/bin/activate"
-pip install --quiet --upgrade pip
+pip install --quiet --upgrade pip setuptools
 pip install --quiet --upgrade pipdeptree
 pip install --quiet --upgrade argparse detox tox tox-pyenv
-
-echo "----> Pip Dependency Tree"
-pipdeptree
 
 #!/bin/bash
 # SPDX-License-Identifier: EPL-1.0

@@ -128,9 +128,9 @@ if [[ ! -z "$WIP" ]];then
     echo '-------> Ignore this build'
     ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
-    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png')
+    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.css|.html|.ini')
     echo "------> DOC_CHANGE = $DOC_CHANGE"
-    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png')
+    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png|.css|.html|.ini')
     echo "------> CODE_CHANGE = $CODE_CHANGE"
            if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
                   echo "------> Only Doc change, trigger documentation build"
