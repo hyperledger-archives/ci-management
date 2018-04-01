@@ -22,34 +22,31 @@ pip install --quiet --upgrade pip setuptools
 pip install --quiet --upgrade pipdeptree
 pip install --quiet --upgrade argparse detox tox tox-pyenv
 
-#!/bin/bash
-# SPDX-License-Identifier: EPL-1.0
-##############################################################################
-# Copyright (c) 2017 The Linux Foundation and others.
-#
-# All rights reserved. This program and the accompanying materials
-# are made available under the terms of the Eclipse Public License v1.0
-# which accompanies this distribution, and is available at
-# http://www.eclipse.org/legal/epl-v10.html
-##############################################################################
 echo "---> rtd-verify.sh"
 
 # Ensure we fail the job if any steps fail.
 # DO NOT set -u
 set -xe -o pipefail
 
+vote(){
+     echo ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+          $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+          --notify '"NONE"' \
+          "$@"
+}
+
 post_Result() {
 if [ $1 = 0 ]; then
-     ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F2-DocBuild=+1
+     vote -m '"Succeeded"' -l F2-DocBuild=+1
 else
-     ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-DocBuild=-1
+     vote -m '"Failed"' -l F2-DocBuild=-1
      exit 1
 fi
 }
 
 set +e
 
-ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F2-DocBuild=0
+vote -m '"Starting..."' -l F2-DocBuild=0
 
 echo "---> Generating docs"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit

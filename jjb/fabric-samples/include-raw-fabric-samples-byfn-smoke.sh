@@ -3,7 +3,23 @@
 # RUN END-to-END Tests
 ######################
 set +e
-ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F2-SmokeTest=0 -l F3-UnitTest=0
+
+vote(){
+     echo ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+          $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+          --notify '"NONE"' \
+          "$@"
+}
+
+post_Result() {
+   if [ $1 != 0 ]; then
+         vote -m '"Failed"' -l F2-SmokeTest=-1
+         exit 1
+   fi
+}
+
+vote -m '"Starting..."' -l F2-SmokeTest=0 -l F3-UnitTest=0
+
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 MARCH=$(uname -m)
@@ -12,12 +28,6 @@ export CCENV_TAG=${TAG:0:7}
 cd ${GOPATH}/src/github.com/hyperledger/fabric
 VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
 echo "------> BASE_VERSION = $VERSION"
-post_Result() {
-   if [ $1 != 0 ]; then
-         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
-         exit 1
-   fi
-}
 
 dockerTag() {
   for IMAGES in peer orderer ccenv tools; do
@@ -54,9 +64,9 @@ export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 
 byfn_Result() {
    if [ $1 = 0 ]; then
-         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
+         vote -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
    else
-         ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F2-SmokeTest=-1
+         vote -m '"Failed"' -l F2-SmokeTest=-1
          exit 1
    fi
 }

@@ -15,14 +15,21 @@
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
 
-ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F2-DocBuild=0
+vote(){
+     echo ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+          $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+          --notify '"NONE"' \
+          "$@"
+}
+
+vote -m '"Starting..."' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F2-DocBuild=0
 
 JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
 if [[ ! -z "$JIRA_LINK" ]]
 then
   echo 'Error: Remove JIRA URLs from commit message'
   echo 'Add jira references as: Issue: <JIRAKEY>-<ISSUE#>, instead of URLs'
-  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Add JIRA reference"' -l F1-VerifyBuild=-1
+  vote -m '"Add JIRA reference"' -l F1-VerifyBuild=-1
   exit 1
 fi
 
@@ -43,7 +50,7 @@ done
 
 if [ ! -z ${FOUND_TRAILING+x} ];
 then
-  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Trailing white spaces found"' -l F1-VerifyBuild=-1
+  vote -m '"Trailing white spaces found"' -l F1-VerifyBuild=-1
   exit 1
 fi
 
@@ -57,7 +64,7 @@ codeChange() {
                          echo "------> Build docker images"
                     else
                          echo "------> make linter FAILED"
-                         ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"make linter failed"' -l F1-VerifyBuild=-1
+                         vote -m '"make linter failed"' -l F1-VerifyBuild=-1
                          exit 1
                     fi
              make docker
@@ -94,7 +101,7 @@ codeChange() {
                           docker images | grep "nexus*"
                      else
                           echo "-------> make docker failed"
-                          ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"make docker failed"' -l F1-VerifyBuild=-1
+                          vote -m '"make docker failed"' -l F1-VerifyBuild=-1
                           exit 1
                     fi
                binary=linux-amd64
@@ -119,7 +126,7 @@ codeChange() {
                                      echo "-------> DONE <----------"
                     else
                                      echo "-------> make dist failed"
-                                     ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"make dist failed"' -l F1-VerifyBuild=-1
+                                     vote -m '"make dist failed"' -l F1-VerifyBuild=-1
                                      exit 1
                     fi
 }
@@ -128,7 +135,7 @@ WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
 echo
 if [[ ! -z "$WIP" ]];then
     echo '-------> Ignore this build'
-    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"WIP - No Build"' -l F1-VerifyBuild=0
+    vote -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
     DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.css|.html|.ini')
     echo "------> DOC_CHANGE = $DOC_CHANGE"
@@ -136,14 +143,14 @@ else
     echo "------> CODE_CHANGE = $CODE_CHANGE"
            if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
                   echo "------> Only Doc change, trigger documentation build"
-                  ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F2-SmokeTest=+1 -l F3-UnitTest=+1
+                  vote -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F2-SmokeTest=+1 -l F3-UnitTest=+1
            elif [ ! -z "$DOC_CHANGE" ] && [ ! -z "$CODE_CHANGE" ]; then # Code and Doc change
                     echo "------> Code and Doc change, trigger just doc and smoketest build jobs"
                     codeChange
-                    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run DocBuild, Run SmokeTest"' -l F1-VerifyBuild=+1
+                    vote -m '"Succeeded, Run DocBuild, Run SmokeTest"' -l F1-VerifyBuild=+1
                else  # only code change
                     echo "------> Only code change, trigger smoketest build job"
                     codeChange
-                    ssh -p 29418 hyperledger-jobbuilder@gerrit.hyperledger.org gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
+                    vote -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
            fi
 fi

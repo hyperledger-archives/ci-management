@@ -383,13 +383,20 @@
           #!/bin/bash -x
 
           set +e
-          ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Starting..."' -l F3-UnitTest=0
+          vote(){
+               echo ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+                    $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+                    --notify '"NONE"' \
+                    "$@"
+          }
+
+          vote -m '"Starting..."' -l F3-UnitTest=0 --notify '"NONE"'
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
           res=$(echo $?)
           if [ $res = 0 ]; then
-              ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Succeeded"' -l F3-UnitTest=+1
+              vote -m '"Succeeded"' -l F3-UnitTest=+1 --notify '"NONE"'
           else
-              ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER -m '"Failed"' -l F3-UnitTest=-1
+              vote -m '"Failed"' -l F3-UnitTest=-1 --notify '"NONE"'
               exit 1
           fi
           set -e
