@@ -5,7 +5,7 @@
 set +e
 
 vote(){
-     echo ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+     ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
           $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
           --notify '"NONE"' \
           "$@"
