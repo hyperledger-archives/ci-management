@@ -19,8 +19,7 @@ virtualenv --quiet -p "$PYTHON_VERSION" "/tmp/v/tox"
 # shellcheck source=/tmp/v/tox/bin/activate disable=SC1091
 source "/tmp/v/tox/bin/activate"
 pip install --quiet --upgrade pip setuptools
-pip install --quiet --upgrade pipdeptree
-pip install --quiet --upgrade argparse detox tox tox-pyenv
+pip install --quiet --upgrade argparse detox "tox==2.9.1" tox-pyenv
 
 echo "---> rtd-verify.sh"
 
