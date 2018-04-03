@@ -23,7 +23,7 @@ cd ci-management
 sudo apt-get install python-virtualenv
 virtualenv hyp
 source hyp/bin/activate
-pip install 'jenkins-job-builder==1.5.0'
+pip install 'jenkins-job-builder==2.0.3'
 jenkins-jobs --version
 jenkins-jobs test --recursive jjb/
 ```
