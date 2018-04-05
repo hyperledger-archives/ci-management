@@ -22,7 +22,7 @@ vote(){
           "$@"
 }
 
-vote -m '"Starting..."' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F2-DocBuild=0
+vote -m '"Starting verify build"' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F2-DocBuild=0
 
 JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
 if [[ ! -z "$JIRA_LINK" ]]
@@ -137,9 +137,9 @@ if [[ ! -z "$WIP" ]];then
     echo '-------> Ignore this build'
     vote -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
-    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.css|.html|.ini')
+    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.pptx|.css|.html|.ini')
     echo "------> DOC_CHANGE = $DOC_CHANGE"
-    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png|.css|.html|.ini')
+    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png|.pptx|.css|.html|.ini')
     echo "------> CODE_CHANGE = $CODE_CHANGE"
            if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
                   echo "------> Only Doc change, trigger documentation build"

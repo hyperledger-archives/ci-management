@@ -45,7 +45,7 @@ fi
 
 set +e
 
-vote -m '"Starting..."' -l F2-DocBuild=0
+vote -m '"Starting documentation build"' -l F2-DocBuild=0
 
 echo "---> Generating docs"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit

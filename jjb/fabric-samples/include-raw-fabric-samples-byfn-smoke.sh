@@ -18,7 +18,7 @@ post_Result() {
    fi
 }
 
-vote -m '"Starting..."' -l F2-SmokeTest=0 -l F3-UnitTest=0
+vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0
 
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
