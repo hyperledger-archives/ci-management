@@ -29,7 +29,7 @@ if [[ ! -z "$JIRA_LINK" ]]
 then
   echo 'Error: Remove JIRA URLs from commit message'
   echo 'Add jira references as: Issue: <JIRAKEY>-<ISSUE#>, instead of URLs'
-  vote -m '"Add JIRA reference"' -l F1-VerifyBuild=-1
+  vote -m '"Remove JIRA URLs from commit message"' -l F1-VerifyBuild=-1
   exit 1
 fi
 
