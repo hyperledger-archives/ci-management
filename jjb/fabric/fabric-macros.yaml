@@ -390,13 +390,13 @@
                     "$@"
           }
 
-          vote -m '"Starting unit tests"' -l F3-UnitTest=0 --notify '"NONE"'
+          vote -m '"Starting unit tests"' -l F3-UnitTest=0
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
           res=$(echo $?)
           if [ $res = 0 ]; then
-              vote -m '"Succeeded"' -l F3-UnitTest=+1 --notify '"NONE"'
+              vote -m '"Succeeded"' -l F3-UnitTest=+1
           else
-              vote -m '"Failed"' -l F3-UnitTest=-1 --notify '"NONE"'
+              vote -m '"Failed"' -l F3-UnitTest=-1
               exit 1
           fi
           set -e
