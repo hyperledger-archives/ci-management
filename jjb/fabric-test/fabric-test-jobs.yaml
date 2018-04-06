@@ -22,7 +22,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -59,11 +59,21 @@
          #!/bin/bash -exu
          set -o pipefail
 
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+
+         make git-init && make fabric
+         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "----> GO_VER" $GO_VER
+
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
+         make ca && make pre-setup && make docker-images && make smoke-tests
 
     publishers:
       - lf-infra-publish
@@ -78,7 +88,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -111,11 +121,22 @@
          #!/bin/bash -exu
          set -o pipefail
 
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+
+         make git-init && make fabric
+         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "----> GO_VER" $GO_VER
+
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
+
+         make ca && make pre-setup && make docker-images && make daily-tests
 
     publishers:
       - lf-infra-publish
@@ -130,7 +151,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -166,10 +187,21 @@
          #!/bin/bash -exu
          set -o pipefail
 
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+
+         make git-init && make fabric
+
+         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "----> GO_VER" $GO_VER
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-smoke
+
+         make ca && make pre-setup && make docker-images && make daily-tests
 
     publishers:
       - lf-infra-publish
@@ -193,7 +225,7 @@
       - timed: 'H 3 * * *'
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -218,11 +250,21 @@
          #!/bin/bash -exu
          set -o pipefail
 
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+
+         make git-init && make fabric
+
+         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "----> GO_VER" $GO_VER
+
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
          echo "=======> Run Daily test suite..."
-         echo
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test && make ci-daily
+         make ca && make pre-setup && make docker-images && make daily-tests
 
     publishers:
       - lf-infra-publish

@@ -21,6 +21,12 @@ FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 fi
 FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 # Build fabric Docker images
+set +x
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+export GOROOT=/opt/go/go$GO_VER.linux.amd64
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+set -x
 make docker
 docker images | grep hyperledger
 
@@ -41,6 +47,12 @@ CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 fi
 CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 # Build CA Docker Images
+set +x
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+export GOROOT=/opt/go/go$GO_VER.linux.amd64
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+set -x
 make docker
 docker images | grep hyperledger
 

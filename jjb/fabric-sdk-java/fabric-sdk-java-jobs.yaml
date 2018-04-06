@@ -25,7 +25,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-sdk-java-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -77,7 +77,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-sdk-java-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -128,7 +128,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-sdk-java-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -174,7 +174,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-sdk-java-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -226,7 +226,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-sdk-java-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7

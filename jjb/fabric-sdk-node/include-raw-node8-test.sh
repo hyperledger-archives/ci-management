@@ -21,7 +21,21 @@ echo "-----> $GERRIT_BRANCH"
 #sed -i -e 's/127.0.0.1:7050\b/'"orderer:7050"'/g' $WD/common/configtx/tool/configtx.yaml
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "=======> FABRIC_COMMIT <======= $FABRIC_COMMIT"
-make peer-docker && make orderer-docker
+
+# export fabric go version
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+OS_VER=$(dpkg --print-architecture)
+echo "-----> ARCH: $OS_VER"
+export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+for IMAGES in peer-docker orderer-docker; do
+   make $IMAGES
+   if [ $? != 0 ]; then
+      echo "-----> make $IMAGES failed"
+      exit 1
+   fi
+done
 docker images | grep hyperledger || true
 
 # Clone fabric-ca git repository
@@ -44,7 +58,19 @@ set -e
 echo "-----> $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "======> CA_COMMIT <======= $CA_COMMIT"
+set +x
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+OS_VER=$(dpkg --print-architecture)
+echo "-----> ARCH: $OS_VER"
+export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+set -x
 make docker-fabric-ca
+if [ $? != 0 ]; then
+   echo "-----> docker-fabric-ca failed"
+   exit 1
+fi
 docker images | grep hyperledger || true
 
 ## Test fabric-sdk-node tests

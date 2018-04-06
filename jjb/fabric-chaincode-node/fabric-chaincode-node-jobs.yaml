@@ -22,7 +22,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -71,7 +71,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -123,7 +123,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -172,7 +172,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-s390x'
+      - 'fabric-go-s390x'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -220,7 +220,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7

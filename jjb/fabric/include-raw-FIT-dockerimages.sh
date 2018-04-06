@@ -6,7 +6,14 @@ FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-----> FABRIC_COMMIT : $FABRIC_COMMIT"
 echo "FABRIC_COMMIT ===========> $FABRIC_COMMIT" >> commit.log
 mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make docker && make release-clean && make release
+
+for IMAGES in docker release-clean release; do
+   make $IMAGES
+   if [ $? != 0 ]; then
+       echo "-------> make $IMAGES failed"
+       exit 1
+   fi
+done
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
@@ -29,6 +36,13 @@ set -e
 echo "-----> $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
-make docker && docker images | grep hyperledger
+
+make docker
+if [ $? != 0 ]; then
+   echo "-------> make docker failed"
+   exit 1
+fi
+
+docker images | grep hyperledger
 
 echo "CA COMMIT ========> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log

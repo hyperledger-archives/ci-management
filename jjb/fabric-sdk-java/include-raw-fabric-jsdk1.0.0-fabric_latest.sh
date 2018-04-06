@@ -19,16 +19,20 @@ REPO_NAME=fabric
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD1
 cd $WD1
 if [ "$FABRIC_COMMIT" == "latest" ]; then
-echo "Fabric commit is $FABRIC_COMMIT so go with this"
+    echo "Fabric commit is $FABRIC_COMMIT so go with this"
 else
-git checkout $FABRIC_COMMIT
-FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-echo "====> FABRIC_COMMIT_LEVEL $FABRIC_COMMIT_LEVEL"
+    git checkout $FABRIC_COMMIT
+    FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
+    echo "====> FABRIC_COMMIT_LEVEL $FABRIC_COMMIT_LEVEL"
 fi
 FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "====> FABRIC_COMMIT_LEVEL $FABRIC_COMMIT_LEVEL"
 # Build fabric Docker images
 make docker
+if [ $? != 0 ]; then
+    echo "--------> make docker failed"
+    exit 1
+fi
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
@@ -41,21 +45,24 @@ CA_REPO_NAME=fabric-ca
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD2
 cd $WD2
 if [ "$FABRIC_CA_COMMIT" == "latest" ]; then
-echo "Fabric_CA commit is $FABRIC_COMMIT so go with this"
+    echo "Fabric_CA commit is $FABRIC_COMMIT so go with this"
 else
-git checkout $FABRIC_CA_COMMIT
-CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-echo "======> CA_COMMIT_LEVEL $CA_COMMIT_LEVEL"
+    git checkout $FABRIC_CA_COMMIT
+    CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
+    echo "======> CA_COMMIT_LEVEL $CA_COMMIT_LEVEL"
 fi
 CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "======> CA_COMMIT_LEVEL $CA_COMMIT_LEVEL"
 
 # Build CA Docker Images
 make docker
+if [ $? != 0 ]; then
+   echo "--------> make docker failed"
+   exit 1
+fi
 docker images | grep hyperledger
 
 # Move to fabric-sdk-java repository and execute SDK end-to-end tests
-
 export GOPATH=$WD/src/test/fixture
 
 cd $WD/src/test

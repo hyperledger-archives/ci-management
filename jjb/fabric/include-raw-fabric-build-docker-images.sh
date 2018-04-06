@@ -24,7 +24,22 @@ FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-----> FABRIC_COMMIT : $FABRIC_COMMIT"
 echo "FABRIC_COMMIT ========> $FABRIC_COMMIT" >> commit_history.log
 mv commit_history.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make docker && make release-clean && make release
+
+# export go version
+
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+OS_VER=$(dpkg --print-architecture)
+export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+
+for IMAGES in docker release-clean release; do
+   make $IMAGES
+   if [ $? != 0 ]; then
+     echo "-------> make $IMAGES failed"
+     exit 1
+   fi
+done
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
@@ -48,5 +63,18 @@ echo "-----> $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ========> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit_history.log
+
+# export fabric-ca go version
+
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+OS_VER=$(dpkg --print-architecture)
+export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+
 make docker
+if [ $? != 0 ]; then
+   echo "--------> make docker failed"
+   exit 1
+fi
 docker images | grep hyperledger
