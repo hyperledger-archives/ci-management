@@ -107,13 +107,23 @@ deb_docker_pull_baseimage() {
 
     # List of images to be generated and pushed
     export IMAGES_LIST=(couchdb kafka zookeeper baseimage baseos)
-    THIRDPARTY_IMAGE_VERSION=0.4.6
-    echo "---> Pulling Thirdparty Images"
-    for image in ${IMAGES_LIST[*]}; do
-         docker pull hyperledger/fabric-$image:x86_64-$THIRDPARTY_IMAGE_VERSION
+    for THIRDPARTY_IMAGE_VERSION in 0.4.6 0.4.7; do
+        echo "---> Pulling Thirdparty Images"
+        for image in ${IMAGES_LIST[*]}; do
+            docker pull hyperledger/fabric-$image:x86_64-$THIRDPARTY_IMAGE_VERSION
+        done
     done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
+}
+
+deb_docker_pull_celloimage() {
+    echo "---> Pulling cello images"
+    export IMAGES_LIST=(cello-engine cello-mongo cello-nginx cello-operator-dashboard cello-user-dashboard cello-watchdog cello-baseimage)
+    echo "---> Pulling cello images"
+    for image in ${IMAGES_LIST[*]}; do
+       docker pull hyperledger/$image:x86_64-latest
+    done
 }
 
 deb_create_hyperledger_vardir() {
@@ -278,6 +288,7 @@ ubuntu_changes() {
     deb_install_softhsm
     deb_update_alternatives
     deb_docker_pull_baseimage
+    deb_docker_pull_celloimage
     deb_docker_fix
 
     echo "---> No extra steps presently for ${FACTER_OS}"
