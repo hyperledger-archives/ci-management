@@ -1,9 +1,10 @@
 ---
 # Global Macros
 
-#
-# PARAMETERS
-#
+##############
+# PARAMETERS #
+##############
+
 - parameter:
     name: project-parameter
     parameters:
@@ -68,9 +69,10 @@
           default: ''
           description: "Sets TRIGGER VALUE based on the condition assigned in the build check job"
 #
-#
-# SCMS
-#
+########
+# SCMS #
+########
+
 - scm:
     name: git-scm
     scm:
@@ -107,7 +109,6 @@
           skip-tag: true
           wipe-workspace: true
 
-# Chaincode-java SCM
 - scm:
     name: hyperledger-fabric-chaincode-java
     scm:
@@ -119,9 +120,6 @@
           wipe-workspace: true
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
-####
-#### Common SCM to clone the latest commits on merge patches ####
-####
 
 - scm:
     name: fabric-gerrit-scm-merge
@@ -139,9 +137,10 @@
           refspec: ''
           choosing-strategy: default
 
-#
-# Wrappers
-#
+############
+# WRAPPERS #
+############
+
 - wrapper:
     name: build-timeout
     wrappers:
@@ -165,9 +164,10 @@
       - openstack:
           single-use: true
 
-#
-# Triggers
-#
+############
+# TRIGGERS #
+############
+
 - trigger:
     name: gerrit-trigger-patch-submitted
     triggers:
@@ -309,9 +309,10 @@
                 - branch-compare-type: 'ANT'
                   branch-pattern: 'refs/tags/**'
 
-#
-# Publishers
-#
+##############
+# PUBLISHERS #
+##############
+
 - publisher:
     name: archive-artifacts
     publishers:
@@ -339,8 +340,46 @@
             - developers
             - recipients
 
-# Builders
-#
+- publisher:
+    name: fabric-email-notification
+    publishers:
+      - email-ext:
+          recipients: '{email-ids}'
+          reply-to: 'nobody@hyperledger.org'
+          content-type: default
+          subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+          body: |
+                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+                Please refer to the logs server URL for console logs when possible
+                and use the Jenkins Build URL as a last resort.
+
+                Console Logs URL:
+                https://logs.hyperledger.org/$SILO/$JENKINS_HOSTNAME/$JOB_NAME/$BUILD_NUMBER
+
+                Jenkins Build URL:
+                $BUILD_URL
+
+          unstable: true
+          failed: true
+          attachments: '{output_format}'
+          send-to:
+            - recipients
+            - '{developer-email}'
+
+- publisher:
+    name: publish-dev-images
+    publishers:
+      - downstream-ext:
+          projects:
+            - fabric-dev-stable-images-x86_64
+          condition: equal
+          criteria: success
+
+############
+# BUILDERS #
+############
+
 - builder:
     name: ci-management-check-unicode
     builders:
@@ -390,54 +429,3 @@
     name: docker-login
     builders:
       - shell: !include-raw: include-raw-docker-login.sh
-
-- publisher:
-    name: fabric-email-notification
-    publishers:
-      - email-ext:
-          recipients: '{email-ids}'
-          reply-to: 'nobody@hyperledger.org'
-          content-type: default
-          subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
-          body: |
-                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
-
-                Check console output at $BUILD_URL to view the results.
-          unstable: true
-          failed: true
-          attachments: '{output_format}'
-          send-to:
-            - recipients
-            - '{developer-email}'
-
-- builder:
-    name: downstream-smoke-job
-    builders:
-      - trigger-builds:
-          - project:
-              - fabric-verify-byfn-checks-x86_64
-            current-parameters: true
-            condition: SUCCESS
-            property-file: env.properties
-            predefined-parameters: |
-              GERRIT_REFSPEC=$GERRIT_REFSPEC
-
-- builder:
-    name: downstream-more-checks
-    builders:
-      - trigger-builds:
-          - project:
-              - fabric-verify-unit-tests-x86_64
-            current-parameters: true
-            condition: SUCCESS
-            predefined-parameters: |
-              GERRIT_REFSPEC=$GERRIT_REFSPEC
-
-- publisher:
-    name: publish-dev-images
-    publishers:
-      - downstream-ext:
-          projects:
-            - fabric-dev-stable-images-x86_64
-          condition: equal
-          criteria: success

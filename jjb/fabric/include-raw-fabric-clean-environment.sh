@@ -18,7 +18,7 @@ function removeUnwantedImages() {
         else
 	        docker rmi -f $DOCKER_IMAGES_SNAPSHOTS || true
 	fi
-        DOCKER_IMAGE_IDS=$(docker images | grep -v 'base*\|couchdb\|kafka\|zookeeper' | awk '{print $3}')
+        DOCKER_IMAGE_IDS=$(docker images | grep -v 'base*\|couchdb\|kafka\|zookeeper\|cello' | awk '{print $3}')
 
         if [ -z "$DOCKER_IMAGE_IDS" ] || [ "$DOCKER_IMAGE_IDS" = " " ]; then
                 echo "---- No images available for deletion ----"
