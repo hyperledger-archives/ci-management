@@ -638,7 +638,7 @@
     publishers:
       - html-publisher:
           name: "Test Summary"
-          dir: "$WORKSPACE/shim/build/reports/tests/test"
+          dir: "$WORKSPACE/fabric-chaincode-shim/build/reports/tests/test"
           files: "index.html"
           keep-all: true
           link-to-last-build: true
