@@ -27,7 +27,7 @@ export GOROOT=/opt/go/go$GO_VER.linux.amd64
 export PATH=$GOROOT/bin:$PATH
 echo "----> GO_VER" $GO_VER
 set -x
-make docker
+make docker docker-thirdparty
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository

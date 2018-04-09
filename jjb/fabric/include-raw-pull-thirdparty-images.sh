@@ -1,22 +1,22 @@
 #!/bin/bash
-
 set -o pipefail
 
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
 MARCH=`uname -m`
-VERSION=$MARCH-0.4.6
+BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep BASEIMAGE_RELEASE= | cut -d "=" -f 2`
+echo "-----> BASEIMAGE_RELEASE: $BASEIMAGE_RELEASE"
 
 dockerTag() {
-  for IMAGES in couchdb kafka zookeeper; do
-    echo "==> $IMAGES"
-    echo
-    docker pull $ORG_NAME-$IMAGES:$VERSION
-    docker tag $ORG_NAME-$IMAGES:$VERSION $ORG_NAME-$IMAGES
-  done
+    for IMAGES in couchdb kafka zookeeper; do
+       echo "==> $IMAGES"
+       docker pull $ORG_NAME-$IMAGES:$MARCH-$BASEIMAGE_RELEASE
+       docker tag $ORG_NAME-$IMAGES:$MARCH-$BASEIMAGE_RELEASE $ORG_NAME-$IMAGES
+       echo
+    done
 }
-# Tag Fabric couchdb, kafka and zookeeper docker images to hyperledger
+# Tag Fabric couchdb, kafka and zookeeper docker images
 dockerTag
 
-# Listout all docker images
+# List out all docker images
 docker images | grep "hyperledger*"

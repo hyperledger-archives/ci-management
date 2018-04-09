@@ -51,7 +51,6 @@
     builders:
       - verify-commit-message
       - clean-environment
-      - pull-images
       - build-docker-images
       - fabric-byfn-tests
 
@@ -97,7 +96,6 @@
 
     builders:
       - clean-environment
-      - pull-images
       - output-environment
       - build-docker-images
       - fabric-byfn-tests
@@ -147,7 +145,6 @@
       - 'golang-environment-{arch}'
       - output-environment
       - fabric-fetch
-      - pull-images
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

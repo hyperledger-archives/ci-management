@@ -23,7 +23,7 @@ export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
 export PATH=$GOROOT/bin:$PATH
 echo "----> GO_VER" $GO_VER
 
-for IMAGES in peer-docker orderer-docker tools-docker release-clean release; do
+for IMAGES in docker-thirdparty ccenv peer-docker orderer-docker tools-docker release-clean release; do
     make $IMAGES
     if [ $? != 0 ]; then
         echo "-----> make $IMAGES failed"

@@ -61,7 +61,8 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init && make fabric
+         make git-init || exit 1
+         make fabric || exit 1
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
          echo "------> ARCH: $OS_VER"
@@ -73,7 +74,11 @@
          go get -u github.com/kardianos/govendor
          echo "=========> Run Smoke Tests..."
          echo
-         make ca && make pre-setup && make docker-images && make smoke-tests
+         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+         make ca || exit 1
+         make pre-setup || exit 1
+         make docker-images || exit 1
+         make smoke-tests
 
     publishers:
       - lf-infra-publish
@@ -123,7 +128,8 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init && make fabric
+         make git-init || exit 1
+         make fabric || exit 1
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
          echo "------> ARCH: $OS_VER"
@@ -136,7 +142,11 @@
          echo "=========> Run Smoke Tests..."
          echo
 
-         make ca && make pre-setup && make docker-images && make daily-tests
+         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+         make ca || exit 1
+         make pre-setup || exit 1
+         make docker-images || exit 1
+         make daily-tests
 
     publishers:
       - lf-infra-publish
@@ -199,9 +209,13 @@
          echo "----> GO_VER" $GO_VER
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
-         echo "=========> Run Smoke Tests..."
 
-         make ca && make pre-setup && make docker-images && make daily-tests
+         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+         make ca || exit 1
+         make pre-setup || exit 1
+         make docker-images || exit 1
+         echo "=========> Run Smoke Tests..."
+         make daily-tests || exit 1
 
     publishers:
       - lf-infra-publish
@@ -244,7 +258,6 @@
     builders:
       - verify-commit-message
       - clean-environment
-      - pull-images
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -252,7 +265,8 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init && make fabric
+         make git-init || exit 1
+         make fabric || exit 1
 
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
@@ -263,8 +277,13 @@
 
          echo "=========> Install govendor"
          go get -u github.com/kardianos/govendor
+
+         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+         make ca || exit 1
+         make pre-setup || exit 1
+         make docker-images || exit 1
          echo "=======> Run Daily test suite..."
-         make ca && make pre-setup && make docker-images && make daily-tests
+         make daily-tests || exit 1
 
     publishers:
       - lf-infra-publish
