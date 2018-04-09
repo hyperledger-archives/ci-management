@@ -81,7 +81,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'release'
+          branch: 'release-1.0'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -91,7 +91,7 @@
     triggers:
       - gerrit-trigger-patch-submitted:
           name: '{project}'
-          branch: 'release'
+          branch: 'release-1.0'
           trigger-comment1: 'reverify-node6x$'
           trigger-comment2: 'reverify$'
 
@@ -178,7 +178,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'release'
+          branch: 'release-1.0'
       - gerrit-refspec-parameter:
           refspec: ''
 
@@ -188,7 +188,7 @@
     triggers:
       - gerrit-trigger-patch-submitted:
           name: '{project}'
-          branch: 'release'
+          branch: 'release-1.0'
           trigger-comment1: 'reverify-node6z$'
           trigger-comment2: 'reverify$'
 
@@ -273,7 +273,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'release'
+          branch: 'release-1.0'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
@@ -285,7 +285,7 @@
     triggers:
       - gerrit-trigger-patch-merged:
           name: '{project}'
-          branch: 'release'
+          branch: 'release-1.0'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -368,7 +368,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'release'
+          branch: 'release-1.0'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
