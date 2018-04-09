@@ -21,7 +21,7 @@
     project-name: fabric-ca
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
 
 - project:
     name: fabric-ca-images-release-ppc64le

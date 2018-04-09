@@ -12,7 +12,7 @@
       - gerrit-rtd-verify:
           project-name: fabric-ca
           project-pattern: fabric-ca
-          build-node: hyp-x86_64-p
+          build-node: hyp-x
           build-timeout: 30
           stream: 'job'
           branch: ''

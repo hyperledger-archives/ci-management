@@ -60,7 +60,7 @@
     name: 'fabric-chaintool-binaries'
 
     project-type: freestyle
-    node: 'hyp-x86_64'
+    node: 'hyp-x'
     concurrent: true
 
     properties:

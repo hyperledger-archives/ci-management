@@ -25,7 +25,7 @@
     project-name: fabric-baseimage
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
     comment: 'x'
 
 - project:
@@ -65,7 +65,7 @@
     project-name: fabric-baseimage
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
 
 - project:
     name: fabric-baseimage-merge-docker-ppc64le
@@ -103,7 +103,7 @@
     project-name: fabric-baseimage
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
 
 - project:
     name: fabric-baseimage-release-ppc64le
@@ -141,7 +141,7 @@
     project-name: fabric-baseimage
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
 
 - project:
     name: fabric-baseimage-thirdparty-release-ppc64le
@@ -180,7 +180,7 @@
     project-name: fabric-baseimage
     branch: master
     arch: 'x86_64'
-    build-node: 'hyp-x86_64'
+    build-node: 'hyp-x'
     mvn-settings: 'fabric-settings'
 
 - project:
