@@ -144,6 +144,7 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
+      - pull-images
       - fabric-fetch
       - provide-maven-settings:
           global-settings-file: 'global-settings'
