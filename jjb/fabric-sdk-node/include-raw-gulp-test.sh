@@ -12,7 +12,7 @@ cd $WD || exit
 #sed -i -e 's/127.0.0.1:7050\b/'"orderer:7050"'/g' $WD/common/configtx/tool/configtx.yaml
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "=======> FABRIC_COMMIT <======= $FABRIC_COMMIT"
-make peer-docker && make orderer-docker && make couchdb
+make peer-docker && make orderer-docker && make couchdb && make ccenv
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
