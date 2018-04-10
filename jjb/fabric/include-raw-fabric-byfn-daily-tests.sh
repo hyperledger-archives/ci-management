@@ -63,14 +63,21 @@ if [ $1 != 0 ]; then
 fi
 }
 
+echo "------> Deleting Containers...."
+# shellcheck disable=SC2046
+docker rm -f $(docker ps -aq)
+echo "------> List Docker Containers"
+docker ps -aq
+
 # Execute below tests
 echo "############## BYFN,EYFN DEFAULT TEST####################"
 echo "#########################################################"
-echo "Deleting Containers...."
-docker rm -f "$(docker ps -aq)"
+
 echo y | ./byfn.sh -m down
 echo y | ./byfn.sh -m generate
+copy_logs $? default-channel
 echo y | ./byfn.sh -m up -t 60
+copy_logs $? default-channel
 echo y | ./eyfn.sh -m up
 copy_logs $? default-channel
 echo y | ./eyfn.sh -m down
@@ -79,7 +86,9 @@ echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
 echo "#########################################################"
 
 echo y | ./byfn.sh -m generate -c custom-channel
+copy_logs $? custom-channel
 echo y | ./byfn.sh -m up -c custom-channel -t 60
+copy_logs $? custom-channel
 echo y | ./eyfn.sh -m up -c custom-channel -t 60
 copy_logs $? custom-channel
 echo y | ./eyfn.sh -m down
@@ -88,7 +97,9 @@ echo "############### BYFN,EYFN COUCHDB TEST #############"
 echo "####################################################"
 
 echo y | ./byfn.sh -m generate -c couchdbtest
+copy_logs $? custom_channel_couchdb couchdb
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+copy_logs $? custom_channel_couchdb couchdb
 echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
 copy_logs $? custom_channel_couchdb couchdb
 echo y | ./eyfn.sh -m down
@@ -97,6 +108,7 @@ echo "############### BYFN,EYFN NODE Chaincode TEST ################"
 echo "####################################################"
 
 echo y | ./byfn.sh -m up -l node -t 60
+copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m down

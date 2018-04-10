@@ -7,13 +7,28 @@ echo "-----> FABRIC_COMMIT : $FABRIC_COMMIT"
 echo "FABRIC_COMMIT ===========> $FABRIC_COMMIT" >> commit.log
 mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
 
-for IMAGES in docker release-clean release docker-thirdparty; do
-   make $IMAGES
-   if [ $? != 0 ]; then
-       echo "-------> make $IMAGES failed"
-       exit 1
-   fi
-done
+BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-1.0')
+echo "-----> $BRANCH_NAME"
+if [ ! -z "$BRANCH_NAME" ]; then
+
+     for IMAGES in docker release-clean release; do
+        make $IMAGES
+        if [ $? != 0 ]; then
+           echo "-------> make $IMAGES failed"
+           exit 1
+        fi
+     done
+
+else
+
+     for IMAGES in docker release-clean release docker-thirdparty; do
+         make $IMAGES
+         if [ $? != 0 ]; then
+            echo "-------> make $IMAGES failed"
+            exit 1
+         fi
+     done
+fi
 docker images | grep hyperledger
 
 # Clone fabric-ca git repository
