@@ -270,11 +270,20 @@ deb_add_apt_ppa() {
     apt-get -qq update
 }
 
+deb_install_haveged() {
+    echo '---> Install haveged'
+    # https://gerrit.hyperledger.org/r/#/c/16481/
+    apt-get install haveged
+    # configured to start on boot
+    update-rc.d haveged defaults
+}
+
 ubuntu_changes() {
     echo "---> Ubuntu changes"
     export DEBIAN_FRONTEND=noninteractive
 
     deb_install_go
+    deb_install_haveged
     deb_create_hyperledger_vardir
     deb_add_docker_repo
     deb_add_apt_ppa 'ppa:ubuntu-toolchain-r/test'
