@@ -1,7 +1,7 @@
 # Hyperledger Fabric CI Process
 
 This repository contains the CI Configuration for all repositories including **fabric, fabric-ca,
-fabric-sdk-node, fabric-api,  fabric-busybox,  fabric-sdk-py,  fabric-baseimage, cello,
+fabric-sdk-node, fabric-api, fabric-sdk-py,  fabric-baseimage, cello,
 fabric-chaintool, fabric-app and  fabric-sdk-java**.
 All the CI configuration is prepared in Jenkins job builders to create Jenkins Jobs.
 
