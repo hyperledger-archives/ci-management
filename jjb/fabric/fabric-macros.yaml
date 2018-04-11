@@ -130,7 +130,7 @@
           FABRIC_REPO_NAME=fabric
           WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
           rm -rf $WD
-          git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO_NAME $WD
+          git clone git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
           cd $WD
           git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
           FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
@@ -188,7 +188,7 @@
           FABRIC_REPO_NAME=fabric
           WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
           rm -rf $WD
-          git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_REPO_NAME $WD
+          git clone git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
           cd $WD && FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "FABRIC_COMMIT =========> $FABRIC_COMMIT"
           echo

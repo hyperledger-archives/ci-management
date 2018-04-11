@@ -52,7 +52,7 @@ WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 rm -rf $WD
 
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")

@@ -7,7 +7,7 @@ set -o pipefail
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples
 REPO_PATH="${WORKSPACE}/gopath/src/github.com/hyperledger"
 cd $REPO_PATH
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-samples
+git clone git://cloud.hyperledger.org/mirror/fabric-samples
 cd $REPO_PATH/fabric-chaincode-node
 
 rm -rf $NVM_DIR ~/.npm ~/.nvm

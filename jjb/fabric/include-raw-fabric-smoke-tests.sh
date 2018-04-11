@@ -5,7 +5,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-test
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-test"
 FABRIC_TEST_REPO_NAME=fabric-test
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$FABRIC_TEST_REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
 
 echo "=========> Install govendor"
 go get -u github.com/kardianos/govendor

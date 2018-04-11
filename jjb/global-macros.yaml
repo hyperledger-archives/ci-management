@@ -65,7 +65,7 @@
     name: conditional-parameter
     parameters:
       - string:
-          name: TIGGER_VALUE
+          name: TRIGGER_VALUE
           default: ''
           description: "Sets TRIGGER VALUE based on the condition assigned in the build check job"
 #

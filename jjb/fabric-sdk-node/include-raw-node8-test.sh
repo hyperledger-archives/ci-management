@@ -7,7 +7,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 REPO_NAME=fabric
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 set +e
 BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
@@ -62,7 +62,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD || exit
 set +e
 BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')

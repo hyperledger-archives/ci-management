@@ -12,7 +12,7 @@ set -e
 
        WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java"
        SDK_REPO_NAME=fabric-sdk-java
-       git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$SDK_REPO_NAME $WD
+       git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
        cd $WD
 set +e
       BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release*')

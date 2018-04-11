@@ -18,7 +18,7 @@ echo "--------> RELEASE_VERSION : $RELEASE_VERSION"
 # Delete temporary Makefile.
 rm -rf Makefile
 
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout v$RELEASE_VERSION
 curl -sSL https://goo.gl/6wtTN5 | bash -s $RELEASE_VERSION
