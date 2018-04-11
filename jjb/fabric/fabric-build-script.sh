@@ -35,7 +35,7 @@ fi
 
 # Verify if there are trailing spaces in the files.
 
-COMMIT_FILES=`git diff-tree --no-commit-id --name-only -r HEAD`
+COMMIT_FILES=`git diff-tree --no-commit-id --name-only -r HEAD | grep -Ev '(^|/)vendor/'`
 
 for filename in `echo $COMMIT_FILES`; do
   if [[ `file $filename` == *"ASCII text"* ]];
@@ -57,14 +57,14 @@ fi
 codeChange() {
 
              # Build docker images and perform build process
-             echo "-------> Perform make linter"
-             make linter
+             echo "-------> Perform make basic-checks (license spelling linter)"
+             make basic-checks
                     if [ $? = 0 ]; then
                          echo
                          echo "------> Build docker images"
                     else
                          echo "------> make linter FAILED"
-                         vote -m '"make linter failed"' -l F1-VerifyBuild=-1
+                         vote -m '"make basic-checks are failed"' -l F1-VerifyBuild=-1
                          exit 1
                     fi
              make docker
@@ -134,7 +134,7 @@ codeChange() {
 WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
 echo
 if [[ ! -z "$WIP" ]];then
-    echo '-------> Ignore this build'
+    echo '-------> Ignore WIP Build'
     vote -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
     DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.pptx|.css|.html|.ini')
