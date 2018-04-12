@@ -9,14 +9,18 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$SDK_REPO_NAME $WD
 cd $WD
-set +e
-BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
-echo "-----> $BRANCH_NAME"
-if [ ! -z "$BRANCH_NAME" ]; then
+
+# error check
+err_check() {
+echo "--------> $1 <---------"
+exit 1
+}
+
+# Checkout to GERRIT_BRANCH
+if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then # any release branch
       echo "-----> Checkout to $GERRIT_BRANCH branch"
       git checkout $GERRIT_BRANCH
 fi
-set -e
 echo "-----> $GERRIT_BRANCH"
 
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
@@ -35,26 +39,44 @@ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# Install nodejs version 8.9.4
-nvm install 8.9.4 || true
 
-# use nodejs 8.9.4 version
-nvm use --delete-prefix v8.9.4 --silent
+echo "-------> Install NodeJS"
+
+# Checkout to GERRIT_BRANCH
+if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # Only on release-1.0 branch
+    NODE_VER=6.9.5
+    # Install nodejs version $NODE_VER
+    nvm install $NODE_VER || true
+    # use nodejs 6.9.5 version
+    nvm use --delete-prefix v$NODE_VER --silent
+else
+    NODE_VER=8.9.4
+    echo "-----> use $NODE_VER for master and release-1.1 branches"
+    nvm install $NODE_VER || true
+    # use nodejs 8.9.4 version
+    nvm use --delete-prefix v$NODE_VER --silent
+fi
 
 echo "npm version ======>"
 npm -v
 echo "node version =======>"
 node -v
 
-npm install && npm config set prefix ~/npm && npm install -g gulp && npm install -g istanbul
-gulp || exit 1
-gulp ca || exit 1
-rm -rf node_modules/fabric-ca-client && npm install
+npm install || err_check "npm install failed"
+npm config set prefix ~/npm || exit 1
+npm install -g gulp || exit 1
+npm install -g istanbul || exit 1
 
-# Execute unit test and code coverage
-echo "############"
+gulp || err_check "gulp failed"
+gulp ca || err_check "gulp ca failed"
+
+rm -rf node_modules/fabric-ca-client && npm install || err_check "npm install failed"
+
+# Execute e2e tests and code coverage report
+
+echo "#######################################"
 echo "Run e2e tests and Code coverage report"
-echo "############"
+echo "#######################################"
 
 istanbul cover --report cobertura test/integration/e2e.js
 
