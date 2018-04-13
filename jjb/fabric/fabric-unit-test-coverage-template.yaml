@@ -41,7 +41,22 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric && time make profile
+          cd gopath/src/github.com/hyperledger/fabric
+          if [ $GERRIT_BRANCH = 'master' ]; then
+                for target in ccenv profile; do
+                   time make $target
+                      if [ $? != 0 ]; then
+                           echo "------> make $target failed"
+                           exit 1
+                      fi
+                done
+          else
+               time make profile
+                      if [ $? != 0 ]; then
+                           echo "------> make profile failed"
+                           exit 1
+                      fi
+          fi
 
     publishers:
       - lf-infra-publish

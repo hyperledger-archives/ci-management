@@ -4,14 +4,34 @@ set -o pipefail
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 
+# export go version
+export_Go() {
+GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+OS_VER=$(dpkg --print-architecture)
+export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+export PATH=$GOROOT/bin:$PATH
+echo "----> GO_VER" $GO_VER
+}
+
+# Error check
+err_Check() {
+echo "----> $1 <------"
+exit 1
+}
+
 # Clone & Build fabric docker images
 #####################################
 
 cd gopath/src/github.com/hyperledger/fabric
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "FABRIC_COMMIT ===========> $FABRIC_COMMIT" >> commit.log
+echo "FABRIC_COMMIT ------> $FABRIC_COMMIT" >> commit.log
 mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make docker && docker images | grep hyperledger
+
+# Call export_Go() fun
+export_Go
+
+# Build docker images
+make docker || err_Check "make docker failed"
 
 # Clone & Build fabric-ca docker images
 #######################################
@@ -22,8 +42,13 @@ CA_REPO_NAME=fabric-ca
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
 cd $WD
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
-make docker && docker images | grep hyperledger
-echo "CA COMMIT ========> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
+echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
+
+# Call export_Go() fun
+export_Go
+
+# Build docker images
+make docker || err_Check "make docker failed"
 
 ############################################
 #publish docker images to Nexus3 docker repo
@@ -33,34 +58,33 @@ cd $GOPATH/src/github.com/hyperledger/fabric
 
 IS_RELEASE=`cat Makefile | grep IS_RELEASE | awk '{print $3 }'`
 FABRIC_BASE_VERSION=`cat Makefile | grep "BASE_VERSION ="  | awk '{print $3}'`
-echo "=======> FABRIC_BASE_VERSION = $FABRIC_BASE_VERSION"
+echo "-------> FABRIC_BASE_VERSION = $FABRIC_BASE_VERSION"
 
 BASE_IMAGE_RELEASE=`cat Makefile | grep "BASEIMAGE_RELEASE=" | cut -d '=' -f 2`
-echo "=======> BASE_IMAGE_RELEASE = $BASE_IMAGE_RELEASE"
+echo "-------> BASE_IMAGE_RELEASE = $BASE_IMAGE_RELEASE"
 
 cd $GOPATH/src/github.com/hyperledger/fabric-ca
 CA_BASE_VERSION=`cat Makefile | grep "BASE_VERSION ="  | awk '{print $3}'`
-echo "=======> CA_BASE_VERSION = $CA_BASE_VERSION"
+echo "-------> CA_BASE_VERSION = $CA_BASE_VERSION"
 
 ARCH=`uname -m`
 FABRIC_TAG=$GIT_COMMIT
 FABRIC_DOCKER_TAG=${FABRIC_TAG:0:7}
-echo "=======> FABRIC_DOCKER_TAG = $FABRIC_DOCKER_TAG"
+echo "-------> FABRIC_DOCKER_TAG = $FABRIC_DOCKER_TAG"
 CA_TAG=$CA_COMMIT
 CA_DOCKER_TAG=${CA_TAG:0:7}
-echo "=======> CA_DOCKER_TAG = $CA_DOCKER_TAG"
-echo
-echo "==========> IS_RELEASE = $IS_RELEASE"
-if [ "$IS_RELEASE" == "true" ];
-then
+echo "-------> CA_DOCKER_TAG = $CA_DOCKER_TAG"
+echo "-------> IS_RELEASE = $IS_RELEASE"
+
+if [ "$IS_RELEASE" == "true" ]; then
     export FABRIC_TAG=$ARCH-$FABRIC_BASE_VERSION
     export CA_TAG=$ARCH-$CA_BASE_VERSION
-    echo "====> FABRIC_TAG: $FABRIC_TAG"
+    echo "-------> FABRIC_TAG: $FABRIC_TAG"
 else
     export FABRIC_TAG=$ARCH-$FABRIC_BASE_VERSION-snapshot-$FABRIC_DOCKER_TAG
-    echo "====> FABRIC_TAG: $FABRIC_TAG"
+    echo "-------> FABRIC_TAG: $FABRIC_TAG"
     export CA_TAG=$ARCH-$CA_BASE_VERSION-snapshot-$CA_DOCKER_TAG
-    echo "====> CA_TAG: $CA_TAG"
+    echo "-------> CA_TAG: $CA_TAG"
 fi
 
 dockerFabricTag() {
@@ -82,7 +106,6 @@ dockerFabricPush() {
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$FABRIC_TAG"
   done
 }
-
 dockerCaTag() {
   echo
   docker tag $ORG_NAME-ca:latest $NEXUS_URL/$ORG_NAME-ca:$CA_TAG
@@ -95,7 +118,6 @@ dockerCaPush() {
   docker push $NEXUS_URL/$ORG_NAME-ca
   echo "==> $NEXUS_URL/$ORG_NAME-ca:$CA_TAG"
 }
-
 dockerThirdPartyDockerTag() {
   for IMAGES in kafka zookeeper couchdb; do
      docker pull $ORG_NAME-$IMAGES:$ARCH-$BASE_IMAGE_RELEASE
