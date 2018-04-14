@@ -5,7 +5,7 @@
     scm:
       - git:
           credentials-id: 'hyperledger-jobbuilder'
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-chaincode-node'
+          url: 'git://cloud.hyperledger.org/mirror/fabric-chaincode-node'
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true

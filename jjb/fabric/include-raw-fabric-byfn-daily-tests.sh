@@ -10,7 +10,7 @@ REPO_NAME=fabric-samples
 CONTAINER_LIST=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 peer0.org3 peer1.org3 orderer)
 COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
 
-git clone https://gerrit.hyperledger.org/r/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
 echo "-------> GERRIT_BRANCH: $GERRIT_BRANCH"

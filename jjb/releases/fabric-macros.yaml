@@ -3,7 +3,7 @@
     name: hyperledger-fabric-baseimage
     scm:
       - git:
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+          url: 'git://cloud.hyperledger.org/mirror/fabric-baseimage'
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
@@ -15,7 +15,7 @@
     name: hyperledger-fabric-baseimage-release
     scm:
       - git:
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-baseimage'
+          url: 'git://cloud.hyperledger.org/mirror/fabric-baseimage'
           branches:
             - '*/tags/**'
           wipe-workspace: true
