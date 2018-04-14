@@ -114,7 +114,7 @@
     scm:
       - git:
           credentials-id: 'hyperledger-jobbuilder'
-          url: 'ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/fabric-chaincode-java'
+          url: 'git://cloud.hyperledger.org/mirror/fabric-chaincode-java'
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
