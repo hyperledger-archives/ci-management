@@ -16,17 +16,16 @@
 
 # Node SDK unit-test
 - builder:
-    name: sdk-node6-tests
+    name: sdk-node-tests
     builders:
       - shell:
-          !include-raw: include-raw-node6-test.sh
+          !include-raw: include-raw-sdk-node-tests.sh
 
-# Node SDK unit-test
 - builder:
-    name: sdk-node8-tests
+    name: sdk-node-tests-publish
     builders:
       - shell:
-          !include-raw: include-raw-node8-test.sh
+          !include-raw: include-raw-sdk-node-tests-publish.sh
 
 - builder:
     name: npm-publish

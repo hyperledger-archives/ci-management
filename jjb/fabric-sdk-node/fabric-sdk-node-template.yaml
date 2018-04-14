@@ -1,0 +1,144 @@
+---
+
+#####################
+# Verify Job Template
+#####################
+
+# gerrit changes
+- job-template:
+    name: '{project-name}-verify-{branch}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{build_node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - sdk-node-tests
+
+    publishers:
+      - log-artifacts
+      - lf-infra-publish
+      - sdk-node-coverage-report
+
+####################
+# Merge Job Template
+####################
+
+- job-template:
+    name: '{project-name}-merge-{branch}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{build_node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - hyperledger-fabric-sdk-node
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: '{branch}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - sdk-node-tests-publish
+
+    publishers:
+      - log-artifacts
+      - lf-infra-publish
+      - sdk-node-coverage-report
+
+- job-template:
+    name: 'fabric-sdk-node-npm-release-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - npm-release-publish
+
+    publishers:
+      - lf-infra-publish
