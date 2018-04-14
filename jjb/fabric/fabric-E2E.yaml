@@ -2,7 +2,6 @@
 - project:
     name: fabric-end-to-end
     jobs:
-      - 'fabric-verify-end-2-end-{arch}'
       - 'fabric-merge-end-2-end-{arch}'
 
     project: 'fabric'
@@ -10,58 +9,6 @@
       - 'x86_64'
 
 # gerrit changes
-
-- job-template:
-    name: 'fabric-verify-end-2-end-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    disabled: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - gerrit-trigger-patch-submitted-no-docs:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-e2e$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - dockerimages
-      - end-to-end-CLI
-      - end-to-end-NODE
-      - end-to-end-JAVA
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
 
 - job-template:
     name: 'fabric-merge-end-2-end-{arch}'

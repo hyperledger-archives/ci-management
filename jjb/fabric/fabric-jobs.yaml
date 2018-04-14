@@ -3,7 +3,6 @@
     name: fabric-jobs
     jobs:
       - 'fabric-merge-{arch}'
-      - 'fabric-verify-{arch}'
       - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-weekly-{arch}'
@@ -66,57 +65,6 @@
 
     publishers:
       - lf-infra-publish
-
-- job-template:
-    name: 'fabric-verify-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    disabled: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - gerrit-trigger-patch-submitted-no-docs:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - pull-images
-      - fabric-unit-tests
-
-    publishers:
-      - lf-infra-publish
-      - code-coverage-report
 
 - job-template:
     name: 'fabric-merge-{arch}'
