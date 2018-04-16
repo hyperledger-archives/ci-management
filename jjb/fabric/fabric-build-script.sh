@@ -55,16 +55,19 @@ then
 fi
 
 codeChange() {
-
-             # Build docker images and perform build process
-             echo "-------> Perform make basic-checks (license spelling linter)"
-             make basic-checks
+             CHECKS_CMD="make basic-checks"
+             if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch
+                 echo "------> make linter"
+                 CHECKS_CMD="make linter"
+             fi
+                 echo "------> $CHECKS_CMD"
+                 $CHECKS_CMD
                     if [ $? = 0 ]; then
                          echo
                          echo "------> Build docker images"
                     else
-                         echo "------> make linter FAILED"
-                         vote -m '"make basic-checks are failed"' -l F1-VerifyBuild=-1
+                         echo "------> $CHECKS_CMD FAILED"
+                         vote -m '"$CHECKS_CMD are failed"' -l F1-VerifyBuild=-1
                          exit 1
                     fi
              make docker
