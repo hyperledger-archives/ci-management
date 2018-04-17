@@ -101,3 +101,9 @@
     builders:
       - shell:
           !include-raw: include-raw-FIT-dockercaimages.sh
+
+- builder:
+    name: fabric-ca-safesql-scan
+    builders:
+      - shell:
+          !include-raw: include-raw-safesql-scan.sh
