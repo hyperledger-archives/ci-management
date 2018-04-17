@@ -146,7 +146,7 @@
          make ca || exit 1
          make pre-setup || exit 1
          make docker-images || exit 1
-         make daily-tests
+         make smoke-tests
 
     publishers:
       - lf-infra-publish
@@ -215,7 +215,7 @@
          make pre-setup || exit 1
          make docker-images || exit 1
          echo "=========> Run Smoke Tests..."
-         make daily-tests || exit 1
+         make smoke-tests || exit 1
 
     publishers:
       - lf-infra-publish

@@ -4,8 +4,14 @@ set -o pipefail
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
 MARCH=`uname -m`
-BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep BASEIMAGE_RELEASE= | cut -d "=" -f 2`
-echo "-----> BASEIMAGE_RELEASE: $BASEIMAGE_RELEASE"
+if [[ $GERRIT_BRANCH = 'release-1.0' ]]; then
+    # shellcheck disable=SC2046
+    BASEIMAGE_RELEASE="$(echo $(cat ./.baseimage-release))"
+    echo "------> $BASEIMAGE_RELEASE"
+else
+    BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep BASEIMAGE_RELEASE= | cut -d "=" -f 2`
+    echo "-----> BASEIMAGE_RELEASE: $BASEIMAGE_RELEASE"
+fi
 
 dockerTag() {
     for IMAGES in couchdb kafka zookeeper; do
