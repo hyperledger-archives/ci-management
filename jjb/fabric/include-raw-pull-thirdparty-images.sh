@@ -5,7 +5,7 @@ ORG_NAME="hyperledger/fabric"
 # tag fabric images
 MARCH=`uname -m`
 if [[ $GERRIT_BRANCH = 'release-1.0' ]]; then
-    BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/.baseimage-release`
+    BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep "PREV_VERSION =" | cut -d " " -f 3`
     echo "------> $BASEIMAGE_RELEASE"
 else
     BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep BASEIMAGE_RELEASE= | cut -d "=" -f 2`
