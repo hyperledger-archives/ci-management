@@ -6,6 +6,7 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-smoke-test-daily-{arch}'
       - 'fabric-test-daily-{arch}'
+      - 'fabric-test-svt-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -61,7 +62,7 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init || exit 1
+         make git-init && make git-latest || exit 1
          make fabric || exit 1
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
@@ -128,7 +129,7 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init || exit 1
+         make git-init && make git-latest || exit 1
          make fabric || exit 1
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
@@ -199,7 +200,8 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init && make fabric
+         make git-init && make git-latest || exit 1
+         make fabric
 
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
@@ -265,7 +267,7 @@
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
 
-         make git-init || exit 1
+         make git-init && make git-latest || exit 1
          make fabric || exit 1
 
          GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
@@ -284,6 +286,51 @@
          make docker-images || exit 1
          echo "=======> Run Daily test suite..."
          make daily-tests || exit 1
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
+
+- job-template:
+    name: 'fabric-test-svt-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H 3 * * *'
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - svt-tests
 
     publishers:
       - lf-infra-publish

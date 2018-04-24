@@ -502,6 +502,16 @@
       - shell:
           !include-raw: include-raw-fabric-byfn-release-tests.sh
 
+- builder:
+    name: nexus-publish
+    builders:
+      - shell: !include-raw: jjb/fabric/include-raw-fabric-nexus-publish.sh
+
+- builder:
+    name: svt-tests
+    builders:
+      - shell: !include-raw: jjb/fabric/include-raw-svt-tests.sh
+
 - publisher:
     name: log-artifacts
     publishers:

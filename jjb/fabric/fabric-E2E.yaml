@@ -7,6 +7,7 @@
     project: 'fabric'
     arch:
       - 'x86_64'
+    mvn-settings: 'fabric-settings'
 
 # gerrit changes
 
@@ -56,6 +57,12 @@
       - end-to-end-CLI
       - end-to-end-NODE
       - end-to-end-JAVA
+      - end-to-end-BYFN
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - nexus-publish
 
     publishers:
       - lf-infra-publish
