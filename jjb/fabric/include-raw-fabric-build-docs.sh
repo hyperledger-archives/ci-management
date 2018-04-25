@@ -36,7 +36,7 @@ vote(){
 
 post_Result() {
 if [ $1 = 0 ]; then
-     vote -m '"Succeeded: view documents: $LOGS_SERVER/$SILO/$JENKINS_HOSTNAME/$JOB_BASE_NAME/$BUILD_NUMBER/html"' -l F2-DocBuild=+1
+     vote -m '"Succeeded"' -l F2-DocBuild=+1
 else
      vote -m '"Failed"' -l F2-DocBuild=-1
      exit 1
