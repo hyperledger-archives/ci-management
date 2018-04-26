@@ -36,7 +36,7 @@ vote(){
 
 post_Result() {
 if [ $1 = 0 ]; then
-     vote -m '"Succeeded"' -l F2-DocBuild=+1
+     vote -m '"Succeeded. View staged documentation on the logs server linked below."' -l F2-DocBuild=+1
 else
      vote -m '"Failed"' -l F2-DocBuild=-1
      exit 1
