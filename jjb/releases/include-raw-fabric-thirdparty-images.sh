@@ -1,7 +1,8 @@
 #!/bin/bash
 set -o pipefail
 
-DEPENDENT_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-couchdb | sed 's/.*:\(.*\)]/\1/')
+MARCH=$(go env GOARCH)
+DEPENDENT_TAG=$MARCH-$(make -f Makefile -f <(printf 'p:\n\t@echo $(VERSION)\n') p)
 echo "DEPENDENT_TAG Images TAG ID is: " $DEPENDENT_TAG
 echo
 ORG_NAME="hyperledger/fabric"
