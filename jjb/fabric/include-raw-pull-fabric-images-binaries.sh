@@ -5,7 +5,7 @@ set -o pipefail
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
-MARCH=$(uname -m)
+MARCH=$(go env GOARCH)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
 export VERSION=1.1.0-beta

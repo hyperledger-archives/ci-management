@@ -22,7 +22,7 @@ vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0
 
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
-MARCH=$(uname -m)
+MARCH=$(go env GOARCH)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
 cd ${GOPATH}/src/github.com/hyperledger/fabric

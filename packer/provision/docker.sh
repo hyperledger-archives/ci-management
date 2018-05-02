@@ -107,12 +107,11 @@ deb_docker_pull_baseimage() {
 
     # List of images to be generated and pushed
     export IMAGES_LIST=(couchdb kafka zookeeper baseimage baseos)
-    for THIRDPARTY_IMAGE_VERSION in 0.4.6 0.4.7; do
         echo "---> Pulling Thirdparty Images"
         for image in ${IMAGES_LIST[*]}; do
-            docker pull hyperledger/fabric-$image:x86_64-$THIRDPARTY_IMAGE_VERSION
+            docker pull hyperledger/fabric-$image:amd64-0.4.8
+            docker pull hyperledger/fabric-$image:x86_64-0.4.7
         done
-    done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
 }

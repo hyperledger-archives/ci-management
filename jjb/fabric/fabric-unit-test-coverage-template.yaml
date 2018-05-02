@@ -34,8 +34,8 @@
 
     builders:
       - clean-environment
-      - pull-images
       - 'golang-environment-{arch}'
+      - pull-images
       - output-environment
       - shell: |
           #!/bin/bash -eu

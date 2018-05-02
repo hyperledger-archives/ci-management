@@ -67,7 +67,7 @@ cd $GOPATH/src/github.com/hyperledger/fabric-ca
 CA_BASE_VERSION=`cat Makefile | grep "BASE_VERSION ="  | awk '{print $3}'`
 echo "-------> CA_BASE_VERSION = $CA_BASE_VERSION"
 
-ARCH=`uname -m`
+ARCH=$(go env GOARCH)
 FABRIC_TAG=$GIT_COMMIT
 FABRIC_DOCKER_TAG=${FABRIC_TAG:0:7}
 echo "-------> FABRIC_DOCKER_TAG = $FABRIC_DOCKER_TAG"
