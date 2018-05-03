@@ -71,6 +71,59 @@ byfn_Result() {
    fi
 }
 # Execute below tests
+
+if [ $GERRIT_BRANCH != "release-1.0" ]; then
+echo
+echo "======> DEFAULT CHANNEL <======"
+
+echo y | ./byfn.sh -m down
+post_Result $?
+echo y | ./byfn.sh -m generate
+post_Result $?
+echo y | ./byfn.sh -m up -t 10
+post_Result $?
+echo y | ./eyfn.sh -m up -t 10
+post_Result $?
+echo y | ./eyfn.sh -m down
+post_Result $?
+
+echo
+echo "======> CUSTOM CHANNEL <======="
+
+echo y | ./byfn.sh -m generate -c fabricrelease
+post_Result $?
+echo y | ./byfn.sh -m up -c fabricrelease -t 10
+post_Result $?
+echo y | ./eyfn.sh -m up -c fabricrelease -t 10
+post_Result $?
+echo y | ./eyfn.sh -m down
+post_Result $?
+
+echo
+echo "======> CouchDB tests <======="
+
+echo y | ./byfn.sh -m generate -c couchdbtest
+post_Result $?
+echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
+post_Result $?
+echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 10
+post_Result $?
+echo y | ./eyfn.sh -m down
+post_Result $?
+echo
+echo "======> NODE Chaincode tests <======="
+
+echo y | ./byfn.sh -m generate -l node
+post_Result $?
+echo y | ./byfn.sh -m up -l node -t 10
+post_Result $?
+echo y | ./eyfn.sh -m up -l node -t 10
+post_Result $?
+echo y | ./eyfn.sh -m down
+byfn_Result $?
+
+else
+
 echo
 echo "======> DEFAULT CHANNEL <======"
 
@@ -93,7 +146,6 @@ post_Result $?
 echo y | ./byfn.sh -m down
 post_Result $?
 
-
 echo
 echo "======> CouchDB tests <======="
 
@@ -102,5 +154,15 @@ post_Result $?
 echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
 post_Result $?
 echo y | ./byfn.sh -m down
+post_Result $?
+echo
+echo "======> NODE Chaincode tests <======="
+
+echo y | ./byfn.sh -m generate -l node
+post_Result $?
+echo y | ./byfn.sh -m up -l node -t 10
+post_Result $?
+echo y | ./byfn.sh -m down
 byfn_Result $?
+fi
 set -e
