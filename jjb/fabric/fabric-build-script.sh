@@ -67,7 +67,7 @@ codeChange() {
                          echo "------> Build docker images"
                     else
                          echo "------> $CHECKS_CMD FAILED"
-                         vote -m '"$CHECKS_CMD are failed"' -l F1-VerifyBuild=-1
+                         vote -m "$CHECKS_CMD are failed" -l F1-VerifyBuild=-1
                          exit 1
                     fi
              make docker
