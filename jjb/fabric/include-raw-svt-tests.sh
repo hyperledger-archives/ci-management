@@ -45,7 +45,7 @@ echo "-------> Images fetched from Nexus <--------"
 docker images | grep "hyperledger*"
 echo
 rm -rf .build && mkdir -p .build && cd .build
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/linux-amd64-stable-$BINARY_TAG/hyperledger-fabric-stable-linux-amd64-stable-$BINARY_TAG.tar.gz | tar xz
+curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/linux-amd64-stable-$COMMIT/hyperledger-fabric-stable-linux-amd64-stable-$COMMIT.tar.gz | tar xz
 export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/fabric/.build/bin/:$PATH
 echo
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test

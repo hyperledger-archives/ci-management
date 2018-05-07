@@ -11,11 +11,41 @@ vote(){
           "$@"
 }
 
-post_Result() {
-   if [ $1 != 0 ]; then
-         vote -m '"Failed"' -l F2-SmokeTest=-1
-         exit 1
-   fi
+artifacts() {
+
+    echo "---> Archiving generated logs"
+    rm -rf $WORKSPACE/archives
+    mkdir -p "$WORKSPACE/archives"
+    mv "$WORKSPACE/Docker_Container_Logs" $WORKSPACE/archives/
+}
+
+# Capture docker logs of each container
+logs() {
+
+for CONTAINER in ${CONTAINER_LIST[*]}; do
+    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+    echo
+done
+
+if [ ! -z $2 ]; then
+
+    for CONTAINER in ${COUCHDB_CONTAINER_LIST[*]}; do
+        docker logs $CONTAINER >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+        echo
+    done
+fi
+}
+
+copy_logs() {
+
+# Call logs function
+logs $2 $3
+
+if [ $1 != 0 ]; then
+    artifacts
+    vote -m "Failed" -l F2-SmokeTest=-1
+    exit 1
+fi
 }
 
 vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0
@@ -25,7 +55,7 @@ ORG_NAME="hyperledger/fabric"
 MARCH=$(go env GOARCH)
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
-cd ${GOPATH}/src/github.com/hyperledger/fabric
+cd ${GOPATH}/src/github.com/hyperledger/fabric || exit
 VERSION=$(make -f Makefile -f <(printf 'p:\n\t@echo $(BASE_VERSION)\n') p)
 echo "------> BASE_VERSION = $VERSION"
 
@@ -34,9 +64,9 @@ dockerTag() {
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG
-    post_Result $?
+    copy_logs $?
     docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG $ORG_NAME-$IMAGES
-    post_Result $?
+    copy_logs $?
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG"
   done
 }
@@ -59,7 +89,7 @@ FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-------> FABRIC_SAMPLES_COMMIT = $FABRIC_SAMPLES_COMMIT"
 curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$CCENV_TAG/hyperledger-fabric-build-linux-amd64-$CCENV_TAG.tar.gz | tar xz
 
-cd first-network
+cd first-network || exit
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 
 byfn_Result() {
@@ -73,96 +103,81 @@ byfn_Result() {
 # Execute below tests
 
 if [ $GERRIT_BRANCH != "release-1.0" ]; then
-echo
-echo "======> DEFAULT CHANNEL <======"
+          echo
+          echo "======> DEFAULT CHANNEL <======"
+          echo y | ./byfn.sh -m down
+          copy_logs $?
+          echo y | ./byfn.sh -m generate
+          copy_logs $? default-channel
+          echo y | ./byfn.sh -m up -t 60
+          copy_logs $? default-channel
+          echo y | ./eyfn.sh -m up -t 60
+          copy_logs $? default-channel
+          echo y | ./eyfn.sh -m down
+          echo
+          echo "======> CUSTOM CHANNEL <======="
+          echo y | ./byfn.sh -m generate -c fabricrelease
+          copy_logs $? custom-channel
+          echo y | ./byfn.sh -m up -c fabricrelease -t 60
+          copy_logs $? custom-channel
+          echo y | ./eyfn.sh -m up -c fabricrelease -t 60
+          copy_logs $? custom-channel
+          echo y | ./eyfn.sh -m down
 
-echo y | ./byfn.sh -m down
-post_Result $?
-echo y | ./byfn.sh -m generate
-post_Result $?
-echo y | ./byfn.sh -m up -t 10
-post_Result $?
-echo y | ./eyfn.sh -m up -t 10
-post_Result $?
-echo y | ./eyfn.sh -m down
-post_Result $?
+          echo
+          echo "======> CouchDB tests <======="
 
-echo
-echo "======> CUSTOM CHANNEL <======="
+          echo y | ./byfn.sh -m generate -c couchdbtest
+          copy_logs $? custom-channel-couch couchdb
+          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+          copy_logs $? custom-channel-couch couchdb
+          echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
+          copy_logs $? custom-channel-couch couchdb
+          echo y | ./eyfn.sh -m down
+          echo
 
-echo y | ./byfn.sh -m generate -c fabricrelease
-post_Result $?
-echo y | ./byfn.sh -m up -c fabricrelease -t 10
-post_Result $?
-echo y | ./eyfn.sh -m up -c fabricrelease -t 10
-post_Result $?
-echo y | ./eyfn.sh -m down
-post_Result $?
+          echo "======> NODE Chaincode tests <======="
+          echo y | ./byfn.sh -m generate -l node
+          copy_logs $? default-channel-node
+          echo y | ./byfn.sh -m up -l node -t 60
+          copy_logs $? default-channel-node
+          echo y | ./eyfn.sh -m up -l node -t 60
+          copy_logs $? default-channel-node
+          echo y | ./eyfn.sh -m down
 
-echo
-echo "======> CouchDB tests <======="
-
-echo y | ./byfn.sh -m generate -c couchdbtest
-post_Result $?
-echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
-post_Result $?
-echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 10
-post_Result $?
-echo y | ./eyfn.sh -m down
-post_Result $?
-echo
-echo "======> NODE Chaincode tests <======="
-
-echo y | ./byfn.sh -m generate -l node
-post_Result $?
-echo y | ./byfn.sh -m up -l node -t 10
-post_Result $?
-echo y | ./eyfn.sh -m up -l node -t 10
-post_Result $?
-echo y | ./eyfn.sh -m down
-byfn_Result $?
-
+          echo "############### FABRIC-CA SAMPLES TEST ########################"
+          echo "###############################################################"
+          cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
+          ./start.sh && ./stop.sh
 else
 
-echo
-echo "======> DEFAULT CHANNEL <======"
+          echo
+          echo "======> DEFAULT CHANNEL <======"
 
-echo y | ./byfn.sh -m down
-post_Result $?
-echo y | ./byfn.sh -m generate
-post_Result $?
-echo y | ./byfn.sh -m up -t 10
-post_Result $?
-echo y | ./byfn.sh -m down
-post_Result $?
+          echo y | ./byfn.sh -m down
+          copy_logs $?
+          echo y | ./byfn.sh -m generate
+          copy_logs $? default-channel
+          echo y | ./byfn.sh -m up -t 60
+          copy_logs $? default-channel
+          echo y | ./byfn.sh -m down
 
-echo
-echo "======> CUSTOM CHANNEL <======="
+          echo
+          echo "======> CUSTOM CHANNEL <======="
 
-echo y | ./byfn.sh -m generate -c fabricrelease
-post_Result $?
-echo y | ./byfn.sh -m up -c fabricrelease -t 10
-post_Result $?
-echo y | ./byfn.sh -m down
-post_Result $?
+          echo y | ./byfn.sh -m generate -c fabricrelease
+          copy_logs $? custom-channel
+          echo y | ./byfn.sh -m up -c fabricrelease -t 60
+          copy_logs $? custom-channel
+          echo y | ./byfn.sh -m down
 
-echo
-echo "======> CouchDB tests <======="
+          echo
+          echo "======> CouchDB tests <======="
 
-echo y | ./byfn.sh -m generate -c couchdbtest
-post_Result $?
-echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 10
-post_Result $?
-echo y | ./byfn.sh -m down
-post_Result $?
-echo
-echo "======> NODE Chaincode tests <======="
+          echo y | ./byfn.sh -m generate -c couchdbtest
+          copy_logs $? custom-channel-couchdb couchdb
+          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+          copy_logs $? custom-channel-couchdb couchdb
+          echo y | ./byfn.sh -m down
 
-echo y | ./byfn.sh -m generate -l node
-post_Result $?
-echo y | ./byfn.sh -m up -l node -t 10
-post_Result $?
-echo y | ./byfn.sh -m down
-byfn_Result $?
 fi
-set -e
