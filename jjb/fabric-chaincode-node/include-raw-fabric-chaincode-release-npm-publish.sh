@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 
 # This script supports only stable fabric-client and fabric-ca-client npm modules
 # publish snapshot version through merge jobs
