@@ -70,9 +70,7 @@ dockerTag() {
     echo "==> $IMAGES"
     echo
     docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG
-    copy_logs $?
     docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG $ORG_NAME-$IMAGES
-    copy_logs $?
     echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$CCENV_TAG"
   done
 }
@@ -153,6 +151,7 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
           echo y | ./eyfn.sh -m up -l node -t 60
           copy_logs $? default-channel-node
           echo y | ./eyfn.sh -m down
+          byfn_Result $?
 
 else
 
@@ -184,5 +183,6 @@ else
           echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
           copy_logs $? custom-channel-couchdb couchdb
           echo y | ./byfn.sh -m down
+          byfn_Result $?
 
 fi
