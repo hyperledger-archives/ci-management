@@ -1,8 +1,14 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # RUN END-to-END Tests
 ######################
-set +e
+
+# docker container list
+CONTAINER_LIST=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 peer0.org3 peer1.org3 orderer)
+COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
+
+# Create Logs directory
+mkdir -p $WORKSPACE/Docker_Container_Logs
 
 vote(){
      ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
@@ -92,6 +98,9 @@ curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger
 cd first-network || exit
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 
+#Set INFO to DEBUG
+sed -it 's/INFO/DEBUG/' base/peer-base.yaml
+
 byfn_Result() {
    if [ $1 = 0 ]; then
          vote -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
@@ -129,9 +138,9 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
           echo y | ./byfn.sh -m generate -c couchdbtest
           copy_logs $? custom-channel-couch couchdb
-          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 90
           copy_logs $? custom-channel-couch couchdb
-          echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
+          echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 90
           copy_logs $? custom-channel-couch couchdb
           echo y | ./eyfn.sh -m down
           echo
