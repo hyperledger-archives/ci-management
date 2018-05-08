@@ -30,24 +30,6 @@ versions() {
 }
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-chaincode-node
-
-# Install nvm to install multi node versions
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
-# shellcheck source=/dev/null
-export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# Install nodejs version 8.9.4
-nvm install 8.9.4 || true
-
-# use nodejs 8.9.4 version
-nvm use --delete-prefix v8.9.4 --silent
-
-echo "npm version ======>"
-npm -v
-echo "node version =======>"
-node -v
-
 npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 
 cd src

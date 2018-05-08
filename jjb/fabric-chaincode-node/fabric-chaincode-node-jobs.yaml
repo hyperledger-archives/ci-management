@@ -245,6 +245,8 @@
     builders:
       - clean-environment
       - output-environment
+      - chaincode-node-docker-images
+      - chaincode-node-tests
       - chaincode-release-npm-publish
 
     publishers:
