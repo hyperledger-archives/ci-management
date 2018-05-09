@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 
 #################################################
 #Publish npm module as unstable after merge commit

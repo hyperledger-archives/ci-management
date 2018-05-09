@@ -434,6 +434,7 @@
     builders:
       - clean-environment
       - output-environment
+      - sdk-node8-tests
       - npm-release-publish
 
     publishers:
