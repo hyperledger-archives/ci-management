@@ -6,6 +6,7 @@ jenkins.ini
 
 # Maven
 target/
+docs/_build/*
 
 # Vagrant
 .vagrant
@@ -19,6 +20,6 @@ target/
 \.\#*
 \#*
 
-
+.tox/
 # virtualenv for local testing when test jjb jobs
 .venv

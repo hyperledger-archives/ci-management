@@ -1,2 +1,16 @@
 ---
-project_cfg: lfdocs
+project_cfg: ci-management
+project: ci-management
+release: 1.0.0
+version: 1.0.0
+author: Hyperledger ci-management Project
+exclude_patterns:
+  - .DS_Store
+  - _build
+  - Thumbs.db
+extensions:
+  - sphinx.ext.autodoc
+  - sphinx.ext.doctest
+  - sphinx.ext.intersphinx
+  - sphinx.ext.todo
+  - sphinx.ext.viewcode
