@@ -1,0 +1,24 @@
+---
+- project:
+    name: fabric-docs
+    jobs:
+      - gerrit-rtd-verify:
+          project-name: fabric-docs
+          project-pattern: fabric-docs
+          build-node: hyp-x
+          build-timeout: 30
+          stream: 'job'
+          branch: ''
+          rtd-project: hyperledger-fabric-docs
+
+          gerrit_trigger_file_paths:
+            - compare-type: ANT
+              pattern: '**/*.md'
+            - compare-type: ANT
+              pattern: '**/*.rst'
+            - compare-type: ANT
+              pattern: '**/*.txt'
+            - compare-type: ANT
+              pattern: '**/conf.py'
+
+    project: 'fabric-docs'
