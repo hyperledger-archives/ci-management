@@ -50,7 +50,7 @@
           timeout: '20'
 
     builders:
-      - verify-commit-message
+      - chaincode-java-commit-checks
       - output-environment
       - shell: |
          #!/bin/bash -exu
@@ -101,7 +101,7 @@
           timeout: '20'
 
     builders:
-      - verify-commit-message
+      - chaincode-java-commit-checks
       - output-environment
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'

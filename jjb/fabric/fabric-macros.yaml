@@ -578,34 +578,6 @@
                 unhealthy: 6
 
 - publisher:
-    name: chaincode-java-jacoco-coverage-report
-    publishers:
-      - jacoco:
-          exec-pattern: '**/**.exec'
-          class-pattern: '**/classes'
-          source-pattern: '**/src/main/java'
-          inclusion-pattern: '**/*.class'
-          targets:
-            - instruction:
-                healthy: 7
-                unhealthy: 1
-            - branch:
-                healthy: 8
-                unhealthy: 2
-            - complexity:
-                healthy: 9
-                unhealthy: 3
-            - line:
-                healthy: 10
-                unhealthy: 4
-            - method:
-                healthy: 11
-                unhealthy: 5
-            - class:
-                healthy: 12
-                unhealthy: 6
-
-- publisher:
     name: ca-code-coverage-report
     publishers:
       - cobertura:
@@ -631,16 +603,6 @@
                 healthy: 80
                 unhealthy: 75
                 failing: 0
-
-- publisher:
-    name: java-chaincode-coverage-report
-    publishers:
-      - html-publisher:
-          name: "Test Summary"
-          dir: "$WORKSPACE/fabric-chaincode-shim/build/reports/tests/test"
-          files: "index.html"
-          keep-all: true
-          link-to-last-build: true
 
 - publisher:
     name: behave-test-results
