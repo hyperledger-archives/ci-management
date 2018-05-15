@@ -115,12 +115,6 @@
             PATH=$GOROOT/bin:$PATH
 
 - builder:
-    name: conditional-parameter-builder
-    builders:
-      - inject:
-          properties-file: env.properties
-
-- builder:
     name: pull-fabric
     builders:
       - shell: |
@@ -135,48 +129,6 @@
           git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
           FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "FABRIC_COMMIT ========> $FABRIC_COMMIT"
-
-- builder:
-    name: conditional-step1
-    builders:
-      - conditional-step:
-          condition-kind: strings-match
-          condition-string1: $TRIGGER_VALUE
-          condition-string2: nothing
-          condition-case-insensitive: true
-          steps:
-            - shell: echo "=======> IGNORE WIP BUILD <======="
-
-- builder:
-    name: conditional-step2
-    builders:
-      - conditional-step:
-          condition-kind: strings-match
-          condition-string1: $TRIGGER_VALUE
-          condition-string2: SMOKE
-          condition-case-insensitive: true
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-verify-byfn-checks-x86_64
-                  property-file: env.properties
-                  predefined-parameters: |
-                     GERRIT_REFSPEC=$GERRIT_REFSPEC
-
-- builder:
-    name: conditional-step3
-    builders:
-      - conditional-step:
-          condition-kind: current-status
-          condition-worst: FAILURE
-          condition-best: SUCCESS
-          on-evaluation-failure: fail
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-verify-unit-tests-x86_64
-                  predefined-parameters: |
-                     GERRIT_REFSPEC=$GERRIT_REFSPEC
 
 - builder:
     name: fabric-pull
@@ -309,12 +261,6 @@
           !include-raw: include-raw-ppc64le-docker-image-deploy.sh
 
 - builder:
-    name: fabric-behave-tests
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-behave.sh
-
-- builder:
     name: dockerimages
     builders:
       - shell:
@@ -390,21 +336,6 @@
           set -e
 
 - builder:
-    name: fabric-tests
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test/regression/daily
-          #Comment out behave tests from DailyTestSuite.sh
-          sed -i '16,19 s/^/#/' runDailyTestSuite.sh
-          ./runDailyTestSuite.sh
-
-          # Copy .csv files to $WORKSPACE directory
-          cp -r /tmp/experiments .
-
-- builder:
     name: release-tests
     builders:
       - shell: |
@@ -425,6 +356,7 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-release-behave-tests.sh
+
 - builder:
     name: push-fabric-binaries
     builders:
@@ -469,22 +401,6 @@
           #!/bin/bash -exu
           set -o pipefail
           time make install
-
-- builder:
-    name: conditional-builder
-    builders:
-      - conditional-step:
-          condition-kind: always
-          steps:
-            - shell: cd fabric-test/cello/src/agent/ansible && ansible-playbook -e "mode=destroy cloud_type=os env=lfos" provcluster.yml
-
-- builder:
-    name: conditional-builder-logs
-    builders:
-      - conditional-step:
-          condition-kind: always
-          steps:
-            - shell: !include-raw: jjb/fabric/include-raw-artifact-logs.sh
 
 - builder:
     name: end-to-end-BYFN
@@ -603,12 +519,6 @@
                 healthy: 80
                 unhealthy: 75
                 failing: 0
-
-- publisher:
-    name: behave-test-results
-    publishers:
-      - junit:
-          results: 'gopath/src/github.com/hyperledger/fabric/bddtests/reports/*.xml'
 
 - publisher:
     name: daily-test-results

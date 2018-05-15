@@ -61,13 +61,6 @@
           default: '{commit}'
           description: "GIT_COMMIT parameter if not given by trigger"
 
-- parameter:
-    name: conditional-parameter
-    parameters:
-      - string:
-          name: TRIGGER_VALUE
-          default: ''
-          description: "Sets TRIGGER VALUE based on the condition assigned in the build check job"
 #
 ########
 # SCMS #
