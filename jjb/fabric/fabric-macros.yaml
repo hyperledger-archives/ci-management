@@ -181,126 +181,126 @@
 - builder:
     name: fabric-build-artifacts
     builders:
-      - shell: !include-raw: jjb/fabric/fabric-build-script.sh
+      - shell: !include-raw: jjb/fabric/shell/fabric-build-script.sh
 
 - builder:
     name: pull-images-binaries
     builders:
-      - shell: !include-raw: include-raw-pull-fabric-images-binaries.sh
+      - shell: !include-raw: shell/include-raw-pull-fabric-images-binaries.sh
 
 - builder:
     name: buildimages
     builders:
       - shell:
-          !include-raw: include-raw-buildimages.sh
+          !include-raw: shell/include-raw-buildimages.sh
 
 - builder:
     name: pull-images
     builders:
       - shell:
-          !include-raw: include-raw-pull-thirdparty-images.sh
+          !include-raw: shell/include-raw-pull-thirdparty-images.sh
 
 - builder:
     name: build-docker-images
     builders:
       - shell:
-          !include-raw: include-raw-fabric-build-docker-images.sh
+          !include-raw: shell/include-raw-fabric-build-docker-images.sh
 
 - builder:
     name: pull-repos
     builders:
       - shell:
-          !include-raw: include-raw-fabric-clone-repos.sh
+          !include-raw: shell/include-raw-fabric-clone-repos.sh
 
 - builder:
     name: publish-dev-stable-images
     builders:
       - shell:
-          !include-raw: include-raw-publish-dev-images.sh
+          !include-raw: shell/include-raw-publish-dev-images.sh
 
 - builder:
     name: publish-daily-binaries
     builders:
       - shell:
-          !include-raw: include-raw-publish-daily-binaries.sh
+          !include-raw: shell/include-raw-publish-daily-binaries.sh
 
 - builder:
     name: release-docker-images
     builders:
       - shell:
-          !include-raw: include-raw-fabric-release-docker-images.sh
+          !include-raw: shell/include-raw-fabric-release-docker-images.sh
 
 - builder:
     name: nexus-docker-images
     builders:
       - shell:
-          !include-raw: include-raw-nexus-docker-images.sh
+          !include-raw: shell/include-raw-nexus-docker-images.sh
 
 - builder:
     name: clean-environment
     builders:
       - shell:
-          !include-raw: include-raw-fabric-clean-environment.sh
+          !include-raw: jjb/common-scripts/include-raw-fabric-clean-environment.sh
 
 - builder:
     name: fabric-x86_64-docker-deploy
     builders:
       - shell:
-          !include-raw: include-raw-x86_64-docker-image-deploy.sh
+          !include-raw: shell/include-raw-x86_64-docker-image-deploy.sh
 
 - builder:
     name: fabric-s390x-docker-deploy
     builders:
       - shell:
-          !include-raw: include-raw-s390x-docker-image-deploy.sh
+          !include-raw: shell/include-raw-s390x-docker-image-deploy.sh
 
 - builder:
     name: fabric-ppc64le-docker-deploy
     builders:
       - shell:
-          !include-raw: include-raw-ppc64le-docker-image-deploy.sh
+          !include-raw: shell/include-raw-ppc64le-docker-image-deploy.sh
 
 - builder:
     name: dockerimages
     builders:
       - shell:
-          !include-raw: include-raw-FIT-dockerimages.sh
+          !include-raw: shell/include-raw-FIT-dockerimages.sh
 
 - builder:
     name: end-to-end-CLI
     builders:
       - shell:
-          !include-raw: include-raw-FIT-CLI-e2e.sh
+          !include-raw: shell/include-raw-FIT-CLI-e2e.sh
 
 - builder:
     name: end-to-end-NODE
     builders:
       - shell:
-          !include-raw: include-raw-FIT-NODE-e2e.sh
+          !include-raw: shell/include-raw-FIT-NODE-e2e.sh
 
 - builder:
     name: end-to-end-JAVA
     builders:
       - shell:
-          !include-raw: include-raw-FIT-JAVA-e2e.sh
+          !include-raw: shell/include-raw-FIT-JAVA-e2e.sh
 
 - builder:
     name: nexus-stable-docker-push
     builders:
       - shell:
-          !include-raw: include-raw-nexus-stable-docker-push.sh
+          !include-raw: shell/include-raw-nexus-stable-docker-push.sh
 
 - builder:
     name: fabric-build-check
     builders:
       - shell:
-          !include-raw: include-raw-verify-commit-checks.sh
+          !include-raw: shell/include-raw-verify-commit-checks.sh
 
 - builder:
     name: fabric-nexus-docker-release
     builders:
       - shell:
-          !include-raw: include-raw-fabric-nexus-docker-release.sh
+          !include-raw: shell/include-raw-fabric-nexus-docker-release.sh
 
 - builder:
     name: fabric-unit-tests
@@ -355,37 +355,37 @@
     name: release-behave-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-release-behave-tests.sh
+          !include-raw: shell/include-raw-fabric-release-behave-tests.sh
 
 - builder:
     name: push-fabric-binaries
     builders:
       - shell:
-          !include-raw: include-raw-fabric-push-fabric-binaries.sh
+          !include-raw: shell/include-raw-fabric-push-fabric-binaries.sh
 
 - builder:
     name: push-stable-fabric-binaries
     builders:
       - shell:
-          !include-raw: include-raw-fabric-push-stable-binaries.sh
+          !include-raw: shell/include-raw-fabric-push-stable-binaries.sh
 
 - builder:
     name: push-fabric-byfn
     builders:
       - shell:
-          !include-raw: include-raw-fabric-push-fabric-byfn.sh
+          !include-raw: shell/include-raw-fabric-push-fabric-byfn.sh
 
 - builder:
     name: fabric-smoke-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-smoke-tests.sh
+          !include-raw: shell/include-raw-fabric-smoke-tests.sh
 
 - builder:
     name: pull-fabric-images-binaries
     builders:
       - shell:
-          !include-raw: include-raw-pull-fabric-images-binaries.sh
+          !include-raw: shell/include-raw-pull-fabric-images-binaries.sh
 - builder:
     name: fabric-busybox-test
     builders:
@@ -405,28 +405,28 @@
 - builder:
     name: end-to-end-BYFN
     builders:
-      - shell: !include-raw: jjb/fabric/include-raw-fabric-byfn-daily-tests.sh
+      - shell: !include-raw: shell/include-raw-fabric-byfn-daily-tests.sh
 
 - builder:
     name: clone-fabric-samples
     builders:
-      - shell: !include-raw: jjb/fabric/include-raw-fabric-samples-clone.sh
+      - shell: !include-raw: shell/include-raw-fabric-samples-clone.sh
 
 - builder:
     name: fabric-byfn-release-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-byfn-release-tests.sh
+          !include-raw: shell/include-raw-fabric-byfn-release-tests.sh
 
 - builder:
     name: nexus-publish
     builders:
-      - shell: !include-raw: jjb/fabric/include-raw-fabric-nexus-publish.sh
+      - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
 - builder:
     name: svt-tests
     builders:
-      - shell: !include-raw: jjb/fabric/include-raw-svt-tests.sh
+      - shell: !include-raw: shell/include-raw-svt-tests.sh
 
 - publisher:
     name: log-artifacts
@@ -572,4 +572,4 @@
 - builder:
     name: fabric-docs-build-comment
     builders:
-      - shell: !include-raw: include-raw-fabric-build-docs.sh
+      - shell: !include-raw: shell/include-raw-fabric-build-docs.sh
