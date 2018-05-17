@@ -107,3 +107,25 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-safesql-scan.sh
+
+- builder:
+    name: fabric-ca-goast-scan
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          cd gopath/src/github.com/hyperledger/fabric-ca
+             go get github.com/GoASTScanner/gas/cmd/gas/...
+             mv vendor/ vendor1/
+          for packages in api cmd lib util vendor1; do
+             gas -fmt=json -out=$packages.json ./$packages/...
+          done
+
+- publisher:
+    name: ca-daily-goast-scan-results
+    publishers:
+      - archive:
+          artifacts: 'gopath/src/github.com/hyperledger/fabric-ca/*.json'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true

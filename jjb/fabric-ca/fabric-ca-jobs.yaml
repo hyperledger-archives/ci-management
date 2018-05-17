@@ -9,6 +9,7 @@
       - 'fabric-ca-binaries-{arch}'
       - 'fabric-ca-verify-end-2-end-{arch}'
       - 'fabric-ca-merge-end-2-end-{arch}'
+      - 'fabric-ca-goast-weekly-{arch}'
       - 'fabric-ca-safesql-weekly-{arch}'
       - gerrit-rtd-verify:
           project-name: fabric-ca
@@ -436,6 +437,53 @@
     publishers:
       - lf-infra-publish
       - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'ashku@us.ibm.com'
+          output_format: '**/*.json'
+          developer-email: 'developers'
+
+- job-template:
+    name: 'fabric-ca-goast-weekly-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: '@weekly'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '5'
+
+    builders:
+      - clean-environment
+      - 'ca-golang-environment-{arch}'
+      - output-environment
+      - fabric-ca-goast-scan
+
+    publishers:
+      - lf-infra-publish
+      - ca-daily-goast-scan-results
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: '**/*.json'
