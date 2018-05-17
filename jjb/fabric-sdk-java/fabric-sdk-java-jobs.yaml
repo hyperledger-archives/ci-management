@@ -316,3 +316,7 @@
       - lf-infra-publish
       - java-sdk-logs
       - OWASP-results
+      - fabric-email-notification:
+          email-ids: 'ashku@us.ibm.com'
+          output_format: '**/*.json'
+          developer-email: 'developers'

@@ -181,3 +181,33 @@
     arch: 's390x'
     build_node: 'z'
     build_timeout: 60
+
+#############
+# Release Job
+#############
+
+- project:
+    name: fabric-sdk-node-npm-release-x86_64
+    jobs:
+      - '{project-name}-npm-release-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node
+    branch: master
+    build_timeout: 60
+    arch: 'x86_64'
+
+
+##################
+# Vuleneable Tests
+##################
+
+- project:
+    name: fabric-sdk-node-vulnerable-tests-x86_64
+    jobs:
+      - '{project-name}-vulnerable-tests-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node
+    branch: master
+    arch: 'x86_64'
