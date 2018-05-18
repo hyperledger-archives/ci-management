@@ -21,10 +21,10 @@
     name: fabric-byfn-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-samples-byfn-e2e.sh
+          !include-raw: shell/include-raw-fabric-samples-byfn-e2e.sh
 
 - builder:
     name: fabric-byfn-smoke-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-samples-byfn-smoke.sh
+          !include-raw: shell/include-raw-fabric-samples-byfn-smoke.sh
