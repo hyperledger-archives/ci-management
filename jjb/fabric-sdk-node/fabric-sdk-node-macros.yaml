@@ -19,37 +19,31 @@
     name: sdk-node-tests
     builders:
       - shell:
-          !include-raw: include-raw-sdk-node-tests.sh
+          !include-raw: shell/include-raw-sdk-node-tests.sh
 
 - builder:
     name: sdk-node-tests-publish
     builders:
       - shell:
-          !include-raw: include-raw-sdk-node-tests-publish.sh
-
-- builder:
-    name: npm-publish
-    builders:
-      - shell:
-          !include-raw: include-raw-npm-publish.sh
+          !include-raw: shell/include-raw-sdk-node-tests-publish.sh
 
 - builder:
     name: npm-release-publish
     builders:
       - shell:
-          !include-raw: include-raw-npm-release-publish.sh
+          !include-raw: shell/include-raw-npm-release-publish.sh
 
 - builder:
     name: gulp-doc
     builders:
       - shell:
-          !include-raw: include-raw-publish-doc.sh
+          !include-raw: shell/include-raw-publish-doc.sh
 
 - builder:
     name: fabric-sdk-node-vulnerable-tests
     builders:
       - shell:
-          !include-raw: include-raw-vulnerable-tests.sh
+          !include-raw: shell/include-raw-vulnerable-tests.sh
 
 # Node SDK Cobertura coverage report
 - publisher:
