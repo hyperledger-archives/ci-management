@@ -26,7 +26,7 @@
     name: push-fabric-ca-binaries
     builders:
       - shell:
-          !include-raw: include-raw-push-fabric-ca-binaries.sh
+          !include-raw: shell/include-raw-push-fabric-ca-binaries.sh
 
 - builder:
     name: ca-clone
@@ -100,10 +100,10 @@
     name: dockercaimages
     builders:
       - shell:
-          !include-raw: include-raw-FIT-dockercaimages.sh
+          !include-raw: shell/include-raw-FIT-dockercaimages.sh
 
 - builder:
     name: fabric-ca-safesql-scan
     builders:
       - shell:
-          !include-raw: include-raw-safesql-scan.sh
+          !include-raw: shell/include-raw-safesql-scan.sh
