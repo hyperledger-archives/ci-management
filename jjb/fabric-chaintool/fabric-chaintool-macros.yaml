@@ -18,4 +18,4 @@
     name: push-chaintool-binaries
     builders:
       - shell:
-          !include-raw: include-raw-fabric-push-chaintool-binaries.sh
+          !include-raw: shell/include-raw-fabric-push-chaintool-binaries.sh
