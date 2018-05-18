@@ -106,7 +106,7 @@
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
-      - shell: !include-raw-escape: include-raw-publish-nexus-gradle.sh
+      - shell: !include-raw-escape: shell/include-raw-publish-nexus-gradle.sh
 
     publishers:
       - chaincode-java-jacoco-coverage-report

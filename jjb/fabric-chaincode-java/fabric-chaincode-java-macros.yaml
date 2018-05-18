@@ -50,4 +50,4 @@
     name: chaincode-java-commit-checks
     builders:
       - shell:
-          !include-raw: include-raw-chaincode-java-commit-checks.sh
+          !include-raw: shell/include-raw-chaincode-java-commit-checks.sh
