@@ -1,0 +1,6 @@
+---
+
+- builder:
+    name: svt-tests
+    builders:
+      - shell: !include-raw: shell/include-raw-svt-tests.sh
