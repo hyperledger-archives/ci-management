@@ -24,7 +24,7 @@
     name: fabric-sdk-go-integration-tests
     builders:
       - shell:
-          !include-raw: include-raw-fabric-dependencies.sh
+          !include-raw: shell/include-raw-fabric-dependencies.sh
 
 - builder:
     name: fabric-sdk-go-golang-environment-x86_64
