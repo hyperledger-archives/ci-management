@@ -339,7 +339,6 @@
       - 'ca-golang-environment-{arch}'
       - output-environment
       - dockercaimages
-      - end-to-end-CLI
       - end-to-end-NODE
       - end-to-end-JAVA
 
@@ -388,7 +387,6 @@
       - 'ca-golang-environment-{arch}'
       - output-environment
       - dockercaimages
-      - end-to-end-CLI
       - end-to-end-NODE
       - end-to-end-JAVA
 

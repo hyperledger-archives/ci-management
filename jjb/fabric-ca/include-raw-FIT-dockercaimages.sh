@@ -1,13 +1,13 @@
 #!/bin/bash -eu
 set -o pipefail
 
-echo "=========>Build FABRIC_CA Images<=========="
+echo "=========>Build FABRIC_CA Image<=========="
 cd $GOPATH/src/github.com/hyperledger/fabric-ca
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "CA_COMMIT ===========> $CA_COMMIT" >> commit.log
 echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
 mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make docker
+make docker-fabric-ca
 if [ $? != 0 ]; then
    echo "------> make docker failed"
    exit 1
