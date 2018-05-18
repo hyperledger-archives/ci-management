@@ -423,11 +423,6 @@
     builders:
       - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
-- builder:
-    name: svt-tests
-    builders:
-      - shell: !include-raw: shell/include-raw-svt-tests.sh
-
 - publisher:
     name: log-artifacts
     publishers:
