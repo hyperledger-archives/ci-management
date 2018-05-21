@@ -48,7 +48,7 @@ echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperl
 export_Go
 
 # Build docker images
-make docker || err_Check "make docker failed"
+make docker-fabric-ca || err_Check "make docker-fabric-ca failed"
 
 ############################################
 #publish docker images to Nexus3 docker repo

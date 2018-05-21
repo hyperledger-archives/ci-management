@@ -53,7 +53,7 @@ export GOROOT=/opt/go/go$GO_VER.linux.amd64
 export PATH=$GOROOT/bin:$PATH
 echo "----> GO_VER" $GO_VER
 set -x
-make docker
+make docker-fabric-ca
 docker images | grep hyperledger
 
 # Move to fabric-sdk-java repository and execute SDK end-to-end tests

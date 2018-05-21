@@ -52,9 +52,9 @@ CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
 
 #### Build Docker Images
-make docker
+make docker-fabric-ca
 if [ $? != 0 ]; then
-   echo "-------> make docker failed"
+   echo "-------> make docker-fabric-ca failed"
    exit 1
 fi
 docker images | grep hyperledger

@@ -55,9 +55,9 @@ CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "======> CA_COMMIT_LEVEL $CA_COMMIT_LEVEL"
 
 # Build CA Docker Images
-make docker
+make docker-fabric-ca
 if [ $? != 0 ]; then
-   echo "--------> make docker failed"
+   echo "--------> make docker-fabric-ca failed"
    exit 1
 fi
 docker images | grep hyperledger

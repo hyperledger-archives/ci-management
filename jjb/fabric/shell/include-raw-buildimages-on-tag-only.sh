@@ -29,4 +29,4 @@ git fetch --tags --progress git://cloud.hyperledger.org/mirror/$CA_REPO_NAME +re
 caLatestTag="$(git describe --tags "`git rev-list --tags --max-count=1`")"
 echo "===> Checkingout to $caLatestTag"
 git checkout $caLatestTag
-make docker && docker images | grep hyperledger
+make docker-fabric-ca && docker images | grep hyperledger
