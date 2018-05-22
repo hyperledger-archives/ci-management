@@ -53,15 +53,21 @@ echo "-------> Install NodeJS"
 # Checkout to GERRIT_BRANCH
 if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # Only on release-1.0 branch
     NODE_VER=6.9.5
-    # Install nodejs version $NODE_VER
-    nvm install $NODE_VER || true
+    echo "------> Use $NODE_VER for release-1.0 branch"
+    nvm install $NODE_VER
     # use nodejs 6.9.5 version
     nvm use --delete-prefix v$NODE_VER --silent
-else
+elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"* ]]; then # only on release-1.2 or release-1.1 branches
     NODE_VER=8.9.4
-    echo "-----> use $NODE_VER for master and release-1.1 branches"
-    nvm install $NODE_VER || true
+    echo "------> Use $NODE_VER for release-1.1 and release-1.2 branches"
+    nvm install $NODE_VER
     # use nodejs 8.9.4 version
+    nvm use --delete-prefix v$NODE_VER --silent
+ else
+    NODE_VER=8.11.3
+    echo "------> Use $NODE_VER for master"
+    nvm install $NODE_VER
+    # use nodejs 8.11.3 version
     nvm use --delete-prefix v$NODE_VER --silent
 fi
 

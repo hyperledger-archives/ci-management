@@ -22,11 +22,11 @@ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | 
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-# Install nodejs version 8.9.4
-nvm install 8.9.4 || true
-
-# use nodejs 8.9.4 version
-nvm use --delete-prefix v8.9.4 --silent
+# Install nodejs version 8.11.3
+NODE_VER=8.11.3
+nvm install $NODE_VER
+# use nodejs 8.11.3 version
+nvm use --delete-prefix v8.11.3 --silent
 
 echo "npm version ======>"
 npm -v

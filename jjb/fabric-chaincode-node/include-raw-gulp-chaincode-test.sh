@@ -25,11 +25,32 @@ export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
-# Install nodejs version 8.9.4
-nvm install 8.9.4 || true
+echo "------> Install NodeJS"
 
-# Use nodejs 8.9.4 version
-nvm use --delete-prefix v8.9.4 --silent
+# Checkout to GERRIT_BRANCH
+if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # Only on release-1.0 branch
+    NODE_VER=6.9.5
+    echo "------> Use $NODE_VER for release-1.0 branch"
+    nvm install $NODE_VER
+
+    # use nodejs 8.9.4 version
+    nvm use --delete-prefix v$NODE_VER --silent
+elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"* ]]; then # only on release-1.2 or release-1.1 branches
+    NODE_VER=8.9.4
+    echo "------> Use $NODE_VER for release-1.1 and release-1.2 branches"
+    nvm install $NODE_VER
+
+    # use nodejs 8.9.4 version
+    nvm use --delete-prefix v$NODE_VER --silent
+ else
+    NODE_VER=8.11.3
+    echo "------> Use $NODE_VER for master"
+    nvm install $NODE_VER
+
+    # use nodejs 8.11.3 version
+    nvm use --delete-prefix v$NODE_VER --silent
+fi
+
 echo "npm version ===>"
 npm -v
 echo "Node version ====>"

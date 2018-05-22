@@ -20,7 +20,7 @@
     # Default parameters #
     ######################
 
-    node-version: '8.9.4'
+    node-version: '8.11.3'
     nvm-version: '0.33.2'
 
     #####################
