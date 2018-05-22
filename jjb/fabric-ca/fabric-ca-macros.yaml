@@ -108,6 +108,7 @@
       - shell:
           !include-raw: shell/include-raw-safesql-scan.sh
 
+# Inspects source code for security problems by scanning the Go AST.
 - builder:
     name: fabric-ca-goast-scan
     builders:
@@ -115,9 +116,12 @@
           #!/bin/bash
 
           cd gopath/src/github.com/hyperledger/fabric-ca
-             go get github.com/GoASTScanner/gas/cmd/gas/...
-             mv vendor/ vendor1/
-          for packages in api cmd lib util vendor1; do
+          go get github.com/GoASTScanner/gas/cmd/gas/...
+          mv vendor/ vendor1/
+          cp -r vendor1/vendor.json vendor1.json
+
+          for packages in api lib util cmd vendor1; do
+             echo "---------> GoAST check on $packages"
              gas -fmt=json -out=$packages.json ./$packages/...
           done
 

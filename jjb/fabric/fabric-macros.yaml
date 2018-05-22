@@ -561,6 +561,7 @@
           default-excludes: false
           allow-empty: true
 
+# Inspects source code for security problems by scanning the Go AST.
 - builder:
     name: fabric-goast-scan
     builders:
@@ -568,9 +569,12 @@
           #!/bin/bash
 
           cd gopath/src/github.com/hyperledger/fabric
+          mv vendor/ vendor1/
+          echo "------> Running the Go AST scan for security problems in source code."
           go get github.com/GoASTScanner/gas/cmd/gas/...
-          for packages in bccsp common core events gossip idemix msp orderer peer protos; do
-          gas -fmt=json -out=$packages.json ./$packages/...
+
+          for packages in bccsp common core events gossip idemix msp orderer peer protos vendor1; do
+             gas -fmt=json -out=$packages.json ./$packages/...
           done
 
 - publisher:
