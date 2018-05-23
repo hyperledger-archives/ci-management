@@ -310,6 +310,7 @@
           set -o pipefail
           cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
 
+# Macro for fabric unit-test job
 - builder:
     name: fabric-unit-tests-verification
     builders:
@@ -334,6 +335,36 @@
               exit 1
           fi
           set -e
+
+# Macro for fabric integration test job
+- builder:
+    name: fabric-integration-tests-verification
+    builders:
+      - shell: |
+          #!/bin/bash -x
+
+          vote(){
+               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+                    $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+                    --notify '"NONE"' \
+                    "$@"
+          }
+
+          vote -m '"Starting Integration tests"' -l F3-IntegrationTest=0
+          cd gopath/src/github.com/hyperledger/fabric && time make testenv && cd integration && time go test ./...
+          res=$(echo $?)
+          if [ $res = 0 ]; then
+              vote -m '"Succeeded"' -l F3-IntegrationTest=+1
+          else
+              vote -m '"Failed"' -l F3-IntegrationTest=-1
+              exit 1
+          fi
+
+- builder:
+    name: pull-nexus-fabric-docker-images
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-pull-nexus-images.sh
 
 - builder:
     name: release-tests
