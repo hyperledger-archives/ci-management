@@ -10,6 +10,7 @@
       - 'fabric-end-2-end-daily-master-{arch}'
       - 'fabric-dev-stable-images-{arch}'
       - 'fabric-verify-build-checks-{arch}'
+      - 'fabric-verify-integration-tests-{arch}'
       - 'fabric-docs-build-{arch}'
 
     project: 'fabric'
@@ -254,7 +255,54 @@
 
     publishers:
       - lf-infra-publish
-      - code-coverage-report
+
+- job-template:
+    name: 'fabric-verify-integration-tests-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$branch'
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    triggers:
+      - gerrit-comment-trigger:
+          name: '{project}'
+          branch: ''
+          trigger-comment: 'Run IntegrationTest'
+
+    builders:
+      - clean-environment
+      - fabric-fetch
+      - 'golang-environment-{arch}'
+      - output-environment
+      - pull-images
+      - pull-nexus-fabric-docker-images
+      - fabric-integration-tests-verification
+
+    publishers:
+      - lf-infra-publish
 
 - job-template:
     name: 'fabric-end-2-end-daily-master-{arch}'
