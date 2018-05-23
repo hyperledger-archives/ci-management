@@ -4,3 +4,9 @@
     name: svt-tests
     builders:
       - shell: !include-raw: shell/include-raw-svt-tests.sh
+
+- builder:
+    name: pte-dockerimage-publish
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-pte-publish.sh

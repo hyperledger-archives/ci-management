@@ -7,6 +7,7 @@
       - 'fabric-smoke-test-daily-{arch}'
       - 'fabric-test-daily-{arch}'
       - 'fabric-test-svt-{arch}'
+      - 'fabric-test-pte-publish-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -336,3 +337,40 @@
       - lf-infra-publish
       - daily-test-results
       - test-logs
+
+- job-template:
+    name: 'fabric-test-pte-publish-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '50'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - docker-login
+      - pte-dockerimage-publish
