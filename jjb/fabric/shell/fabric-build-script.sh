@@ -144,10 +144,10 @@ else
            elif [ ! -z "$DOC_CHANGE" ] && [ ! -z "$CODE_CHANGE" ]; then # Code and Doc change
                     echo "------> Code and Doc change, trigger just doc and smoketest build jobs"
                     codeChange
-                    vote -m '"Succeeded, Run DocBuild, Run SmokeTest"' -l F1-VerifyBuild=+1
+                    vote -m '"Succeeded, Run DocBuild, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F3-IntegrationTest=+1
                else  # only code change
                     echo "------> Only code change, trigger smoketest build job"
                     codeChange
-                    vote -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
+                    vote -m '"Succeeded, Run SmokeTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1 -l F3-IntegrationTest=+1
            fi
 fi
