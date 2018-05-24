@@ -372,5 +372,8 @@
     builders:
       - clean-environment
       - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
       - docker-login
       - pte-dockerimage-publish
