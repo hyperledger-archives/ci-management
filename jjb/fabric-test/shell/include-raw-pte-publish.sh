@@ -26,7 +26,7 @@ dockerPTEPush() {
   echo "==> $ORG_NAME-pte"
   echo
   docker push $NEXUS_URL/$ORG_NAME-pte:$STABLE_TAG
-  docker push $NEXUS_URL/$ORG_NAME-pte:$STABLE-$COMMIT_TAG
+  docker push $NEXUS_URL/$ORG_NAME-pte:$STABLE_TAG-$COMMIT_TAG
   echo
   echo "==> $NEXUS_URL/$ORG_NAME-pte:$STABLE_TAG"
 }
