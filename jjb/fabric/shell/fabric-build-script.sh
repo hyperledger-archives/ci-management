@@ -16,7 +16,7 @@ vote(){
           "$@"
 }
 
-vote -m '"Starting verify build"' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 F3-IntegrationTest=0 -l F2-DocBuild=0
+vote -m '"Starting verify build"' -l F1-VerifyBuild=0 -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F3-IntegrationTest=0 -l F2-DocBuild=0
 
 JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
 if [[ ! -z "$JIRA_LINK" ]]
@@ -140,7 +140,7 @@ else
     echo "------> CODE_CHANGE = $CODE_CHANGE"
            if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
                   echo "------> Only Doc change, trigger documentation build"
-                  vote -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F2-SmokeTest=+1 -l F3-UnitTest=+1 F3-IntegrationTest=+1
+                  vote -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F2-SmokeTest=+1 -l F3-UnitTest=+1 -l F3-IntegrationTest=+1
            elif [ ! -z "$DOC_CHANGE" ] && [ ! -z "$CODE_CHANGE" ]; then # Code and Doc change
                     echo "------> Code and Doc change, trigger just doc and smoketest build jobs"
                     codeChange
