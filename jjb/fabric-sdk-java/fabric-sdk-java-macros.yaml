@@ -50,7 +50,7 @@
     publishers:
       - html-publisher:
           name: "OWSP Dependency Check Results"
-          dir: "$WORKSPACE"
+          dir: "$WORKSPACE/target"
           files: "dependency-check-report.html"
           keep-all: true
 

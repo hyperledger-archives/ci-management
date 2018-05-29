@@ -70,14 +70,5 @@ source cirun.sh
 
 cd $WD
 
-echo "=========================================="
-echo "=========================================="
-echo "========> OWSP Dependency Check <========="
-echo "========> Publish HTML Report <==========="
-echo "=========================================="
-echo "=========================================="
-curl -fSL https://dl.bintray.com/jeremy-long/owasp/dependency-check-3.0.2-release.zip -o dependency-check-3.0.2-release.zip
-unzip -q dependency-check-3.0.2-release.zip
-
-./dependency-check/bin/dependency-check.sh --project Testing -f HTML --out . --scan ./target
-tar cvf - target | xz -9zke >target.xz
+echo "------> Publishing OWSP Dependency Check html Report"
+mvn -P owasp verify
