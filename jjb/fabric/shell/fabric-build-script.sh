@@ -134,9 +134,9 @@ if [[ ! -z "$WIP" ]];then
     echo '-------> Ignore WIP Build'
     vote -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
-    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md|.rst|.txt|conf.py|.png|.pptx|.css|.html|.ini')
+    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
     echo "------> DOC_CHANGE = $DOC_CHANGE"
-    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md|.rst|.txt|conf.py|.png|.pptx|.css|.html|.ini')
+    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
     echo "------> CODE_CHANGE = $CODE_CHANGE"
            if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
                   echo "------> Only Doc change, trigger documentation build"
