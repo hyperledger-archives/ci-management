@@ -351,7 +351,7 @@
           }
 
           vote -m '"Starting Integration tests"' -l F3-IntegrationTest=0
-          cd gopath/src/github.com/hyperledger/fabric && time make testenv && cd integration && time go test ./...
+          cd gopath/src/github.com/hyperledger/fabric && time make integration-test
           res=$(echo $?)
           if [ $res = 0 ]; then
               vote -m '"Succeeded"' -l F3-IntegrationTest=+1
