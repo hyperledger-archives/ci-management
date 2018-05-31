@@ -3,7 +3,6 @@
     name: fabric-jobs
     jobs:
       - 'fabric-merge-{arch}'
-      - 'fabric-nexus-docker-release-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-goast-weekly-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
@@ -21,10 +20,10 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-nexus-docker-release-{arch}'
+    name: '{project-name}-nexus-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: '{build-node}'
     concurrent: true
 
     properties:
@@ -45,10 +44,6 @@
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
-
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
@@ -57,6 +52,7 @@
     builders:
       - clean-environment
       - output-environment
+      - 'golang-environment-{arch}'
       - buildimages
       - provide-maven-settings:
           global-settings-file: 'global-settings'

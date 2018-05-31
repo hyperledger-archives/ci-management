@@ -300,7 +300,7 @@
     name: fabric-nexus-docker-release
     builders:
       - shell:
-          !include-raw: shell/include-raw-fabric-nexus-docker-release.sh
+          !include-raw: shell/include-raw-fabric-nexus-docker-images.sh
 
 - builder:
     name: fabric-unit-tests

@@ -1,0 +1,29 @@
+---
+####
+# fabric release jobs on x and z arch
+# These jobs triggers manually
+####
+
+- project:
+    name: fabric-nexus-release-s390x
+    jobs:
+      - '{project-name}-nexus-release-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: 's390x'
+    build-node: 'hyp-z'
+
+
+- project:
+    name: fabric-nexus-release-x86_64
+    jobs:
+      - '{project-name}-nexus-release-{arch}'
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x'

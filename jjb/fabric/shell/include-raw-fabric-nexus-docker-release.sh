@@ -4,7 +4,7 @@ set -o pipefail
 
 FABRIC_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-peer | sed 's/.*:\(.*\)]/\1/')
 
-NEXUS_URL=nexus3.hyperledger.org:10003
+NEXUS_URL=nexus3.hyperledger.org:10002
 ORG_NAME="hyperledger/fabric"
 # tag fabric images to nexusrepo
 
