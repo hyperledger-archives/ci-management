@@ -3,6 +3,15 @@ set -o pipefail
 
 NEXUS_URL=nexus3.hyperledger.org:10002
 ORG_NAME="hyperledger/fabric"
+ARCH=$(dpkg --print-architecture)
+
+if [ $ARCH = s390x ]; then
+   echo "--------> $ARCH"
+   ARCH=s390x
+else
+   ARCH=amd64
+   echo "----------> $ARCH"
+fi
 
 docker_Fabric_Thirdparty_Push() {
 
@@ -22,10 +31,10 @@ docker_Fabric_Push() {
   # shellcheck disable=SC2043
   for IMAGES in peer orderer ccenv tools; do
     echo "==> $IMAGES"
-    docker tag $ORG_NAME-$IMAGES:$1 $NEXUS_URL/$ORG_NAME-$IMAGES:amd64-$2
-    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:amd64-$2
+    docker tag $ORG_NAME-$IMAGES:$1 $NEXUS_URL/$ORG_NAME-$IMAGES:$2-$3
+    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$2-$3
     echo
-    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:amd64-$2"
+    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$2-$3"
     echo
   done
 }
@@ -44,7 +53,7 @@ if [ -z "$BRANCH" ] && [ -z "$REFSPEC" ]; then
 
      REL_VER=$(echo $FABRIC_TAG | cut -d "-" -f2)
      echo "------> REL_VER = $REL_VER"
-     docker_Fabric_Push $FABRIC_TAG $REL_VER
+     docker_Fabric_Push $FABRIC_TAG $ARCH $REL_VER
 else
      # Push Fabric & Thirdparty Docker Images from $BRANCH branch
      echo "-----> Release tag: $GERRIT_REFSPEC"
@@ -56,7 +65,7 @@ else
 
      REL_VER=$(echo $FABRIC_TAG | cut -d "-" -f2)
      echo "------> REL_VER = $REL_VER"
-     docker_Fabric_Push $FABRIC_TAG $REL_VER
+     docker_Fabric_Push $FABRIC_TAG $ARCH $REL_VER
 
      THIRDPARTY_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-kafka | sed 's/.*:\(.*\)]/\1/')
      echo "FABRIC Images TAG ID is: " $THIRDPARTY_TAG

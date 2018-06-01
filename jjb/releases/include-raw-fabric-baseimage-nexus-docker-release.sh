@@ -4,7 +4,7 @@ set -o pipefail
 
 BASE_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-baseimage | sed 's/.*:\(.*\)]/\1/')
 echo "======> $BASE_TAG"
-NEXUS_URL=nexus3.hyperledger.org:10003
+NEXUS_URL=nexus3.hyperledger.org:10002
 ORG_NAME="hyperledger/fabric"
 
 # Push docker images to nexus docker repository
