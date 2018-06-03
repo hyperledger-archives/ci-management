@@ -105,5 +105,6 @@ https://jira.hyperledger.org/issues/?filter=11500
 
    source/fabric_sdk_node_process
    source/fabric_ca_process
+   source/fabric_sdk_java_process
 
 .. TODO Add all needed topics
