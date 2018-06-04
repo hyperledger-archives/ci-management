@@ -58,7 +58,15 @@ vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F3-Integr
 
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
-MARCH=$(go env GOARCH)
+
+if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then
+   MARCH=x86_64
+   echo "----------> MARCH:" $MARCH
+else
+   MARCH=amd64
+   echo "----------> MARCH:" $MARCH
+fi
+
 TAG=$GIT_COMMIT
 export CCENV_TAG=${TAG:0:7}
 cd ${GOPATH}/src/github.com/hyperledger/fabric || exit
