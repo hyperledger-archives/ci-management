@@ -103,4 +103,6 @@ https://jira.hyperledger.org/issues/?filter=11500
    :maxdepth: 2
    :caption: CI Process
 
+   source/fabric_sdk_node_process
+
 .. TODO Add all needed topics
