@@ -54,7 +54,7 @@ if [ $1 != 0 ]; then
 fi
 }
 
-vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0
+vote -m '"Starting smoke tests"' -l F2-SmokeTest=0 -l F3-UnitTest=0 -l F3-IntegrationTest=0
 
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
@@ -101,7 +101,7 @@ sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 
 byfn_Result() {
    if [ $1 = 0 ]; then
-         vote -m '"Succeeded, Run UnitTest"' -l F2-SmokeTest=+1
+         vote -m '"Succeeded, Run UnitTest, Run IntegrationTest"' -l F2-SmokeTest=+1
    else
          vote -m '"Failed"' -l F2-SmokeTest=-1
          exit 1
