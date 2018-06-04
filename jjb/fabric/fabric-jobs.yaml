@@ -53,7 +53,6 @@
       - clean-environment
       - output-environment
       - 'golang-environment-{arch}'
-      - buildimages
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
