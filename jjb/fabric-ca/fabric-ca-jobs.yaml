@@ -35,6 +35,49 @@
       - 'x86_64'
     mvn-settings: 'fabric-ca-settings'
 
+- job-template:
+    name: 'fabric-ca-master-rel-1.1-nexus-release-{arch}'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '70'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'ca-golang-environment-{arch}'
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-ca-nexus-docker-release
+
+    publishers:
+      - lf-infra-publish
+
 # publish fabric-binaries
 - job-template:
     name: 'fabric-ca-binaries-{arch}'
