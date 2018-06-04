@@ -1,157 +1,71 @@
 ---
+###
+# fabric-samples verify jobs on x
+# These jobs triggers on gerrit "patchset created" event
+###
+
+
+##############
+# Verify Jobs
+##############
+
 - project:
-    name: fabric-samples-jobs
+    name: fabric-samples-verify-byfn-release-1.1-x86_64
     jobs:
-      - 'fabric-byfn-merge-{arch}'
-      - 'fabric-byfn-verify-{arch}'
-      - 'fabric-smoke-tests-{arch}'
+      - '{project-name}-verify-byfn-{branch}-{arch}'
 
-    project: 'fabric-samples'
-    arch:
-      - 'x86_64'
-    mvn-settings: 'fabric-settings'
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.1
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x'
+    comment2: 'reverify$'
+    build_timeout: 60
 
-- job-template:
-    name: 'fabric-byfn-verify-{arch}'
+- project:
+    name: fabric-samples-verify-byfn-release-1.0-x86_64
+    jobs:
+      - '{project-name}-verify-byfn-{branch}-{arch}'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.0
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
+################
+# Merge Jobs
+################
 
-    scm:
-      - hyperledger-fabric-samples-gerrit:
-          credentials-id: 'hyperledger-jobbuilder'
+- project:
+    name: fabric-samples-merge-byfn-release-1.1-x86_64
+    jobs:
+      - '{project-name}-merge-byfn-{branch}-{arch}'
 
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.1
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
 
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
+- project:
+    name: fabric-samples-merge-byfn-release-1.0-x86_64
+    jobs:
+      - '{project-name}-merge-byfn-{branch}-{arch}'
 
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - build-docker-images
-      - fabric-byfn-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-
-- job-template:
-    name: 'fabric-byfn-merge-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
-          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - build-docker-images
-      - fabric-byfn-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-
-- job-template:
-    name: 'fabric-smoke-tests-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: 'fabric'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    triggers:
-      - gerrit-comment-trigger:
-          name: 'fabric'
-          branch: ''
-          trigger-comment: 'Run SmokeTest'
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - pull-images
-      - fabric-fetch
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - fabric-byfn-smoke-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.0
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60

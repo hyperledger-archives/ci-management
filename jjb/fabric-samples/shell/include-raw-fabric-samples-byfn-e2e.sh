@@ -126,4 +126,3 @@ else
         copy_logs $? custom-channel-couchdb couchdb
         echo y | ./byfn.sh -m down
 fi
-artifacts
