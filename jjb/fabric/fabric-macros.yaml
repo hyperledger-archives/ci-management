@@ -145,6 +145,29 @@
           echo "FABRIC_COMMIT =========> $FABRIC_COMMIT"
           echo
 
+##################
+# Nightly Builds #
+##################
+
+- builder:
+    name: fabric-nightly-release-builds
+    builders:
+      - shell: !include-raw: shell/include-raw-fabric-nightly-release-builds.sh
+
+- builder:
+    name: fabric-nightly-smoke-build
+    builders:
+      - shell: !include-raw: jjb/fabric-samples/shell/include-raw-fabric-nightly-smoke-tests.sh
+
+- builder:
+    name: fabric-nightly-publish-images
+    builders:
+      - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
+
+##################
+# Nightly Builds #
+##################
+
 - builder:
     name: fabric-fetch
     builders:

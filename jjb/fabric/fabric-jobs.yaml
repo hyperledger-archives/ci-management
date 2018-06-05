@@ -18,6 +18,64 @@
     mvn-settings: 'fabric-settings'
 
 # gerrit changes
+# Nightly Job
+
+- job-template:
+    name: '{project-name}-nightly-release-job-{arch}'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H 3 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '70'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - fabric-nightly-release-builds
+      - fabric-nightly-smoke-build
+      - shell: |
+          #!/bin/bash
+
+          cd gopath/src/github.com/hyperledger/fabric || exit
+          make integration-test
+          if [ $? !=0 ]; then
+               echo" ---------> make integration-test failed"
+               exit 1
+          fi
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-nightly-publish-images
+
+    publishers:
+      - lf-infra-publish
 
 - job-template:
     name: '{project-name}-nexus-release-{arch}'
