@@ -2,12 +2,11 @@
 - project:
     name: fabric-test-jobs
     jobs:
-      - 'fabric-test-merge-{arch}'
       - 'fabric-test-verify-{arch}'
-      - 'fabric-smoke-test-daily-{arch}'
-      - 'fabric-test-daily-{arch}'
+      - 'fabric-test-merge-{arch}'
       - 'fabric-test-svt-{arch}'
       - 'fabric-test-pte-publish-{arch}'
+      - 'fabric-test-pte-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -58,97 +57,19 @@
       - clean-environment
       - output-environment
       - shell: |
-         #!/bin/bash -exu
+         #!/bin/bash -e
          set -o pipefail
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-
-         make git-init && make git-latest || exit 1
-         make fabric || exit 1
-         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
          echo "------> ARCH: $OS_VER"
          export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
          export PATH=$GOROOT/bin:$PATH
-         echo "----> GO_VER" $GO_VER
-
-         echo "=========> Install govendor"
-         go get -u github.com/kardianos/govendor
-         echo "=========> Run Smoke Tests..."
-         echo
-         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-         make ca || exit 1
-         make pre-setup || exit 1
-         make docker-images || exit 1
-         make smoke-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-      - daily-test-results
-
-- job-template:
-    name: 'fabric-smoke-test-daily-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: ''
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - timed: 'H H * * *'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-
-         make git-init && make git-latest || exit 1
-         make fabric || exit 1
-         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
-         OS_VER=$(dpkg --print-architecture)
-         echo "------> ARCH: $OS_VER"
-         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-         export PATH=$GOROOT/bin:$PATH
-         echo "----> GO_VER" $GO_VER
-
-         echo "=========> Install govendor"
-         go get -u github.com/kardianos/govendor
-         echo "=========> Run Smoke Tests..."
-         echo
-
-         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-         make ca || exit 1
-         make pre-setup || exit 1
-         make docker-images || exit 1
-         make smoke-tests
+         echo "------> GO_VER" $GO_VER
+         make ci-smoke
 
     publishers:
       - lf-infra-publish
@@ -196,29 +117,18 @@
       - clean-environment
       - output-environment
       - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
+         #!/bin/bash -e
 
          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-
-         make git-init && make git-latest || exit 1
-         make fabric
-
-         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
          echo "------> ARCH: $OS_VER"
          export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
          export PATH=$GOROOT/bin:$PATH
-         echo "----> GO_VER" $GO_VER
-         echo "=========> Install govendor"
-         go get -u github.com/kardianos/govendor
-
-         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-         make ca || exit 1
-         make pre-setup || exit 1
-         make docker-images || exit 1
-         echo "=========> Run Smoke Tests..."
-         make smoke-tests || exit 1
+         echo "------> GO_VER" $GO_VER
+         make ci-smoke
 
     publishers:
       - lf-infra-publish
@@ -226,72 +136,6 @@
       - daily-test-results
 
 # gerrit changes
-
-- job-template:
-    name: 'fabric-test-daily-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - timed: 'H 3 * * *'
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-
-         make git-init && make git-latest || exit 1
-         make fabric || exit 1
-
-         GO_VER=`cat ../fabric/ci.properties | grep GO_VER | cut -d "=" -f 2`
-         OS_VER=$(dpkg --print-architecture)
-         echo "------> ARCH: $OS_VER"
-         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-         export PATH=$GOROOT/bin:$PATH
-         echo "----> GO_VER" $GO_VER
-
-         echo "=========> Install govendor"
-         go get -u github.com/kardianos/govendor
-
-         make docker-thirdparty -C $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-         make ca || exit 1
-         make pre-setup || exit 1
-         make docker-images || exit 1
-         echo "=======> Run Daily test suite..."
-         make daily-tests || exit 1
-
-    publishers:
-      - lf-infra-publish
-      - daily-test-results
-      - test-logs
 
 - job-template:
     name: 'fabric-test-svt-{arch}'
@@ -327,11 +171,20 @@
     builders:
       - clean-environment
       - output-environment
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - svt-tests
+      - shell: |
+         #!/bin/bash -e
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         # Execute Make svt-daily from fabric-test makefile
+         make svt-daily
 
     publishers:
       - lf-infra-publish
@@ -377,3 +230,58 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - pte-dockerimage-publish
+
+- job-template:
+    name: 'fabric-test-pte-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: 'H 3 * * *'
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -e
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         # Execute Make svt-daily from fabric-test makefile
+         make svt-daily-pte-tests
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
