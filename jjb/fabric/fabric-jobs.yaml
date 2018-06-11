@@ -7,7 +7,6 @@
       - 'fabric-goast-weekly-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-end-2-end-daily-master-{arch}'
-      - 'fabric-dev-stable-images-{arch}'
       - 'fabric-verify-build-checks-{arch}'
       - 'fabric-verify-integration-tests-{arch}'
       - 'fabric-docs-build-{arch}'
@@ -407,53 +406,6 @@
           email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
           output_format: ''
           developer-email: 'developers'
-      - publish-dev-images
-
-- job-template:
-    name: 'fabric-dev-stable-images-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    builders:
-      - output-environment
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - publish-dev-stable-images
-
-    publishers:
-      - lf-infra-publish
-      - test-logs
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
-          output_format: ''
-          developer-email: ''
 
 - job-template:
     name: 'fabric-verify-build-checks-{arch}'

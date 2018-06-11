@@ -63,12 +63,6 @@
           !include-raw: include-raw-fabric-thirdparty-images.sh
 
 - builder:
-    name: app-image-release
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-app-image-release.sh
-
-- builder:
     name: ca-docker-image-release
     builders:
       - shell:

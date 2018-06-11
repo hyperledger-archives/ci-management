@@ -348,15 +348,6 @@
             - recipients
             - '{developer-email}'
 
-- publisher:
-    name: publish-dev-images
-    publishers:
-      - downstream-ext:
-          projects:
-            - fabric-dev-stable-images-x86_64
-          condition: equal
-          criteria: success
-
 ############
 # BUILDERS #
 ############

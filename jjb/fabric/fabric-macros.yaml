@@ -207,11 +207,6 @@
       - shell: !include-raw: jjb/fabric/shell/fabric-build-script.sh
 
 - builder:
-    name: pull-images-binaries
-    builders:
-      - shell: !include-raw: shell/include-raw-pull-fabric-images-binaries.sh
-
-- builder:
     name: buildimages
     builders:
       - shell:
@@ -236,28 +231,10 @@
           !include-raw: shell/include-raw-fabric-clone-repos.sh
 
 - builder:
-    name: publish-dev-stable-images
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-publish-dev-images.sh
-
-- builder:
-    name: publish-daily-binaries
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-publish-daily-binaries.sh
-
-- builder:
     name: release-docker-images
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-release-docker-images.sh
-
-- builder:
-    name: nexus-docker-images
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-nexus-docker-images.sh
 
 - builder:
     name: clean-environment
@@ -276,12 +253,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-s390x-docker-image-deploy.sh
-
-- builder:
-    name: fabric-ppc64le-docker-deploy
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-ppc64le-docker-image-deploy.sh
 
 - builder:
     name: dockerimages
@@ -306,12 +277,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-FIT-JAVA-e2e.sh
-
-- builder:
-    name: nexus-stable-docker-push
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-nexus-stable-docker-push.sh
 
 - builder:
     name: fabric-build-check
@@ -406,22 +371,10 @@
           ./runReleaseTestSuite.sh
 
 - builder:
-    name: release-behave-tests
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-release-behave-tests.sh
-
-- builder:
     name: push-fabric-binaries
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-push-fabric-binaries.sh
-
-- builder:
-    name: push-stable-fabric-binaries
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-push-stable-binaries.sh
 
 - builder:
     name: push-fabric-byfn
@@ -435,11 +388,6 @@
       - shell:
           !include-raw: shell/include-raw-fabric-smoke-tests.sh
 
-- builder:
-    name: pull-fabric-images-binaries
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-pull-fabric-images-binaries.sh
 - builder:
     name: fabric-busybox-test
     builders:
@@ -471,11 +419,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-byfn-release-tests.sh
-
-- builder:
-    name: nexus-publish
-    builders:
-      - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
 - publisher:
     name: log-artifacts

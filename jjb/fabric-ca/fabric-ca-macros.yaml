@@ -84,22 +84,21 @@
             PATH=$GOROOT/bin:$PATH
 
 - builder:
-    name: ca-golang-environment-ppc64le
-
-    builders:
-      - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/ci.properties
-          properties-content: |
-            GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
-            PATH=$GOROOT/bin:$PATH
-
-- builder:
     name: ca-golang-environment-s390x
     builders:
       - inject:
           properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/ci.properties
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.s390x
+            PATH=$GOROOT/bin:$PATH
+
+- builder:
+    name: ca-golang-environment-ppc64le
+    builders:
+      - inject:
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/ci.properties
+          properties-content: |
+            GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
             PATH=$GOROOT/bin:$PATH
 
 - builder:
