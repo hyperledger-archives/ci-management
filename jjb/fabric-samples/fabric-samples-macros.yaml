@@ -8,6 +8,7 @@
       - git:
           credentials-id: 'hyperledger-jobbuilder'
           url: 'git://cloud.hyperledger.org/mirror/fabric-samples'
+          shallow-clone: true
           branches:
             - 'origin/$GERRIT_BRANCH'
           wipe-workspace: true
