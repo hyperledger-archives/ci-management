@@ -48,11 +48,13 @@ echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
 #### Build fabric-ca docker images
-make docker PROJECT_VERSION=1.2.0-stable
-if [ $? != 0 ]; then
-   echo "-------> make docker failed"
-   exit 1
-fi
-echo
-echo "-------------> List fabric-ca docker images"
+for IMAGES in docker docker-fvt; do
+       make $IMAGES PROJECT_VERSION=1.2.0-stable
+       if [ $? != 0 ]; then
+             echo "-------> make $IMAGES failed"
+             exit 1
+       fi
+             echo
+             echo "-------> List fabric-ca docker images"
+done
 docker images | grep hyperledger/fabric-ca

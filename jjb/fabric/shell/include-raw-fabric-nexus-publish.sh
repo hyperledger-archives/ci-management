@@ -12,29 +12,58 @@ PROJECT_VERSION=1.2.0-stable
 echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
 STABLE_TAG=$ARCH-$PROJECT_VERSION
 echo "-----------> STABLE_TAG:" $STABLE_TAG
+cd ../fabric-ca
+CA_COMMIT=$(git log -1 --pretty=format:"%h")
+echo "CA COMMIT" $CA_COMMIT
+cd -
 
-dockerTag() {
-    for IMAGES in peer orderer ccenv tools ca ca-peer ca-orderer ca-tools; do
+fabric_DockerTag() {
+    for IMAGES in peer orderer ccenv tools; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-         echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
     done
-    }
+         echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
+
+fabric_Ca_DockerTag() {
+    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
+         echo "----------> $IMAGES"
+         echo
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+    done
+         echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
 
 dockerFabricPush() {
-    for IMAGES in peer orderer ccenv tools ca ca-peer ca-orderer ca-tools; do
+    for IMAGES in peer orderer ccenv tools; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
          echo
-         echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
     done
-    }
+         echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
 
-# Tag Fabric Docker Images to Nexus Repository
-dockerTag
-# Push Fabric Docker Images to Nexus Repository
+dockerFabricCaPush() {
+    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
+         echo "-----------> $IMAGES"
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+         echo
+    done
+         echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
+# Tag Fabric Docker Images
+fabric_DockerTag
+# Tag Fabric Ca Docker Images
+fabric_Ca_DockerTag
+# Push Fabric Docker Images to Nexus3
 dockerFabricPush
+# Push Fabric Ca Docker Images to Nexus3
+dockerFabricCaPush
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
 
