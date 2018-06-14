@@ -148,9 +148,6 @@
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
 
-    triggers:
-      - timed: 'H 3 * * *'
-
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
@@ -241,9 +238,6 @@
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - timed: 'H 3 * * *'
 
     properties:
       - 'fabric-go-{arch}'

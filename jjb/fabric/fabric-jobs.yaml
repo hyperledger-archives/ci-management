@@ -43,9 +43,9 @@
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-
+    # Trigger at 9:53 PM EST
     triggers:
-      - timed: 'H 3 * * *'
+      - timed: 'H 1 * * *'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -72,6 +72,7 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-nightly-publish-images
+      - down-stream-jobs-{arch}
 
     publishers:
       - lf-infra-publish

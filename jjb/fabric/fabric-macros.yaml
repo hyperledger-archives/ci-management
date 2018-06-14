@@ -164,6 +164,28 @@
     builders:
       - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
+- builder:
+    name: down-stream-jobs-x86_64
+    builders:
+      - conditional-step:
+          condition-kind: current-status
+          condition-worst: FAILURE
+          condition-best: SUCCESS
+          on-evaluation-failure: fail
+          steps:
+            - trigger-builds:
+                - project:
+                    - fabric-test-pte-x86_64
+                    - fabric-test-svt-x86_64
+
+- builder:
+    name: down-stream-jobs-s390x
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          echo "-----------> Don't Trigger tests on s390x platform"
+
 ##################
 # Nightly Builds #
 ##################
@@ -517,6 +539,16 @@
     publishers:
       - junit:
           results: '**/*.xml'
+
+- publisher:
+    name: down-stream-jobs
+    publishers:
+      - downstream-ext:
+          projects:
+            - fabric-test-svt-x86_64
+            - fabric-test-pte-x86_64
+          condition: equal
+          criteria: success
 
 - publisher:
     name: test-logs
