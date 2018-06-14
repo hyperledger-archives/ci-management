@@ -95,6 +95,7 @@
       - clean-environment
       - output-environment
       - sdk-node-tests-publish
+      - gulp-doc
 
     publishers:
       - log-artifacts

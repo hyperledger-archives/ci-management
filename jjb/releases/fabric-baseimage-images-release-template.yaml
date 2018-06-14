@@ -220,3 +220,49 @@
 
     publishers:
       - lf-infra-publish
+
+- job-template:
+    name: '{project-name}-{arch}-thirdparty-image-nexus-release-job'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+
+    scm:
+      - hyperledger-fabric-baseimage-release
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - build-docker-thirdparty
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - thirdparty-nexus-release
+
+    publishers:
+      - lf-infra-publish

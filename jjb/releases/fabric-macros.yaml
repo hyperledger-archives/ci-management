@@ -88,3 +88,22 @@
 
          cd gopath/src/github.com/hyperledger/fabric-ca
          make docker
+
+- builder:
+    name: build-docker-thirdparty
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          # Build Fabric third-party docker images
+          make dependent-images
+
+          # Listout all docker images
+          docker images | grep "hyperledger*"
+
+- builder:
+    name: thirdparty-nexus-release
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-thirdparty-nexus-release.sh
