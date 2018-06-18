@@ -29,7 +29,7 @@ else
    echo "----------> ARCH:" $ARCH
 fi
 
-for IMAGES in peer orderer tools ccenv javaenv; do
+for IMAGES in peer orderer tools ccenv; do
       docker tag hyperledger/fabric-$IMAGES:$ARCH-$VERSION $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$VERSION
       docker push $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$VERSION
       echo "--------> Push fabric Image version:" $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$VERSION

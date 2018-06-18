@@ -14,7 +14,7 @@ docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 docker_Fabric_Thirdparty_Push() {
 
   # shellcheck disable=SC2043
-  for IMAGES in kafka zookeeper couchdb; do
+  for IMAGES in kafka zookeeper couchdb javaenv; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
     echo
