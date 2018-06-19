@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 
 # vim: sw=4 ts=4 sts=4 et :
 
