@@ -22,10 +22,10 @@ These are used as defaults by the packer [openstack builder][3].
 Hyperledger's Packer configuration is divided into build-specific variables,
 output-specific templates and a set of shared provisioning scripts. To do a
 specific build, combine the template for the desired output artifact type with
-a variable file. To build a new baseline instance the following would be done:
+a variable file. To build a new builder instance the following would be done:
 
 ```
-packer build -var-file=vars/cloud-env.json -var-file=vars/centos.json templates/baseline.json
+packer build -var-file=vars/cloud-env.json -var-file=vars/centos.json templates/builder.json
 ```
 
 **NOTE:** vars/cloud-env.json is a gitignored file as it contains private
