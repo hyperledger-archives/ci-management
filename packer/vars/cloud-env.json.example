@@ -1,6 +1,7 @@
 {
-  "network": "UUID",
-  "flavor": "UUID",
-  "region": "ca-ymq-1"
-  "ssh_interface": "hyp"
+  "stack_tenant": "TENANTID",
+  "stack_user": "USERID",
+  "stack_pass": "PASSWD",
+  "stack_network": "NETID",
+  "ssh_proxy_host": ""
 }

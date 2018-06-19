@@ -2,6 +2,7 @@
 - project:
     name: ci-management-jobs
     jobs:
+      - gerrit-packer-verify
       - '{project-name}-ci-jobs'
       - '{project-name}-python-jobs'
 
@@ -11,20 +12,3 @@
     branch: master
     build-node: hyp-x
     jjb-version: 2.0.3
-
-- project:
-    name: packer-jobs
-    # packer jobs templates are defined in global-jjb
-    jobs:
-      - '{project-name}-packer-jobs'
-    project: 'ci-management'
-    project-name: 'ci-management'
-    branch: master
-    archive-artifacts: '**/*.log'
-    build-node: hyp-x
-
-    platforms:
-      - ubuntu-16.04
-
-    templates:
-      - baseline
