@@ -1,0 +1,34 @@
+---
+- project:
+    name: packer-builder-jobs
+    jobs:
+      - gerrit-packer-merge
+
+    project: ci-management
+    project-name: ci-management
+    branch: master
+    archive-artifacts: '**/*.log'
+
+    build-node: hyp-x
+    build-timeout: 45
+
+    platforms:
+      - ubuntu-16.04
+    templates: builder
+
+- project:
+    name: packer-docker-jobs
+    jobs:
+      - gerrit-packer-merge
+
+    project: ci-management
+    project-name: ci-management
+    branch: master
+    archive-artifacts: '**/*.log'
+
+    build-node: hyp-x
+    build-timeout: 60
+
+    platforms:
+      - ubuntu-16.04
+    templates: docker

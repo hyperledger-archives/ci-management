@@ -1,0 +1,2 @@
+---
+- import_playbook: ../common-packer/provision/baseline.yaml

@@ -1,0 +1,160 @@
+---
+- import_playbook: ../common-packer/provision/docker.yaml
+
+- hosts: all
+  become_user: root
+  become_method: sudo
+  vars:
+    docker_compose_version: 1.21.2
+    pip_package_deps: 'urllib3 pyopenssl ndg-httpsclient pyasn1 ecdsa python-slugify grpcio-tools cython'
+    pip_packages: 'behave shade nose google protobuf pyyaml pykafka requests pyexecjs pyjnius sphinx sphinx_rtd_theme pluggy'
+    grpc_packages: 'grpcio==1.0.4'
+    jinja2_packages: 'jinja2'
+    b3j0f_packages: 'b3j0f.aop'
+    pip_versioned_packages: 'flask==0.10.1 python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1 pyopenssl==17.2.0'
+    python_packages: 'python3-venv python3-pip python2.7-dev python-virtualenv python-setuptools python-pip python-xmlrunner python-pytest python-sphinx'
+    hyp_packages: 'g++-4.8 build-essential software-properties-common curl sudo zip libtool libsnappy-dev zlib1g-dev libbz2-dev \
+                   libffi-dev libssl-dev python-dev libyaml-dev python-pip haproxy haproxy-doc htop html2text isag jq libdbd-pg-perl locales-all mysql-client mysql-common \
+                   mysql-server postgresql postgresql-contrib postgresql-doc vim-haproxy zsh python-tox maven tcl tclx tcllib apparmor \
+                   linux-image-extra-$(uname -r) docker-engine'
+  tasks:
+
+    - name: 'Install gimme and Go'
+      command: {{ item }}
+      with_items:
+         - echo '---> Install gimme and Go'
+         - curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
+         - chmod +x /usr/local/bin/gimme
+      become: true
+
+    - name: 'Install Go'
+      command: gimme {{ item }} /opt/go
+      with_items:
+         - 1.7.5
+         - 1.9.2
+         - 1.10
+      become: true
+
+    - name: 'Install haveged'
+      command: {{ item }}
+      with_items:
+         - echo '---> Install haveged'
+         - apt-get install haveged
+         - update-rc.d haveged defaults
+      become: true
+
+    - name: 'Create Hyperledger vardir'
+      command: {{ item }}
+      with_items:
+         - echo "---> Create Hyperledger Vardir"
+         - mkdir /var/hyperledger/
+         - chown $USER:$USER /var/hyperledger
+      become: true
+
+    - name: 'Install Docker Compose {{docker_compose_version}}'
+      command: curl -o /usr/local/bin/docker-compose -L "https://github.com/docker/compose/releases/download/{{docker_compose_version}}/docker-compose-$(uname -s)-$(uname -m)"
+      become: true
+
+    - name: 'Add Ubuntu PPAs'
+      command: {{ item }}
+      with_items:
+         - echo '---> Add Ubuntu PPAs'
+         - add-apt-repository -y 'ppa:ubuntu-toolchain-r/test'
+         - apt-get -qq update
+      become: true
+
+    - name: 'Install Hyperledger packages'
+      command: {{ item }}
+      with_items:
+         - apt-get -qq install -y $hyp_packages
+      become: true
+
+    - name: 'Install python'
+      command: {{ item }}
+      with_items:
+         - echo '---> Install python'
+         - apt-get -qq install -y $python_packages
+      become: true
+
+    - name: 'Add pip packages'
+      command: {{ item }}
+      with_items:
+         - echo '---> Install Pip Packages'
+         - pip2 install -U pip $pip_package_deps $pip_packages
+         - pip2 install -I $pip_versioned_packages
+         - pip2 install -U $grpc_packages $jinja2_packages $b3j0f_packages
+      become: true
+
+    - name: 'Add Jenkins user'
+      command: {{ item }}
+      with_items:
+         - git clone https://gerrit.hyperledger.org/r/ci-management.git /ci-management
+         - /ci-management/jenkins-scripts/init_system.sh
+      become: true
+
+    - name: 'Install Node'
+      command: {{ item }}
+      with_items:
+         - pushd /usr/local
+         - nvm install 8.9.1
+         - nvm install 8.4.0
+         - nvm install 7.4.0
+         - nvm ls
+         - popd
+         - echo "npm -v: `npm -v`"
+         - echo "node -v: `node -v`"
+      become: true
+
+    - name: 'Install nvm'
+      command: {{ item }}
+      with_items:
+         - echo "----> nvm install"
+         - apt-get update
+         - apt-get install build-essential
+         - wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+         - export NVM_DIR="$HOME/.nvm"
+         - [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+         - command -v nvm
+      become: true
+
+    - name: 'Install softhsm'
+      command: {{ item }}
+      with_items:
+         - echo '---> Install softhsm'
+         - apt-get -qq install -y softhsm2
+         - mkdir -p /var/lib/softhsm/tokens/
+         - softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
+         - chown -R jenkins:jenkins /var/lib/softhsm /etc/softhsm
+      become: true
+
+    - name: 'Update Alernatives'
+      command: {{ item }}
+      with_items:
+         - echo '---> Updating Alternatives'
+         - update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 90
+      become: true
+
+    - name: 'Pull baseimage'
+      shell: |
+         echo "---> Pulling Fabric Baseimage & thirdparty images"
+         export IMAGES_LIST=(couchdb kafka zookeeper baseimage baseos)
+         echo "---> Pulling Thirdparty Images"
+         for image in ${IMAGES_LIST[*]}; do
+            docker pull hyperledger/fabric-$image:amd64-0.4.8
+            docker pull hyperledger/fabric-$image:x86_64-0.4.7
+        done
+        echo "---> Pulling Indy images"
+        docker pull hyperledger/indy-core-baseci:0.0.1
+      become: true
+
+    - name: 'Pull cello images'
+      command: docker pull hyperledger/{{ item }}:x86_64-latest
+      with_items:
+         - cello-engine
+         - cello-mongo
+         - cello-nginx
+         - cello-operator-dashboard
+         - cello-user-dashboard
+         - cello-watchdog
+         - cello-baseimage
+      become: true
