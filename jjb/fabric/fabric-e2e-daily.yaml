@@ -14,6 +14,18 @@
     node: 'z'
 
 - project:
+    name: fabric-end-2-end-daily-master-ppc64le
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    cron_time: 'H 2 * * *'
+    arch: 'ppc64le'
+    node: 'p'
+
+- project:
     name: fabric-end-2-end-daily-master-x86_64
     jobs:
       - '{project-name}-end-2-end-daily-{branch}-{arch}'

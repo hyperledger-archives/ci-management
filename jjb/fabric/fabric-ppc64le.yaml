@@ -1,0 +1,55 @@
+---
+- project:
+    name: fabric-jobs-ppc64le
+    jobs:
+      - 'fabric-daily-ppc64le'
+
+    project: 'fabric'
+    arch: 'ppc64le'
+
+- job-template:
+    name: 'fabric-daily-ppc64le'
+
+    project-type: freestyle
+    node: 'hyp-p'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    triggers:
+      - timed: 'H 3 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    builders:
+
+      - clean-environment
+      - fabric-pull
+      - 'golang-environment-{arch}'
+      - pull-images
+      - output-environment
+      - fabric-unit-tests
+      - clean-environment
+
+    publishers:
+      - code-coverage-report
+      - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,gregory.haskins@gmail.com,rameshbabu.thoomu@gmail.com,harrijk63@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

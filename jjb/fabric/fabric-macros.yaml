@@ -55,7 +55,7 @@
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:$HOME/.nvm/versions/node/v6.9.5/bin:$HOME/.nvm/versions/node/v8.9.4/bin:/w/npm/bin:$PATH
             ARCH=ppc64le
 
 - scm:
@@ -141,7 +141,8 @@
           WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
           rm -rf $WD
           git clone git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
-          cd $WD && FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
+          cd $WD && git checkout $GERRIT_BRANCH
+          FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "FABRIC_COMMIT =========> $FABRIC_COMMIT"
           echo
 
