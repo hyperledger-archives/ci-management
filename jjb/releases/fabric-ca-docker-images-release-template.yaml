@@ -41,3 +41,47 @@
 
     publishers:
       - lf-infra-publish
+
+##############################
+# DOCKER RELEASE JOB on MASTER
+##############################
+
+- job-template:
+    name: 'fabric-ca-{branch}-release-job-{arch}'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - release-version:
+          push-version: '1.2.0'
+
+    scm:
+      - hyperledger-fabric-ca-gerrit
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '60'
+
+    builders:
+      - clean-environment
+      - 'ca-golang-environment-{arch}'
+      - output-environment
+      - publish-fabric-ca-docker-images
+
+    publishers:
+      - lf-infra-publish

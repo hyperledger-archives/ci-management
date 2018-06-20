@@ -107,3 +107,17 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-thirdparty-nexus-release.sh
+
+# Publish fabric docker images
+- builder:
+    name: publish-fabric-docker-images
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-fabric-docker-images.sh
+
+# Publish fabric-ca docker images
+- builder:
+    name: publish-fabric-ca-docker-images
+    builders:
+      - shell:
+          !include-raw: include-raw-publish-fabric-ca-docker-images.sh

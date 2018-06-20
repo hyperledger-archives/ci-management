@@ -47,14 +47,26 @@ CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
-#### Build fabric-ca docker images
-for IMAGES in docker docker-fvt; do
-       make $IMAGES PROJECT_VERSION=1.2.0-stable
-       if [ $? != 0 ]; then
-             echo "-------> make $IMAGES failed"
-             exit 1
-       fi
-             echo
-             echo "-------> List fabric-ca docker images"
-done
+build_Fabric_Ca() {
+       #### Build fabric-ca docker images
+       for IMAGES in docker docker-fvt release-clean $1; do
+           make $IMAGES PROJECT_VERSION=1.2.0-stable
+           if [ $? != 0 ]; then
+               echo "-------> make $IMAGES failed"
+               exit 1
+           fi
+               echo
+               echo "-------> List fabric-ca docker images"
+       done
+}
 docker images | grep hyperledger/fabric-ca
+
+# Execute release-all target on x arch
+ARCH=$(go env GOARCH)
+if [ "$ARCH" = "s390x" ]; then
+       echo "---------> ARCH:" $ARCH
+       build_Fabric_Ca release
+else
+       echo "---------> ARCH:" $ARCH
+       build_Fabric_Ca release-all
+fi

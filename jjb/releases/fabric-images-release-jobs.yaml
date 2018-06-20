@@ -33,3 +33,29 @@
     branch: master
     arch: 'ppc64le'
     build-node: 'hyp-p'
+
+#############################
+# Master Branch Release Jobs
+#############################
+
+- project:
+    name: fabric-images-master-release-job-s390x
+    jobs:
+      - '{project-name}-{branch}-release-job-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: 's390x'
+    build-node: 'hyp-z'
+
+- project:
+    name: fabric-images-master-release-job-x86_64
+    jobs:
+      - '{project-name}-{branch}-release-job-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x'

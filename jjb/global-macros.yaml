@@ -61,6 +61,14 @@
           default: '{commit}'
           description: "GIT_COMMIT parameter if not given by trigger"
 
+- parameter:
+    name: release-version
+    parameters:
+      - string:
+          name: PUSH_VERSION
+          default: '{push-version}'
+          description: "Provide release version here to publish docker images"
+
 #
 ########
 # SCMS #

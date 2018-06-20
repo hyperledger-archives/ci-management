@@ -33,3 +33,25 @@
     branch: master
     arch: 'ppc64le'
     build-node: 'hyp-p'
+
+- project:
+    name: fabric-ca-master-release-job-s390x
+    jobs:
+      - 'fabric-ca-{branch}-release-job-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 's390x'
+    build-node: 'hyp-z'
+
+- project:
+    name: fabric-ca-master-release-job-x86_64
+    jobs:
+      - 'fabric-ca-{branch}-release-job-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x'
