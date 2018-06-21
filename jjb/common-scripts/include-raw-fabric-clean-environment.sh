@@ -28,6 +28,11 @@ function removeUnwantedImages() {
         fi
 }
 
+# Delete nvm prefix & then delete nvm
+rm -rf $HOME/.nvm/ $HOME/.node-gyp/ $HOME/.npm/ $HOME/.npmrc  || true
+
+mkdir $HOME/.nvm || true
+
 # remove tmp/hfc and hfc-key-store data
 rm -rf /home/jenkins/.nvm /home/jenkins/npm /tmp/fabric-shim /tmp/hfc* /tmp/npm* /home/jenkins/kvsTemp /home/jenkins/.hfc-key-store
 
