@@ -8,9 +8,11 @@ cd gopath/src/github.com/hyperledger/fabric-samples || exit
 # copy /bin directory to fabric-samples
 
 if [ "$ARCH" == "s390x" ]; then
-   cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-s390x/bin/ .
+   cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-s390x/bin/ .
+elif [ "$ARCH" == "ppc64le" ]; then
+   cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-ppc64le/bin/ .
 else
-   cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
+   cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
 fi
 
 cd first-network || exit
