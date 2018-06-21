@@ -4,7 +4,7 @@ set -o pipefail
 NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 TAG=$GIT_COMMIT
-STABLE_TAG=stable
+STABLE_TAG=$PUSH_VERSION
 export COMMIT_TAG=${TAG:0:7}
 
 echo "----> Publishing PTE image to nexus3..."
