@@ -12,10 +12,12 @@ PROJECT_VERSION=1.2.0-stable
 echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
 STABLE_TAG=$ARCH-$PROJECT_VERSION
 echo "-----------> STABLE_TAG:" $STABLE_TAG
+: '
 cd ../fabric-ca
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "CA COMMIT" $CA_COMMIT
 cd -
+'
 
 fabric_DockerTag() {
     for IMAGES in peer orderer ccenv tools; do
@@ -59,11 +61,11 @@ dockerFabricCaPush() {
 # Tag Fabric Docker Images
 fabric_DockerTag
 # Tag Fabric Ca Docker Images
-fabric_Ca_DockerTag
+#fabric_Ca_DockerTag
 # Push Fabric Docker Images to Nexus3
 dockerFabricPush
 # Push Fabric Ca Docker Images to Nexus3
-dockerFabricCaPush
+#dockerFabricCaPush
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
 # Publish fabric binaries
@@ -88,7 +90,7 @@ if [ $ARCH = "amd64" ]; then
 else
        echo "-------> Don't publish binaries from s390x platform"
 fi
-
+: '
 # fabric-ca binaries
 
 if [ $ARCH = "amd64" ]; then
@@ -110,5 +112,6 @@ if [ $ARCH = "amd64" ]; then
               echo "-------> DONE <----------"
        done
 else
-       echo "-------> Don't publish binaries from s390x platform"
+       echo "-------> Dont publish binaries from s390x platform"
 fi
+'
