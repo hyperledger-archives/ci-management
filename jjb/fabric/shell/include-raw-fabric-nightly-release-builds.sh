@@ -29,10 +29,10 @@ docker images | grep hyperledger
 ARCH=$(go env GOARCH)
 if [ "$ARCH" = "s390x" ]; then
        echo "---------> ARCH:" $ARCH
-       build_Fabric release
+       build_Fabric dist
 else
        echo "---------> ARCH:" $ARCH
-       build_Fabric release-all
+       build_Fabric dist-all
 fi
 
 # Clone fabric-ca git repository

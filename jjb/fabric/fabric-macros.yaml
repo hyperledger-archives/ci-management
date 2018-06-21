@@ -405,6 +405,12 @@
           !include-raw: shell/include-raw-fabric-push-fabric-binaries.sh
 
 - builder:
+    name: publish-fabric-binaries
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-publish-fabric-bin.sh
+
+- builder:
     name: push-fabric-byfn
     builders:
       - shell:

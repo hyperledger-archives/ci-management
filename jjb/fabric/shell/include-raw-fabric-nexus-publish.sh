@@ -66,7 +66,7 @@ dockerFabricPush
 dockerFabricCaPush
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
-
+# Publish fabric binaries
 if [ $ARCH = "amd64" ]; then
        # Push fabric-binaries to nexus2
        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
@@ -79,6 +79,30 @@ if [ $ARCH = "amd64" ]; then
               -DgroupId=org.hyperledger.fabric \
               -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
               -DartifactId=hyperledger-fabric-stable \
+              -DgeneratePom=true \
+              -DuniqueVersion=false \
+              -Dpackaging=tar.gz \
+              -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+              echo "-------> DONE <----------"
+       done
+else
+       echo "-------> Don't publish binaries from s390x platform"
+fi
+
+# fabric-ca binaries
+
+if [ $ARCH = "amd64" ]; then
+       # Push fabric-binaries to nexus2
+       for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+              cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary && tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
+              echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
+              mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \
+              -DrepositoryId=hyperledger-releases \
+              -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
+              -DgroupId=org.hyperledger.fabric-ca \
+              -Dversion=$binary.$PROJECT_VERSION-$CA_COMMIT \
+              -DartifactId=hyperledger-fabric-ca-stable \
               -DgeneratePom=true \
               -DuniqueVersion=false \
               -Dpackaging=tar.gz \

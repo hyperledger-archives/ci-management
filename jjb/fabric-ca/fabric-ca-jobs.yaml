@@ -98,15 +98,13 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+          refspec: ''
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -120,7 +118,7 @@
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
           global-settings-file: 'global-settings'
-      - push-fabric-ca-binaries
+      - publish-fabric-ca-binaries
 
     publishers:
       - lf-infra-publish

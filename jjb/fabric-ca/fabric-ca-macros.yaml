@@ -29,6 +29,12 @@
           !include-raw: shell/include-raw-push-fabric-ca-binaries.sh
 
 - builder:
+    name: publish-fabric-ca-binaries
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-publish-fabric-ca-bin.sh
+
+- builder:
     name: fabric-ca-nexus-docker-release
     builders:
       - shell:
