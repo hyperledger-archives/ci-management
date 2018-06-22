@@ -3,7 +3,6 @@ set -o pipefail
 
 # Checkout to fabric repository
 ################################
-: '
 cd gopath/src/github.com/hyperledger/fabric || exit
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
@@ -34,7 +33,7 @@ else
        echo "---------> ARCH:" $ARCH
        build_Fabric dist-all
 fi
-'
+
 # Clone fabric-ca git repository
 ################################
 
