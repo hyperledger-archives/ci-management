@@ -86,7 +86,7 @@ pull_Platform_All() {
     for arch in amd64 s390x; do
         for IMAGES in ${IMAGES_LIST[*]}; do
             docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
-            docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION $ORG_NAME-$IMAGES:$arch-$RELEASE_VERSION
+            docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION $ORG_NAME-$IMAGES:$arch-$1
             docker rmi -f $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
         done
     done
@@ -95,7 +95,7 @@ pull_Platform_All() {
 push() {
 
 # pull fabric-ca images
-    pull_Platform_All
+    pull_Platform_All $1
     echo "------> List all docker images"
     docker images | grep "hyperledger"
 # push docker images to hyperledger
@@ -103,7 +103,7 @@ push() {
     docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     for MARCH in amd64 s390x; do
         for IMAGES in ${IMAGES_LIST[*]}; do
-            docker push $ORG_NAME-$IMAGES:$MARCH-$RELEASE_VERSION
+            docker push $ORG_NAME-$IMAGES:$MARCH-$1
         done
     done
 }
