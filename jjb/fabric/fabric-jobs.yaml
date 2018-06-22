@@ -38,6 +38,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - fabric-gerrit-scm:
@@ -96,6 +98,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - fabric-gerrit-scm:

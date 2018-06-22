@@ -11,7 +11,7 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 
 echo "######## Cloning fabric-samples ########"
-git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
 echo "-------> GERRIT_BRANCH: $GERRIT_BRANCH"
@@ -87,32 +87,32 @@ echo
 echo "############## BYFN,EYFN CUSTOM CHANNEL TEST ############"
 echo "#########################################################"
 
- echo y | ./byfn.sh -m up -c custom-channel -t 60
- copy_logs $? custom-channel
- echo y | ./eyfn.sh -m up -c custom-channel -t 60
- copy_logs $? custom-channel
- echo y | ./eyfn.sh -m down
- echo
- echo "############### BYFN,EYFN CUSTOM CHANNEL WITH COUCHDB TEST ##############"
- echo "#########################################################################"
+echo y | ./byfn.sh -m up -c custom-channel -t 60
+copy_logs $? custom-channel
+echo y | ./eyfn.sh -m up -c custom-channel -t 60
+copy_logs $? custom-channel
+echo y | ./eyfn.sh -m down
+echo
+echo "############### BYFN,EYFN CUSTOM CHANNEL WITH COUCHDB TEST ##############"
+echo "#########################################################################"
 
-  echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
-  copy_logs $? custom-channel-couch couchdb
-  echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
-  copy_logs $? custom-channel-couch couchdb
-  echo y | ./eyfn.sh -m down
-  echo
-  echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
-  echo "####################################################################"
+echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+copy_logs $? custom-channel-couch couchdb
+echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+copy_logs $? custom-channel-couch couchdb
+echo y | ./eyfn.sh -m down
+echo
+echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
+echo "####################################################################"
 
-  echo y | ./byfn.sh -m up -l node -t 60
-  copy_logs $? default-channel-node
-  echo y | ./eyfn.sh -m up -l node -t 60
-  copy_logs $? default-channel-node
-  echo y | ./eyfn.sh -m down
-: '
-  echo "############### FABRIC-CA SAMPLES TEST ########################"
-  echo "###############################################################"
-  cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
- ./start.sh && ./stop.sh
-'
+echo y | ./byfn.sh -m up -l node -t 60
+copy_logs $? default-channel-node
+echo y | ./eyfn.sh -m up -l node -t 60
+copy_logs $? default-channel-node
+echo y | ./eyfn.sh -m down
+
+echo "############### FABRIC-CA SAMPLES TEST ########################"
+echo "###############################################################"
+cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
+./start.sh && ./stop.sh
+

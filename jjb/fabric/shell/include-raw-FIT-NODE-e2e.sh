@@ -7,7 +7,8 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
-git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
+# clone sdk node repo with depth=1
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
 cd $WD
 
 # error check
@@ -16,16 +17,22 @@ echo "--------> $1 <---------"
 exit 1
 }
 
-# Checkout to GERRIT_BRANCH
-if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then # any release branch
-      echo "-----> Checkout to $GERRIT_BRANCH branch"
-      git checkout $GERRIT_BRANCH
+# Checkout to master if branch is 1.2 (1.2 branch is not created for Node SDK)
+if [[ "$GERRIT_BRANCH" = "release-1.2" ]]; then
+    echo "-----> $GERRIT_BRANCH"
+    echo "-----> Checking out the master branch"
+    git checkout master
+
+# Checkout to GERRIT_BRANCH if branch is 1.1 or 1.0
+elif [ "$GERRIT_BRANCH" = "release-1.1" ] || [ "$GERRIT_BRANCH" = "release-1.0" ]; then
+    echo "-----> Checkout to $GERRIT_BRANCH branch"
+    git checkout $GERRIT_BRANCH
 fi
-echo "-----> $GERRIT_BRANCH"
 
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "------> SDK_NODE_COMMIT : $SDK_NODE_COMMIT"
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
+
 cd test/fixtures
 docker rm -f "$(docker ps -aq)" || true
 docker-compose up >> node_dockerlogfile.log 2>&1 &

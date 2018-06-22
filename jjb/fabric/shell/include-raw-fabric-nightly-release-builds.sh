@@ -13,9 +13,9 @@ mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
 make docker-thirdparty
 
 build_Fabric() {
-# Build fabric images with 1.2.0-stable tag
+# Build fabric images with $PUSH_VERSION tag
      for IMAGES in docker release-clean $1; do
-         make $IMAGES PROJECT_VERSION=1.2.0-stable
+         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
          if [ $? != 0 ]; then
             echo "----------> make $IMAGES failed"
             exit 1
@@ -40,8 +40,8 @@ fi
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
-cd $WD && echo "--------> $GERRIT_BRANCH"
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
+cd $WD && git checkout $GERRIT_BRANCH && echo "--------> $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
@@ -49,7 +49,7 @@ echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperl
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
        for IMAGES in docker docker-fvt release-clean $1; do
-           make $IMAGES PROJECT_VERSION=1.2.0-stable
+           make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
                exit 1

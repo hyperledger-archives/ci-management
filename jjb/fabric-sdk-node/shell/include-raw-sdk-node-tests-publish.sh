@@ -6,13 +6,14 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 
 if [[ "$GERRIT_BRANCH" = "master" ]]; then
-   ARCH=$(dpkg --print-architecture)
+   ARCH=$(dpkg --print-architecture) # amd64
 else
-   ARCH=$(uname -m)
+   ARCH=$(uname -m) # x86_64, s390x, ppc64le
 fi
 
 REPO_NAME=fabric
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
+# clone repo with depth=1 for faster download repo code
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 
 ####################
@@ -120,12 +121,12 @@ versions() {
   echo "===> Current Release --> $RELEASE"
 }
 
-if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # release-1.0 branch
+if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch
         make docker || err_Check "make docker failed"
         echo
         docker images | grep hyperledger
 
-elif [[ "$GERRIT_BRANCH" = *"release-1.1"* ]]; then # release-1.1 branch
+elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then # release-1.1 branch
      for IMAGES in peer-docker orderer-docker; do
         make $IMAGES || err_Check "make $IMAGES failed"
      done
@@ -154,7 +155,7 @@ CA_REPO_NAME=fabric-ca
 git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
 cd $WD || exit
 
-if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then # any release branch
+if [[ "$GERRIT_BRANCH" = "release-" ]]; then # any release branch
       echo "------> Checkout to $GERRIT_BRANCH branch"
       git checkout $GERRIT_BRANCH
 fi
@@ -232,10 +233,10 @@ fi
 #
 ######################################
 ARCH=$(uname -m)
-if [[ "$ARCH" = "s390x" ]]; then
+if [[ "$ARCH" = "s390x" ]] || [[ "$ARCH" = "ppc64le" ]]; then
    echo "----> npm modules published only from x86_64 (x) platform, not publishing from $ARCH (z) now. <----"
 else
-   echo "----> Starting publish from $ARCH <----"
+   echo "----> Publish npm node modules from $ARCH <----"
    cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
    npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 

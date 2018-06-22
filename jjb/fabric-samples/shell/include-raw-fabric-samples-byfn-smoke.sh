@@ -94,9 +94,11 @@ WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 rm -rf $WD
 
-git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
+echo "--------> Checkout to $GERRIT_BRANCH"
+
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-------> FABRIC_SAMPLES_COMMIT = $FABRIC_SAMPLES_COMMIT"
 curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$CCENV_TAG/hyperledger-fabric-build-linux-amd64-$CCENV_TAG.tar.gz | tar xz
@@ -109,10 +111,10 @@ sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 
 byfn_Result() {
    if [ $1 = 0 ]; then
-         vote -m '"Succeeded, Run UnitTest, Run IntegrationTest"' -l F2-SmokeTest=+1
+        vote -m '"Succeeded, Run UnitTest, Run IntegrationTest"' -l F2-SmokeTest=+1
    else
-         vote -m '"Failed"' -l F2-SmokeTest=-1
-         exit 1
+        vote -m '"Failed"' -l F2-SmokeTest=-1
+        exit 1
    fi
 }
 # Execute below tests

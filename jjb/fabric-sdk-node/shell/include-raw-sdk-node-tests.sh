@@ -12,7 +12,7 @@ else
 fi
 
 REPO_NAME=fabric
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$REPO_NAME $WD
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 
 # error check
@@ -44,12 +44,12 @@ echo "------> FABRIC_COMMIT: $FABRIC_COMMIT"
 # Call export_Go()
 export_Go
 
-if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # release-1.0 branch
+if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch
         make docker || err_Check "make docker failed"
         echo
         docker images | grep hyperledger
 
-elif [[ "$GERRIT_BRANCH" = *"release-1.1"* ]]; then # release-1.1 branch
+elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then # release-1.1 branch
      for IMAGES in peer-docker orderer-docker; do
         make $IMAGES || err_Check "make $IMAGES failed"
      done
@@ -81,10 +81,10 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone ssh://hyperledger-jobbuilder@gerrit.hyperledger.org:29418/$CA_REPO_NAME $WD
+git clone --depth=1 git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD || exit
 
-if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then # any release branch
+if [[ "$GERRIT_BRANCH" = "release-" ]]; then # any release branch
       echo "------> Checkout to $GERRIT_BRANCH branch"
       git checkout $GERRIT_BRANCH
 fi

@@ -148,13 +148,11 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - hyperledger-fabric-baseimage-release
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -241,13 +239,11 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - hyperledger-fabric-baseimage-release
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
 
     wrappers:
       - hyperledger-infra-wrappers

@@ -1,14 +1,13 @@
 #!/bin/bash -e
 
-# This script publishes the docker images to Nexus3 and binaries to Nexus2 if the end-to-end-merge tests are successful.
-# Currently the images and binaries are published to Nexus only from the master branch.
+# This script publishes the docker images to Nexus3 and binaries to Nexus2 if the nightly build is successful.
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
 ORG_NAME=hyperledger/fabric
 NEXUS_URL=nexus3.hyperledger.org:10003
 TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
 ARCH=$(go env GOARCH) && echo "--------->" $ARCH
-PROJECT_VERSION=1.2.0-stable
+PROJECT_VERSION=$PUSH_VERSION
 echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
 STABLE_TAG=$ARCH-$PROJECT_VERSION
 echo "-----------> STABLE_TAG:" $STABLE_TAG
@@ -58,17 +57,17 @@ dockerFabricCaPush() {
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 # Tag Fabric Docker Images
-#fabric_DockerTag
+fabric_DockerTag
 # Tag Fabric Ca Docker Images
 fabric_Ca_DockerTag
 # Push Fabric Docker Images to Nexus3
-#dockerFabricPush
+dockerFabricPush
 # Push Fabric Ca Docker Images to Nexus3
 dockerFabricCaPush
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
 # Publish fabric binaries
-: '
+
 if [ $ARCH = "amd64" ]; then
        # Push fabric-binaries to nexus2
        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
@@ -90,7 +89,7 @@ if [ $ARCH = "amd64" ]; then
 else
        echo "-------> Dont publish binaries from s390x platform"
 fi
-'
+
 # fabric-ca binaries
 
 if [ $ARCH = "amd64" ]; then

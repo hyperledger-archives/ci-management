@@ -43,14 +43,14 @@ cd $WD
 
 # Gerrit checkout to Branch
 if [[ "$GERRIT_BRANCH" = "release-" ]]; then
-      echo "-----> Checkout to $GERRIT_BRANCH branch"
-      git checkout $GERRIT_BRANCH
+     echo "-----> Checkout to $GERRIT_BRANCH branch"
+     git checkout $GERRIT_BRANCH
 fi
+
 echo "-----> fabric-ca GERRIT_BRANCH:" $GERRIT_BRANCH
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
 
-# Gerrit Checkout to Branch
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
      # Build only fabric-ca docker image
      make docker-fabric-ca
