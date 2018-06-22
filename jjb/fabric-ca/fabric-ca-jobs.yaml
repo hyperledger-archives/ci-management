@@ -118,7 +118,7 @@
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
           global-settings-file: 'global-settings'
-      - publish-fabric-ca-binaries
+      - push-fabric-ca-binaries
 
     publishers:
       - lf-infra-publish
