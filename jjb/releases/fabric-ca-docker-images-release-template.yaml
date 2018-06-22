@@ -6,7 +6,7 @@
     node: '{build-node}'
     concurrent: true
 
-    disabled: true
+    disabled: false
 
     properties:
       - 'fabric-go-{arch}'
