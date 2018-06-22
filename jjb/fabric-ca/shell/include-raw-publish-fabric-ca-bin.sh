@@ -18,13 +18,14 @@ fi
 cd $GOPATH/src/github.com/hyperledger/fabric-ca
 # pull fabric-ca binaries
 pull_Binary() {
-    MARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
-    export MARCH
-    echo "------> MARCH:" $MARCH
-    MVN_METADATA=$(echo "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-stable/maven-metadata.xml")
-    curl -L "$MVN_METADATA" > maven-metadata.xml
-    RELEASE_TAG=$(cat maven-metadata.xml | grep release)
-    COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
+#    MARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
+#    export MARCH
+#    echo "------> MARCH:" $MARCH
+#    MVN_METADATA=$(echo "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-stable/maven-metadata.xml")
+#    curl -L "$MVN_METADATA" > maven-metadata.xml
+#    RELEASE_TAG=$(cat maven-metadata.xml | grep release)
+#   COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
+    COMMIT=f8d7544
     echo "--------> COMMIT:" $COMMIT
 
 # pull binaries and tag it as version

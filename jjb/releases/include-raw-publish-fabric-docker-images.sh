@@ -18,6 +18,7 @@ THIRDPARTY_IMAGES_LIST=(kafka couchdb zookeeper)
 export THIRDPARTY_IMAGES_LIST
 
 ARCH=$(go env GOARCH)
+echo "ARCH" $ARCH
 if [ "$ARCH" = "amd64" ]; then
 	ARCH=amd64
 else
