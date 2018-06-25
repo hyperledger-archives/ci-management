@@ -7,8 +7,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
-# clone sdk node repo with depth=1
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
 cd $WD
 
 # error check

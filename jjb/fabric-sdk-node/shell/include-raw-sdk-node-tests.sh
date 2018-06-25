@@ -12,7 +12,7 @@ else
 fi
 
 REPO_NAME=fabric
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 
 # error check
@@ -81,7 +81,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD || exit
 
 if [[ "$GERRIT_BRANCH" = "release-" ]]; then # any release branch

@@ -8,7 +8,7 @@ if [ "$GERRIT_BRANCH" != "release-1.0" ] || [ "$ARCH" != "s390x" ] || [ "$ARCH" 
 
       WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java"
       SDK_REPO_NAME=fabric-sdk-java
-      git clone --depth=1 git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
+      git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
       cd $WD
       if [[ "$GERRIT_BRANCH" = "release-1.2" ]]; then
           git checkout master

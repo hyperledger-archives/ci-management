@@ -16,7 +16,7 @@ fi
 # Build docker images with $PUSH_VERSION (ex: 1.2.0-rc1)
 echo "========================"
 echo "======> BUILD DOCKER IMAGES <======="
-make docker $PUSH_VERSION
+make docker
 if [ $? != 0 ]; then
      echo "--------> make docker failed"
      exit 1

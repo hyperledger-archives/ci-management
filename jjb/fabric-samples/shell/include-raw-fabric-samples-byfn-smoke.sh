@@ -94,7 +94,7 @@ WD="${GOPATH}/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 rm -rf $WD
 
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
 echo "--------> Checkout to $GERRIT_BRANCH"

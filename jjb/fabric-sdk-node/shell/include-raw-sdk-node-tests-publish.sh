@@ -12,8 +12,7 @@ else
 fi
 
 REPO_NAME=fabric
-# clone repo with depth=1 for faster download repo code
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
 
 ####################

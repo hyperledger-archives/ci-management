@@ -40,7 +40,7 @@ fi
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone --depth=1 git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
+git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD && git checkout $GERRIT_BRANCH && echo "--------> $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
