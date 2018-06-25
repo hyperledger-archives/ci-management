@@ -3,7 +3,15 @@ set -o pipefail
 
 ORG_NAME="hyperledger/fabric"
 # tag fabric images
-MARCH=$(go env GOARCH)
+# release-1.2 branch supports amd64 and rest all on x86_64
+if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
+     MARCH=x86_64
+     echo "---------> MARCH: $MARCH"
+else
+     MARCH=$(dpkg --print-architecture)
+     echo "---------> MARCH: $MARCH"
+fi
+# Fetch the Baseimage release version
 if [[ $GERRIT_BRANCH = 'release-1.0' ]]; then
     BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep "PREV_VERSION =" | cut -d " " -f 3`
     echo "------> $BASEIMAGE_RELEASE"
