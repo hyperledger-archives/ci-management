@@ -3,7 +3,7 @@ set -o pipefail
 
 # Build fabric images
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric || exit
-
+NEXUS_URL=nexus3.hyperledger.org:10002
 # get the GOARCH value
 ARCH=$(dpkg --print-architecture) # amd64, s390x
 if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then

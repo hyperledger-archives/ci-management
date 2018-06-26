@@ -61,6 +61,12 @@ if [ $1 != 0 ]; then
 fi
 }
 
+echo "------> Deleting Containers...."
+# shellcheck disable=SC2046
+docker rm -f $(docker ps -aq)
+echo "------> List Docker Containers"
+docker ps -aq
+
 # Execute below tests
 echo "------> BRANCH: " $GERRIT_BRANCH
 if [ $GERRIT_BRANCH != "release-1.0" ]; then
