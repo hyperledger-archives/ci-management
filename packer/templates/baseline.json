@@ -11,21 +11,28 @@
   },
   "builders": [
     {
-      "type": "openstack",
-      "identity_endpoint": "https://auth.vexxhost.net/v2.0/",
-      "tenant_name": "{{user `stack_tenant`}}",
-      "username": "{{user `stack_user`}}",
-      "password": "{{user `stack_pass`}}",
-      "region": "ca-ymq-1",
-      "ssh_username": "{{user `cloud_user`}}",
-      "image_name": "{{user `distro`}} - fabric - {{isotime \"20060102-1504\"}}",
+      "name": "vexxhost",
+      "image_name": "ZZCI - {{user `distro`}} - builder - {{isotime \"20060102-150405.000\"}}",
+      "instance_name": "{{user `distro`}}-builder-{{uuid}}",
       "source_image_name": "{{user `base_image`}}",
-      "flavor": "v1-standard-1",
+      "type": "openstack",
+      "identity_endpoint": "{{user `cloud_auth_url`}}",
+      "username": "{{user `cloud_user`}}",
+      "password": "{{user `cloud_pass`}}",
+      "tenant_name": "{{user `cloud_tenant`}}",
+      "domain_name": "Default",
+      "region": "ca-ymq-1",
       "availability_zone": "ca-ymq-2",
       "networks": [
-        "{{user `stack_network`}}"
+        "{{user `cloud_network`}}"
       ],
-      "user_data_file": "{{user `cloud_user_data`}}"
+      "user_data_file": "{{user `cloud_user_data`}}",
+      "ssh_username": "{{user `ssh_user`}}",
+      "ssh_proxy_host": "{{user `ssh_proxy_host`}}",
+      "flavor": "v1-standard-1",
+      "metadata": {
+        "ci_managed": "yes"
+      }
     }
   ],
   "provisioners": [
