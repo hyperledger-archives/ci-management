@@ -159,7 +159,7 @@ deb_add_docker_repo() {
 
 deb_install_docker_compose() {
     echo '---> Installing Docker Compose'
-    curl -sL "https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
+    curl -sL "https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m`" > /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
     docker-compose --version
 }
