@@ -11,7 +11,7 @@ ARCH=$(dpkg --print-architecture)
 # PUSH_VERSION comes from Jenkins environment variable
 echo "================="
 echo "-------> BUILD DOCKER IMAGES <---------"
-make docker
+make docker PROJECT_VERSION=$PUSH_VERSION
 if [ $? != 0 ]; then
      echo "--------> make docker failed"
      exit 1

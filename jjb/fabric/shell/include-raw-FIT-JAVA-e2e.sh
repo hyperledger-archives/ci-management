@@ -12,7 +12,7 @@ if [ "$GERRIT_BRANCH" != "release-1.0" ] || [ "$ARCH" != "s390x" ] || [ "$ARCH" 
       cd $WD
       if [[ "$GERRIT_BRANCH" = "release-1.2" ]]; then
           git checkout master
-      elif [[ "$GERRIT_BRANCH" = "release-*" ]]; then
+      elif [[ "$GERRIT_BRANCH" = *"release-"* ]]; then
           echo "-----> Checkout to $GERRIT_BRANCH branch"
           git checkout $GERRIT_BRANCH
       fi

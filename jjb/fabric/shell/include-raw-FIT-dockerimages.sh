@@ -42,7 +42,7 @@ git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD
 
 # Gerrit checkout to Branch
-if [[ "$GERRIT_BRANCH" = "release-" ]]; then
+if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then
      echo "-----> Checkout to $GERRIT_BRANCH branch"
      git checkout $GERRIT_BRANCH
 fi

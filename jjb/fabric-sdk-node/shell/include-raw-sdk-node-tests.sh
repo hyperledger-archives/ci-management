@@ -84,7 +84,7 @@ CA_REPO_NAME=fabric-ca
 git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD || exit
 
-if [[ "$GERRIT_BRANCH" = "release-" ]]; then # any release branch
+if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then # any release branch
       echo "------> Checkout to $GERRIT_BRANCH branch"
       git checkout $GERRIT_BRANCH
 fi
