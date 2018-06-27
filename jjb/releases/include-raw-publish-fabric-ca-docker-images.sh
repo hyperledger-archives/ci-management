@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 ############################################
-# Pull "1.2.0-stable" docker images from nexus3
+# Pull "STABLE_VERSION" docker images from nexus3
 # Tag it as $ARCH-$RELEASE_VERSION (1.2.0)
 # Push tagged images to hyperledger dockerhub
 #############################################
@@ -10,8 +10,6 @@ ORG_NAME=hyperledger/fabric
 export ORG_NAME
 NEXUS_URL=nexus3.hyperledger.org:10001
 export NEXUS_URL
-STABLE_VERSION=1.2.0-stable
-export STABLE_VERSION
 RELEASE_VERSION=${RELEASE_VERSION:-1.2.0}
 export RELEASE_VERSION
 IMAGES_LIST=(ca ca-tools ca-orderer ca-peer)

@@ -80,7 +80,7 @@
     publishers:
       - lf-infra-publish
 
-# publish fabric-binaries
+# publish fabric-ca-binaries
 - job-template:
     name: 'fabric-ca-binaries-{arch}'
 
@@ -103,6 +103,10 @@
           refspec: ''
       - release-version:
           push-version: '1.2.0'
+      - stable-version:
+          pull-version: '1.2.0-stable'
+      - release-commit:
+          pull-commit: ''
 
     scm:
       - fabric-gerrit-scm:
@@ -120,6 +124,7 @@
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
           global-settings-file: 'global-settings'
+      #  Publish fabric-ca binaries to nexus2 release registry
       - push-fabric-ca-binaries
 
     publishers:

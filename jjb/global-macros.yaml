@@ -69,6 +69,22 @@
           default: '{push-version}'
           description: "Provide release version here to publish docker images"
 
+- parameter:
+    name: stable-version
+    parameters:
+      - string:
+          name: STABLE_VERSION
+          default: '{pull-version}'
+          description: "Provide pull version here to pull docker images from nexus"
+
+- parameter:
+    name: release-commit
+    parameters:
+      - string:
+          name: RELEASE_COMMIT
+          default: '{pull-commit}'
+          description: "Provide release-commit here to pull stable binaries from nexus2"
+
 #
 ########
 # SCMS #

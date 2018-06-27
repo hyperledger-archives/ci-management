@@ -34,28 +34,20 @@
     arch: 'ppc64le'
     build-node: 'hyp-p'
 
-#############################
-# Master Branch Release Jobs
-#############################
+#############################################################
+#  Fabric Release Jobs
+#    Pull stable (1.2.0-stable) fabric release version images
+#    from nexus and tag it to hyperledger images with release
+#    version (1.2.0)
+################################################
 
 - project:
-    name: fabric-images-master-release-job-s390x
+    name: fabric-release-job
     jobs:
-      - '{project-name}-{branch}-release-job-{arch}'
+      - fabric-release-job
 
     project: fabric
     project-name: fabric
     branch: master
     arch: 's390x'
     build-node: 'hyp-z'
-
-- project:
-    name: fabric-images-master-release-job-x86_64
-    jobs:
-      - '{project-name}-{branch}-release-job-{arch}'
-
-    project: fabric
-    project-name: fabric
-    branch: master
-    arch: 'x86_64'
-    build-node: 'hyp-x'

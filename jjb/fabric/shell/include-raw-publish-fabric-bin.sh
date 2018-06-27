@@ -1,18 +1,19 @@
 #!/bin/bash -e
 
 ############################################
-# Pull "1.2.0-stable" docker images from nexus3
-# Tag it as $ARCH-$RELEASE_VERSION (1.2.0)
-# Push tagged images to hyperledger dockerhub
+
+# PUBLISH FABRIC BINARIES
+
+# Pull fabric  binaries from nexus on a
+# specific commit and publish them to nexus
+# release repository
 #############################################
 
-STABLE_VERSION=1.2.0-stable
-export STABLE_VERSION
 ARCH=$(go env GOARCH)
 if [ "$ARCH" = "amd64" ]; then
-	ARCH=amd64
+    ARCH=amd64
 else
-    ARCH=$(uname -m)
+    ARCH=$(uname -m) # x86_64, s390x
 fi
 
 cd $GOPATH/src/github.com/hyperledger/fabric
@@ -24,13 +25,15 @@ pull_Binary() {
 #    MVN_METADATA=$(echo "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/maven-metadata.xml")
 #    curl -L "$MVN_METADATA" > maven-metadata.xml
 #    RELEASE_TAG=$(cat maven-metadata.xml | grep release)
-    COMMIT=f6e72eb
+#    Hard code fabric commit here as the maven-metadata.xml file is refreshing often. #
+#    Fetch the specific commit from nexus and provide that from Jenkins job #
+#    COMMIT=f6e72eb
 #    COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
-    echo "--------> COMMIT:" $COMMIT
+#    echo "--------> COMMIT:" $COMMIT
 
 # pull binaries and tag it as version
-    for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
-	mkdir -p release/$binary && cd release/$binary
+    for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+	    mkdir -p release/$binary && cd release/$binary
     	curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/$binary.$STABLE_VERSION-$COMMIT/hyperledger-fabric-stable-$binary.$STABLE_VERSION-$COMMIT.tar.gz | tar xz
     	rm -rf hyperledger-fabric-* && tar -czf hyperledger-fabric-$binary.$1.tar.gz *
         echo "Pushing hyperledger-fabric-$binary.$1.tar.gz to maven releases.."

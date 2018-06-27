@@ -1,4 +1,14 @@
 ---
+
+#########################################
+
+# fabric release job, triggers when a tag
+# is created in github.
+# Disabled for now, as we publish images from
+# {project-name}-release-job
+
+###########################################
+
 - job-template:
     name: '{project-name}-{arch}-release-job'
 
@@ -39,18 +49,25 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
+      # Build fabric docker images
       - buildimages
+      # Push tagged docker images to dockerhub
       - app-docker-image-release
 
     publishers:
       - lf-infra-publish
 
-#####################################
-# FABRIC DOCKER RELEASE JOB on MASTER
-#####################################
+############################################################
+# FABRIC DOCKER RELEASE JOB
+
+# Pull fabric stable docker images (1.2.0-stable) from nexus
+# and tag it with hyperledger release version
+# (1.2.0)
+
+############################################################
 
 - job-template:
-    name: '{project-name}-{branch}-release-job-{arch}'
+    name: 'fabric-release-job'
 
     project-type: freestyle
     node: '{build-node}'
@@ -71,6 +88,8 @@
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
       - release-version:
           push-version: '1.2.0'
+      - stable-version:
+          pull-version: '1.2.0-stable'
 
     scm:
       - fabric-gerrit-scm:
@@ -85,6 +104,7 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
+      # Pull stable images from nexus, re-tag and push to dockerhub
       - publish-fabric-docker-images
 
     publishers:

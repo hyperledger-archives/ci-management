@@ -71,7 +71,7 @@ docker images | grep "nexus*"
 
 if [ $ARCH = "amd64" ]; then
        # Push fabric-binaries to nexus2
-       for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+       for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
               echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
