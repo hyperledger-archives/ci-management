@@ -5,7 +5,6 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-svt-{arch}'
-      - 'fabric-test-pte-publish-{arch}'
       - 'fabric-test-pte-{arch}'
 
     project: 'fabric-test'
@@ -189,7 +188,7 @@
       - test-logs
 
 - job-template:
-    name: 'fabric-test-pte-publish-{arch}'
+    name: '{project-name}-publish-{image}-{branch}-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -205,9 +204,9 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: '{branch}'
       - release-version:
-          push-version: '1.2-stable'
+          push-version: '{release_version}'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
@@ -228,7 +227,7 @@
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - pte-dockerimage-publish
+      - '{image}-dockerimage-publish'
 
 - job-template:
     name: 'fabric-test-pte-{arch}'

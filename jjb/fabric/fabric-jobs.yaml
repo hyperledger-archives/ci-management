@@ -19,7 +19,7 @@
 # Nightly Job
 
 - job-template:
-    name: '{project-name}-nightly-release-job-{arch}'
+    name: '{project-name}-nightly-release-job-{branch}-{arch}'
 
     project-type: freestyle
     node: '{build-node}'
@@ -39,7 +39,7 @@
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
       - release-version:
-          push-version: '1.2.0'
+          push-version: '{rel_version}'
 
     scm:
       - fabric-gerrit-scm:

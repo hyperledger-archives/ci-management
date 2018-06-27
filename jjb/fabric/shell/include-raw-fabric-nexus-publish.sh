@@ -2,20 +2,21 @@
 
 # This script publishes the docker images to Nexus3 and binaries to Nexus2 if the nightly build is successful.
 
-cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-ORG_NAME=hyperledger/fabric
-NEXUS_URL=nexus3.hyperledger.org:10003
-TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
-ARCH=$(go env GOARCH) && echo "--------->" $ARCH
-PROJECT_VERSION=$PUSH_VERSION
-echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
-STABLE_TAG=$ARCH-$PROJECT_VERSION
-echo "-----------> STABLE_TAG:" $STABLE_TAG
+if [ "$ARCH" != "s390x" ]; then
+    cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+    ORG_NAME=hyperledger/fabric
+    NEXUS_URL=nexus3.hyperledger.org:10003
+    TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
+    ARCH=$(go env GOARCH) && echo "--------->" $ARCH
+    PROJECT_VERSION=$PUSH_VERSION
+    echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
+    STABLE_TAG=$ARCH-$PROJECT_VERSION
+    echo "-----------> STABLE_TAG:" $STABLE_TAG
 
-cd ../fabric-ca
-CA_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "CA COMMIT" $CA_COMMIT
-cd -
+    cd ../fabric-ca
+    CA_COMMIT=$(git log -1 --pretty=format:"%h")
+    echo "CA COMMIT" $CA_COMMIT
+    cd -
 
 fabric_DockerTag() {
     for IMAGES in peer orderer ccenv tools; do
@@ -90,6 +91,11 @@ else
        echo "-------> Dont publish binaries from s390x platform"
 fi
 
+# Disable publishing fabric-ca binaries from nightly builds till we identify a way
+# to publish both fabric and fabric-ca binaries from same job
+# Once it is available, just uncomment this below
+
+: '
 # fabric-ca binaries
 
 if [ $ARCH = "amd64" ]; then
@@ -112,4 +118,8 @@ if [ $ARCH = "amd64" ]; then
        done
 else
        echo "-------> Dont publish binaries from s390x platform"
+fi
+'
+else
+    echo "-----------> Don't publish from s390x"
 fi
