@@ -10,8 +10,7 @@ ORG_NAME=hyperledger/fabric
 export ORG_NAME
 NEXUS_URL=nexus3.hyperledger.org:10001
 export NEXUS_URL
-STABLE_VERSION=1.2.0-stable
-export STABLE_VERSION
+: ${STABLE_VERSION:=1.2.0-stable}
 IMAGES_LIST=(peer orderer ccenv tools)
 export IMAGES_LIST
 THIRDPARTY_IMAGES_LIST=(kafka couchdb zookeeper)
@@ -46,12 +45,12 @@ pull_Binary() {
     export MARCH
     echo "------> MARCH:" $MARCH
     echo "-------> pull stable binaries for all platforms (x and z)"
-    MVN_METADATA=$(echo "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/maven-metadata.xml")
+    MVN_METADATA=$(echo "https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$STABLE_VERSION/maven-metadata.xml")
     curl -L "$MVN_METADATA" > maven-metadata.xml
     RELEASE_TAG=$(cat maven-metadata.xml | grep release)
     COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
     echo "--------> COMMIT:" $COMMIT
-    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz 
+    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$STABLE_VERSION/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-$STABLE_VERSION-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz
 }
 
 # pull fabric docker images from amd64 and s390x platforms
@@ -59,13 +58,14 @@ pull_Platform_All() {
 
     # pull stable images from nexus and tag to hyperledger
     echo "-------> pull docker images for all platforms (x, z)"
-    for arch in amd64 s390x; do
+# Disable this fix FAB-10904 (release-1.2 supports only x)
+#    for arch in amd64 s390x; do
+# echo "---------> arch:" $arch
         for IMAGES in ${IMAGES_LIST[*]}; do
             docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
             docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION $ORG_NAME-$IMAGES:$arch-$1
             docker rmi -f $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
         done
-    done
 }
 
 push() {
@@ -74,11 +74,10 @@ push() {
 # push docker images
     echo "------> push docker images"
     docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-    for MARCH in amd64 s390x; do
+#    for MARCH in amd64 s390x; do
         for IMAGES in ${IMAGES_LIST[*]}; do
-            docker push $ORG_NAME-$IMAGES:$MARCH-$1
+            docker push $ORG_NAME-$IMAGES:$arch-$1
         done
-    done
 }
 
 # pull thirdparty docker images from nexus
@@ -94,4 +93,5 @@ pull_Thirdparty() {
 }
 
 # Push Release
+arch=amd64
 push $PUSH_VERSION

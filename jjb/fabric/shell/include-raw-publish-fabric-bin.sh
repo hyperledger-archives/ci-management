@@ -30,11 +30,12 @@ pull_Binary() {
 #    COMMIT=f6e72eb
 #    COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
 #    echo "--------> COMMIT:" $COMMIT
+echo "----------> RELEASE_COMMIT:" $RELEASE_COMMIT
 
 # pull binaries and tag it as version
     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
-	    mkdir -p release/$binary && cd release/$binary
-    	curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-stable/$binary.$STABLE_VERSION-$COMMIT/hyperledger-fabric-stable-$binary.$STABLE_VERSION-$COMMIT.tar.gz | tar xz
+        mkdir -p release/$binary && cd release/$binary
+        curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$STABLE_VERSION/$binary.$STABLE_VERSION-$RELEASE_COMMIT/hyperledger-fabric-$STABLE_VERSION-$binary.$STABLE_VERSION-$RELEASE_COMMIT.tar.gz | tar xz
     	rm -rf hyperledger-fabric-* && tar -czf hyperledger-fabric-$binary.$1.tar.gz *
         echo "Pushing hyperledger-fabric-$binary.$1.tar.gz to maven releases.."
         mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
@@ -55,4 +56,3 @@ pull_Binary() {
 
 # Push Release
 pull_Binary $PUSH_VERSION
-
