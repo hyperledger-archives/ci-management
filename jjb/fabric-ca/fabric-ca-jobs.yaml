@@ -98,7 +98,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: 'release-1.2'
       - gerrit-refspec-parameter:
           refspec: ''
       - release-version:

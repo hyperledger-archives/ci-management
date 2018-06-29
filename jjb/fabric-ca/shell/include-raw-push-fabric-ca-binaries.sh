@@ -28,7 +28,7 @@ fi
 # Push fabric-ca-binaries to nexus2
 if [ "${IS_RELEASE}" == "false" ]; then
 
-     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
        echo "Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz \
@@ -44,7 +44,7 @@ if [ "${IS_RELEASE}" == "false" ]; then
      done
      echo "========> DONE <======="
   else
-     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
        echo "Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz to maven releases.."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz \
