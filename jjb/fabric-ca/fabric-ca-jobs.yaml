@@ -173,12 +173,12 @@
       - clean-environment
       - 'ca-golang-environment-{arch}'
       - output-environment
-      - ca-unit-tests
+      - 'ca-unit-tests-{arch}'
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca rm -rf /tmp/fabric-shim || true
 
     publishers:
       - lf-infra-publish
@@ -224,12 +224,12 @@
       - clean-environment
       - 'ca-golang-environment-{arch}'
       - output-environment
-      - ca-unit-tests
+      - 'ca-unit-tests-{arch}'
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -280,12 +280,12 @@
       - clean-environment
       - 'ca-golang-environment-s390x'
       - output-environment
-      - ca-unit-tests-s390x
+      - 'ca-unit-tests-s390x'
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish
@@ -331,12 +331,12 @@
       - clean-environment
       - 'ca-golang-environment-s390x'
       - output-environment
-      - ca-unit-tests-s390x
+      - 'ca-unit-tests-s390x'
       - shell: |
          #!/bin/bash -exu
          set -o pipefail
 
-         docker run -v /tmp:/tmp hyperledger/fabric-ca-fvt rm -rf /tmp/fabric-shim
+         docker run -v /tmp:/tmp hyperledger/fabric-ca rm -rf /tmp/fabric-shim
 
     publishers:
       - lf-infra-publish

@@ -59,13 +59,11 @@ if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
          exit 1
      fi
 else
-     for IMAGES in docker docker-fvt; do
-         make $IMAGES
+         make docker
          if [ $? != 0 ]; then
-            echo "------> make $IMAGES failed"
+            echo "------> make docker failed"
             exit 1
          fi
-     done
 fi
 docker images | grep hyperledger
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log

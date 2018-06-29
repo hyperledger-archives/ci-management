@@ -13,14 +13,28 @@
           choosing-strategy: 'gerrit'
 
 - builder:
-    name: ca-unit-tests
+    name: ca-unit-tests-s390x
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          set -o pipefail
+
+          # yamllint disable-line rule:line-length
+          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
+          # yamllint disable-line rule:line-length
+          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
+          rm -rf $GOPATH/src/golang.org
+
+          cd gopath/src/github.com/hyperledger/fabric-ca && make all-tests docs
+
+- builder:
+    name: ca-unit-tests-x86_64
     builders:
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric-ca && make ci-tests
-          make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
 
 - builder:
     name: push-fabric-ca-binaries
@@ -54,31 +68,6 @@
           cd $WD && CA_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "CA_COMMIT =========> $CA_COMMIT"
           echo
-
-- builder:
-    name: ca-tests
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric-ca && make
-
-- builder:
-    name: ca-unit-tests-s390x
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          # yamllint disable-line rule:line-length
-          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
-          # yamllint disable-line rule:line-length
-          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
-          rm -rf $GOPATH/src/golang.org
-
-          cd gopath/src/github.com/hyperledger/fabric-ca && make ci-tests
-          make docker-fvt && docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt || true
 
 - builder:
     name: ca-golang-environment-x86_64
