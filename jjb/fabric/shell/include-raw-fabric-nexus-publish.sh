@@ -29,7 +29,7 @@ fabric_DockerTag() {
 }
 
 fabric_Ca_DockerTag() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
+    for IMAGES in ca ca-peer ca-orderer ca-tools; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
@@ -49,7 +49,7 @@ dockerFabricPush() {
 }
 
 dockerFabricCaPush() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
+    for IMAGES in ca ca-peer ca-orderer ca-tools; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
