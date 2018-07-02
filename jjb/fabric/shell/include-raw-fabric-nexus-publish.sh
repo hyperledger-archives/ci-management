@@ -28,13 +28,13 @@ fabric_DockerTag() {
 }
 
 fabric_Ca_DockerTag() {
-#    for IMAGES in ca; do
-#         echo "----------> $IMAGES"
+    for IMAGES in ca ca-peer ca-orderer ca-tools; do
+         echo "----------> $IMAGES"
          echo
-         docker tag $ORG_NAME-ca $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG
-         docker tag $ORG_NAME-ca $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG-$CA_COMMIT
-#    done
-         echo "----------> $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG"
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+    done
+         echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 
 dockerFabricPush() {
@@ -48,13 +48,13 @@ dockerFabricPush() {
 }
 
 dockerFabricCaPush() {
-#    for IMAGES in ca; do
-#         echo "-----------> $IMAGES"
-         docker push $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG
-         docker push $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG-$CA_COMMIT
+    for IMAGES in ca ca-peer ca-orderer ca-tools; do
+         echo "-----------> $IMAGES"
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
          echo
-#    done
-         echo "-----------> $NEXUS_URL/$ORG_NAME-ca:$STABLE_TAG"
+    done
+         echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 # Tag Fabric Docker Images
 fabric_DockerTag
