@@ -84,6 +84,7 @@ echo y | ./eyfn.sh -m up -t 60
 copy_logs $? default-channel
 echo y | ./eyfn.sh -m down
 echo
+: '
 echo "############## BYFN,EYFN CUSTOM CHANNEL TEST ############"
 echo "#########################################################"
 
@@ -104,7 +105,7 @@ echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
 echo "####################################################################"
-
+'
 echo y | ./byfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m up -l node -t 60

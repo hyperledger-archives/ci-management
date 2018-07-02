@@ -58,16 +58,6 @@
       - output-environment
       - 'golang-environment-{arch}'
       - fabric-nightly-release-builds
-      - fabric-nightly-smoke-build
-      - shell: |
-          #!/bin/bash
-
-          cd gopath/src/github.com/hyperledger/fabric || exit
-          make integration-test
-          if [ $? != 0 ]; then
-               echo" ---------> make integration-test failed"
-               exit 1
-          fi
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
