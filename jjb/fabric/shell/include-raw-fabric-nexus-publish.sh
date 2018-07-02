@@ -2,7 +2,6 @@
 
 # This script publishes the docker images to Nexus3 and binaries to Nexus2 if the nightly build is successful.
 
-if [ "$ARCH" != "s390x" ]; then
     cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
     ORG_NAME=hyperledger/fabric
     NEXUS_URL=nexus3.hyperledger.org:10003
@@ -69,6 +68,7 @@ dockerFabricCaPush
 docker images | grep "nexus*"
 # Publish fabric binaries
 
+
 if [ $ARCH = "amd64" ]; then
        # Push fabric-binaries to nexus2
        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
@@ -120,6 +120,3 @@ else
        echo "-------> Dont publish binaries from s390x platform"
 fi
 '
-else
-    echo "-----------> Don't publish from s390x"
-fi
