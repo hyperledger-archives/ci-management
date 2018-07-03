@@ -5,6 +5,7 @@
     cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
     ORG_NAME=hyperledger/fabric
     NEXUS_URL=nexus3.hyperledger.org:10003
+    GIT_COMMIT=cae2ad445
     TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
     ARCH=$(go env GOARCH) && echo "--------->" $ARCH
     PROJECT_VERSION=$PUSH_VERSION

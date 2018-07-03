@@ -4,6 +4,7 @@ set -o pipefail
 # Checkout to fabric repository
 ################################
 cd gopath/src/github.com/hyperledger/fabric || exit
+git checkout cae2ad4
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
 echo "FABRIC_COMMIT ----------> $FABRIC_COMMIT" >> commit.log
