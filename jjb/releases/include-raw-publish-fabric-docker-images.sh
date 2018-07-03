@@ -58,14 +58,14 @@ pull_Platform_All() {
 
     # pull stable images from nexus and tag to hyperledger
     echo "-------> pull docker images for all platforms (x, z)"
-# Disable this fix FAB-10904 (release-1.2 supports only x)
-#    for arch in amd64 s390x; do
-# echo "---------> arch:" $arch
+    for arch in amd64 s390x; do
+        echo "---------> arch:" $arch
         for IMAGES in ${IMAGES_LIST[*]}; do
             docker pull $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
             docker tag $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION $ORG_NAME-$IMAGES:$arch-$1
             docker rmi -f $NEXUS_URL/$ORG_NAME-$IMAGES:$arch-$STABLE_VERSION
         done
+    done
 }
 
 push() {
@@ -74,10 +74,11 @@ push() {
 # push docker images
     echo "------> push docker images"
     docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
-#    for MARCH in amd64 s390x; do
+    for MARCH in amd64 s390x; do
         for IMAGES in ${IMAGES_LIST[*]}; do
             docker push $ORG_NAME-$IMAGES:$arch-$1
         done
+    done
 }
 
 # pull thirdparty docker images from nexus
@@ -93,5 +94,4 @@ pull_Thirdparty() {
 }
 
 # Push Release
-arch=amd64
 push $PUSH_VERSION
