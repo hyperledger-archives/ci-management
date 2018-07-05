@@ -16,7 +16,7 @@
     node: '{build-node}'
     concurrent: true
 
-    disabled: true
+    disabled: false
 
     properties:
       - 'fabric-go-{arch}'
@@ -34,10 +34,6 @@
 
     scm:
       - hyperledger-fabric-ca-gerrit
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
 
     wrappers:
       - hyperledger-infra-wrappers

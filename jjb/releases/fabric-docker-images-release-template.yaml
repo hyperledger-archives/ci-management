@@ -16,7 +16,7 @@
     node: '{build-node}'
     concurrent: true
 
-    disabled: true
+    disabled: false
 
     properties:
       - 'fabric-go-{arch}'
@@ -35,10 +35,6 @@
     scm:
       - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
 
     wrappers:
       - hyperledger-infra-wrappers
