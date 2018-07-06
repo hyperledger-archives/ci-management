@@ -44,11 +44,18 @@
     name: app-docker-image
     builders:
       - shell: |
-          #!/bin/bash -exu
+          #!/bin/bash -e
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric
-          make docker
+          for IMAGES in peer-docker orderer-docker tools-docker ccenv; do
+              echo "---------> Build $IMAGES"
+              make $IMAGES
+            if [ $? != 0 ]; then
+              echo "----------> make $IMAGES failed"
+              exit 1
+            fi
+          done
 
 - builder:
     name: app-docker-image-release

@@ -46,7 +46,7 @@
       - 'golang-environment-{arch}'
       - output-environment
       # Build fabric docker images
-      - buildimages
+      - app-docker-image
       # Push tagged docker images to dockerhub
       - app-docker-image-release
 
