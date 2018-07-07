@@ -365,15 +365,20 @@
                     --notify '"NONE"' \
                     "$@"
           }
-
           vote -m '"Starting Integration tests"' -l F3-IntegrationTest=0
-          cd gopath/src/github.com/hyperledger/fabric && time make integration-test
-          res=$(echo $?)
-          if [ $res = 0 ]; then
+          cd gopath/src/github.com/hyperledger/fabric
+          if [ "$GERRIT_BRANCH" = "release-1.1" || "$GERRIT_BRANCH" = "release-1.0" ]; then
+              echo "--------> Don't Trigger IntegrationTests on $GERRIT_BRANCH branch"
               vote -m '"Succeeded"' -l F3-IntegrationTest=+1
           else
-              vote -m '"Failed"' -l F3-IntegrationTest=-1
-              exit 1
+              time make integration-test
+              res=$(echo $?)
+              if [ $res = 0 ]; then
+                 vote -m '"Succeeded"' -l F3-IntegrationTest=+1
+              else
+                 vote -m '"Failed"' -l F3-IntegrationTest=-1
+                 exit 1
+              fi
           fi
 
 - builder:

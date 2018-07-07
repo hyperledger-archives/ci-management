@@ -48,7 +48,7 @@
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric
-          for IMAGES in peer-docker orderer-docker tools-docker ccenv; do
+          for IMAGES in peer-docker orderer-docker tools-docker; do
               echo "---------> Build $IMAGES"
               make $IMAGES
             if [ $? != 0 ]; then
@@ -95,6 +95,8 @@
 
          cd gopath/src/github.com/hyperledger/fabric-ca
          make docker
+         echo "--------> LIST DOCKER IMAGES"
+         docker images | grep hyperledger
 
 - builder:
     name: build-docker-thirdparty

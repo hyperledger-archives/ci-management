@@ -1,10 +1,8 @@
 #!/bin/bash
 set -o pipefail
 
-ARCH=$(go env GOARCH)
-FABRIC_CA_TAG=$ARCH-1.2.0-rc1
+FABRIC_CA_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-ca | sed 's/.*:\(.*\)]/\1/')
 echo "FABRIC Images TAG ID is: " $FABRIC_CA_TAG
-
 echo
 ORG_NAME="hyperledger/fabric"
 
@@ -24,6 +22,17 @@ dockerCaPush() {
 
 # Push Fabric Docker Images to hyperledger dockerhub Repository
 dockerCaPush
+
+if [ "$GERRIT_BRANCH" = "release-1.0" ]; then
+    echo "-------> Publish fabric-ca docker images from $GERRIT_BRANCH"
+    docker push $ORG_NAME-ca:$FABRIC_CA_TAG
+    echo
+    echo "==> $ORG_NAME-ca:$FABRIC_CA_TAG"
+    echo
+else
+    echo "--------> publish ca images from $GERRIT_BRANCH"
+    dockerCaPush
+fi
 
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "hyperledger*"

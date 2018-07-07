@@ -10,7 +10,7 @@
 ###########################################
 
 - job-template:
-    name: '{project-name}-release-jobs-{arch}'
+    name: 'fabric-ca-{arch}-release-job'
 
     project-type: freestyle
     node: '{build-node}'

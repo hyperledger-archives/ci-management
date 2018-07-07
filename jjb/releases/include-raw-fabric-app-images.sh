@@ -35,20 +35,20 @@ docker_Fabric_Push() {
   done
 }
 
-BRANCH=$(echo $GIT_BRANCH | grep 'v1.0.*')
-REFSPEC=$(echo $GERRIT_REFSPEC | grep 'v1.0.*')
-
-if [ -z "$BRANCH" ] && [ -z "$REFSPEC" ]; then
-     # Push Fabric Docker Images from master branch
-     echo "-----> Release tag: $GERRIT_REFSPEC"
-     echo "-----> GIT_BRANCH: $GIT_BRANCH"
-     echo "-----> Pushing fabric docker images from master branch"
+if [ "$GERRIT_BRANCH" = "release-1.2" ] || [ "$GERRIT_BRANCH" = "master" ]; then
+     echo "-----> Pushing fabric docker images from $GERRIT_BRANCH branch"
      docker_Fabric_Push
+elif [ "$GERRIT_BRANCH" = "release-1.1" ]; then
+     echo "-------> GERRIT_BRANCH" $GERRIT_BRANCH
+     for IMAGES in peer orderer ccenv tools javaenv; do
+         echo "----------> IMAGES: $IMAGES"
+         docker push $ORG_NAME-$IMAGES:$FABRIC_TAG
+         echo
+         echo "----------> $ORG_NAME-$IMAGES:$FABRIC_TAG"
+     done
 else
      # Push Fabric & Thirdparty Docker Images from release branch
-     echo "-----> Release tag: $GERRIT_REFSPEC"
-     echo "-----> GIT_BRANCH: $GIT_BRANCH"
-     echo "-----> Pushing fabric and thirdparty docker images from release branch"
+     echo "-----> Pushing fabric and thirdparty docker images from release-1.0 branch"
      docker_Fabric_Push
      docker_Fabric_Thirdparty_Push
 fi
