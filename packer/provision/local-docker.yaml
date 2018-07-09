@@ -139,9 +139,9 @@
          for image in ${IMAGES_LIST[*]}; do
             docker pull hyperledger/fabric-$image:amd64-0.4.8
             docker pull hyperledger/fabric-$image:x86_64-0.4.7
-        done
-        echo "---> Pulling Indy images"
-        docker pull hyperledger/indy-core-baseci:0.0.1
+         done
+         echo "---> Pulling Indy images"
+         docker pull hyperledger/indy-core-baseci:0.0.1
       become: true
 
     - name: 'Pull cello images'
