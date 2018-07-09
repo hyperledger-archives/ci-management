@@ -367,7 +367,7 @@
           }
           vote -m '"Starting Integration tests"' -l F3-IntegrationTest=0
           cd gopath/src/github.com/hyperledger/fabric
-          if [ "$GERRIT_BRANCH" = "release-1.1" || "$GERRIT_BRANCH" = "release-1.0" ]; then
+          if [[ "$GERRIT_BRANCH" == "release-1.1" || "$GERRIT_BRANCH" == "release-1.0" ]]; then
               echo "--------> Don't Trigger IntegrationTests on $GERRIT_BRANCH branch"
               vote -m '"Succeeded"' -l F3-IntegrationTest=+1
           else

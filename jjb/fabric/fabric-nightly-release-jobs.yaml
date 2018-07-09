@@ -48,7 +48,7 @@
     branch: release-1.2
     arch: s390x
     build-node: hyp-z
-    rel_version: 1.2.0-stable
+    rel_version: 1.2.1-stable
 
 
 - project:
@@ -62,4 +62,4 @@
     branch: release-1.2
     arch: x86_64
     build-node: hyp-x
-    rel_version: 1.2.0-stable
+    rel_version: 1.2.1-stable

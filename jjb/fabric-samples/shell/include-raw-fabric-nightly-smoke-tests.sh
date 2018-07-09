@@ -96,7 +96,7 @@ echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN CUSTOM CHANNEL WITH COUCHDB TEST ##############"
 echo "#########################################################################"
-
+'
 echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
 copy_logs $? custom-channel-couch couchdb
 echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
@@ -105,15 +105,16 @@ echo y | ./eyfn.sh -m down
 echo
 echo "############### BYFN,EYFN WITH NODE Chaincode. TEST ################"
 echo "####################################################################"
-'
+
 echo y | ./byfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node
 echo y | ./eyfn.sh -m down
 
+: '
 echo "############### FABRIC-CA SAMPLES TEST ########################"
 echo "###############################################################"
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
 ./start.sh && ./stop.sh
-
+'

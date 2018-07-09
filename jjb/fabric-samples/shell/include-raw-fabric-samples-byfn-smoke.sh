@@ -86,6 +86,7 @@ dockerTag() {
 # Tag Fabric Nexus docker images to hyperledger
 dockerTag
 docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-$VERSION-snapshot-$CCENV_TAG
+docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-$VERSION # release-1.1 branch
 
 # List all hyperledger docker images
 docker images | grep "hyperledger*"
