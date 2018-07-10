@@ -159,11 +159,11 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: 'refs/changes/71/23771/1'
+          refspec: ''
       - stable-version:
-          pull-version: '1.2.0-stable'
+          pull-version: '1.2.1-stable'
       - release-commit:
-          pull-commit: '29a7d95'
+          pull-commit: ''
 
     wrappers:
       - hyperledger-infra-wrappers
