@@ -19,6 +19,10 @@
                    linux-image-extra-$(uname -r) docker-engine'
   tasks:
 
+    - name: 'Remove unattended-upgrades'
+      command: apt-get remove -y unattended-upgrades
+      become: true
+
     - name: 'Install gimme and Go'
       command: "{{ item }}"
       with_items:
