@@ -1,6 +1,13 @@
 ---
 # The below jobs trigger daily at 02 hours/2 AM UTC
 
+#############################################
+#
+# master s390x & x86_64
+# Add new job configuration for master branch
+#
+#############################################
+
 - project:
     name: fabric-end-2-end-daily-master-s390x
     jobs:
@@ -9,9 +16,14 @@
     project: fabric
     project-name: fabric
     branch: master
+    # Change the cron time in UTC format
     cron_time: 'H 2 * * *'
     arch: 's390x'
     node: 'z'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50
 
 - project:
     name: fabric-end-2-end-daily-master-ppc64le
@@ -21,9 +33,14 @@
     project: fabric
     project-name: fabric
     branch: master
+    # Change the cron time in UTC format
     cron_time: 'H 2 * * *'
     arch: 'ppc64le'
     node: 'p'
+    # Change this to "true" if you wish to disable this job
+    disable: true
+    # Increase or Decrease build time
+    build_timeout: 50
 
 - project:
     name: fabric-end-2-end-daily-master-x86_64
@@ -33,9 +50,59 @@
     project: fabric
     project-name: fabric
     branch: master
+    # Change the cron time in UTC format
     cron_time: 'H 2 * * *'
     arch: 'x86_64'
     node: 'x86_64'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50
+
+##########################################
+#
+# release-1.2 s390x & x86_64
+# Add new job configuration for release-1.2
+#
+###########################################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.2-s390x
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.2
+    # Change the cron time in UTC format
+    cron_time: 'H 2 * * *'
+    arch: 's390x'
+    node: 'z'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50
+
+- project:
+    name: fabric-end-2-end-daily-release-1.2-x86_64
+    jobs:
+      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.2
+    # Change the cron time in UTC format
+    cron_time: 'H 2 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50
+
+#######################
+# release-1.1 - x86_64
+#######################
 
 - project:
     name: fabric-end-2-end-daily-release-1.1-x86_64
@@ -45,9 +112,18 @@
     project: fabric
     project-name: fabric
     branch: release-1.1
+    # Change the cron time in UTC format
     cron_time: 'H 2 * * *'
     arch: 'x86_64'
     node: 'x86_64'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50
+
+#######################
+# release-1.0 - x86_64
+#######################
 
 - project:
     name: fabric-end-2-end-daily-release-1.0-x86_64
@@ -57,6 +133,11 @@
     project: fabric
     project-name: fabric
     branch: release-1.0
+    # Change the cron time in UTC format
     cron_time: 'H 2 * * *'
     arch: 'x86_64'
     node: 'x86_64'
+    # Change this to "true" if you wish to disable this job
+    disable: false
+    # Increase or Decrease build time
+    build_timeout: 50

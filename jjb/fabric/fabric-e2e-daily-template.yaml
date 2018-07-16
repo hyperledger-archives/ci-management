@@ -11,6 +11,8 @@
           days-to-keep: 7
           artifact-days-to-keep: 7
 
+    disabled: '{disable}'
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -29,7 +31,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '50'
+          timeout: '{build_timeout}'
 
     builders:
       - clean-environment
@@ -46,6 +48,6 @@
       - lf-infra-publish
       - log-artifacts
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com'
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com'
           output_format: ''
           developer-email: 'developers'

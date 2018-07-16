@@ -27,4 +27,4 @@ docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-$VERSION
 docker tag $NEXUS_URL/$ORG_NAME-ccenv:$CCENV_TAG $ORG_NAME-ccenv:$MARCH-latest
 
 # Generate list of docker images that 'make docker' produces
-make docker-list
+docker images | grep "hyperledger"
