@@ -271,18 +271,6 @@
           !include-raw: jjb/common-scripts/include-raw-fabric-clean-environment.sh
 
 - builder:
-    name: fabric-x86_64-docker-deploy
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-x86_64-docker-image-deploy.sh
-
-- builder:
-    name: fabric-s390x-docker-deploy
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-s390x-docker-image-deploy.sh
-
-- builder:
     name: dockerimages
     builders:
       - shell:
