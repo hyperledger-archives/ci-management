@@ -49,7 +49,7 @@ echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperl
 
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
-       for IMAGES in docker release-clean $1; do
+       for IMAGES in docker $2 release-clean $1; do
            make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
@@ -68,5 +68,5 @@ if [ "$ARCH" = "s390x" ]; then
        build_Fabric_Ca release
 else
        echo "---------> ARCH:" $ARCH
-       build_Fabric_Ca dist-all
+       build_Fabric_Ca dist-all docker-fvt
 fi

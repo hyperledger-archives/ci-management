@@ -66,7 +66,7 @@
           cd gopath/src/github.com/hyperledger/fabric || exit
           make integration-test
           if [ $? != 0 ]; then
-               echo" ---------> make integration-test failed"
+               echo "---------> make integration-test failed"
                exit 1
           fi
       - provide-maven-settings:
@@ -75,7 +75,7 @@
 
       - docker-login
       - fabric-nightly-publish-images
-      - down-stream-jobs-{arch}
+      - 'down-stream-jobs-{branch}-{arch}'
 
     publishers:
       - lf-infra-publish

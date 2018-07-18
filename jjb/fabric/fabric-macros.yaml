@@ -171,7 +171,7 @@
       - shell: !include-raw: shell/include-raw-fabric-ca-nexus-publish.sh
 
 - builder:
-    name: down-stream-jobs-x86_64
+    name: down-stream-jobs-master-x86_64
     builders:
       - conditional-step:
           condition-kind: current-status
@@ -185,13 +185,28 @@
                     - fabric-test-svt-x86_64
 
 - builder:
-    name: down-stream-jobs-s390x
+    name: down-stream-jobs-master-s390x
     builders:
       - shell: |
           #!/bin/bash
 
-          echo "-----------> Don't Trigger tests on s390x platform"
+          echo "-----------> Don't Trigger tests on master s390x platform"
 
+- builder:
+    name: down-stream-jobs-release-1.2-s390x
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          echo "-----------> Don't Trigger tests on release-1.2 s390x platform"
+
+- builder:
+    name: down-stream-jobs-release-1.2-x86_64
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          echo "-----------> Don't Trigger tests on release-1.2 x86_64 platform"
 ##################
 # Nightly Builds #
 ##################
@@ -559,7 +574,7 @@
     name: test-logs
     publishers:
       - archive:
-          artifacts: '**/*.csv, **/*.log'
+          artifacts: '**/*.csv, **/*.log, **/*.xml'
           fingerprint: true
           default-excludes: false
           allow-empty: true

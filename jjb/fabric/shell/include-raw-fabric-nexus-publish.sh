@@ -28,7 +28,7 @@ fabric_DockerTag() {
 }
 
 fabric_Ca_DockerTag() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools; do
+    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
@@ -68,10 +68,16 @@ dockerFabricCaPush
 docker images | grep "nexus*"
 # Publish fabric binaries
 
-
-if [ $ARCH = "amd64" ]; then
-       # Push fabric-binaries to nexus2
-       for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+# Skip the binary push if found
+curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
+# shellcheck disable=SC2034
+RELEASE_COMMIT=$(cat output.xml | grep $COMMIT_TAG)
+if [ $? != 1 ]; then
+    echo "--------> $COMMIT_TAG is already available... SKIP BUILD"
+else
+    if [ $ARCH = "amd64" ]; then
+        # Push fabric-binaries to nexus2
+        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
               echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
@@ -87,10 +93,10 @@ if [ $ARCH = "amd64" ]; then
               -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
               echo "-------> DONE <----------"
        done
-else
+    else
        echo "-------> Dont publish binaries from s390x platform"
+    fi
 fi
-
 # Disable publishing fabric-ca binaries from nightly builds till we identify a way
 # to publish both fabric and fabric-ca binaries from same job
 # Once it is available, just uncomment this below
