@@ -12,10 +12,10 @@
     STABLE_TAG=$ARCH-$PROJECT_VERSION
     echo "-----------> STABLE_TAG:" $STABLE_TAG
 
-    cd ../fabric-ca
+    cd ../fabric-ca || exit
     CA_COMMIT=$(git log -1 --pretty=format:"%h")
     echo "CA COMMIT" $CA_COMMIT
-    cd -
+    cd - || exit
 
 fabric_DockerTag() {
     for IMAGES in peer orderer ccenv tools; do
@@ -28,7 +28,7 @@ fabric_DockerTag() {
 }
 
 fabric_Ca_DockerTag() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools ca-fvt; do
+    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
@@ -48,7 +48,7 @@ dockerFabricPush() {
 }
 
 dockerFabricCaPush() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools; do
+    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
@@ -59,22 +59,31 @@ dockerFabricCaPush() {
 # Tag Fabric Docker Images
 fabric_DockerTag
 # Tag Fabric Ca Docker Images
-fabric_Ca_DockerTag
+if [ $ARCH = s390x ]; then
+    fabric_Ca_DockerTag
+else
+    fabric_Ca_DockerTag ca-fvt
+fi
 # Push Fabric Docker Images to Nexus3
 dockerFabricPush
 # Push Fabric Ca Docker Images to Nexus3
-dockerFabricCaPush
+if [ $ARCH = s390x ]; then
+    dockerFabricCaPush
+else
+    dockerFabricCaPush ca-fvt
+fi
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
 # Publish fabric binaries
-
-# Skip the binary push if found
+set +e
+# Don't publish same binaries if they are available in nexus
 curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
 # shellcheck disable=SC2034
 RELEASE_COMMIT=$(cat output.xml | grep $COMMIT_TAG)
 if [ $? != 1 ]; then
-    echo "--------> $COMMIT_TAG is already available... SKIP BUILD"
+    echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
 else
+set -e
     if [ $ARCH = "amd64" ]; then
         # Push fabric-binaries to nexus2
         for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
