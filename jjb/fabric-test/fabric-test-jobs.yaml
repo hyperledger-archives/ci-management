@@ -143,10 +143,6 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
@@ -161,9 +157,11 @@
       - gerrit-refspec-parameter:
           refspec: ''
       - stable-version:
-          pull-version: '1.2.1-stable'
+          pull-version: ''
       - release-commit:
           pull-commit: ''
+      - git-commit:
+          commit: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -174,7 +172,14 @@
       - shell: |
          #!/bin/bash -e
 
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+         FABRIC_TEST_REPO_NAME=fabric-ca
+         git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         cd $WD
+         RELEASE_COMMIT=$GIT_COMMIT
+         export RELEASE_COMMIT
+         echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
          # Fetch Go Version from fabric ci.properties file
          curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
          export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
@@ -240,10 +245,6 @@
     node: 'hyp-{arch}'
     concurrent: true
 
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
@@ -256,11 +257,13 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: 'refs/changes/71/23771/1'
+          refspec: ''
       - stable-version:
-          pull-version: '1.2.0-stable'
+          pull-version: ''
       - release-commit:
-          pull-commit: '29a7d95'
+          pull-commit: ''
+      - git-commit:
+          commit: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -272,7 +275,14 @@
       - shell: |
          #!/bin/bash -e
 
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+         FABRIC_TEST_REPO_NAME=fabric-test
+         git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         cd $WD
+         RELEASE_COMMIT=$GIT_COMMIT
+         export RELEASE_COMMIT
+         echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
          # Fetch Go Version from fabric ci.properties file
          curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
          export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`

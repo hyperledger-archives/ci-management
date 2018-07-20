@@ -183,6 +183,8 @@
                 - project:
                     - fabric-test-pte-x86_64
                     - fabric-test-svt-x86_64
+                  predefined-parameters:
+                    GIT_COMMIT=$GIT_COMMIT
 
 - builder:
     name: down-stream-jobs-master-s390x
