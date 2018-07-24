@@ -23,7 +23,7 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 - project:
     name: fabric-end-2-end-daily-master-ppc64le
@@ -40,7 +40,7 @@
     # Change this to "true" if you wish to disable this job
     disable: true
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 - project:
     name: fabric-end-2-end-daily-master-x86_64
@@ -57,7 +57,7 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 ##########################################
 #
@@ -81,7 +81,7 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 - project:
     name: fabric-end-2-end-daily-release-1.2-x86_64
@@ -98,7 +98,7 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 #######################
 # release-1.1 - x86_64
@@ -119,7 +119,7 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80
 
 #######################
 # release-1.0 - x86_64
@@ -140,4 +140,4 @@
     # Change this to "true" if you wish to disable this job
     disable: false
     # Increase or Decrease build time
-    build_timeout: 50
+    build_timeout: 80

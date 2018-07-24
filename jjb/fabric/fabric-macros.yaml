@@ -583,22 +583,22 @@
 
 # Inspects source code for security problems by scanning the Go AST.
 - builder:
-    name: fabric-goast-scan
+    name: fabric-gosec-scan
     builders:
       - shell: |
           #!/bin/bash
 
-          cd gopath/src/github.com/hyperledger/fabric
+          cd gopath/src/github.com/hyperledger/fabric/
           mv vendor/ vendor1/
-          echo "------> Running the Go AST scan for security problems in source code."
-          go get github.com/GoASTScanner/gas/cmd/gas/...
+          echo "------> Running the Go SEC scan for security problems in source code."
+          go get github.com/securego/gosec/cmd/gosec/...
 
           for packages in bccsp common core events gossip idemix msp orderer peer protos vendor1; do
-             gas -fmt=json -out=$packages.json ./$packages/...
+             gosec -fmt=json -out=$packages.json ./$packages/...
           done
 
 - publisher:
-    name: daily-goast-scan-results
+    name: fabric-gosec-scan-results
     publishers:
       - archive:
           artifacts: 'gopath/src/github.com/hyperledger/fabric/*.json'

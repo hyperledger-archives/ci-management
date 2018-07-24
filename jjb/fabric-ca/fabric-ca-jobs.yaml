@@ -9,7 +9,7 @@
       - 'fabric-ca-binaries-{arch}'
       - 'fabric-ca-verify-end-2-end-{arch}'
       - 'fabric-ca-merge-end-2-end-{arch}'
-      - 'fabric-ca-goast-weekly-{arch}'
+      - 'fabric-ca-gosec-weekly-{arch}'
       - 'fabric-ca-safesql-weekly-{arch}'
       - gerrit-rtd-verify:
           project-name: fabric-ca
@@ -491,7 +491,7 @@
           developer-email: 'developers'
 
 - job-template:
-    name: 'fabric-ca-goast-weekly-{arch}'
+    name: 'fabric-ca-gosec-weekly-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -516,7 +516,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: '@weekly'
+      - timed: 'H H/22 * * 0'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -527,11 +527,11 @@
       - clean-environment
       - 'ca-golang-environment-{arch}'
       - output-environment
-      - fabric-ca-goast-scan
+      - fabric-ca-gosec-scan
 
     publishers:
       - lf-infra-publish
-      - ca-daily-goast-scan-results
+      - fabric-ca-gosec-scan-results
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: '**/*.json'

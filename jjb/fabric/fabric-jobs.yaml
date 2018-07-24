@@ -5,7 +5,7 @@
       - 'fabric-merge-{arch}'
       - 'fabric-binaries-{arch}'
       - 'fabric-binaries-release-branch-{arch}'
-      - 'fabric-goast-weekly-{arch}'
+      - 'fabric-gosec-weekly-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-verify-build-checks-{arch}'
       - 'fabric-verify-integration-tests-{arch}'
@@ -268,7 +268,7 @@
       - lf-infra-publish
 
 - job-template:
-    name: 'fabric-goast-weekly-{arch}'
+    name: 'fabric-gosec-weekly-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -293,7 +293,7 @@
           credentials-id: 'hyperledger-jobbuilder'
 
     triggers:
-      - timed: '*/1 11 * * 1'
+      - timed: 'H H/23 * * 0'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -304,11 +304,11 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
-      - fabric-goast-scan
+      - fabric-gosec-scan
 
     publishers:
       - lf-infra-publish
-      - daily-goast-scan-results
+      - fabric-gosec-scan-results
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: '**/*.json'
