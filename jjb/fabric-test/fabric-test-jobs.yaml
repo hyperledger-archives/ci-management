@@ -6,6 +6,8 @@
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-svt-{arch}'
       - 'fabric-test-pte-{arch}'
+      - 'fabric-test-svt-daily-ote-{arch}'
+      - 'fabric-test-svt-daily-lte-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -293,6 +295,136 @@
          echo "------> GO_VER" $GO_VER
          # Execute Make svt-daily from fabric-test makefile
          make svt-daily-pte-tests
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
+
+- job-template:
+    name: 'fabric-test-svt-daily-ote-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - stable-version:
+          pull-version: '1.3.0-stable'
+      - release-commit:
+          pull-commit: ''
+      - git-commit:
+          commit: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -e
+
+         rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+         FABRIC_TEST_REPO_NAME=fabric-test
+         git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         cd $WD
+         RELEASE_COMMIT=$GIT_COMMIT
+         export RELEASE_COMMIT
+         echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         # Execute Make svt-daily from fabric-test makefile
+         make svt-daily-ote-tests
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
+
+- job-template:
+    name: 'fabric-test-svt-daily-lte-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    scm:
+      - fabric-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - stable-version:
+          pull-version: '1.3.0-stable'
+      - release-commit:
+          pull-commit: ''
+      - git-commit:
+          commit: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -e
+
+         rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+         FABRIC_TEST_REPO_NAME=fabric-test
+         git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         cd $WD
+         RELEASE_COMMIT=$GIT_COMMIT
+         export RELEASE_COMMIT
+         echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         # Execute Make svt-daily from fabric-test makefile
+         make svt-daily-lte-tests
 
     publishers:
       - lf-infra-publish

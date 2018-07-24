@@ -183,6 +183,8 @@
                 - project:
                     - fabric-test-pte-x86_64
                     - fabric-test-svt-x86_64
+                    - fabric-test-svt-daily-ote-x86_64
+                    - fabric-test-svt-daily-lte-x86_64
                   predefined-parameters:
                     GIT_COMMIT=$GIT_COMMIT
 
