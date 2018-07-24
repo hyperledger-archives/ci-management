@@ -1,4 +1,14 @@
 #!/bin/bash
+#
+# SPDX-License-Identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2018 IBM Corporation, The Linux Foundation and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License 2.0
+# which accompanies this distribution, and is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 set -o pipefail
 
 FABRIC_CA_TAG=$(docker inspect --format "{{ .RepoTags }}" hyperledger/fabric-ca | sed 's/.*:\(.*\)]/\1/')
@@ -11,7 +21,7 @@ docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 
 dockerCaPush() {
   # shellcheck disable=SC2043
-  for IMAGES in ca ca-peer ca-orderer ca-tools; do
+  for IMAGES in ca; do
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$FABRIC_CA_TAG
     echo

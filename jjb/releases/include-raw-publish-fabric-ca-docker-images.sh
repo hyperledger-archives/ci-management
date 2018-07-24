@@ -1,4 +1,14 @@
 #!/bin/bash -e
+#
+# SPDX-License-Identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2018 IBM Corporation, The Linux Foundation and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License 2.0
+# which accompanies this distribution, and is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 
 ############################################
 # Pull "STABLE_VERSION" docker images from nexus3
@@ -12,7 +22,7 @@ NEXUS_URL=nexus3.hyperledger.org:10001
 export NEXUS_URL
 RELEASE_VERSION=${RELEASE_VERSION:-1.2.0}
 export RELEASE_VERSION
-IMAGES_LIST=(ca ca-tools ca-orderer ca-peer)
+IMAGES_LIST=(ca)
 export IMAGES_LIST
 
 ARCH=$(go env GOARCH)
@@ -25,10 +35,10 @@ fi
 printHelp() {
   echo "Usage: RELEASE_VERSION=1.2.0 ./scripts/pull_Build_Artifacts.sh --pull_Images"
   echo
-  echo "pull_All - pull fabric-ca docker images, binaries on current arch"
-  echo "pull_Platform_All - pull fabric images amd64, s390x"
+  echo "pull_All - pull fabric-ca docker image, binaries on current arch"
+  echo "pull_Platform_All - pull fabric-ca image amd64, s390x"
   echo "cleanup - delete unused docker images"
-  echo "pull_Images - pull fabric-ca docker images on current arch"
+  echo "pull_Images - pull fabric-ca docker image on current arch"
   echo "pull_Binary - pull fabric-ca binaries on current arch"
   echo "push - push images to hyperledger dockerhub"
   echo
@@ -43,7 +53,7 @@ cleanup() {
 
 }
 
-# pull fabric-ca docker images and binaries
+# pull fabric-ca docker image and binaries
 pull_All() {
 
     echo "-------> pull binaries"
@@ -76,7 +86,7 @@ pull_Binary() {
     curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-ca-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz 
 }
 
-# pull fabric-ca docker images from amd64 and s390x platforms
+# pull fabric-ca docker image from amd64 and s390x platforms
 pull_Platform_All() {
 
     # pull stable images from nexus and tag to hyperledger
