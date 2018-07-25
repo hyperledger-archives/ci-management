@@ -1,7 +1,7 @@
 #!/bin/bash -e
 set -o pipefail
 
-NEXUS_URL=nexus3.hyperledger.org:10002
+NEXUS_URL=nexus3.hyperledger.org:10003
 ORG_NAME="hyperledger/fabric"
 TAG=$GIT_COMMIT
 STABLE_TAG=$PUSH_VERSION
