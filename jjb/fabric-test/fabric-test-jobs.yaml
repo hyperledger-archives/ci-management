@@ -174,7 +174,7 @@
 
          rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
          WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
-         FABRIC_TEST_REPO_NAME=fabric-ca
+         FABRIC_TEST_REPO_NAME=fabric-test
          git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
          cd $WD
          RELEASE_COMMIT=$GIT_COMMIT
