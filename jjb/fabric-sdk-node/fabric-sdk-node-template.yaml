@@ -8,8 +8,11 @@
 - job-template:
     name: '{project-name}-verify-{branch}-{arch}'
     concurrent: true
+    project-type: freestyle
+    node: 'hyp-{build_node}'
 
     properties:
+      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -22,19 +25,8 @@
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
-    project-type: pipeline
-    pipeline-scm:
-      script-path: Jenkinsfile
-      scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            shallow-clone-depth: true
-            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
-            refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
-            wipe-workspace: true
-            clean: true
-            branches:
-              - '$GERRIT_REFSPEC'
+    scm:
+      - hyperledger-fabric-sdk-node
 
     triggers:
       - gerrit-trigger-patch-submitted:
