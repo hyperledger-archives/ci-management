@@ -23,9 +23,19 @@ cd ci-management
 sudo apt-get install python-virtualenv
 virtualenv hyp
 source hyp/bin/activate
-pip install 'jenkins-job-builder==2.0.3'
+pip install 'jenkins-job-builder'
 jenkins-jobs --version
 jenkins-jobs test --recursive jjb/
+```
+
+_Note_: Using the `pip install 'jenkins-job-builder'` may require you to update
+dependency packages as a result of attempting to install the latest version of
+the jenkins-job-builder pip package (i.e, the pbr). To update any previously
+installed packages that the jenkins-job-builder package requires you can execute
+the upgrade command as follows:
+
+```
+$ pip install pbr --upgrade
 ```
 
 ### Make a copy of the example JJB config file (in the builder/ directory)
