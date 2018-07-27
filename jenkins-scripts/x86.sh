@@ -1,4 +1,10 @@
 #!/bin/bash
+#
+# Copyright IBM Corp All Rights Reserved
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 # x86_64 Specific Changes
 
 # install npm and fabric node sdk dependencies
