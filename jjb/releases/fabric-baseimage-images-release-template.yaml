@@ -3,7 +3,7 @@
     name: '{project-name}-verify-docker-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: '{build-node}'
     concurrent: true
 
     properties:

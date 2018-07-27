@@ -142,6 +142,18 @@
     build_timeout: 60
 
 - project:
+    name: fabric-sdk-node-merge-release-1.2-x86_64
+    jobs:
+      - '{project-name}-merge-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.2
+    arch: 'x86_64'
+    build_node: 'x'
+    build_timeout: 60
+
+- project:
     name: fabric-sdk-node8-merge-release-1.1-x86_64
     jobs:
       - '{project-name}-merge-{branch}-{arch}'
@@ -177,6 +189,18 @@
     project: fabric-sdk-node
     project-name: fabric-sdk-node8
     branch: master
+    arch: 's390x'
+    build_node: 'z'
+    build_timeout: 60
+
+- project:
+    name: fabric-sdk-node-merge-release-1.2-s390x
+    jobs:
+      - '{project-name}-merge-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.2
     arch: 's390x'
     build_node: 'z'
     build_timeout: 60
