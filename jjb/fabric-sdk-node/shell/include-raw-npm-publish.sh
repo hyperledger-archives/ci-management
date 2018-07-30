@@ -57,9 +57,10 @@ versions() {
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
 npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 
-cd fabric-ca-client
-versions
-npmPublish fabric-ca-client
+# Temporarily disable fabric-ca-client node module
+#cd fabric-ca-client
+#versions
+#npmPublish fabric-ca-client
 
 cd ../fabric-client
 versions

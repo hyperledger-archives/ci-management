@@ -5,7 +5,7 @@ echo "------> Clone fabric & Build images"
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 
-if [[ "$GERRIT_BRANCH" = "master" ]]; then
+if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.2" ]]; then
    ARCH=$(dpkg --print-architecture) # amd64
 else
    ARCH=$(uname -m) # x86_64, s390x, ppc64le
