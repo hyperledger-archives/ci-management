@@ -62,6 +62,6 @@ npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 #versions
 #npmPublish fabric-ca-client
 
-cd ../fabric-client
+cd fabric-client
 versions
 npmPublish fabric-client
