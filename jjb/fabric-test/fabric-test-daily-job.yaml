@@ -1,0 +1,90 @@
+---
+###
+# fabric-test svt, pte, lte and ote daily jobs on master and release-1.2 branches.
+# Triggered by an upstream CI job.
+##
+##############
+# master
+##############
+
+- project:
+    name: fabric-test-daily-svt-master-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: x86_64
+    test: svt
+    stable-tag: 1.3.0-stable
+    target: svt-daily
+
+- project:
+    name: fabric-test-daily-pte-master-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: x86_64
+    test: pte
+    stable-tag: 1.3.0-stable
+    target: svt-daily-pte-tests
+
+- project:
+    name: fabric-test-daily-lte-master-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: x86_64
+    test: lte
+    stable-tag: 1.3.0-stable
+    target: svt-daily-lte-tests
+
+- project:
+    name: fabric-test-daily-ote-master-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: x86_64
+    test: ote
+    stable-tag: 1.3.0-stable
+    target: svt-daily-ote-tests
+
+#############
+# release-1.2
+#############
+
+- project:
+    name: fabric-test-daily-svt-release-1.2-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: release-1.2
+    arch: x86_64
+    test: svt
+    stable-tag: 1.2.1-stable
+    target: svt-daily
+
+- project:
+    name: fabric-test-daily-pte-release-1.2-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: release-1.2
+    arch: x86_64
+    test: pte
+    stable-tag: 1.2.1-stable
+    target: svt-daily-pte-tests
