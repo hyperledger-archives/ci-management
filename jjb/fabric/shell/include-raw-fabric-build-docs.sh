@@ -47,9 +47,10 @@ set +e
 
 vote -m '"Starting documentation build"' -l F2-DocBuild=0
 
-echo "---> Generating docs"
+echo "---> Generating docs, Checking doc links"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
-tox -edocs
+tox -edocs -edocs-linkcheck
+post_Result $?
 
 echo "---> Archiving generated docs"
 rm -rf $WORKSPACE/archives
