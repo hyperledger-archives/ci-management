@@ -1,0 +1,75 @@
+---
+- project:
+    name: crypto-lib-jobs
+    jobs:
+      - 'crypto-lib-verify-{arch}'
+      - gerrit-rtd-verify:
+          project-name: crypto-lib
+          project-pattern: crypto-lib
+          build-node: hyp-x
+          build-timeout: 30
+          stream: 'job'
+          branch: ''
+          rtd-project: hyperledger-crypto-lib
+
+          gerrit_trigger_file_paths:
+            - compare-type: ANT
+              pattern: '**/*.md'
+            - compare-type: ANT
+              pattern: '**/*.rst'
+            - compare-type: ANT
+              pattern: '**/*.txt'
+            - compare-type: ANT
+              pattern: '**/conf.py'
+
+    project: 'crypto-lib'
+    arch:
+      - 'x86_64'
+
+# Verify job
+- job-template:
+    name: 'crypto-lib-verify-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'crypto-lib-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - gerrit-trigger-scm:
+          refspec: '$GERRIT_REFSPEC'
+          choosing-strategy: 'gerrit'
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: 'master'
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '30'
+
+    builders:
+      - verify-commit-message
+      - crypto-lib-verify
+
+    publishers:
+      - lf-infra-publish
+      - archive-artifacts:
+          artifacts: '.tox/**/*.log'

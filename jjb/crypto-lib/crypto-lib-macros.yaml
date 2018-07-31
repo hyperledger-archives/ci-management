@@ -1,0 +1,13 @@
+---
+- property:
+    name: 'crypto-lib-x86_64'
+    properties:
+      - inject:
+          properties-content: |
+              ARCH=x86_64
+
+- builder:
+    name: crypto-lib-verify
+    builders:
+      - shell: |
+          make check
