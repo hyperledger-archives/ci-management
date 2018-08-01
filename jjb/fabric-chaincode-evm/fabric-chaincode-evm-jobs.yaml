@@ -1,0 +1,94 @@
+---
+- project:
+    name: fabric-chaincode-evm
+    project: 'fabric-chaincode-evm'
+    arch:
+      - 'x86_64'
+    jobs:
+      - 'fabric-chaincode-evm-verify-master-{arch}'
+      - 'fabric-chaincode-evm-merge-master-{arch}'
+
+    mvn-settings: 'fabric-settings'
+
+- job-template:
+    name: 'fabric-chaincode-evm-verify-master-{arch}'
+    project-type: pipeline
+    pipeline-scm:
+      script-path: Jenkinsfile
+      scm:
+        - git:
+            credentials-id: 'hyperledger-jobbuilder'
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
+            shallow-clone: true
+            refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
+            wipe-workspace: true
+            clean: true
+            branches:
+              - '$GERRIT_REFSPEC'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: 'master'
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '30'
+
+- job-template:
+    name: 'fabric-chaincode-evm-merge-master-{arch}'
+    project-type: pipeline
+    pipeline-scm:
+      script-path: Jenkinsfile
+      scm:
+        - git:
+            credentials-id: 'hyperledger-jobbuilder'
+            shallow-clone-depth: true
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
+            refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
+            wipe-workspace: true
+            clean: true
+            branches:
+              - '$GERRIT_REFSPEC'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    properties:
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: 'master'
+          trigger-comment1: 'remerge-x$'
+          trigger-comment2: 'remerge$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '30'
