@@ -1,4 +1,14 @@
 #!/bin/bash -x
+#
+# SPDX-License-Identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2018 IBM Corporation, The Linux Foundation and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License 2.0
+# which accompanies this distribution, and is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 
 # This script makes several basic commit message validations.
 # This is with the purpose of keeping up with the aesthetics
