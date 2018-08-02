@@ -1,4 +1,14 @@
 #!/bin/bash -e
+#
+# SPDX-License-Identifier: Apache-2.0
+##############################################################################
+# Copyright (c) 2018 IBM Corporation, The Linux Foundation and others.
+#
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Apache License 2.0
+# which accompanies this distribution, and is available at
+# https://www.apache.org/licenses/LICENSE-2.0
+##############################################################################
 
 ############################################
 # Pull "STABLE_VERSION" docker images from nexus3
@@ -73,7 +83,7 @@ pull_Binary() {
     RELEASE_TAG=$(cat maven-metadata.xml | grep release)
     COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
     echo "--------> COMMIT:" $COMMIT
-    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-ca-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz 
+    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-ca-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz
 }
 
 # pull fabric-ca docker images from amd64 and s390x platforms
