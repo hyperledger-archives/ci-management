@@ -1,125 +1,187 @@
 # Release Process Document
 
-Below is the detailed plan on the Hyperledger Fabric Release process, namely the steps taken to
-publish docker images, fabric binaries and publish npm modules.
+Below is the detailed plan on the Hyperledger Fabric Release process, namely the
+steps taken to publish docker images, fabric binaries and publish npm modules.
 
-On the release day a maintainer submits a patch set to the hyperledger/fabric repository to trigger
-the release process by changing the following variables in the Makefile - ``IS_RELEASE = TRUE``,
-``BASE_VERSION`` and ``PREVIOUS_VERSION`` - to the appropriate versions.
+### Step 1: Prerequisite Check
 
-CI triggers the fabric-verify-x86_64 and fabric-verify-z jobs and returns **SUCCESS (+1)**
-or **FAILURE (-1)** results (gerrit voting) back to the gerrit patch set commit. After approving
-the successful patch, maintainers merge the patch which in turn triggers the CI merge jobs.
+Prior to a new release, a Release Engineer (RE) has to check the prerequisites
+of each repository. The pre-checks mentioned below are for the RE’s reference,
+and should be checked before the release process begins:
 
-Upon notification of the successful merge, the Release Engineer creates a "Release Tag" in the
-Hyperledger/fabric repository which in turn kicks off the Build Process and CI (Jenkins) triggers
-release jobs (listed below) based on the newly created "Release Tag".
+- Ensure that the fabric-baseimage version is set to the correct version in all
+of the required files.
+- Ensure that each release job is compatible with the upcoming release.
+- Ensure that the RE has maintainer access to cut the release tags for each
+repository.
 
-The above process also applies to hyperledger/fabric-ca and hyperledger/fabric-baseimage.
+_Note: The Release Managers are also responsible for announcing the Merge Freeze
+for the upcoming release._
 
-![Release_CI](./Release_CI.png)
+### Step 2: Project Release Order
 
-**Release Process from CI**:
+The release process is executed by running the release process the
+following Hyperledger projects (listed in order):
 
-As part of the release process, CI automatically triggers the following release jobs after a
-"Release Tag" is created in each repository:
+* Fabric-baseimage (typically done well before release day)
+* Fabric
+* Fabric-ca
+* Fabric-chaincode-node
+* Fabric-sdk-node
+* Fabric-sdk-java (FUTURE)
 
-- **Publish Fabric Docker images**:
+### Step 3: Post-Release Verification
 
-CI triggers release jobs on all three platforms (**x86_64, s390x and ppc64le**) and upon a successful
-run, publishes Docker images (*peer, orderer, javaenv, ccenv, zookeeper, couchdb, kafka, tools*) to the
-[(https://hub.docker.com/u/hyperledger/)](https://hub.docker.com/u/hyperledger/ "Hyperledger Docker Hub") account.
+Once the release process is completed successfully, verify the below
+tests as a post-release verification check:
 
-- fabric-app-image-release-docker-s390x
-- fabric-app-image-release-docker-x86_64
-- fabric-app-image-release-docker-ppc64le
+- Verify that the docker images for the fabric and fabric-ca projects are
+published successfully.
 
-What happens?:
+- Make sure fabric and fabric-ca binaries are published successfully.
 
-- Release job executes `make docker` and builds docker images. The job then calls a docker push
-script to publish the docker images to the Hyperledger Docker Hub account.
+- Execute the bootstrap.sh script with current released/published version set
+to ensure that the newly published images and binaries are available.
 
-- Each image is then tagged as follows:
+- Verify that the fabric and fabric-ca documentation (RTD) is pointing to the
+right release.
 
-     ARCH_Name-BASE_VERSION ex: (hyperledger/fabric-peer:s390x-1.0.0-alpha2)
+- Execute the e2e_byfn, fabric-ca samples, fab car, balance transfer and e2e_cli
+tests across all of the supported platforms.
 
-- **Publish fabric binaries**:
+### Step 4: Release Announcement
 
-CI triggers the below release job on x86_64 platform to publish fabric binaries to nexus release URL -
-[(https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/fabric-binary/)]
-((https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/fabric-binary/)
-"fabric binary")
+- Based on a successful post-release verification process, publish the results
+to the community.
 
-    fabric-binaries-release-x86_64
+<!-- TODO: Document the revert process to capture what we do if there's
+a problem with the release. -->
 
-The CI does the following when a release job is triggered:
+## Publishing the Hyperledger Fabric npm modules
 
-- Builds fabric binaries (cryptogen & configtxgen) for all platforms
-(windows-amd64, linux-amd64, linux-s390x, linux-ppc64le and darwin-amd64) using `make release-all`
-- Copies contents of e2e_cli folder and places into release folder
-- tar the complete release folder and push the tar.gz folder to nexus releases URL using
-maven-deploy-plugin:deploy-file plugin from CI.
-
-- **Publish fabric-ca Docker image**:
-
-As part of the hyperledger/fabric-ca release process, we trigger the following release job after
-successfully creating the "Release Tag" in the hyperledger/fabric-ca repository, along with release
-notes.
-
-CI triggers release jobs on all three platforms (**x86_64, s390x and ppc64le**) and upon a
-successful run, publishes fabric-ca docker image (**ca**) to the
-[(https://hub.docker.com/u/hyperledger/)](https://hub.docker.com/u/hyperledger/ "Hyperledger Docker hub")
-account.
-
-- fabric-ca-release-x86_64
-- fabric-ca-release-s390x
-- fabric-ca-release-ppc64le
-
-What happens?:
-
-- Release job executes `make docker` and builds docker images.  The job then calls a docker push
-script to publish the docker images to the Hyperledger Docker Hub account.
-
-- Each image is then tagged as follows:
-
-     componentname-Platform ARCH Name-BASE_VERSION ex: (hyperledger/fabric-ca:s390x-1.0.0-alpha2)
-
-If the release jobs are not triggered automatically, the CI team triggers the above release jobs
-manually by providing the release version in the ``GERRIT_REFSPEC`` variable. Below is the process
-to do that:
-
-- Login to [jenkins.hyperledger.org](http://jenkins.hyperledger.org "Jenkins")
-- Go to **fabric-app** view
-
-    - Click on each platform specific release job (fabric-app-image-release-docker-x86_64)
-    - Click on **Build with Parameters**
-    - Provide ```release tag``` in ```GERRIT_REFSPEC``` ```(+refs/tags/*:refs/remotes/origin/tags/*)```
-    - ex: +refs/tags/v1.0.0-alpha2:refs/remotes/origin/tags/v1.0.0-alpha2
-    - Click on Build
-
-- **publish npm modules**
-
-As part of the hyperledger/fabric-sdk-node npm release process, CI triggers the following job after
-successfully update the **version number** in **package.json** in fabric-client and fabric-ca-client
-directories in hyperledger/fabric-sdk-node repository by a maintainer.
+As part of the `hyperledger/fabric-sdk-node npm` release process, Jenkins triggers
+the following job after updating the **version number** in the **package.json**
+file, located in both the fabric-client and fabric-ca-client subdirectories of
+the `hyperledger/fabric-sdk-node` repository. This update is made by a
+maintainer:
 
 ![npm publish](./Release_npm.png)
 
-CI triggers release process on x86_64 platform and upon successful run, job publishes npm versions
-of fabric-client and fabric-ca-client to hyperledger npm repository (https://www.npmjs.com/package/fabric-client)
-and (https://www.npmjs.com/package/fabric-ca-client).
+Jenkins triggers the release process on the x86_64 platform and upon a
+successful run, the release job publishes the new versions of the npm modules
+for fabric-client and fabric-ca-client to Hyperledger npm repositories-
+(<https://www.npmjs.com/package/fabric-client>) and
+(<https://www.npmjs.com/package/fabric-ca-client>), respectfully.
 
-`Fabric-sdk-node-merge-x86_64` job triggers on every commit merge and look for the version number
-in package.json. If the version number matches **snapshot** then it releases a npm version as
-**unstable** like mentioned below
+The `fabric-sdk-node-merge-x86_64` job triggers on every commit merge and looks
+for the version number in the package.json file. If the version number contains
+**snapshot** in its name, then release process publishes **unstable** npm
+modules, much like what's mentioned below:
 
-```
-fabric-ca-client@1.0.0-snapshot.xx,
-fabric-client@1.0.0-snapshot.xx
-```
-otherwise it publishes npm version as a **stable** version like mentioned below
+    - fabric-ca-client@1.0.0-snapshot.xx
+    - fabric-client@1.0.0-snapshot.xx
 
-```
-fabric-ca-client@1.0.0-alpha2,
-fabric-client@1.0.0-alpha2
-```
+If not, the npm release process publishes npm modules as **stable**, much like
+what's mentioned below:
+
+    - fabric-ca-client@1.0.0-alpha2,
+    - fabric-client@1.0.0-alpha2
+
+## Nightly Release Process
+
+The Fabric CI team has adopted a Continuous Delivery approach to building,
+testing, and releasing Hyperledger Fabric (and associated) projects. We have
+provided the community with several Jenkins jobs that are executed on a nightly
+basis. Together, the jobs provide the Hyperledger Fabric community with a steady
+stream of stable releases based on the latest project commits. The sections that
+follow will describe both the daily and nightly build processes, and well as our
+downstream Jenkins jobs that are triggered _after_ the daily and nightly build
+jobs have successfully completed.
+
+### Jenkins Jobs Dashboard
+
+The nightly Jenkins jobs are observable from the **Daily** tab located
+on our [Jenkins dashboard](https://jenkins.hyperledger.org/view/Daily/).
+
+### Nightly Release Jobs
+
+The nightly release jobs are responsible for building stable Fabric images and
+binaries from the latest Fabric commits, then publishing these images and
+binaries to the Nexus repository. The nightly release jobs build Fabric images
+and binaries against the master and release-1.2 branches. The jobs are separated
+by architecture (x86_64 and s390x):
+
+-   fabric-nightly-release-job-master-s390x
+-   fabric-nightly-release-job-master-x86_64
+-   fabric-nightly-release-job-release-1.2-x86_64
+-   fabric-nightly-release-job-release-1.2-x86_64
+
+## Nightly Build Release Process
+
+![Nightly_Build_CI](./Nightly_Build_CI.png)
+
+The diagram above illustrates how the nightly build release process works. Next,
+we will discuss each step in the process.
+
+### 1. Nightly Build
+
+The nightly build process starts with the upstream jobs, which are responsible
+for building the Docker images and binaries from either the _master_ or
+_release-1.2_ branches. These jobs trigger the smoke (BYFN, EYFN) and
+integration tests to ensure that the images previously built are stable. When
+the tests **PASS**, the jobs publish both the Docker images and Fabric binaries
+to the Nexus repository.
+
+<!-- TODO: Mention the following when this feature becomes available:
+
+This process allows our Fabric SDK projects and the
+fabric-samples project (also, our end-users) to **pull** the latest images and
+binaries from the Nexus repositories instead of building these images from
+scratch, decreasing the execution times for any of our Jenkins jobs that require
+us to utilize the latest commits from each of these branches.
+
+-->
+
+#### Nightly Build Failures
+
+In the event that the nightly build process fails, the Fabric CI team examines
+each failure to determine what happened. Once the root cause of the failure(s)
+is determined, the Fabric CI team files a bug in JIRA using the `ci_failure`
+label, and notifies all interested parties that the nightly job has failed.
+You can see a list of the currently OPEN bugs here:
+
+https://jira.hyperledger.org/issues/?filter=12103
+
+### 2. Downstream Jobs
+
+Once the publishing script from the upstream jobs are complete, the upstream
+jobs use the `GIT_COMMIT` environment variable to trigger a number of downstream
+jobs that pull the (newly published) stable images and binaries from the Nexus
+repository, then run a number of Fabric test suites:
+
+- **Daily LTE** - the daily Ledger Traffic Engine tests
+- **Daily OTE** - the daily Orderer Traffic Engine tests
+- **Daily PTE** - the daily Performance Traffic Engine tests
+- **FVT** - the Full Verification Test suite
+
+<!-- TODO: Mention the following when this feature becomes available:
+
+- **Long Run/Weekly** - we have a number of long-running Weekly tests that are
+also executed in conjunction with the daily tests.
+
+-->
+### 3. Publish results
+
+For each of the tests above, we publish the results from those tests inside of
+each job. Each test collects a number of logs and status information to
+determine if the tests passed or failed.
+
+### 4. Release Day Readiness
+
+On release day, the Fabric CI team will determine if the latest nightly builds
+(and triggered tests) have completed successfully. If so, we
+identify which commits are related to the upcoming release, then run the release
+jobs which build and tag our Docker images and binaries with the
+release commit(s). Finally, we publish the release images and binaries to
+the Hyperledger Dockerhub registry and the Nexus repository (nexus3) for public
+use.
