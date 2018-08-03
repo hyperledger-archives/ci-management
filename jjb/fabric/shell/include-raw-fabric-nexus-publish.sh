@@ -101,6 +101,7 @@ set -e
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
               echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              -DupdateReleaseInfo=true \
               -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
               -DrepositoryId=hyperledger-releases \
               -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
@@ -130,6 +131,7 @@ if [ $ARCH = "amd64" ]; then
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary && tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
               echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              -DupdateReleaseInfo=true \
               -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \
               -DrepositoryId=hyperledger-releases \
               -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
