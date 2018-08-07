@@ -2,6 +2,12 @@
 
 # vim: sw=4 ts=4 sts=4 et :
 
+deb_rust_install() {
+    echo "---> Installing Rust"
+    curl -f -L https://static.rust-lang.org/rustup.sh -O
+    sh rustup.sh
+}
+
 add_jenkins_user() {
     git clone https://gerrit.hyperledger.org/r/ci-management.git /ci-management
     /ci-management/jenkins-scripts/init_system.sh
@@ -297,6 +303,7 @@ ubuntu_changes() {
     deb_docker_pull_baseimage
     deb_docker_pull_celloimage
     deb_docker_fix
+    deb_rust_install
 
     echo "---> No extra steps presently for ${FACTER_OS}"
 }
