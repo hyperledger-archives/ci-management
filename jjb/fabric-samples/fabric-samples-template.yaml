@@ -5,21 +5,19 @@
     arch:
       - 'x86_64'
     jobs:
-      - 'fabric-samples-verify-byfn-master-{arch}'
-      - 'fabric-samples-merge-byfn-master-{arch}'
       - 'fabric-smoke-tests-{arch}'
 
     mvn-settings: 'fabric-settings'
 
 - job-template:
-    name: fabric-samples-verify-byfn-master-{arch}
+    name: 'fabric-samples-verify-byfn-{branch}'
     project-type: pipeline
     pipeline-scm:
       script-path: Jenkinsfile
       scm:
         - git:
             credentials-id: 'hyperledger-jobbuilder'
-            url: 'git://cloud.hyperledger.org/mirror/fabric-samples'
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
             shallow-clone: true
             refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
             wipe-workspace: true
@@ -33,7 +31,7 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: 'refs/changes/43/22443/10'
+          refspec: ''
 
     properties:
       - build-discarder:
@@ -43,9 +41,9 @@
     triggers:
       - gerrit-trigger-patch-submitted:
           name: '{project}'
-          branch: 'master'
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
+          branch: '{branch}'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -53,7 +51,7 @@
           timeout: '30'
 
 - job-template:
-    name: fabric-samples-merge-byfn-master-{arch}
+    name: 'fabric-samples-merge-byfn-{branch}'
     project-type: pipeline
     pipeline-scm:
       script-path: Jenkinsfile
@@ -61,7 +59,7 @@
         - git:
             credentials-id: 'hyperledger-jobbuilder'
             shallow-clone-depth: true
-            url: 'git://cloud.hyperledger.org/mirror/fabric-samples'
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
             refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
             wipe-workspace: true
             clean: true
@@ -74,7 +72,7 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: 'refs/changes/43/22443/10'
+          refspec: ''
 
     properties:
       - build-discarder:
@@ -84,9 +82,9 @@
     triggers:
       - gerrit-trigger-patch-merged:
           name: '{project}'
-          branch: 'master'
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
+          branch: '{branch}'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -94,7 +92,7 @@
           timeout: '30'
 
 - job-template:
-    name: '{project-name}-verify-byfn-{branch}-{arch}'
+    name: '{project-name}-verify-byfn-{branch}'
 
     project-type: freestyle
     node: 'hyp-{build_node}'
@@ -141,7 +139,7 @@
       - log-artifacts
 
 - job-template:
-    name: '{project-name}-merge-byfn-{branch}-{arch}'
+    name: '{project-name}-merge-byfn-{branch}'
 
     project-type: freestyle
     node: 'hyp-{build_node}'
