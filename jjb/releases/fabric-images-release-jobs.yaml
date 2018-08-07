@@ -23,17 +23,6 @@
     arch: 'x86_64'
     build-node: 'hyp-x'
 
-- project:
-    name: fabric-images-release-ppc64le
-    jobs:
-      - '{project-name}-{arch}-release-job'
-
-    project: fabric
-    project-name: fabric
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
-
 #############################################################
 #  Fabric Release Jobs
 #    Pull stable (1.2.0-stable) fabric release version images

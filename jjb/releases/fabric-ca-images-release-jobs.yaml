@@ -24,17 +24,6 @@
     build-node: 'hyp-x'
 
 - project:
-    name: fabric-ca-ppc64le-release-job
-    jobs:
-      - 'fabric-ca-{arch}-release-job'
-
-    project: fabric-ca
-    project-name: fabric-ca
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
-
-- project:
     name: fabric-ca-release-job
     jobs:
       - fabric-ca-release-job
