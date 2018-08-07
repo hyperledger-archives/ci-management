@@ -28,18 +28,6 @@
     build-node: 'hyp-x'
     comment: 'x'
 
-- project:
-    name: fabric-baseimage-verify-docker-ppc64le
-    jobs:
-      - '{project-name}-verify-docker-{arch}'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
-    comment: 'p'
-
 ###
 # fabric-baseimage merge jobs on x,p and z arch
 # These jobs triggers on gerrit "patchset merged" event
@@ -67,16 +55,6 @@
     arch: 'x86_64'
     build-node: 'hyp-x'
 
-- project:
-    name: fabric-baseimage-merge-docker-ppc64le
-    jobs:
-      - '{project-name}-merge-docker-{arch}'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
 
 ####
 # fabric-baseimage release jobs on x,p and z arch
@@ -105,17 +83,6 @@
     arch: 'x86_64'
     build-node: 'hyp-x'
 
-- project:
-    name: fabric-baseimage-release-ppc64le
-    jobs:
-      - '{project-name}-{arch}-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
-
 ####
 # fabric-baseimage thirdparty (kafka, couch and zookeeper) image release jobs on x, p and z arch
 # These jobs are triggered on gerrit "ref-updated" event
@@ -142,17 +109,6 @@
     branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'
-
-- project:
-    name: fabric-baseimage-thirdparty-release-ppc64le
-    jobs:
-      - '{project-name}-{arch}-thirdparty-image-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
 
 ####
 # fabric-baseimage release jobs on x,p and z arch
@@ -181,18 +137,6 @@
     branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'
-    mvn-settings: 'fabric-settings'
-
-- project:
-    name: fabric-baseimage-nexus-release-ppc64le
-    jobs:
-      - '{project-name}-{arch}-nexus-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'ppc64le'
-    build-node: 'hyp-p'
     mvn-settings: 'fabric-settings'
 
 - project:
