@@ -1,6 +1,6 @@
 ---
 ###
-# fabric-test svt, pte, lte and ote daily jobs on master and release-1.2 branches.
+# fabric-test behave, ca, pte, lte and ote daily jobs on master branch and svt, pte jobs on release-1.2 branch.
 # Triggered by an upstream CI job.
 ##
 ##############
@@ -8,7 +8,7 @@
 ##############
 
 - project:
-    name: fabric-test-daily-svt-master-x86_64
+    name: fabric-test-daily-behave-master-x86_64
     jobs:
       - '{project-name}-daily-{test}-{branch}-{arch}'
 
@@ -16,9 +16,9 @@
     project-name: fabric-test
     branch: master
     arch: x86_64
-    test: svt
+    test: behave
     stable-tag: 1.3.0-stable
-    target: svt-daily
+    target: svt-daily-behave-tests
 
 - project:
     name: fabric-test-daily-pte-master-x86_64
@@ -58,6 +58,19 @@
     test: ote
     stable-tag: 1.3.0-stable
     target: svt-daily-ote-tests
+
+- project:
+    name: fabric-test-daily-ca-master-x86_64
+    jobs:
+      - '{project-name}-daily-{test}-{branch}-{arch}'
+
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: x86_64
+    test: ca
+    stable-tag: 1.3.0-stable
+    target: svt-daily-ca-tests
 
 #############
 # release-1.2
