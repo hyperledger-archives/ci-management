@@ -8,6 +8,7 @@
       - 'fabric-samples-verify-byfn-master-{arch}'
       - 'fabric-samples-merge-byfn-master-{arch}'
       - 'fabric-smoke-tests-{arch}'
+      - 'fabric-byfn-upgrade-test-weekly-{arch}'
 
     mvn-settings: 'fabric-settings'
 
@@ -233,6 +234,48 @@
           fabric-settings-file: '{mvn-settings}'
       - docker-login
       - fabric-byfn-smoke-tests
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+
+- job-template:
+    name: 'fabric-byfn-upgrade-test-weekly-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-samples-gerrit:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - timed: '@weekly'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '80'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-upgrade-test
 
     publishers:
       - lf-infra-publish

@@ -29,3 +29,9 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-samples-byfn-smoke.sh
+
+- builder:
+    name: fabric-upgrade-test
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-upgrade-test.sh
