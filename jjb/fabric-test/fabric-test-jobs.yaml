@@ -5,6 +5,7 @@
       - 'fabric-test-verify-{arch}'
       - 'fabric-test-merge-{arch}'
       - 'fabric-test-daily-results-{arch}'
+      - 'fabric-test-svt-weekly-pte-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -284,5 +285,47 @@
       - daily-test-results
       - fabric-email-notification:
           email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+- job-template:
+    name: 'fabric-test-svt-weekly-pte-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - stable-version:
+          pull-version: '1.3.0-stable'
+
+    triggers:
+      - timed: '@weekly'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: !include-raw-escape: ./shell/include-raw-pte-weekly-test.sh
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'jason.clark@linux.vnet.ibm.com,rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com,scottz@us.ibm.com,vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
