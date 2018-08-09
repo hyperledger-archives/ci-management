@@ -35,7 +35,6 @@
           refspec: ''
 
     properties:
-      - 'fabric-go-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
