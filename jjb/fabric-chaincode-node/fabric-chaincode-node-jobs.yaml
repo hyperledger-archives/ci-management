@@ -1,31 +1,34 @@
 ---
-- project:
-    name: fabric-chaincode-node
+- job-group:
+    name: '{project-name}-jobs'
+
     jobs:
-      - 'fabric-chaincode-node-verify-{arch}'
-      - 'fabric-chaincode-node-merge-{arch}'
-      - 'fabric-chaincode-node-npm-release-{arch}'
-      - 'fabric-chaincode-node-verify-s390x'
-      - 'fabric-chaincode-node-merge-s390x'
+      - fab-chaincode-node-verify
+      - fab-chaincode-node-merge
 
-    project: 'fabric-chaincode-node'
-    arch:
-      - 'x86_64'
+###########
+# Pipeline
+###########
 
-# gerrit changes
+- chaincode_node_pipeline_common: &chaincode_node_pipeline_common
+    name: chaincode-node-pipeline-common
 
-- job-template:
-    name: 'fabric-chaincode-node-verify-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
+    project-type: pipeline
     concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+    pipeline-scm:
+      script-path: '{jenkins_file}'
+      scm:
+        - git:
+            credentials-id: 'hyperledger-jobbuilder'
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
+            shallow-clone: true
+            refspec: '{src_code}'
+            wipe-workspace: true
+            clean:
+              before: true
+              after: true
+            branches:
+              - '{src_branch}'
 
     parameters:
       - project-parameter:
@@ -35,231 +38,107 @@
       - gerrit-refspec-parameter:
           refspec: ''
 
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
+    properties:
+      - build-discarder:
+          days-to-keep: '{log_days}'
+          artifact-days-to-keep: '{log_days}'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-{trigger_type}:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
 
     wrappers:
       - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
 
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - chaincode-node-docker-images
-      - chaincode-node-tests
-
-    publishers:
-      - log-artifacts
-      - lf-infra-publish
-      - sdk-node-coverage-report
+#############
+# Verify Jobs
+#############
 
 - job-template:
-    name: 'fabric-chaincode-node-merge-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - chaincode-node-docker-images
-      - chaincode-node-tests
-      - chaincode-npm-publish
-      - chaincode-gulp-doc
-
-    publishers:
-      - log-artifacts
-      - lf-infra-publish
-      - chaincode-node-coverage-report
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-# gerrit changes
+    name: '{project-name}-verify-{arch}'
+    id: fab-chaincode-node-verify
+    <<: *chaincode_node_pipeline_common
 
 - job-template:
-    name: 'fabric-chaincode-node-verify-s390x'
+    name: '{project-name}-merge-{arch}'
+    id: fab-chaincode-node-merge
+    <<: *chaincode_node_pipeline_common
 
-    project-type: freestyle
-    node: 'hyp-z'
-    concurrent: true
+###############
+# Verify
+###############
 
-    properties:
-      - 'fabric-go-s390x'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+- project:
+    name: fabric-chaincode-node-verify-x86_64
+    jobs:
+      - fab-chaincode-node-verify
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
+    project: fabric-chaincode-node
+    project-name: fabric-chaincode-node
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    trigger_type: submitted
+    log_days: 7
+    jenkins_file: Jenkinsfile.x
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
 
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
+- project:
+    name: fabric-chaincode-node-verify-s390x
+    jobs:
+      - fab-chaincode-node-verify
 
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-z$'
-          trigger-comment2: 'reverify$'
+    project: fabric-chaincode-node
+    project-name: fabric-chaincode-node
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'reverify-z$'
+    comment2: 'reverify$'
+    trigger_type: submitted
+    log_days: 7
+    jenkins_file: Jenkinsfile.z
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
 
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
+############
+# Merge Jobs
+############
 
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - chaincode-node-docker-images
-      - chaincode-node-tests-s390x
+- project:
+    name: fabric-chaincode-node-merge-s390x
+    jobs:
+      - fab-chaincode-node-merge
 
-    publishers:
-      - log-artifacts
-      - sdk-node-coverage-report
-      - lf-infra-publish
+    project: fabric-chaincode-node
+    project-name: fabric-chaincode-node
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'remerge-z$'
+    comment2: 'remerge$'
+    trigger_type: merged
+    log_days: 7
+    jenkins_file: Jenkinsfile.z
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
 
-- job-template:
-    name: 'fabric-chaincode-node-merge-s390x'
+- project:
+    name: fabric-chaincode-node-merge-x86_64
+    jobs:
+      - fab-chaincode-node-merge
 
-    project-type: freestyle
-    node: 'hyp-z'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-s390x'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - chaincode-node-docker-images
-      - chaincode-node-tests-s390x
-
-    publishers:
-      - log-artifacts
-      - chaincode-node-coverage-report
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
-    name: 'fabric-chaincode-node-npm-release-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: ''
-      - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - chaincode-node-docker-images
-      - chaincode-node-tests
-      - chaincode-release-npm-publish
-
-    publishers:
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+    project: fabric-chaincode-node
+    project-name: fabric-chaincode-node
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    trigger_type: merged
+    log_days: 7
+    jenkins_file: Jenkinsfile.x
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
