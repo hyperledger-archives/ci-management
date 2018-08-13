@@ -4,15 +4,14 @@
 # These jobs triggers on gerrit "patchset created" event
 ###
 
-
 ##############
 # Verify Jobs
 ##############
 
 - project:
-    name: fabric-samples-verify-byfn-release-1.1-x86_64
+    name: fabric-samples-verify-byfn-release-1.1
     jobs:
-      - '{project-name}-verify-byfn-{branch}-{arch}'
+      - '{project-name}-verify-byfn-{branch}'
 
     project: fabric-samples
     project-name: fabric-samples
@@ -24,27 +23,13 @@
     build_timeout: 60
 
 - project:
-    name: fabric-samples-verify-byfn-release-1.0-x86_64
+    name: fabric-samples-verify-byfn-release-1.0
     jobs:
-      - '{project-name}-verify-byfn-{branch}-{arch}'
+      - '{project-name}-verify-byfn-{branch}'
 
     project: fabric-samples
     project-name: fabric-samples
     branch: release-1.0
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-- project:
-    name: fabric-samples-verify-byfn-release-1.2-x86_64
-    jobs:
-      - '{project-name}-verify-byfn-{branch}-{arch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.2
     arch: 'x86_64'
     build_node: 'x'
     comment1: 'reverify-x$'
@@ -56,9 +41,9 @@
 ################
 
 - project:
-    name: fabric-samples-merge-byfn-release-1.1-x86_64
+    name: fabric-samples-merge-byfn-release-1.1
     jobs:
-      - '{project-name}-merge-byfn-{branch}-{arch}'
+      - '{project-name}-merge-byfn-{branch}'
 
     project: fabric-samples
     project-name: fabric-samples
@@ -70,9 +55,9 @@
     build_timeout: 60
 
 - project:
-    name: fabric-samples-merge-byfn-release-1.0-x86_64
+    name: fabric-samples-merge-byfn-release-1.0
     jobs:
-      - '{project-name}-merge-byfn-{branch}-{arch}'
+      - '{project-name}-merge-byfn-{branch}'
 
     project: fabric-samples
     project-name: fabric-samples
@@ -83,10 +68,18 @@
     comment2: 'reverify$'
     build_timeout: 60
 
+#####################################################
+# Pipeline Job Configuration for master, release-1.2
+####################################################
+
+#############
+# release-1.2
+#############
+
 - project:
-    name: fabric-samples-merge-byfn-release-1.2-x86_64
+    name: fabric-samples-verify-byfn-release-1.2
     jobs:
-      - '{project-name}-merge-byfn-{branch}-{arch}'
+      - 'fabric-samples-verify-byfn-{branch}'
 
     project: fabric-samples
     project-name: fabric-samples
@@ -95,4 +88,51 @@
     build_node: 'x'
     comment1: 'reverify-x$'
     comment2: 'reverify$'
+    build_timeout: 60
+
+
+- project:
+    name: fabric-samples-merge-byfn-release-1.2
+    jobs:
+      - 'fabric-samples-merge-byfn-{branch}'
+
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.2
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    build_timeout: 60
+
+#################
+# master
+#################
+
+- project:
+    name: fabric-samples-verify-byfn-master
+    jobs:
+      - 'fabric-samples-verify-byfn-{branch}'
+
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: master
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+
+- project:
+    name: fabric-samples-merge-byfn-master
+    jobs:
+      - 'fabric-samples-merge-byfn-{branch}'
+
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: master
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
     build_timeout: 60
