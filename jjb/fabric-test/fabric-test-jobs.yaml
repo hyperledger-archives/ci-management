@@ -4,6 +4,7 @@
     jobs:
       - 'fabric-test-verify-{arch}'
       - 'fabric-test-merge-{arch}'
+      - 'fabric-test-daily-results-{arch}'
 
     project: 'fabric-test'
     arch:
@@ -237,3 +238,39 @@
       - lf-infra-publish
       - daily-test-results
       - test-logs
+
+- job-template:
+    name: 'fabric-test-daily-results-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+
+    triggers:
+      - timed: 'H 13 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '10'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-test-daily-report
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results

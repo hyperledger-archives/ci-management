@@ -26,3 +26,9 @@
           export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
           export PATH=$GOROOT/bin:$PATH
           echo "------> GO_VER" $GO_VER
+
+- builder:
+    name: fabric-test-daily-report
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-daily-report.sh
