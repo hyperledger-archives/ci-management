@@ -83,7 +83,7 @@ pull_Binary() {
     RELEASE_TAG=$(cat maven-metadata.xml | grep release)
     COMMIT=$(echo $RELEASE_TAG | awk -F - '{ print $4 }' | cut -d "<" -f1)
     echo "--------> COMMIT:" $COMMIT
-    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-ca-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz 
+    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-stable/$MARCH.$STABLE_VERSION-$COMMIT/hyperledger-fabric-ca-stable-$MARCH.$STABLE_VERSION-$COMMIT.tar.gz | tar xz
 }
 
 # pull fabric-ca docker image from amd64 and s390x platforms
