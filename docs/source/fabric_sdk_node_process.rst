@@ -70,15 +70,30 @@ repository, the Hyperledger Community CI server (Jenkins) triggers
 patch set’s parent commit which may or may not be the latest commit on
 **fabric-sdk-node**.
 
-The following verify jobs are triggered.
+.. figure:: ./images/SDK.png
+   :alt: Views
+   
+   Views
 
-`fabric-sdk-node6-verify-release-1.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-verify-release-1.0-x86_64/>`__
+The following verify jobs and merge jobs are triggered for sdk-node respectively for the {arch}:
 
 `fabric-sdk-node8-verify-master-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-master-x86_64/>`__
 
-`fabric-sdk-node6-verify-release-1.0-s390x <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-verify-release-1.0-s390x/>`__
+`fabric-sdk-node6-verify-release-1.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-verify-release-1.0-x86_64/>`__
 
-`fabric-sdk-node8-verify-master-s390x <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-master-s390x/>`__
+`fabric-sdk-node8-verify-release-1.1-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-release-1.1-x86_64/>`__
+
+`fabric-sdk-node8-verify-release-1.2-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-release-1.2-x86_64/>`__
+
+`fabric-sdk-node8-merge-master-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-master-x86_64/>`__
+
+`fabric-sdk-node6-merge-release-1.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-merge-release-1.0-x86_64/>`__
+
+`fabric-sdk-node8-merge-release-1.1-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-release-1.1-x86_64/>`__
+
+`fabric-sdk-node8-merge-release-1.2-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-release-1.2-x86_64/>`__
+
+The above jobs are triggered for the x86_64, and this is same for s390x too,
 
 As part of the CI process on **fabric-sdk-node** repository, the
 following tests are executed on **x86_64**\ (x) and **s390x**\ (z)
@@ -87,6 +102,8 @@ which platform we run this job.
 
 .. figure:: ./images/nodesdkviews.png
    :alt: Views
+
+   Views
 
 Below is the process we execute in CI on fabric-sdk-node verify and
 merge jobs:
@@ -129,7 +146,7 @@ with a +1, or -1 if the build fails.
 
 Next, on a successful code review(+1) and merge by the maintainers,
 Jenkins triggers the **merge** jobs. The merge jobs for
-**fabric-sdk-java** perform all steps detailed above and also publish
+**fabric-sdk-node** perform all steps detailed above and also publish
 node modules to NPM Open Source Registry.
 
 -  An initial validation is made to check the version of the npm modules
@@ -184,6 +201,8 @@ known as *Post Build* actions, In this case for the **fabric-sdk-node**.
 
 .. figure:: ./images/nodesdkconsole.png
    :alt: ConsoleOutPut
+
+   ConsoleOutPut
 
 Build Notifications
 ~~~~~~~~~~~~~~~~~~~~
