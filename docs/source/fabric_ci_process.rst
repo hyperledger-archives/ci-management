@@ -96,7 +96,12 @@ patch set:
    extensions (.rst, .md, .py, .png,.css,.html and .ini), the above
    job posts the ``Run DocBuild`` comment to the patch set in Gerrit and
    sends the following votes against the patch set:
-   ``F1-VerifyBuild=+1 F2-SmokeTest=+1 F3-IntegrationTest=+1 F3-UnitTest=+1``
+   ``F1-VerifyBuild=+1 F2-SmokeTest=+1 F3-IntegrationTest=+1 F3-UnitTest=+1``.
+
+.. figure:: ./images/verifyjob.png
+   :alt: Views
+
+   Views
 
      * Run DocBuild
          - This comment triggers `fabric-docs-build-x86_64` CI job. Once
@@ -158,6 +163,11 @@ patch set:
                  posts `F3-UnitTest=+1` vote against the patch set if
                  successful, otherwise a vote of `F3-UnitTest=-1` is submitted.
 
+.. figure:: ./images/verifybuildprocess.png
+   :alt: Views
+
+   Views
+
 Conditions to merge the patch set
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -185,6 +195,11 @@ Merge process for Fabric
 Once the patch set is approved by CI and the maintainers, they will merge the
 patch set which triggers the **Merge** jobs mentioned below on the latest Fabric
 commit (note: this process does not use the patch set’s parent commit).
+
+.. figure:: ./images/mergejobflow.png
+   :alt: Views
+
+   Views
 
 **fabric-merge-end-2-end-x86_64:**
 https://jenkins.hyperledger.org/view/fabric/job/fabric-merge-end-2-end-x86_64/
