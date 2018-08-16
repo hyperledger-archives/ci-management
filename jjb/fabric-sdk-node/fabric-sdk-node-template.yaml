@@ -77,7 +77,9 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - hyperledger-fabric-sdk-node
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-merged:
