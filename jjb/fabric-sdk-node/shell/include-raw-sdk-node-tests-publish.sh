@@ -101,10 +101,18 @@ npmPublish() {
     if [ "$UNSTABLE_VER" = "$CURRENT_RELEASE" ]; then
       # Replace existing version with Incremented $UNSTABLE_VERSION
       sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT\"\,'/' package.json
+      if [ "$1" = "fabric-network" ]; then
+        sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT\"\,'/' package.json
+        sed -i 's/\(.*\"fabric-ca-client\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT\"\,'/' package.json
+      fi
       npm publish --tag unstable
     else
       # Replace existing version with $CURRENT_RELEASE
       sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$CURRENT_RELEASE\"\,'/' package.json
+      if [ "$1" = "fabric-network" ]; then
+        sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$CURRENT_RELEASE\"\,'/' package.json
+        sed -i 's/\(.*\"fabric-ca-client\"\: \"\)\(.*\)/\1'$CURRENT_RELEASE\"\,'/' package.json
+      fi
       npm publish --tag unstable
     fi
     else
@@ -237,7 +245,7 @@ fi
 
 ######################################
 #
-# Currently pulishing npm from x86_64
+# Currently publishing npm from x86_64
 #
 ######################################
 ARCH=$(uname -m)
@@ -255,4 +263,11 @@ else
    cd ../fabric-client
    versions
    npmPublish fabric-client
+
+   if [ -d "../fabric-network" ]; then
+     cd ../fabric-network
+     versions
+     npmPublish fabric-network
+   fi
+
 fi
