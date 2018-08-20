@@ -84,6 +84,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
+      - stable-version:
+          pull-version: '1.2.0'
 
     scm:
       - fabric-gerrit-scm-merge:
@@ -106,7 +108,7 @@
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
-      - shell: !include-raw-escape: shell/include-raw-publish-nexus-gradle.sh
+      - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
 
     publishers:
       - chaincode-java-jacoco-coverage-report
