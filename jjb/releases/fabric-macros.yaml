@@ -38,7 +38,7 @@
           #!/bin/bash -exu
           set -o pipefail
 
-          make docker
+          make docker dependent-images
 
 - builder:
     name: app-docker-image
