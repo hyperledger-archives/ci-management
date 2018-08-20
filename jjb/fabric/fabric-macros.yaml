@@ -572,7 +572,7 @@
     name: daily-test-results
     publishers:
       - junit:
-          results: '**/*.xml'
+          results: '**/TEST*.xml, **/results*.xml'
 
 - publisher:
     name: down-stream-jobs
