@@ -22,6 +22,10 @@ npmPublish() {
   else
       if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
         echo "===> PUBLISH --> $RELEASE"
+        if [ "$1" = "fabric-network" ]; then
+          sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$RELEASE\"\,'/' package.json
+          sed -i 's/\(.*\"fabric-ca-client\"\: \"\)\(.*\)/\1'$RELEASE\"\,'/' package.json
+        fi
         npm publish
       else
         echo "$RELEASE: No such release."
@@ -49,3 +53,9 @@ npmPublish fabric-ca-client
 cd ../fabric-client
 versions
 npmPublish fabric-client
+
+if [ -d "../fabric-network" ]; then
+  cd ../fabric-network
+  versions
+  npmPublish fabric-network
+fi
