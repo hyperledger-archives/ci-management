@@ -18,7 +18,6 @@ set -o pipefail
 ORG_NAME=hyperledger/fabric
 NEXUS_URL=nexus3.hyperledger.org:10003
 TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
-IMAGE=chaincode-javaenv
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
 PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")
@@ -31,8 +30,8 @@ docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$ARCH-latest
 docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 # Push javenv docker image
-docker push $NEXUS_URL/$ORG_NAME-javaenv:$ARCH-latest
-docker push $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_TAG-$COMMIT_TAG
+docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$ARCH-latest
+docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 #####################
 # PUBLISH JAR FILES

@@ -108,6 +108,7 @@
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
+      - docker-login
       - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
 
     publishers:
