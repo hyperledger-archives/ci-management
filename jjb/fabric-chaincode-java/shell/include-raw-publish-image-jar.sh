@@ -26,11 +26,11 @@ PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d
 ./gradlew buildImage
 
 # tag hyperledger/fabric-javaenv
-docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$ARCH-latest
+docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:amd64-latest
 docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 # Push javenv docker image
-docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$ARCH-latest
+docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:amd64-latest
 docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 #####################
@@ -54,7 +54,7 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$PROJECT_VERSION-SNAPSHOT \
+        -Dversion=$binary-$STABLE_VERSION-SNAPSHOT \
         -DartifactId=hyperledger-fabric-chaincode-java \
         -DgeneratePom=true \
         -DuniqueVersion=false \
@@ -72,7 +72,7 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$PROJECT_VERSION \
+        -Dversion=$binary-$STABLE_VERSION \
         -DartifactId=hyperledger-fabric-chaincode-java \
         -DgeneratePom=true \
         -DuniqueVersion=false \
