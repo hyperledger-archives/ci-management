@@ -26,12 +26,12 @@ PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d
 ./gradlew buildImage
 
 # tag hyperledger/fabric-javaenv
-docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:amd64-latest
-docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
+	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
 
-# Push javenv docker image
-docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:amd64-latest
-docker push $NEXUS_URL/$ORG_NAME-chaincode-javaenv:$STABLE_TAG-$COMMIT_TAG
+	# Push javenv docker image
+	docker push $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 #####################
 # PUBLISH JAR FILES
