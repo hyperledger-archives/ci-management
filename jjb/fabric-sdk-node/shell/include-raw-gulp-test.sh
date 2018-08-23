@@ -39,6 +39,24 @@ echo "======> CA_COMMIT <======= $CA_COMMIT"
 make docker-fabric-ca
 docker images | grep hyperledger
 
+# Pull fabric-chaincode-javaenv docker image
+
+if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
+      echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH and on $ARCH"
+else
+      ##########
+      # Pull fabric-chaincode-javaenv Image
+      NEXUS_URL=nexus3.hyperledger.org:10001
+      ORG_NAME="hyperledger/fabric"
+      IMAGE=javaenv
+      : ${STABLE_VERSION:=amd64-latest}
+      docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION
+      docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE
+      docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
+      docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
+      ##########
+fi
+
 ## Test gulp test
 cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node/test/fixtures || exit
 docker-compose up >> dockerlogfile.log 2>&1 &
