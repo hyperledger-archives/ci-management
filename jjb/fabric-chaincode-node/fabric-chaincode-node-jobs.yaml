@@ -110,6 +110,10 @@
       - log-artifacts
       - lf-infra-publish
       - chaincode-node-coverage-report
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # gerrit changes
 
@@ -207,6 +211,10 @@
       - log-artifacts
       - chaincode-node-coverage-report
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-chaincode-node-npm-release-{arch}'
@@ -251,3 +259,7 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

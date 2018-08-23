@@ -132,6 +132,10 @@
       - lf-infra-publish
       - log-artifacts
       - daily-test-results
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # gerrit changes
 
@@ -238,6 +242,10 @@
       - lf-infra-publish
       - daily-test-results
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-test-daily-results-{arch}'
@@ -274,3 +282,7 @@
     publishers:
       - lf-infra-publish
       - daily-test-results
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

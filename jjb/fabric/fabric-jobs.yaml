@@ -79,6 +79,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: '{project-name}-nexus-release-{arch}'
@@ -124,6 +128,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-merge-{arch}'
@@ -173,6 +181,10 @@
     publishers:
       - lf-infra-publish
       - code-coverage-report
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # publish fabric-binaries
 - job-template:
@@ -217,6 +229,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-binaries-{arch}'
@@ -266,6 +282,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-gosec-weekly-{arch}'
@@ -310,7 +330,7 @@
       - lf-infra-publish
       - fabric-gosec-scan-results
       - fabric-email-notification:
-          email-ids: 'ashku@us.ibm.com'
+          email-ids: 'ashku@us.ibm.com, rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: '**/*.json'
           developer-email: 'developers'
 
@@ -360,6 +380,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-verify-integration-tests-{arch}'
@@ -408,6 +432,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-verify-build-checks-{arch}'
@@ -457,6 +485,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-docs-build-{arch}'
@@ -502,3 +534,7 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

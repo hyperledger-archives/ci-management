@@ -62,6 +62,10 @@
       - lf-infra-publish
       - daily-test-results
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # BYFN Checks
 
@@ -99,6 +103,10 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-byfn-release-test-s390x'
@@ -134,6 +142,10 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-byfn-release-test-ppc64le'
@@ -169,3 +181,7 @@
     publishers:
       - lf-infra-publish
       - test-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

@@ -79,6 +79,11 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
 
 # publish fabric-ca-binaries
 - job-template:
@@ -129,6 +134,10 @@
 
     publishers:
       - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # gerrit changes
 
@@ -235,7 +244,8 @@
       - lf-infra-publish
       - ca-code-coverage-report
       - fabric-email-notification:
-          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com'
+          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com,
+sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -342,7 +352,8 @@
       - lf-infra-publish
       - ca-code-coverage-report
       - fabric-email-notification:
-          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com'
+          email-ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,rameshbabu.thoomu@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com,
+sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -442,6 +453,10 @@
     publishers:
       - lf-infra-publish
       - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-ca-safesql-weekly-{arch}'
@@ -485,10 +500,6 @@
     publishers:
       - lf-infra-publish
       - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'ashku@us.ibm.com'
-          output_format: '**/*.json'
-          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-ca-gosec-weekly-{arch}'
@@ -532,7 +543,3 @@
     publishers:
       - lf-infra-publish
       - fabric-ca-gosec-scan-results
-      - fabric-email-notification:
-          email-ids: 'ashku@us.ibm.com'
-          output_format: '**/*.json'
-          developer-email: 'developers'

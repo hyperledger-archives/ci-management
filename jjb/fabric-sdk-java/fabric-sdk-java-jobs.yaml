@@ -121,6 +121,10 @@
       - jacoco-coverage-report
       - lf-infra-publish
       - java-sdk-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # release job
 - job-template:
@@ -167,6 +171,10 @@
       - jacoco-coverage-report
       - lf-infra-publish
       - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # Verify 1.0.0 job
 - job-template:
@@ -270,6 +278,10 @@
       - jacoco-coverage-report
       - lf-infra-publish
       - java-sdk-logs
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-sdk-java-owasp-weekly-{arch}'
