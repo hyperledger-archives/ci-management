@@ -282,6 +282,17 @@ deb_install_haveged() {
     update-rc.d haveged defaults
 }
 
+deb_instal_x86_tools() {
+    # install npm and fabric node sdk dependencies
+    curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
+
+    cd /usr/local || exit
+    wget https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
+    unzip protoc-3.0.0-linux-x86_64.zip
+    rm protoc-3.0.0-linux-x86_64.zip
+    cd - || exit
+}
+
 ubuntu_changes() {
     echo "---> Ubuntu changes"
     export DEBIAN_FRONTEND=noninteractive
@@ -304,6 +315,7 @@ ubuntu_changes() {
     deb_docker_pull_celloimage
     deb_docker_fix
     deb_rust_install
+    deb_instal_x86_tools
 
     echo "---> No extra steps presently for ${FACTER_OS}"
 }
