@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -e
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -48,6 +48,15 @@ clone_fabric() {
   docker images | grep hyperledger
 }
 
+########################
+# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-1.3.0
+# 1.3.0 https://github.com/hyperledger/fabric/blob/master/Makefile#L47
+#######################
+
+docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv:amd64-1.3.0
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv:amd64-latest
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv
 
 # Clone fabric-ca git repository
 ################################
