@@ -85,7 +85,7 @@
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
       - stable-version:
-          pull-version: '1.2.0'
+          pull-version: '1.3.0'
 
     scm:
       - fabric-gerrit-scm-merge:
