@@ -50,7 +50,7 @@ echo "##############"
 DEVMODE=false gulp channel-init
 
 echo "##############"
-echo "Run Integration Tests"
+echo "Run Integration & Scenario Tests"
 echo "##############"
 
 gulp test-e2e
