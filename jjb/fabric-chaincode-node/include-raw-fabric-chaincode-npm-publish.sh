@@ -77,5 +77,7 @@ versions
 npmPublish fabric-shim-crypto
 
 cd ../fabric-contract-api
-versions
-npmPublish fabric-contract-api
+API_VER=1.3.0-snapshot.1
+sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$API_VER\"\,'/' package.json
+cat package.json
+npm publish --tag unstable
