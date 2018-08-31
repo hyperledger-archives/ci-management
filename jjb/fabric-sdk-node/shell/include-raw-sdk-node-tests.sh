@@ -108,7 +108,7 @@ make docker-fabric-ca || err_Check "make docker-fabric-ca failed"
 echo
 docker images | grep hyperledger/fabric-ca || true
 
-if [[ "$GERRIT_BRANCH" = "master" || "$ARCH" = "s390x" ]]; then
+if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
        echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH & $ARCH"
 else
        #####################################

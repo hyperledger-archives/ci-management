@@ -22,12 +22,7 @@ if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" 
       SDK_REPO_NAME=fabric-sdk-java
       git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
       cd $WD
-      if [[ "$GERRIT_BRANCH" = "release-1.2" ]]; then
-          git checkout master
-      elif [[ "$GERRIT_BRANCH" = *"release-"* ]]; then
-          echo "-----> Checkout to $GERRIT_BRANCH branch"
           git checkout $GERRIT_BRANCH
-      fi
       echo "-----> $GERRIT_BRANCH"
       SDK_JAVA_COMMIT=$(git log -1 --pretty=format:"%h")
       echo "-----> SDK_JAVA_COMMIT : $SDK_JAVA_COMMIT"

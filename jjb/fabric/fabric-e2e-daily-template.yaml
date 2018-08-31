@@ -39,10 +39,10 @@
       - output-environment
       - dockerimages
       - end-to-end-CLI
-      - end-to-end-NODE
-      - end-to-end-JAVA
       - clone-fabric-samples
       - fabric-byfn-tests
+      - end-to-end-NODE
+      - end-to-end-JAVA
 
     publishers:
       - lf-infra-publish
