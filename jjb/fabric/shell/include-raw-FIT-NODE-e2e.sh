@@ -26,17 +26,9 @@ echo "--------> $1 <---------"
 exit 1
 }
 
-# Checkout to master if branch is 1.2 (1.2 branch is not created for Node SDK)
-if [[ "$GERRIT_BRANCH" = "release-1.2" ]]; then
-    echo "-----> $GERRIT_BRANCH"
-    echo "-----> Checking out the master branch"
-    git checkout master
-
-# Checkout to GERRIT_BRANCH if branch is 1.1 or 1.0
-elif [ "$GERRIT_BRANCH" = "release-1.1" ] || [ "$GERRIT_BRANCH" = "release-1.0" ]; then
+# Checkout to the respective branch.
     echo "-----> Checkout to $GERRIT_BRANCH branch"
     git checkout $GERRIT_BRANCH
-fi
 
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "------> SDK_NODE_COMMIT : $SDK_NODE_COMMIT"
