@@ -200,6 +200,7 @@ else
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
+       docker images | grep hyperledger/fabric-javaenv || true
 fi
 
 echo
