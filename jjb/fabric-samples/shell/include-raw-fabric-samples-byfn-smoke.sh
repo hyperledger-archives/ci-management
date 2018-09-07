@@ -157,9 +157,9 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
           echo y | ./byfn.sh -m generate -c couchdbtest
           copy_logs $? custom-channel-couch couchdb
-          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 90
+          echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 90 -d 15
           copy_logs $? custom-channel-couch couchdb
-          echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 90
+          echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 90 -d 15
           copy_logs $? custom-channel-couch couchdb
           echo y | ./eyfn.sh -m down
           echo
