@@ -103,19 +103,19 @@ echo y | ./eyfn.sh -m up -c custom-channel -t 60
 copy_logs $? custom-channel
 echo y | ./eyfn.sh -m down
 echo
-echo "############### BYFN,EYFN COUCHDB TEST #############"
-echo "####################################################"
+echo "############### BYFN,EYFN COUCHDB TEST ##################"
+echo "#########################################################"
 
 echo y | ./byfn.sh -m generate -c couchdbtest
 copy_logs $? custom_channel_couchdb couchdb
-echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60
+echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60 -d 15
 copy_logs $? custom_channel_couchdb couchdb
-echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60
+echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60 -d 15
 copy_logs $? custom_channel_couchdb couchdb
 echo y | ./eyfn.sh -m down
 echo
-echo "############### BYFN,EYFN NODE Chaincode TEST ################"
-echo "####################################################"
+echo "############### BYFN,EYFN NODE Chaincode TEST ###########"
+echo "#########################################################"
 
 echo y | ./byfn.sh -m up -l node -t 60
 copy_logs $? default-channel-node

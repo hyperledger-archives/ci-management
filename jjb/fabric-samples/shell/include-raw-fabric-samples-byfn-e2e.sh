@@ -81,8 +81,8 @@ docker ps -aq
 echo "------> BRANCH: " $GERRIT_BRANCH
 if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
-        echo "############## BYFN,EYFN DEFAULT CHANNEL TEST ###################"
-        echo "#################################################################"
+        echo "############## BYFN,EYFN DEFAULT CHANNEL TEST ###########"
+        echo "#########################################################"
 
         echo y | ./byfn.sh -m down
         echo y | ./byfn.sh -m up -t 60
@@ -103,9 +103,9 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
         echo "############### BYFN,EYFN CUSTOM CHANNEL WITH COUCHDB TEST ##############"
         echo "#########################################################################"
 
-        echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 15
         copy_logs $? custom-channel-couch couchdb
-        echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60
+        echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 15
         copy_logs $? custom-channel-couch couchdb
         echo y | ./eyfn.sh -m down
         echo
