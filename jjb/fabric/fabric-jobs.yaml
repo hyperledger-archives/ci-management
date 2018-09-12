@@ -79,9 +79,9 @@
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
-
       - docker-login
       - fabric-nightly-publish-images
+      - clean-environment
       - 'down-stream-jobs-{branch}-{arch}'
 
     publishers:

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -85,16 +85,16 @@ else
 fi
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
+
+echo "------> Current space information."
+df -h
+
 # Publish fabric binaries
-set +e
 # Don't publish same binaries if they are available in nexus
 curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
-# shellcheck disable=SC2034
-RELEASE_COMMIT=$(cat output.xml | grep $COMMIT_TAG)
-if [ $? != 1 ]; then
+if cat output.xml | grep $COMMIT_TAG > /dev/null; then
     echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
 else
-set -e
     if [ $ARCH = "amd64" ]; then
         # Push fabric-binaries to nexus2
         for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
@@ -113,6 +113,7 @@ set -e
               -Dpackaging=tar.gz \
               -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
               echo "-------> DONE <----------"
+              rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
        done
     else
        echo "-------> Dont publish binaries from s390x or ppc64le platform"
@@ -143,6 +144,7 @@ if [ $ARCH = "amd64" ]; then
               -Dpackaging=tar.gz \
               -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
               echo "-------> DONE <----------"
+              rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
        done
 else
        echo "-------> Dont publish binaries from s390x platform"
