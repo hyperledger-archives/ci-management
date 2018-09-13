@@ -11,4 +11,6 @@ NEXUSPROXY=https://nexus.hyperledger.org
 NEXUS_URL=https://nexus.hyperledger.org
 NODE_SDK_USERNAME=fabric-sdk-node
 PKCS11_TESTS=true
+SIGUL_BRDIGE_IP=10.30.64.6
+SIGUL_KEY=hyp-release-2018
 SILO=production
