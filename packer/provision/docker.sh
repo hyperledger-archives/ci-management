@@ -100,12 +100,13 @@ deb_install_go() {
     curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
     chmod +x /usr/local/bin/gimme
 
-    #install Go 1.7.5, Go 1.9, Go 1.9.2, Go 1.9.4 and 1.10
+    #install Go 1.7.5, Go 1.9, Go 1.9.2, Go 1.9.4, 1.10 and 1.10.4
     gimme 1.7.5 /opt/go
     gimme 1.9 /opt/go
     gimme 1.9.2 /opt/go
     gimme 1.9.4 /opt/go
     gimme 1.10 /opt/go
+    gimme 1.10.4 /opt/go
 }
 
 deb_docker_pull_baseimage() {
@@ -116,6 +117,7 @@ deb_docker_pull_baseimage() {
         echo "---> Pulling Thirdparty Images"
         for image in ${IMAGES_LIST[*]}; do
             docker pull hyperledger/fabric-$image:amd64-0.4.10
+            docker pull hyperledger/fabric-$image:amd64-0.4.11
         done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
