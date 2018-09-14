@@ -13,4 +13,6 @@ LOGS_SERVER=https://logs.hyperledger.org
 NEXUSPROXY=https://nexus.hyperledger.org
 NEXUS_URL=https://nexus.hyperledger.org
 PKCS11_TESTS=true
+SIGUL_BRDIGE_IP=10.30.64.6
+SIGUL_KEY=hyp-sandbox
 SILO=sandbox
