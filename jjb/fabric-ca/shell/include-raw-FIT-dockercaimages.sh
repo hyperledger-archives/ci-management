@@ -24,6 +24,25 @@ if [ $? != 0 ]; then
 fi
 docker images | grep hyperledger
 
+if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
+
+     echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH or on $ARCH"
+else
+       #####################################
+       # Pull fabric-javaenv Image
+
+       NEXUS_URL=nexus3.hyperledger.org:10001
+       ORG_NAME="hyperledger/fabric"
+       IMAGE=javaenv
+       : ${JAVA_ENV_VERSION:=amd64-latest}
+       docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-latest
+       ######################################
+       docker images | grep hyperledger/fabric-javaenv || true
+fi
+
 # Clone fabric repository
 echo "========>Cloning Fabric<=========="
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
