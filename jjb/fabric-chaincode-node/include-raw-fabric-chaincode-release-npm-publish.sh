@@ -49,7 +49,3 @@ npmPublish fabric-shim
 cd ../fabric-shim-crypto
 versions
 npmPublish fabric-shim-crypto
-
-cd ../fabric-contract-api
-versions
-npmPublish fabric-contract-api

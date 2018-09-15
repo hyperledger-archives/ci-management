@@ -34,7 +34,7 @@ else
        NEXUS_URL=nexus3.hyperledger.org:10001
        ORG_NAME="hyperledger/fabric"
        IMAGE=javaenv
-       : ${JAVA_ENV_VERSION:=amd64-latest}
+       : ${JAVA_ENV_VERSION:=amd64-1.3.0-stable}
        docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
