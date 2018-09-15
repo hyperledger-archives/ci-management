@@ -125,6 +125,12 @@
              gosec -fmt=json -out=$packages.json ./$packages/...
           done
 
+- builder:
+    name: fabric-ca-nightly-publish-binary
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-ca-nightly-publish-binary.sh
+
 - publisher:
     name: fabric-ca-gosec-scan-results
     publishers:
