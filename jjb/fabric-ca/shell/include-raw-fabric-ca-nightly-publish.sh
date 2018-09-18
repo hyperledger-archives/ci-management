@@ -14,7 +14,9 @@
 # the nightly build is successful.
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca || exit 1
-git checkout $GERRIT_BRANCH && echo "--------> $GERRIT_BRANCH"
+git checkout $GERRIT_BRANCH
+echo "--------> $GERRIT_BRANCH"
+ARCH=$(go env GOARCH)
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
@@ -26,7 +28,7 @@ echo "-----------> STABLE_TAG:" $STABLE_TAG
 
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
-       for IMAGES in $2 release-clean $1; do
+       for IMAGES in docker $2 release-clean $1; do
            make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
@@ -36,9 +38,48 @@ build_Fabric_Ca() {
                echo "-------> List fabric-ca Binary"
        done
 }
+docker images | grep hyperledger/fabric-ca
 
+fabric_Ca_DockerTag() {
+    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
+         echo "----------> $IMAGES"
+         echo
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+    done
+         echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
+
+dockerFabricCaPush() {
+    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
+         echo "-----------> $IMAGES"
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+         echo
+    done
+         echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
+}
+
+# Tag Fabric Ca Docker Images
+if [ $ARCH = s390x ]; then
+    fabric_Ca_DockerTag
+else
+    fabric_Ca_DockerTag ca-fvt
+fi
+
+# Push Fabric Ca Docker Images to Nexus3
+if [ $ARCH = s390x ]; then
+    dockerFabricCaPush
+else
+    dockerFabricCaPush ca-fvt
+fi
+# Listout all docker images Before and After Push to NEXUS
+if ! docker images | grep "nexus" ; then
+    echo "------> No nexus images"
+else
+    docker images | grep "nexus*"
+fi
 # Execute release-all target on x arch
-ARCH=$(go env GOARCH)
 if [ "$ARCH" = "s390x" ]; then
        echo "---------> ARCH:" $ARCH
        build_Fabric_Ca release
@@ -47,7 +88,7 @@ else
        build_Fabric_Ca dist-all
 fi
 
-# fabric-ca binaries
+# Publish fabric-ca binaries
 curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-$PROJECT_VERSION > output.xml
 # shellcheck disable=SC2034
 CA_RELEASE_COMMIT=$(cat output.xml | grep $CA_COMMIT)
@@ -72,6 +113,7 @@ else
                  -Dpackaging=tar.gz \
                  -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
                  echo "-------> DONE <----------"
+		 rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
           done
    else
           echo "-------> Dont publish binaries from s390x platform"

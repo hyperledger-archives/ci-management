@@ -126,10 +126,10 @@
           done
 
 - builder:
-    name: fabric-ca-nightly-publish-binary
+    name: fabric-ca-nightly-publish
     builders:
       - shell:
-          !include-raw: shell/include-raw-fabric-ca-nightly-publish-binary.sh
+          !include-raw: shell/include-raw-fabric-ca-nightly-publish.sh
 
 - publisher:
     name: fabric-ca-gosec-scan-results
