@@ -52,9 +52,9 @@ clone_fabric() {
 # Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-1.3.0
 #######################
 docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-1.3.0-stable
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv:amd64-1.3.0
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv:amd64-latest
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-latest hyperledger/fabric-javaenv
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-1.3.0-stable hyperledger/fabric-javaenv:amd64-1.3.0
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-1.3.0-stable hyperledger/fabric-javaenv:amd64-latest
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-1.3.0-stable hyperledger/fabric-javaenv
 ##########
 docker images | grep hyperledger/fabric-javaenv || true
 
