@@ -50,7 +50,7 @@ fi
 # fabric-ca binaries
 curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-$PROJECT_VERSION > output.xml
 # shellcheck disable=SC2034
-RELEASE_COMMIT=$(cat output.xml | grep $CA_COMMIT)
+CA_RELEASE_COMMIT=$(cat output.xml | grep $CA_COMMIT)
 if [ $? != 1 ]; then
     echo "--------> INFO: $CA_COMMIT is already available... SKIP BUILD"
 else
