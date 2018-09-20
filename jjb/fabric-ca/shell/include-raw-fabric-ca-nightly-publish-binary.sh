@@ -19,6 +19,11 @@ CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
 echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
+PROJECT_VERSION=$PUSH_VERSION
+echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
+STABLE_TAG=$ARCH-$PROJECT_VERSION
+echo "-----------> STABLE_TAG:" $STABLE_TAG
+
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
        for IMAGES in $2 release-clean $1; do
@@ -42,34 +47,25 @@ else
        build_Fabric_Ca dist-all
 fi
 
-    cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca || exit 1
-    TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
-    ARCH=$(go env GOARCH) && echo "--------->" $ARCH
-    PROJECT_VERSION=$PUSH_VERSION
-    echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
-    STABLE_TAG=$ARCH-$PROJECT_VERSION
-    echo "-----------> STABLE_TAG:" $STABLE_TAG
-
 # fabric-ca binaries
 curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric-ca/hyperledger-fabric-ca-$PROJECT_VERSION > output.xml
 # shellcheck disable=SC2034
-RELEASE_COMMIT=$(cat output.xml | grep $COMMIT_TAG)
+RELEASE_COMMIT=$(cat output.xml | grep $CA_COMMIT)
 if [ $? != 1 ]; then
-    echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
+    echo "--------> INFO: $CA_COMMIT is already available... SKIP BUILD"
 else
-set -e
    if [ $ARCH = "amd64" ]; then
        # Push fabric-binaries to nexus2
-          for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
-                 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary && tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
-                 echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
+          for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+                 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary && tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
+                 echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
                  mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
                  -DupdateReleaseInfo=true \
-                 -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+                 -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \
                  -DrepositoryId=hyperledger-releases \
                  -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
                  -DgroupId=org.hyperledger.fabric-ca \
-                 -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
+                 -Dversion=$binary.$PROJECT_VERSION-$CA_COMMIT \
                  -DartifactId=hyperledger-fabric-ca-$PROJECT_VERSION \
                  -DgeneratePom=true \
                  -DuniqueVersion=false \

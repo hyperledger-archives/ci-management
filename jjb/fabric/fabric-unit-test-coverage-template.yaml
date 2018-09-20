@@ -37,6 +37,7 @@
       - 'golang-environment-{arch}'
       - pull-images
       - output-environment
+      - pull-nexus-chaincode-java-image
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
