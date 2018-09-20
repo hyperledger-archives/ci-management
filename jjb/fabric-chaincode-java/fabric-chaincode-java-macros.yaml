@@ -51,3 +51,9 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-chaincode-java-commit-checks.sh
+
+- builder:
+    name: java-doc
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-publish-java-doc.sh
