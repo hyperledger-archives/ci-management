@@ -115,9 +115,7 @@ npmPublish() {
       PUBLISHED_VER=$CURRENT_RELEASE
     fi
     else
-      if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
         echo "----> Publish $RELEASE from fabric-sdk-node-npm-release-x86_64"
-      fi
   fi
 }
 

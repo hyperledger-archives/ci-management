@@ -56,6 +56,7 @@
       - dockerimages
       - end-to-end-CLI
       - end-to-end-NODE
+      - clean-environment
       - end-to-end-JAVA
       - end-to-end-BYFN
 

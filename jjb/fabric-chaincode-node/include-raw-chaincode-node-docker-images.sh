@@ -20,6 +20,8 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 REPO_NAME=fabric
 git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD
+git checkout $GERRIT_BRANCH
+echo "------> FABRIC_BRANCH: $GERRIT_BRANCH"
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "FABRIC_COMMIT ========> $FABRIC_COMMIT" >> commit_history.log
 mv commit_history.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
@@ -68,6 +70,8 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
 git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD
+git checkout $GERRIT_BRANCH
+echo "------> CA_BRANCH: $GERRIT_BRANCH"
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "CA COMMIT ========> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit_history.log
 

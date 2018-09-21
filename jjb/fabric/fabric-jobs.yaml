@@ -64,11 +64,17 @@
           #!/bin/bash
 
           cd gopath/src/github.com/hyperledger/fabric || exit
-          make integration-test
-          if [ $? != 0 ]; then
-               echo "---------> make integration-test failed"
-               exit 1
+          ARCH=$(go env GOARCH)
+          if [ "$ARCH" != "s390x" ]; then
+             make integration-test
+             if [ $? != 0 ]; then
+                  echo "---------> make integration-test failed"
+                  exit 1
+             fi
+          else
+             echo "-------> Integration tests are disabled on s390x"
           fi
+
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

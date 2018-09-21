@@ -62,7 +62,7 @@ docker images | grep hyperledger || true
 
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
-       for IMAGES in docker $2 release-clean $1; do
+       for IMAGES in docker-all $2 release-clean $1; do
            make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
@@ -99,7 +99,7 @@ else
        build_Fabric dist-all
        cd $CA_WD
        build_Fabric_Ca dist-all docker-fvt
-       dockerFabricCaPush docker-fvt
+       dockerFabricCaPush ca-fvt
 fi
 
 set +e
