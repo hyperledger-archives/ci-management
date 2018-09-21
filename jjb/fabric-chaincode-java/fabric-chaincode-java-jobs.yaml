@@ -48,11 +48,6 @@
       - hyperledger-infra-wrappers
       - build-timeout:
           timeout: '20'
-      - credentials-binding:
-          - username-password-separated:
-              credential-id: fabric-chaincode-java-gh
-              username: CHAINCODE_JAVA_GH_USERNAME
-              password: CHAINCODE_JAVA_GH_PASSWORD
 
     builders:
       - chaincode-java-commit-checks
@@ -106,6 +101,11 @@
       - hyperledger-infra-wrappers
       - build-timeout:
           timeout: '20'
+      - credentials-binding:
+          - username-password-separated:
+              credential-id: fabric-chaincode-java-gh
+              username: CHAINCODE_JAVA_GH_USERNAME
+              password: CHAINCODE_JAVA_GH_PASSWORD
 
     builders:
       - chaincode-java-commit-checks
