@@ -21,6 +21,7 @@ TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
 PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")
+VERSION=$(echo $PROJECT_VERSION | cut -d- -f 1)
 
 # Build chaincode-javaenv docker image
 ./gradlew buildImage
@@ -45,42 +46,44 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
 # Publish snapshot to Nexus snapshot URL
     for binary in chaincode-shim chaincode-protos; do
        echo "Pushing fabric-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
-       tar -czf fabric-$binary.$PROJECT_VERSION.tar.gz *
+       cp $WORKSPACE/fabric-$binary/build/libs/fabric-$binary-$VERSION-SNAPSHOT.jar $WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.SNAPSHOT.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/fabric-$binary.$PROJECT_VERSION.tar.gz \
+        -Dfile=$WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.SNAPSHOT.jar \
         -DupdateReleaseInfo=true \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$STABLE_VERSION-SNAPSHOT \
-        -DartifactId=hyperledger-fabric-chaincode-java \
+        -Dversion=$VERSION-SNAPSHOT \
+        -DartifactId=fabric-$binary \
         -DgeneratePom=true \
         -DuniqueVersion=false \
-        -Dpackaging=tar.gz \
+        -Dpackaging=jar \
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
     done
        echo "========> DONE <======="
 
 else
         # if release
-        # Publush fabric-chaincode-javaenv image to Hyperledger DockerHub
-	docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
-        docker push $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
-        # Publish chaincode-javaenv binaries to nexus release URL
+
+        # Publish docker images to hyperledger dockerhub
+        docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$VERSION
+        docker push $ORG_NAME-javaenv:amd64-$VERSION
+
+        # Publish chaincode-shim and chaincode-protos to nexus
     for binary in chaincode-shim chaincode-protos; do
-       echo "Pushing fabric-$binary.$PROJECT_VERSION.tar.gz to maven releases.."
-       tar -czf fabric-$binary.$PROJECT_VERSION.tar.gz *
+       echo "Pushing fabric-$binary.$VERSION.jar to maven releases.."
+       cp $WORKSPACE/fabric-$binary/build/libs/fabric-$binary-$VERSION.jar $WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -DupdateReleaseInfo=true \
-        -Dfile=$WORKSPACE/fabric-$binary.$PROJECT_VERSION.tar.gz \
+        -Dfile=$WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.jar \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \
-        -Dversion=$binary-$STABLE_VERSION \
-        -DartifactId=hyperledger-fabric-chaincode-java \
+        -Dversion=$VERSION \
+        -DartifactId=fabric-$binary \
         -DgeneratePom=true \
         -DuniqueVersion=false \
-        -Dpackaging=tar.gz \
+        -Dpackaging=jar \
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
    done
      echo "========> DONE <======="
