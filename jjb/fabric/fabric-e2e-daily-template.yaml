@@ -42,7 +42,6 @@
       - clone-fabric-samples
       - fabric-byfn-tests
       - end-to-end-NODE
-      - clean-environment
       - end-to-end-JAVA
 
     publishers:
