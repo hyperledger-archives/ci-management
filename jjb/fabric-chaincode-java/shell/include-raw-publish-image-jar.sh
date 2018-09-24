@@ -52,7 +52,7 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         -DupdateReleaseInfo=true \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
-        -DgroupId=org.hyperledger.fabric \
+        -DgroupId=org.hyperledger.fabric-chaincode-java \
         -Dversion=$VERSION-SNAPSHOT \
         -DartifactId=fabric-$binary \
         -DgeneratePom=true \
@@ -78,7 +78,7 @@ else
         -Dfile=$WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.jar \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
-        -DgroupId=org.hyperledger.fabric \
+        -DgroupId=org.hyperledger.fabric-chaincode-java \
         -Dversion=$VERSION \
         -DartifactId=fabric-$binary \
         -DgeneratePom=true \
