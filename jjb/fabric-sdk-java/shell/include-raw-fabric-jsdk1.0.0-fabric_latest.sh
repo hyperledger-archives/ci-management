@@ -53,12 +53,12 @@ else
 fi
 
 ########################
-# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-$JAVA_VERSION
+# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:$JAVA_VERSION
 #######################
-docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-$JAVA_VERSION
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-$JAVA_VERSION hyperledger/fabric-javaenv:amd64-$JAVA_ENV_TAG
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-$JAVA_VERSION hyperledger/fabric-javaenv:amd64-latest
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:amd64-$JAVA_VERSION hyperledger/fabric-javaenv
+docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv:amd64-$JAVA_ENV_TAG
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv:amd64-latest
+docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv
 ##########
 docker images | grep hyperledger/fabric-javaenv || true
 

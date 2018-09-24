@@ -124,10 +124,10 @@ else
             export STABLE_VERSION=1.3.0-stable
             export JAVA_ENV_TAG=1.3.0
        fi
-       docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION
-       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE
-       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
-       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
+       docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:amd64-$STABLE_VERSION
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:amd64-$STABLE_VERSION $ORG_NAME-$IMAGE
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:amd64-$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:amd64-$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
        docker images | grep hyperledger/fabric-javaenv || true
 fi

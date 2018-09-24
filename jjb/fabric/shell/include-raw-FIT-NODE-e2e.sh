@@ -32,10 +32,6 @@ echo "--------> $1 <---------"
 exit 1
 }
 
-# Checkout to the respective branch.
-    echo "-----> Checkout to $GERRIT_BRANCH branch"
-    git checkout $GERRIT_BRANCH
-
 SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "------> SDK_NODE_COMMIT : $SDK_NODE_COMMIT"
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log

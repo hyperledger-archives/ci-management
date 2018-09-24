@@ -115,9 +115,6 @@ else
        git checkout $GERRIT_BRANCH
 fi
 
-git checkout $GERRIT_BRANCH
-echo "--------> Checkout to $GERRIT_BRANCH"
-
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "-------> FABRIC_SAMPLES_COMMIT = $FABRIC_SAMPLES_COMMIT"
 curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-build/linux-amd64-$CCENV_TAG/hyperledger-fabric-build-linux-amd64-$CCENV_TAG.tar.gz | tar xz
