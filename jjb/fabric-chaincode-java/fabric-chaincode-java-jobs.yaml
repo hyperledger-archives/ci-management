@@ -9,7 +9,7 @@
     arch:
       - 'x86_64'
 
-    mvn-settings: 'fabric-settings'
+    mvn-settings: 'fabric-chaincode-java-settings'
 
 # gerrit changes
 
