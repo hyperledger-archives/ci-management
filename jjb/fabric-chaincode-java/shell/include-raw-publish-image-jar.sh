@@ -30,6 +30,9 @@ echo "========> gradlew build"
 
 # gladlew build from fabric-chaincode-java repo
 ./gradlew build
+
+# gradle publish maven
+./gradlew publishToMavenLocal
 # shellcheck disable=SC2046
 if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         # if snapshot
@@ -44,18 +47,19 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
 	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 # Publish snapshot to Nexus snapshot URL
-    for binary in chaincode-shim chaincode-protos; do
-       echo "Pushing fabric-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
+    for binary in shim protos; do
+       echo "Pushing fabric-chaincode-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
        cp $WORKSPACE/fabric-$binary/build/libs/fabric-$binary-$VERSION-SNAPSHOT.jar $WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.SNAPSHOT.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.SNAPSHOT.jar \
+        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.SNAPSHOT.jar \
+	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
         -DupdateReleaseInfo=true \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric-chaincode-java \
         -Dversion=$VERSION-SNAPSHOT \
-        -DartifactId=fabric-$binary \
-        -DgeneratePom=true \
+        -DartifactId=fabric-chaincode-$binary \
+        -DgeneratePom=false \
         -DuniqueVersion=false \
         -Dpackaging=jar \
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
@@ -70,18 +74,19 @@ else
         docker push $ORG_NAME-javaenv:amd64-$VERSION
 
         # Publish chaincode-shim and chaincode-protos to nexus
-    for binary in chaincode-shim chaincode-protos; do
-       echo "Pushing fabric-$binary.$VERSION.jar to maven releases.."
-       cp $WORKSPACE/fabric-$binary/build/libs/fabric-$binary-$VERSION.jar $WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.jar
+    for binary in shim protos; do
+       echo "Pushing fabric-chaincode-$binary.$VERSION.jar to maven releases.."
+       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -DupdateReleaseInfo=true \
-        -Dfile=$WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.jar \
+        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.jar \
+	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric-chaincode-java \
         -Dversion=$VERSION \
-        -DartifactId=fabric-$binary \
-        -DgeneratePom=true \
+        -DartifactId=fabric-chaincode-$binary \
+        -DgeneratePom=false \
         -DuniqueVersion=false \
         -Dpackaging=jar \
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
