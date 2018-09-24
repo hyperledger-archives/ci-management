@@ -222,7 +222,7 @@
          rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
          WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
          FABRIC_TEST_REPO_NAME=fabric-test
-         git clone git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
          cd $WD
          git checkout $GERRIT_BRANCH
          RELEASE_COMMIT=$GIT_COMMIT
