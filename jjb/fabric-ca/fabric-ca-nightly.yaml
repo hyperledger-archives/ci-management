@@ -17,7 +17,7 @@
     branch: master
     node: 'x86_64'
     arch: 'x86_64'
-    push-version: 1.3.0-stable
+    push-version: 1.4.0-stable
     mvn-settings: 'fabric-settings'
 
 - project:
@@ -30,7 +30,7 @@
     branch: master
     node: 'z'
     arch: 's390x'
-    push-version: 1.3.0-stable
+    push-version: 1.4.0-stable
     mvn-settings: 'fabric-settings'
 
 ##############

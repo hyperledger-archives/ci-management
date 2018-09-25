@@ -31,10 +31,16 @@ pullChaincodeJavaImage() {
          NEXUS_URL_REGISTRY=nexus3.hyperledger.org:10001
          ORG_NAME="hyperledger/fabric"
          IMAGE=javaenv
-         : ${STABLE_VERSION:=amd64-1.3.0-stable}
+         if [ "$GERRIT_BRANCH" = "master" ]; then
+            export STABLE_VERSION=amd64-1.4.0-stable
+            export JAVA_ENV_TAG=1.4.0
+         else
+            export STABLE_VERSION=amd64-1.3.0-stable
+            export JAVA_ENV_TAG=1.3.0
+         fi
          docker pull $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION
          docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE
-         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
+         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
          docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
          ######################################
          docker images | grep hyperledger/fabric-javaenv || true

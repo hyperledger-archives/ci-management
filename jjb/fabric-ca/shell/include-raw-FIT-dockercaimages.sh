@@ -32,10 +32,17 @@ if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH"
        NEXUS_URL=nexus3.hyperledger.org:10001
        ORG_NAME="hyperledger/fabric"
        IMAGE=javaenv
-       : ${JAVA_ENV_VERSION:=amd64-1.3.0-stable}
+
+       if [ "$GERRIT_BRANCH" = "master" ]; then
+             export JAVA_ENV_VERSION=amd64-1.4.0-stable
+             export JAVA_ENV_TAG=1.4.0
+       else
+             export JAVA_ENV_VERSION=amd64-1.3.0-stable
+             export JAVA_ENV_TAG=1.3.0
+       fi
        docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
-       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-1.3.0
+       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
        docker images | grep hyperledger/fabric-javaenv || true
