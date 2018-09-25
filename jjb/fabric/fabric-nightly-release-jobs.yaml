@@ -34,6 +34,36 @@
     rel_version: 1.3.0-stable
 
 #############
+# release-1.3
+############
+
+- project:
+    name: fabric-nightly-release-job-release-1.3-s390x
+    jobs:
+      - '{project-name}-nightly-release-job-{branch}-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: release-1.3
+    arch: s390x
+    build-node: hyp-z
+    rel_version: 1.3.0-stable
+
+- project:
+    name: fabric-nightly-release-job-release-1.3-x86_64
+    jobs:
+      - '{project-name}-nightly-release-job-{branch}-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: release-1.3
+    arch: x86_64
+    build-node: hyp-x
+    rel_version: 1.3.0-stable
+
+#############
 # release-1.2
 ############
 
