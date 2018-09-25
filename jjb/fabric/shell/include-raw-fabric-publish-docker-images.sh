@@ -58,12 +58,12 @@ docker_Fabric_Push() {
 
 publish_Binary() {
 
-   make release-clean dist-clean dist-all
+   make release-clean dist-clean && make dist-all PROJECT_VERSION=$1
 
      for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
        echo "Pushing hyperledger-fabric-$binary.$1.tar.gz to maven releases.."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$1.tar.gz \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$1.tar.gz * \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric \

@@ -17,7 +17,7 @@
     branch: master
     node: 'x86_64'
     arch: 'x86_64'
-    mvn-settings: 'fabric-ca-settings'
+    mvn-settings: 'fabric-settings'
 
 - project:
     name: fabric-ca-image-release-s390x
@@ -29,4 +29,4 @@
     branch: master
     node: 'z'
     arch: 's390x'
-    mvn-settings: 'fabric-ca-settings'
+    mvn-settings: 'fabric-settings'
