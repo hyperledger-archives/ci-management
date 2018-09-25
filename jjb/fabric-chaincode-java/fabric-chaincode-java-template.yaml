@@ -1,0 +1,117 @@
+---
+# gerrit changes
+
+- job-template:
+    name: 'fabric-chaincode-java-verify-{branch}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{build_node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: ''
+
+    scm:
+      - hyperledger-fabric-chaincode-java
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: ''
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+
+    builders:
+      - chaincode-java-commit-checks
+      - output-environment
+      - shell: |
+         #!/bin/bash -exu
+
+         set -o pipefail
+         # gradlew build javaenv image
+         ./gradlew buildImage
+         # gradlew build from fabric-chaincode-java repo
+         ./gradlew build
+
+    publishers:
+      - chaincode-java-jacoco-coverage-report
+      - java-chaincode-coverage-report
+      - lf-infra-publish
+
+- job-template:
+    name: 'fabric-chaincode-java-merge-{branch}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - stable-version:
+          pull-version: '{stable-version}'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: ''
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+      - credentials-binding:
+          - username-password-separated:
+              credential-id: fabric-chaincode-java-gh
+              username: CHAINCODE_JAVA_GH_USERNAME
+              password: CHAINCODE_JAVA_GH_PASSWORD
+
+    builders:
+      - chaincode-java-commit-checks
+      - output-environment
+      - provide-maven-gradle-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
+      - java-doc
+
+    publishers:
+      - chaincode-java-jacoco-coverage-report
+      - java-chaincode-coverage-report
+      - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

@@ -1,127 +1,63 @@
 ---
+#############################################
+#
+# x86_64
+# Add new job configuration for master and release-1.3 branches
+#
+#############################################
+
 - project:
-    name: fabric-chaincode-java
+    name: fabric-chaincode-java-verify-master-x86_64
     jobs:
-      - 'fabric-chaincode-java-verify-{arch}'
-      - 'fabric-chaincode-java-merge-{arch}'
+      - 'fabric-chaincode-java-verify-{branch}-{arch}'
 
-    project: 'fabric-chaincode-java'
-    arch:
-      - 'x86_64'
+    project: fabric-chaincode-java
+    branch: master
+    arch: 'x86_64'
+    build_node: 'x86_64'
+    # Increase or Decrease build time
+    build_timeout: 80
 
+- project:
+    name: fabric-chaincode-java-verify-release-1.3-x86_64
+    jobs:
+      - 'fabric-chaincode-java-verify-{branch}-{arch}'
+
+    project: fabric-chaincode-java
+    branch: release-1.3
+    arch: 'x86_64'
+    build_node: 'x86_64'
+    # Increase or Decrease build time
+    build_timeout: 80
+
+############
+# Merge Jobs
+############
+
+- project:
+    name: fabric-chaincode-java-merge-master-x86_64
+    jobs:
+      - 'fabric-chaincode-java-merge-{branch}-{arch}'
+
+    project: fabric-chaincode-java
+    branch: master
+    arch: 'x86_64'
+    build_node: 'x86_64'
+    # Increase or Decrease build time
+    build_timeout: 80
     mvn-settings: 'fabric-chaincode-java-settings'
+    stable-version: 1.4.0-stable
 
-# gerrit changes
+- project:
+    name: fabric-chaincode-java-merge-release-1.3-x86_64
+    jobs:
+      - 'fabric-chaincode-java-merge-{branch}-{arch}'
 
-- job-template:
-    name: 'fabric-chaincode-java-verify-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - hyperledger-fabric-chaincode-java
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '20'
-
-    builders:
-      - chaincode-java-commit-checks
-      - output-environment
-      - shell: |
-         #!/bin/bash -exu
-
-         set -o pipefail
-         # gradlew build from fabric-chaincode-java repo
-         ./gradlew build
-
-    publishers:
-      - chaincode-java-jacoco-coverage-report
-      - java-chaincode-coverage-report
-      - lf-infra-publish
-
-- job-template:
-    name: 'fabric-chaincode-java-merge-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-      - stable-version:
-          pull-version: '1.3.0-stable'
-
-    scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '20'
-      - credentials-binding:
-          - username-password-separated:
-              credential-id: fabric-chaincode-java-gh
-              username: CHAINCODE_JAVA_GH_USERNAME
-              password: CHAINCODE_JAVA_GH_PASSWORD
-
-    builders:
-      - chaincode-java-commit-checks
-      - output-environment
-      - provide-maven-gradle-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
-      - java-doc
-
-    publishers:
-      - chaincode-java-jacoco-coverage-report
-      - java-chaincode-coverage-report
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+    project: fabric-chaincode-java
+    branch: release-1.3
+    arch: 'x86_64'
+    build_node: 'x86_64'
+    # Increase or Decrease build time
+    build_timeout: 80
+    mvn-settings: 'fabric-chaincode-java-settings'
+    stable-version: 1.3.0-stable

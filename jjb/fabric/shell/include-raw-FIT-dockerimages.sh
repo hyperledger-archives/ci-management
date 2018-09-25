@@ -42,7 +42,7 @@ else
 fi
 docker images | grep hyperledger
 
-if [[ "$GERRIT_BRANCH" != "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
+if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
 
        #####################################
        # Pull fabric-javaenv Image

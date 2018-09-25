@@ -21,7 +21,6 @@ TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
 PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")
-VERSION=$(echo $PROJECT_VERSION | cut -d- -f 1)
 
 # Build chaincode-javaenv docker image
 ./gradlew buildImage
@@ -48,15 +47,15 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
 # Publish snapshot to Nexus snapshot URL
     for binary in shim protos; do
        echo "Pushing fabric-chaincode-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
-       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$VERSION-SNAPSHOT.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.SNAPSHOT.jar
+       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$PROJECT_VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.SNAPSHOT.jar \
+        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar \
 	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
         -DupdateReleaseInfo=true \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
         -DgroupId=org.hyperledger.fabric-chaincode-java \
-        -Dversion=$VERSION-SNAPSHOT \
+        -Dversion=$PROJECT_VERSION \
         -DartifactId=fabric-chaincode-$binary \
         -DgeneratePom=false \
         -DuniqueVersion=false \
@@ -70,7 +69,9 @@ else
 
         # Publish docker images to hyperledger dockerhub
         docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+        # tag javaenv image to $PROJECT_VERSION
         docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
+        # push javaenv to hyperledger dockerhub
         docker push $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
 
         # Publish chaincode-shim and chaincode-protos to nexus
