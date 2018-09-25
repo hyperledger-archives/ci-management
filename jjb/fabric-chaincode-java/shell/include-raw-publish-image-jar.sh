@@ -42,7 +42,6 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
 
 	# Push javenv docker image to nexus3
         echo "------> PUSHING"
-        docker images
 	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
 	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
 
@@ -70,21 +69,22 @@ else
         # if release
 
         # Publish docker images to hyperledger dockerhub
-        docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$VERSION
-        docker push $ORG_NAME-javaenv:amd64-$VERSION
+        docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
+        docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
+        docker push $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
 
         # Publish chaincode-shim and chaincode-protos to nexus
     for binary in shim protos; do
-       echo "Pushing fabric-chaincode-$binary.$VERSION.jar to maven releases.."
-       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.jar
+       echo "Pushing fabric-chaincode-$binary.$PROJECT_VERSION.jar to maven releases.."
+       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$PROJECT_VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -DupdateReleaseInfo=true \
-        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.jar \
+        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar \
 	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
         -DrepositoryId=hyperledger-releases \
         -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
         -DgroupId=org.hyperledger.fabric-chaincode-java \
-        -Dversion=$VERSION \
+        -Dversion=$PROJECT_VERSION \
         -DartifactId=fabric-chaincode-$binary \
         -DgeneratePom=false \
         -DuniqueVersion=false \
