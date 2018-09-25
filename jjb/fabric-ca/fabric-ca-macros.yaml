@@ -108,6 +108,12 @@
       - shell:
           !include-raw: shell/include-raw-safesql-scan.sh
 
+- builder:
+    name: fabric-ca-image-release
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-ca-image-release.sh
+
 # Inspects source code for security problems by scanning the Go AST.
 - builder:
     name: fabric-ca-gosec-scan
