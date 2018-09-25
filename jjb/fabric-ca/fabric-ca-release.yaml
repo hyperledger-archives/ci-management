@@ -1,0 +1,32 @@
+---
+###
+# fabric-ca-release jobs on master branch.
+##
+
+##############
+# master
+##############
+
+- project:
+    name: fabric-ca-image-release-x86_64
+    jobs:
+      - '{project-name}-image-release-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    node: 'x86_64'
+    arch: 'x86_64'
+    mvn-settings: 'fabric-ca-settings'
+
+- project:
+    name: fabric-ca-image-release-s390x
+    jobs:
+      - '{project-name}-image-release-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    node: 'z'
+    arch: 's390x'
+    mvn-settings: 'fabric-ca-settings'
