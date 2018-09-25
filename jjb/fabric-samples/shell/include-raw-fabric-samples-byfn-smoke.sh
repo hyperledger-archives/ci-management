@@ -107,6 +107,14 @@ rm -rf $WD
 
 git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
+
+if [ "$GERRIT_BRANCH" = "release-1.3" ]; then
+       # checkout to release-1.3 branch till we cut 1.3 branch on sdk-java
+       git checkout master
+else
+       git checkout $GERRIT_BRANCH
+fi
+
 git checkout $GERRIT_BRANCH
 echo "--------> Checkout to $GERRIT_BRANCH"
 

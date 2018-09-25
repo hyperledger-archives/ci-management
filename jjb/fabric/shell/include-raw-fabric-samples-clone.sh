@@ -19,7 +19,13 @@ REPO_NAME=fabric-samples
 echo "######## Cloning fabric-samples ########"
 git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
-git checkout $GERRIT_BRANCH
+if [ "$GERRIT_BRANCH" = "release-1.3" ]; then
+    # checkout to master till we release 1.3 branch on samples
+    git checkout master
+else
+    git checkout $GERRIT_BRANCH
+fi
+
 echo "-------> GERRIT_BRANCH: $GERRIT_BRANCH"
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "FABRIC_SAMPLES_COMMIT ========> $FABRIC_SAMPLES_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log

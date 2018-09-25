@@ -42,10 +42,8 @@ else
 fi
 docker images | grep hyperledger
 
-if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
+if [[ "$GERRIT_BRANCH" != "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
 
-     echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH or on $ARCH"
-else
        #####################################
        # Pull fabric-javaenv Image
 
@@ -59,6 +57,8 @@ else
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
        docker images | grep hyperledger/fabric-javaenv || true
+else
+     echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH or on $ARCH"
 fi
 echo
 
