@@ -49,7 +49,7 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
 # Publish snapshot to Nexus snapshot URL
     for binary in shim protos; do
        echo "Pushing fabric-chaincode-$binary.$PROJECT_VERSION.tar.gz to maven snapshots..."
-       cp $WORKSPACE/fabric-$binary/build/libs/fabric-$binary-$VERSION-SNAPSHOT.jar $WORKSPACE/fabric-$binary/build/libs/fabric-$binary.$VERSION.SNAPSHOT.jar
+       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$VERSION-SNAPSHOT.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.SNAPSHOT.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$VERSION.SNAPSHOT.jar \
 	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
