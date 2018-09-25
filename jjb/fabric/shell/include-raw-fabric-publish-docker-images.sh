@@ -61,6 +61,7 @@ publish_Binary() {
    make release-clean dist-clean && make dist-all PROJECT_VERSION=$1
 
      for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+       cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary
        echo "Pushing hyperledger-fabric-$binary.$1.tar.gz to maven releases.."
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$1.tar.gz * \
@@ -77,7 +78,8 @@ publish_Binary() {
      echo "========> DONE <======="
 }
 
-docker_Fabric_Push $PUSH_VERSION
+clone_Fabric
+ # docker_Fabric_Push $PUSH_VERSION
 if [ "$ARCH" = "amd64" ]; then
      publish_Binary $PUSH_VERSION
 else
