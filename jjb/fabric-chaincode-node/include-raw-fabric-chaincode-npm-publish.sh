@@ -65,7 +65,11 @@ versions() {
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-chaincode-node
 npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 
-cd fabric-shim
+if [[ "$GERRIT_BRANCH" = "release-1.1" || "$GERRIT_BRANCH" = "release-1.2" ]]; then
+   cd src
+else
+   cd fabric-shim
+fi
 versions
 npmPublish fabric-shim
 
@@ -73,6 +77,8 @@ cd ../fabric-shim-crypto
 versions
 npmPublish fabric-shim-crypto
 
-cd ../fabric-contract-api
-versions
-npmPublish fabric-contract-api
+if [ "$GERRIT_BRANCH" = "master" ]; then
+   cd ../fabric-contract-api
+   versions
+   npmPublish fabric-contract-api
+fi
