@@ -58,6 +58,7 @@
       - clean-environment
       - output-environment
       - 'golang-environment-{arch}'
+      - pull-nexus-chaincode-java-image
       - fabric-nightly-release-builds
       - fabric-nightly-smoke-build
       - shell: |
@@ -286,7 +287,6 @@
           global-settings-file: 'global-settings'
       # Publish fabric binaries
       - publish-fabric-binaries
-
     publishers:
       - lf-infra-publish
       - fabric-email-notification:
