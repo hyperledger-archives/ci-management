@@ -60,6 +60,20 @@
     comment2: 'reverify$'
     build_timeout: 60
 
+- project:
+    name: fabric-sdk-node8-verify-release-1.3-x86_64
+    jobs:
+      - '{project-name}-verify-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.3
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-node8x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+
 #######
 # s390x
 #######
@@ -120,6 +134,20 @@
     comment2: 'reverify$'
     build_timeout: 60
 
+- project:
+    name: fabric-sdk-node8-verify-release-1.3-s390x
+    jobs:
+      - '{project-name}-verify-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.3
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'reverify-node8z$'
+    comment2: 'reverify$'
+    build_timeout: 60
+
 # These jobs triggers on gerrit "patchset merged" event
 ###########
 # Merge Jobs
@@ -177,6 +205,18 @@
     build_node: 'x'
     build_timeout: 60
 
+- project:
+    name: fabric-sdk-node8-merge-release-1.3-x86_64
+    jobs:
+      - '{project-name}-merge-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.3
+    arch: 'x86_64'
+    build_node: 'x'
+    build_timeout: 60
+
 #######
 # s390x
 #######
@@ -201,6 +241,18 @@
     project: fabric-sdk-node
     project-name: fabric-sdk-node8
     branch: release-1.2
+    arch: 's390x'
+    build_node: 'z'
+    build_timeout: 60
+
+- project:
+    name: fabric-sdk-node-merge-release-1.3-s390x
+    jobs:
+      - '{project-name}-merge-{branch}-{arch}'
+
+    project: fabric-sdk-node
+    project-name: fabric-sdk-node8
+    branch: release-1.3
     arch: 's390x'
     build_node: 'z'
     build_timeout: 60

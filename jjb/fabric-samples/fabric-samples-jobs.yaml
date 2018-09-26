@@ -36,6 +36,20 @@
     comment2: 'reverify$'
     build_timeout: 60
 
+- project:
+    name: fabric-samples-verify-byfn-release-1.3
+    jobs:
+      - '{project-name}-verify-byfn-{branch}'
+
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.3
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+
 ################
 # Merge Jobs
 ################
@@ -62,6 +76,20 @@
     project: fabric-samples
     project-name: fabric-samples
     branch: release-1.0
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+
+- project:
+    name: fabric-samples-merge-byfn-release-1.3
+    jobs:
+      - '{project-name}-merge-byfn-{branch}'
+
+    project: fabric-samples
+    project-name: fabric-samples
+    branch: release-1.3
     arch: 'x86_64'
     build_node: 'x'
     comment1: 'reverify-x$'
