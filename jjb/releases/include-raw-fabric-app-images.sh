@@ -45,7 +45,7 @@ docker_Fabric_Push() {
   done
 }
 
-if [[ "$GERRIT_BRANCH" == "release-1.2" || "$GERRIT_BRANCH" == "master" ]]; then
+if [[ "$GERRIT_BRANCH" == "release-1.2" || "$GERRIT_BRANCH" == "release-1.3" || "$GERRIT_BRANCH" == "master" ]]; then
      echo "-----> Pushing fabric docker images from $GERRIT_BRANCH branch"
      docker_Fabric_Push
 elif [[ "$GERRIT_BRANCH" == "release-1.1" ]]; then

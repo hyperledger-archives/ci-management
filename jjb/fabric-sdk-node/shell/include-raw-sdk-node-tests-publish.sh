@@ -14,10 +14,10 @@ echo "------> Clone fabric & Build images"
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 
-if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.2" ]]; then
-   ARCH=$(dpkg --print-architecture) # amd64
-else
+if [[ "$GERRIT_BRANCH" = "release-1.0" || "$GERRIT_BRANCH" = "release-1.1" ]]; then
    ARCH=$(uname -m) # x86_64, s390x, ppc64le
+else
+   ARCH=$(dpkg --print-architecture) # amd64
 fi
 
 REPO_NAME=fabric
@@ -182,10 +182,8 @@ echo "------> Build docker-fabric-ca Image"
 make docker-fabric-ca || err_check "make docker-fabric-ca failed"
 docker images | grep hyperledger/fabric-ca || true
 
-if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
+if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
 
-       echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH and on $ARCH"
-else
        #####################################
        # Pull fabric-chaincode-javaenv Image
 
@@ -205,6 +203,8 @@ else
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
        docker images | grep hyperledger/fabric-javaenv || true
+else       
+       echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH and on $ARCH"
 fi
 
 echo

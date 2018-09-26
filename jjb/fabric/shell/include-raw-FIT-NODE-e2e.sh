@@ -18,13 +18,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
 git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
-cd $WD
-if [ "$GERRIT_BRANCH" = "release-1.3" ]; then
-     # checkout to release-1.3 branch till we cut 1.3 branch on sdk-node
-     git checkout master
-else
-    git checkout $GERRIT_BRANCH
-fi
+cd $WD && git checkout $GERRIT_BRANCH
 
 # error check
 err_check() {

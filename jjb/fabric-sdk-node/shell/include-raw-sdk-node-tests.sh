@@ -14,10 +14,10 @@ echo "------> Clone fabric & Build images"
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 
-if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.2" ]]; then
-   ARCH=$(dpkg --print-architecture)
-else
+if [[ "$GERRIT_BRANCH" = "release-1.1" || "$GERRIT_BRANCH" = "release-1.0" ]]; then
    ARCH=$(uname -m)
+else
+   ARCH=$(dpkg --print-architecture)
 fi
 
 REPO_NAME=fabric
