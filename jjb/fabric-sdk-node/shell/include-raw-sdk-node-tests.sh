@@ -53,18 +53,16 @@ echo "------> FABRIC_COMMIT: $FABRIC_COMMIT"
 # Call export_Go()
 export_Go
 
-if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch
-        make docker || err_Check "make docker failed"
+if [[ "$GERRIT_BRANCH" = "release-1.0" || "$GERRIT_BRANCH" = "release-1.1" ]]; then # release-1.1 branch
+     for IMAGES in peer-docker orderer-docker; do
         echo
         docker images | grep hyperledger
-
-elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then # release-1.1 branch
-     for IMAGES in peer-docker orderer-docker; do
         make $IMAGES || err_Check "make $IMAGES failed"
      done
         echo
         echo "-------> Pull couchdb image"
         PREV_VERSION=`cat Makefile | grep BASEIMAGE_RELEASE= | awk -F= '{print $NF}'`
+        echo "---------> PREV_VERSION: $PREV_VERSION"
         docker pull hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION
         docker tag hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION hyperledger/fabric-couchdb
         echo "-----> Docker Images List"
@@ -75,6 +73,7 @@ else
          make $IMAGES || err_Check "make $IMAGES failed"
      done
          PREV_VERSION=`cat Makefile | grep BASEIMAGE_RELEASE= | awk -F= '{print $NF}'`
+         echo "---------> PREV_VERSION: $PREV_VERSION"
          docker pull hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION
          docker tag hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION hyperledger/fabric-couchdb
          echo "-----> Docker Images List"

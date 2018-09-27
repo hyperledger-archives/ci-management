@@ -17,6 +17,11 @@ echo
 export FABRIC_CA_ROOT_DIR=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
 
 cd $FABRIC_CA_ROOT_DIR || exit
+git checkout $GERRIT_BRANCH && git checkout $RELEASE_COMMIT
+echo "------> RELEASE_COMMIT" $RELEASE_COMMIT
+echo "------> fabric-ca Branch: $GERRIT_BRANCH"
+echo
+echo "------> Builing fabric-ca binaries"
 make dist-clean dist-all
 
 BASE_VERSION=`cat Makefile | grep BASE_VERSION | awk '{print $3}' | head -1`

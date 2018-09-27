@@ -77,11 +77,13 @@ publish_Binary() {
    done
      echo "========> DONE <======="
 }
-
-clone_Fabric
- # docker_Fabric_Push $PUSH_VERSION
+docker_Fabric_Push $PUSH_VERSION
+# Disable this for now
+: '
+# docker_Fabric_Push $PUSH_VERSION
 if [ "$ARCH" = "amd64" ]; then
      publish_Binary $PUSH_VERSION
 else
     echo "========> Dont publish binaries froms 390x"
 fi
+'
