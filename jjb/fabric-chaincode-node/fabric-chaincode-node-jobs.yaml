@@ -235,7 +235,7 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
     scm:
       - fabric-gerrit-scm:

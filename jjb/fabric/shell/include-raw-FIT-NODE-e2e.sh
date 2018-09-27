@@ -96,6 +96,7 @@ function clearContainers () {
                 echo "---- No containers available for deletion ----"
         else
                 docker rm -f $CONTAINER_IDS || true
+                echo "---- Docker containers after cleanup ----"
                 docker ps -a
         fi
 }
@@ -106,9 +107,13 @@ function removeUnwantedImages() {
                 echo "---- No images available for deletion ----"
         else
                 docker rmi -f $DOCKER_IMAGE_IDS || true
+                echo "---- Docker images after cleanup ----"
                 docker images
         fi
 }
 
+cd $WD
+# remove tmp/hfc and hfc-key-store data
+rm -rf node_modules package-lock.json || true
 clearContainers
 removeUnwantedImages

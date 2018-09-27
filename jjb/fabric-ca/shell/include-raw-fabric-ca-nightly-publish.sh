@@ -62,16 +62,32 @@ docker images | grep hyperledger || true
 
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
-       for IMAGES in docker-all $2 release-clean $1; do
-           make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+if [ $GERRIT_BRANCH = "master" ] || [ $GERRIT_BRANCH = "release-1.3" ]; then
+
+	for IMAGES in docker-all $2 release-clean $1; do
+             make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
                exit 1
            fi
-       done
-echo
-echo "----------> List all fabric-ca docker images"
-docker images | grep hyperledger/fabric-ca || true
+        done
+               echo
+               echo "----------> List all fabric-ca docker images"
+               docker images | grep hyperledger/fabric-ca || true
+
+else
+
+	for IMAGES in docker $2 release-clean $1; do
+             make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+           if [ $? != 0 ]; then
+               echo "-------> make $IMAGES failed"
+               exit 1
+           fi
+        done
+               echo
+               echo "----------> List all fabric-ca docker images"
+               docker images | grep hyperledger/fabric-ca || true
+fi
 }
 
 dockerFabricCaPush() {

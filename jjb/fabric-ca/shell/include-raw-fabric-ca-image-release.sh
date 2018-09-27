@@ -21,6 +21,8 @@ git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH && git checkout $RELEASE_COMMIT
 echo "------> RELEASE_COMMIT" $RELEASE_COMMIT
+
+# Set gopath
 GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
 export GO_VER
 OS_VER=$(dpkg --print-architecture)
@@ -28,21 +30,23 @@ echo "------> OS_VER: $OS_VER"
 export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
 export PATH=$GOROOT/bin:$PATH
 echo "------> GO_VER" $GO_VER
+
+# Get ARCH value
 ARCH=$(go env GOARCH)
 echo "------> ARCH" $ARCH
 
 # Build ca images
 make docker
 
-# Tag ca images
-docker tag $ORG_NAME-ca $ORG_NAME-ca:$ARCH-$PUSH_VERSION
 
 docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
 # Push docker images to hyperledger dockerhub repository
 
 dockerCaPush() {
   # shellcheck disable=SC2043
-  for IMAGES in ca; do
+  for IMAGES in ${IMAGES_LIST[*]}; do
+    # Tag ca images
+    docker tag $ORG_NAME-$IMAGES $ORG_NAME-$IMAGES:$ARCH-$1
     echo "==> $IMAGES"
     docker push $ORG_NAME-$IMAGES:$ARCH-$1
     echo
@@ -53,5 +57,14 @@ dockerCaPush() {
 # list docker images
 docker images | grep hyperledger
 
-# Push Fabric Docker Images to hyperledger dockerhub Repository
-dockerCaPush $PUSH_VERSION
+if [ "$GERRIT_BRANCH" = "release-1.2" ]; then
+    # Images list
+    IMAGES_LIST=(ca ca-peer ca-tools ca-orderer)
+    # Push Fabric Docker Images to hyperledger dockerhub Repository
+    dockerCaPush $PUSH_VERSION
+else
+    # Images list
+    IMAGES_LIST=(ca)
+    # Push Fabric Docker Images to hyperledger dockerhub Repository
+    dockerCaPush $PUSH_VERSION
+fi
