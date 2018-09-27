@@ -1,0 +1,349 @@
+---
+- import_playbook: ../common-packer/provision/docker.yaml
+
+- hosts: all
+  become_user: root
+  become_method: sudo
+  vars:
+    grpc_packages: 'grpcio==1.0.4'
+    jinja2_packages: 'jinja2'
+    b3j0f_packages: 'b3j0f.aop'
+    pip_versioned_packages: 'flask==0.10.1 python-dateutil==2.2 pytz==2014.3 pyyaml==3.10 couchdb==1.0 flask-cors==2.0.1 requests==2.12.1 pysha3==1.0b1 pyopenssl==17.2.0'
+    golang_checksum: sha256:15b0937615809f87321a457bb1265f946f9f6e736c563d6c5e0bd2c22e44f779
+    golang_version: 1.9.4
+
+  tasks:
+
+    - name: 'Remove unattended-upgrades'
+      command: apt-get remove -y unattended-upgrades
+      become: true
+
+    - name: 'Install GoLang {{golang_version}}'
+      block:
+        - name: 'Fetch golang {{golang_version}} to /tmp/go{{golang_version}}.linux-amd64.tar.gz'
+          get_url:
+            url: 'https://storage.googleapis.com/golang/go{{golang_version}}.linux-amd64.tar.gz'
+            dest: '/tmp/go{{golang_version}}.linux-amd64.tar.gz'
+            checksum: '{{golang_checksum}}'
+        - name: 'Install golang {{golang_version}} to /usr/local'
+          unarchive:
+            src: '/tmp/go{{golang_version}}.linux-amd64.tar.gz'
+            dest: /usr/local
+            remote_src: true
+          become: true
+        - name: Create symbolic link to go bin
+          file:
+            src: "/usr/local/go/bin/go"
+            dest: "/usr/bin/go"
+            state: link
+          become: true
+
+    - name: 'Install haveged'
+      apt:
+        name: haveged
+        update_cache: yes
+      become: true
+
+    - name: start haveged
+      service:
+        name: haveged
+        enabled: yes
+      become: true
+
+    - file:
+        path: /var/hyperledger/
+        state: directory
+        mode: 0755
+      become: true
+
+    - apt_repository:
+        repo: 'ppa:ubuntu-toolchain-r/test'
+        state: present
+      become: true
+
+    - name: Install Hyperledger base packages
+      apt:
+        name:
+          - g++-4.8
+          - build-essential
+          - software-properties-common
+          - curl
+          - sudo
+          - zip
+          - libtool
+          - libsnappy-dev
+          - zlib1g-dev
+          - libbz2-dev
+          - libffi-dev
+          - libssl-dev
+          - python-dev
+          - libyaml-dev
+          - python-pip
+          - haproxy
+          - haproxy-doc
+          - htop
+          - html2text
+          - isag
+          - jq
+          - libdbd-pg-perl
+          - locales-all
+          - mysql-client
+          - mysql-common
+          - mysql-server
+          - postgresql
+          - postgresql-contrib
+          - postgresql-doc
+          - vim-haproxy
+          - zsh
+          - python-tox
+          - maven
+          - tcl
+          - tclx
+          - tcllib
+          - apparmor
+        update_cache: yes
+      become: true
+
+    - apt_repository:
+        repo: ppa:jonathonf/python-3.6
+        state: present
+      become: true
+
+    - name: Update and upgrade apt packages
+      apt:
+        upgrade: yes
+        update_cache: yes
+      become: true
+
+    - name: Install Python 3.6 and packages
+      apt:
+        name:
+          - python3.6
+          - python3.6-dev
+          - libssl-dev
+          - libmysqlclient-dev
+          - gcc
+      become: true
+
+    - name: Install python packages
+      pip:
+        name:
+          - pip
+          - urllib3
+          - pyopenssl
+          - ndg-httpsclient
+          - pyasn1
+          - ecdsa
+          - python-slugify
+          - grpcio-tools
+          - cython
+          - behave
+          - shade
+          - nose
+          - google
+          - protobuf
+          - pyyaml
+          - pykafka
+          - requests
+          - pyexecjs
+          - sphinx
+          - sphinx_rtd_theme
+          - pluggy
+          - flask
+          - python-dateutil
+          - pytz
+          - pyyaml
+          - couchdb
+          - flask-cors
+          - requests
+          - pysha3
+          - pyopenssl
+          - grpcio
+          - jinja2
+          - b3j0f.aop
+        extra_args: --upgrade
+      become: true
+
+    - git:
+        repo: 'https://gerrit.hyperledger.org/r/ci-management.git'
+        dest: ci-management
+
+    - name: Install nvm dependencies
+      apt:
+        name:
+          - git
+          - curl
+          - build-essential
+          - libssl-dev
+      become: true
+
+    - name: Install nvm
+      shell: |
+         echo "----> nvm install"
+         apt-get update
+         apt-get install build-essential
+         wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.31.0/install.sh | bash
+         export NVM_DIR="$HOME/.nvm"
+         [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+         command -v nvm
+      become: true
+
+    - name: Install softhsm
+      apt:
+        name:
+          - softhsm2
+      become: true
+
+    - file:
+        path: /var/lib/softhsm/tokens
+        state: directory
+      become: true
+
+    - name: Add softhsm token
+      command: "{{ item }}"
+      with_items:
+         - softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
+      become: true
+
+    - file:
+        path: /var/lib/softhsm
+        mode: 0755
+      become: true
+
+    - file:
+        path: /etc/softhsm
+        mode: 0755
+      become: true
+
+    - name: Install dependent python modules
+      pip:
+        name: "{{item}}"
+        state: present
+      with_items:
+        - requests
+        - urllib3
+        - docker-py==1.10.6
+        - docker-compose==1.9.0
+      become: true
+
+    - name: Download Rust
+      get_url:
+        url: https://static.rust-lang.org/rustup.sh
+        dest: /tmp/rustup.sh
+
+    - name: Execute Rust script
+      command: sh /tmp/rustup.sh
+      become: true
+
+    - name: Download npm and fabric node sdk dependencies
+      get_url:
+        url: https://deb.nodesource.com/setup_4.x
+        dest: /tmp/setup_4.x
+
+    - name: Execute node dependencies script
+      command: sh /tmp/setup_4.x
+      become: true
+
+    - name: Download protoc
+      unarchive:
+        src: https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
+        dest: /usr/local
+        mode: 0755
+        remote_src: yes
+      become: true
+
+    - name: Remove unused protoc zip
+      file:
+        path: /usr/local/protoc-3.0.0-linux-x86_64.zip
+        state: absent
+      become: true
+
+    - name: Pull fabric-couchdb amd64-0.4.10
+      docker_image:
+        name: hyperledger/fabric-couchdb:amd64-0.4.10
+      become: true
+
+    - name: Pull fabric-couchdb amd64-0.4.12
+      docker_image:
+        name: hyperledger/fabric-couchdb:amd64-0.4.12
+      become: true
+
+    - name: Pull fabric-kafka amd64-0.4.10
+      docker_image:
+        name: hyperledger/fabric-kafka:amd64-0.4.10
+      become: true
+
+    - name: Pull fabric-kafka amd64-0.4.12
+      docker_image:
+        name: hyperledger/fabric-kafka:amd64-0.4.12
+      become: true
+
+    - name: Pull fabric-zookeeper amd64-0.4.10
+      docker_image:
+        name: hyperledger/fabric-zookeeper:amd64-0.4.10
+      become: true
+
+    - name: Pull fabric-zookeeper amd64-0.4.12
+      docker_image:
+        name: hyperledger/fabric-zookeeper:amd64-0.4.12
+      become: true
+
+    - name: Pull fabric-baseimage amd64-0.4.10
+      docker_image:
+        name: hyperledger/fabric-baseimage:amd64-0.4.10
+      become: true
+
+    - name: Pull fabric-baseimage amd64-0.4.12
+      docker_image:
+        name: hyperledger/fabric-baseimage:amd64-0.4.12
+      become: true
+
+    - name: Pull fabric-baseos amd64-0.4.10
+      docker_image:
+        name: hyperledger/fabric-baseos:amd64-0.4.10
+      become: true
+
+    - name: Pull fabric-baseos amd64-0.4.12
+      docker_image:
+        name: hyperledger/fabric-baseos:amd64-0.4.12
+      become: true
+
+    - name: Pull indy-core-baseci
+      docker_image:
+        name: hyperledger/indy-core-baseci:0.0.1
+      become: true
+
+    - name: Pull cello-engine
+      docker_image:
+        name: hyperledger/cello-engine:x86_64-latest
+      become: true
+
+    - name: Pull cello-mongo
+      docker_image:
+        name: hyperledger/cello-mongo:x86_64-latest
+      become: true
+
+    - name: Pull cello-nginx
+      docker_image:
+        name: hyperledger/cello-nginx:x86_64-latest
+      become: true
+
+    - name: Pull cello-operator-dashboard
+      docker_image:
+        name: hyperledger/cello-operator-dashboard:x86_64-latest
+      become: true
+
+    - name: Pull cello-user-dashboard
+      docker_image:
+        name: hyperledger/cello-user-dashboard:x86_64-latest
+      become: true
+
+    - name: Pull cello-watchdog
+      docker_image:
+        name: hyperledger/cello-watchdog:x86_64-latest
+      become: true
+
+    - name: Pull cello-baseimage
+      docker_image:
+        name: hyperledger/cello-baseimage:x86_64-latest
+      become: true
