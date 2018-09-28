@@ -59,16 +59,33 @@ echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperl
 
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
+if [ $GERRIT_BRANCH = "master" ] || [ $GERRIT_BRANCH = "release-1.3" ]; then
        for IMAGES in docker-all $2 release-clean $1; do
            make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"
                exit 1
            fi
+        done
                echo
                echo "-------> List fabric-ca docker images"
-       done
+               docker images | grep hyperledger/fabric-ca
+
+else
+
+        for IMAGES in docker $2 release-clean $1; do
+             make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+           if [ $? != 0 ]; then
+               echo "-------> make $IMAGES failed"
+               exit 1
+           fi
+        done
+               echo
+               echo "----------> List all fabric-ca docker images"
+               docker images | grep hyperledger/fabric-ca || true
+fi
 }
+
 docker images | grep hyperledger/fabric-ca
 
 # Execute release-all target on x arch
