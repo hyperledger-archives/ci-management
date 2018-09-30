@@ -37,16 +37,16 @@
           cd gopath/src/github.com/hyperledger/fabric-ca && make ci-tests
 
 - builder:
+    name: fabric-ca-nightly-publish
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-ca-nightly-publish.sh
+
+- builder:
     name: push-fabric-ca-binaries
     builders:
       - shell:
           !include-raw: shell/include-raw-push-fabric-ca-binaries.sh
-
-- builder:
-    name: publish-fabric-ca-binaries
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-publish-fabric-ca-bin.sh
 
 - builder:
     name: fabric-ca-nexus-docker-release
@@ -130,12 +130,6 @@
              echo "---------> GoSEC check on $packages"
              gosec -fmt=json -out=$packages.json ./$packages/...
           done
-
-- builder:
-    name: fabric-ca-nightly-publish
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-ca-nightly-publish.sh
 
 - publisher:
     name: fabric-ca-gosec-scan-results

@@ -41,62 +41,16 @@
           make docker dependent-images
 
 - builder:
-    name: app-docker-image
-    builders:
-      - shell: |
-          #!/bin/bash -e
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric
-          for IMAGES in peer-docker orderer-docker tools-docker; do
-              echo "---------> Build $IMAGES"
-              make $IMAGES
-            if [ $? != 0 ]; then
-              echo "----------> make $IMAGES failed"
-              exit 1
-            fi
-          done
-
-- builder:
-    name: app-docker-image-release
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-app-images.sh
-
-- builder:
     name: fabric-thirdparty-images
     builders:
       - shell:
           !include-raw: include-raw-fabric-thirdparty-images.sh
 
 - builder:
-    name: ca-docker-image-release
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-ca-app-images.sh
-
-- builder:
-    name: ca-nexus-docker-release
-    builders:
-      - shell:
-          !include-raw: include-raw-fabric-ca-nexus-docker-release.sh
-
-- builder:
     name: baseimage-nexus-docker-release
     builders:
       - shell:
           !include-raw: include-raw-fabric-baseimage-nexus-docker-release.sh
-- builder:
-    name: ca-docker-image
-    builders:
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         cd gopath/src/github.com/hyperledger/fabric-ca
-         make docker
-         echo "--------> LIST DOCKER IMAGES"
-         docker images | grep hyperledger
 
 - builder:
     name: build-docker-thirdparty
