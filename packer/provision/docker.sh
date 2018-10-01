@@ -100,13 +100,12 @@ deb_install_go() {
     curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
     chmod +x /usr/local/bin/gimme
 
-    #install Go 1.7.5, Go 1.9, Go 1.9.2, Go 1.9.4, 1.10 and 1.10.4
+    #install 1.7.5, 1.9.2, 1.10, 1.10.4 and 1.11
     gimme 1.7.5 /opt/go
-    gimme 1.9 /opt/go
     gimme 1.9.2 /opt/go
-    gimme 1.9.4 /opt/go
     gimme 1.10 /opt/go
     gimme 1.10.4 /opt/go
+    gimme 1.11 /opt/go
 }
 
 deb_docker_pull_baseimage() {
@@ -121,15 +120,6 @@ deb_docker_pull_baseimage() {
         done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
-}
-
-deb_docker_pull_celloimage() {
-    echo "---> Pulling cello images"
-    export IMAGES_LIST=(cello-engine cello-mongo cello-nginx cello-operator-dashboard cello-user-dashboard cello-watchdog cello-baseimage)
-    echo "---> Pulling cello images"
-    for image in ${IMAGES_LIST[*]}; do
-       docker pull hyperledger/$image:x86_64-latest
-    done
 }
 
 deb_create_hyperledger_vardir() {
