@@ -166,11 +166,6 @@
       - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
 - builder:
-    name: fabric-ca-nightly-publish-images
-    builders:
-      - shell: !include-raw: shell/include-raw-fabric-ca-nexus-publish.sh
-
-- builder:
     name: down-stream-jobs-master-x86_64
     builders:
       - shell: |
@@ -307,12 +302,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-clone-repos.sh
-
-- builder:
-    name: release-docker-images
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-release-docker-images.sh
 
 - builder:
     name: clean-environment
@@ -459,60 +448,10 @@
           !include-raw: shell/include-raw-pull-nexus-chaincode-java.sh
 
 - builder:
-    name: release-tests
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/test/regression/release
-          chmod +x runReleaseTestSuite.sh
-          sed -i s/1.0.1/1.1.0-alpha/g run_byfn_cli_release_tests.sh
-          sed -i s/1.0.1/1.1.0-alpha/g run_e2e_java_sdk.sh
-          sed -i s/1.0.1/1.1.0-alpha/g run_node_sdk_byfn.sh
-          #Comment out behave tests from DailyTestSuite.sh
-          sed -i '51,52 s/^/#/' runReleaseTestSuite.sh
-          ./runReleaseTestSuite.sh
-
-- builder:
-    name: push-fabric-binaries
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-push-fabric-binaries.sh
-
-- builder:
     name: publish-fabric-binaries
     builders:
       - shell:
           !include-raw: shell/include-raw-publish-fabric-bin.sh
-
-- builder:
-    name: push-fabric-byfn
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-push-fabric-byfn.sh
-
-- builder:
-    name: fabric-smoke-tests
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-smoke-tests.sh
-
-- builder:
-    name: fabric-busybox-test
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-          time make test
-
-- builder:
-    name: fabric-busybox-release
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-          time make install
 
 - builder:
     name: end-to-end-BYFN
@@ -523,12 +462,6 @@
     name: clone-fabric-samples
     builders:
       - shell: !include-raw: shell/include-raw-fabric-samples-clone.sh
-
-- builder:
-    name: fabric-byfn-release-tests
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-byfn-release-tests.sh
 
 - publisher:
     name: log-artifacts

@@ -1,28 +1,4 @@
 ---
-# This job triggers on gerrit ref-tag event
-
-- project:
-    name: fabric-images-release-s390x
-    jobs:
-      - '{project-name}-{arch}-release-job'
-
-    project: fabric
-    project-name: fabric
-    branch: master
-    arch: 's390x'
-    build-node: 'hyp-z'
-
-- project:
-    name: fabric-images-release-x86_64
-    jobs:
-      - '{project-name}-{arch}-release-job'
-
-    project: fabric
-    project-name: fabric
-    branch: master
-    arch: 'x86_64'
-    build-node: 'hyp-x'
-
 #############################################################
 #  Fabric Release Jobs
 #    Pull stable (1.2.0-stable) fabric release version images

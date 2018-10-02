@@ -1,65 +1,10 @@
 ---
 
-#########################################
-
-# fabric release job, triggers when a tag
-# is created in github.
-# Disabled for now, as we publish images from
-# {project-name}-release-job
-
-###########################################
-
-- job-template:
-    name: '{project-name}-{arch}-release-job'
-
-    project-type: freestyle
-    node: '{build-node}'
-    concurrent: true
-
-    disabled: false
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-
-    scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      # Build fabric docker images
-      - app-docker-image
-      # Push tagged docker images to dockerhub
-      - app-docker-image-release
-
-    publishers:
-      - lf-infra-publish
-
 ############################################################
 # FABRIC DOCKER RELEASE JOB
-
 # Pull fabric stable docker images (1.2.0-stable) from nexus
 # and tag it with hyperledger release version
 # (1.2.0)
-
 ############################################################
 
 - job-template:

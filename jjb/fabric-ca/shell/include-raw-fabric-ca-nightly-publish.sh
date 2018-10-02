@@ -151,3 +151,4 @@ set -e
           echo "-------> Dont publish binaries from s390x platform"
    fi
 fi
+
