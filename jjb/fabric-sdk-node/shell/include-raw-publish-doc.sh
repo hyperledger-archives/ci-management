@@ -22,8 +22,6 @@ if [ "$ARCH" != "s390x" ]; then
     TARGET_REPO=$NODE_SDK_USERNAME.github.io.git
     # Clone SDK_NODE API doc repository
     git clone https://github.com/$NODE_SDK_USERNAME/$TARGET_REPO
-    # Remove API docs target repository
-    rm -rf $NODE_SDK_USERNAME.github.io/*
     # Copy API docs to target repository & push to gh-pages URL
     cp -r docs/gen/* $NODE_SDK_USERNAME.github.io
     cd $NODE_SDK_USERNAME.github.io
