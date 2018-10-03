@@ -172,7 +172,7 @@
     concurrent: true
 
     properties:
-      - 'fabric-{arch}'
+      - 'fabric-go-{arch}'
 
     logrotate:
       daysToKeep: 7

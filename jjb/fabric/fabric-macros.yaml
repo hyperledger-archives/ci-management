@@ -1,16 +1,5 @@
 ---
 - property:
-    name: 'fabric-x86_64'
-    properties:
-      - inject:
-          properties-content: |
-            GOPATH=$WORKSPACE/gopath
-            GOROOT=/opt/go/go1.10.linux.amd64
-            JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin
-            ARCH=x86_64
-
-- property:
     name: 'fabric-go-x86_64'
     properties:
       - inject:
@@ -28,26 +17,6 @@
             GOPATH=$WORKSPACE/gopath
             PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
             ARCH=s390x
-
-- property:
-    name: 'fabric-s390x'
-    properties:
-      - inject:
-          properties-content: |
-            GOPATH=$WORKSPACE/gopath
-            GOROOT=/opt/go/go1.10.linux.s390x
-            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
-            ARCH=s390x
-
-- property:
-    name: 'fabric-ppc64le'
-    properties:
-      - inject:
-          properties-content: |
-            GOPATH=$WORKSPACE/gopath
-            GOROOT=/usr/local/go/bin
-            PATH=$GOROOT/bin:$GOPATH/bin:$PATH
-            ARCH=ppc64le
 
 - property:
     name: 'fabric-go-ppc64le'
@@ -74,33 +43,19 @@
           refspec: '$GERRIT_REFSPEC'
           choosing-strategy: gerrit
 
-- scm:
-    name: fabric-gerrit-release-scm
-    scm:
-      - git:
-          credentials-id: '{credentials-id}'
-          url: '$GIT_BASE'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: default
-
 - builder:
-    name: golang-environment-x86_64
+    name: 'golang-environment-x86_64'
     builders:
       - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT/ci.properties
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.amd64
             PATH=$GOROOT/bin:$PATH
-
 - builder:
-    name: golang-environment-s390x
+    name: 'golang-environment-s390x'
     builders:
       - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT/ci.properties
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.s390x
             PATH=$GOROOT/bin:$PATH
@@ -109,26 +64,10 @@
     name: golang-environment-ppc64le
     builders:
       - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric/ci.properties
+          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT/ci.properties
           properties-content: |
             GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
             PATH=$GOROOT/bin:$PATH
-
-- builder:
-    name: pull-fabric
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          FABRIC_REPO_NAME=fabric
-          WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
-          rm -rf $WD
-          git clone git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
-          cd $WD
-          git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
-          FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-          echo "FABRIC_COMMIT ========> $FABRIC_COMMIT"
 
 - builder:
     name: fabric-pull
@@ -304,12 +243,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-build-docker-images.sh
-
-- builder:
-    name: pull-repos
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-clone-repos.sh
 
 - builder:
     name: clean-environment
