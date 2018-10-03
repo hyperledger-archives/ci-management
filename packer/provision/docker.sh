@@ -105,7 +105,7 @@ deb_install_go() {
     gimme 1.9.2 /opt/go
     gimme 1.10 /opt/go
     gimme 1.10.4 /opt/go
-    gimme 1.11 /opt/go
+    gimme 1.11.1 /opt/go
 }
 
 deb_docker_pull_baseimage() {
