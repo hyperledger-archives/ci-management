@@ -23,24 +23,6 @@
           refspec: '$GERRIT_REFSPEC'
 
 - builder:
-    name: fabric-docker-release
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          make install
-
-- builder:
-    name: fabric-docker-local
-    builders:
-      - shell: |
-          #!/bin/bash -exu
-          set -o pipefail
-
-          make docker dependent-images
-
-- builder:
     name: fabric-thirdparty-images
     builders:
       - shell:
