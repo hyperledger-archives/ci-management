@@ -1,0 +1,55 @@
+---
+- job-template:
+    name: '{project-name}-{type}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{build_node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - gerrit-refspec-parameter:
+          refspec: '{ref_spec}'
+
+    scm:
+      - fabric-gerrit-scm-merge:
+          credentials-id: 'hyperledger-jobbuilder'
+          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
+
+    triggers:
+      - gerrit-trigger-patch-{trigger-type}:
+          name: '{project}'
+          branch: ''
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - 'ca-golang-environment-{arch}'
+      - output-environment
+      - 'ca-unit-tests-{arch}'
+      - shell:
+          docker run -v /tmp:/tmp hyperledger/fabric-ca rm -rf /tmp/fabric-shim || true
+
+    publishers:
+      - lf-infra-publish
+      - ca-code-coverage-report
+      - fabric-email-notification:
+          email-ids: '{emaild_ids}'
+          output_format: ''
+          developer-email: 'developers'
