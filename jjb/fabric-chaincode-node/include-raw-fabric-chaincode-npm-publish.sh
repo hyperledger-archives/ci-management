@@ -22,7 +22,7 @@ set -o pipefail
 npmPublish() {
   if [ $RELEASE = "snapshot" ]; then
     echo
-    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/unstable/{
+    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/unstable:/{
     ver=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
@@ -30,7 +30,7 @@ npmPublish() {
 
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
 
-    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/unstable/{
+    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/unstable:/{
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
