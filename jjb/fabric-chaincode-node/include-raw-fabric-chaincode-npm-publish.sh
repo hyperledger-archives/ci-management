@@ -12,54 +12,58 @@
 
 #################################################
 #Publish npm module as unstable after merge commit
-#npm publish --tag unstable
+#npm publish --tag $CURRENT_TAG (unstable/latest)
 #Run this "npm dist-tags ls $pkgs then look for
-#unstable versions
+#versions tagged on $CURRENT_TAG
 #################################################
 
 set -o pipefail
 
 npmPublish() {
-  if [ $RELEASE = "snapshot" ]; then
+  # Check if the tag contains "unstable"
+  if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]] ; then
     echo
-    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/unstable:/{
+    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAG/{
     ver=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
     print ver}')
-
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
 
-    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/unstable:/{
+    # Increment the unstable version number by 1
+    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAG/{
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
     print ver"."rel+1}')
-
     echo "===> Incremented UNSTABLE VERSION --> $UNSTABLE_INCREMENT"
 
-    if [ "$UNSTABLE_VER" = "$CURRENT_RELEASE" ]; then
-      # Replace existing version with Incremented $UNSTABLE_VERSION
-      sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT\"\,'/' package.json
-      npm publish --tag unstable
-    else
-      # Replace existing version with $CURRENT_RELEASE
-      sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$CURRENT_RELEASE\"\,'/' package.json
-      npm publish --tag unstable
-    fi
+    # Get the last incremented digit of $CURRENT_TAG from npm
+    UNSTABLE_INCREMENT=$(echo $UNSTABLE_INCREMENT| rev | cut -d '.' -f 1 | rev)
+    echo "--------> UNSTABLE_INCREMENT : $UNSTABLE_INCREMENT"
+
+    # Append incremented number to the version in package.json
+    UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
+
+    # Replace the existing version with $UNSTABLE_INCREMENT_VERSION
+    sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT_VERSION\"\,'/' package.json
+    npm publish --tag $CURRENT_TAG
 
   else
-         echo "----> Publish $RELEASE from fabric-chaincode-node-npm-release-x86_64"
+
+    echo "----> Publishing $CURRENT_TAG from fabric-chaincode-node-npm-release-x86_64"
 fi
 }
 versions() {
+  # grep on "tag" from package.json
+  CURRENT_TAG=$(cat package.json | grep tag | awk -F\" '{ print $4 }')
+  echo "===> Current Version --> $CURRENT_TAG"
 
-  CURRENT_RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }')
-  echo "===> Current Version --> $CURRENT_RELEASE"
+  # grep on version from package.json
+  RELEASE_VERSION=$(cat package.json | grep version | awk -F\" '{ print $4 }')
+  echo "===> Current Version --> $RELEASE_VERSION"
 
-  RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }' | cut -d "-" -f 2)
-  echo "===> Current Release --> $RELEASE"
 }
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-chaincode-node
