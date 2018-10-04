@@ -2,8 +2,9 @@
 - project:
     name: blockchain-explorer
     jobs:
-      - '{project}-node6-verify-{arch}'
-      - '{project}-node6-merge-{arch}'
+      - '{project}-node8-verify-{arch}'
+      - '{project}-node8-merge-{arch}'
+      - '{project}-release-job-{arch}'
     project: 'blockchain-explorer'
     arch:
       - 'x86_64'
@@ -11,7 +12,7 @@
 # gerrit changes
 
 - job-template:
-    name: '{project}-node6-verify-{arch}'
+    name: '{project}-node8-verify-{arch}'
 
     ######################
     # Default parameters #
@@ -76,7 +77,7 @@
       - BE-coverage-report
 
 - job-template:
-    name: '{project}-node6-merge-{arch}'
+    name: '{project}-node8-merge-{arch}'
 
     ######################
     # Default parameters #
@@ -139,3 +140,51 @@
     publishers:
       - lf-infra-publish
       - BE-coverage-report
+
+- job-template:
+    name: '{project}-release-job-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+      - release-commit:
+          pull-commit: ''
+
+    scm:
+      - blockchain-explorer-gerrit-scm:
+          credentials-id: 'hyperledger-jobbuilder'
+
+    triggers:
+      - gerrit-trigger-tag:
+          name: '{project}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '30'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - push-explorer-docker-images
+
+    publishers:
+      - lf-infra-publish
