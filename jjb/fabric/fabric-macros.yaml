@@ -217,6 +217,14 @@
           echo "-----------> Don't Trigger tests on release-1.3 s390x platform"
 
 - builder:
+    name: down-stream-jobs-master-ppc64le
+    builders:
+      - shell: |
+          #!/bin/bash
+
+          echo "-----------> Don't Trigger tests on master ppc64le platform"
+
+- builder:
     name: down-stream-jobs-release-1.2-x86_64
     builders:
       - conditional-step:

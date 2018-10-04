@@ -70,7 +70,7 @@ dockerFabricCaPush() {
 # Tag Fabric Docker Images
 fabric_DockerTag
 # Tag Fabric Ca Docker Images
-if [ $ARCH = s390x ]; then
+if [ $ARCH = s390x ] || [ $ARCH = ppc64le ]; then
     fabric_Ca_DockerTag
 else
     fabric_Ca_DockerTag ca-fvt
@@ -78,7 +78,7 @@ fi
 # Push Fabric Docker Images to Nexus3
 dockerFabricPush
 # Push Fabric Ca Docker Images to Nexus3
-if [ $ARCH = s390x ]; then
+if [ $ARCH = s390x ] || [ $ARCH = ppc64le ]; then
     dockerFabricCaPush
 else
     dockerFabricCaPush ca-fvt
@@ -115,7 +115,7 @@ set -e
               echo "-------> DONE <----------"
        done
     else
-       echo "-------> Dont publish binaries from s390x platform"
+       echo "-------> Dont publish binaries from s390x or ppc64le platform"
     fi
 fi
 # Disable publishing fabric-ca binaries from nightly builds till we identify a way

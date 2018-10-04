@@ -33,6 +33,18 @@
     build-node: hyp-x
     rel_version: 1.4.0-stable
 
+- project:
+    name: fabric-nightly-release-job-master-ppc64le
+    jobs:
+      - '{project-name}-nightly-release-job-{branch}-{arch}'
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: ppc64le
+    build-node: hyp-p
+    rel_version: 1.4.0-stable
+
 #############
 # release-1.3
 ############
