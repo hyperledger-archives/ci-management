@@ -59,3 +59,9 @@
           keep-all: true
           allow-missing: true
           link-to-last-build: true
+
+- builder:
+    name: push-explorer-docker-images
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-push-explorer-docker-images.sh
