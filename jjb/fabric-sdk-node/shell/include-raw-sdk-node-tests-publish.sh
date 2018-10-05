@@ -79,43 +79,42 @@ export_Go
 ############################
 
 npmPublish() {
-  if [ $RELEASE = "snapshot" ]; then
+  if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]]; then
     echo
-    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/unstable:/{
+    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAG/{
     ver=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
     print ver}')
-
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
 
-    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/unstable:/{
+    # Get the unstable version of $CURRNT_TAG from npm
+    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAGE/{
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
     print ver"."rel+1}')
 
-    echo "===> Incremented UNSTABLE VERSION --> $UNSTABLE_INCREMENT"
+    # Get last digit of the unstable version of $CURRENT_TAG
+    UNSTABLE_INCREMENT=$(echo $UNSTABLE_INCREMENT| rev | cut -d '.' -f 1 | rev)
+    echo "--------> UNSTABLE_INCREMENT : $UNSTABLE_INCREMENT"
+
+    # Append last digit with the package.json version
+    UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
 
     if [ "$1" = "fabric-network" ]; then
       sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$CLIENT_VER\"\,'/' package.json
       sed -i 's/\(.*\"fabric-ca-client\"\: \"\)\(.*\)/\1'$CA_CLIENT_VER\"\,'/' package.json
     fi
 
-    if [ "$UNSTABLE_VER" = "$CURRENT_RELEASE" ]; then
-      # Replace existing version with Incremented $UNSTABLE_VERSION
-      sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT\"\,'/' package.json
-      npm publish --tag unstable
-      PUBLISHED_VER=$UNSTABLE_INCREMENT
-    else
-      # Replace existing version with $CURRENT_RELEASE
-      sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$CURRENT_RELEASE\"\,'/' package.json
-      npm publish --tag unstable
-      PUBLISHED_VER=$CURRENT_RELEASE
-    fi
-    else
-        echo "----> Publish $RELEASE from fabric-sdk-node-npm-release-x86_64"
+    # Replace existing version with $UNSTABLE_INCREMENT_VERSION
+    sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT_VERSION\"\,'/' package.json
+    npm publish --tag $CURRENT_TAG
+    PUBLISHED_VER=$UNSTABLE_INCREMENT_VERSION
+
+ else
+      echo "----> Publish $CURRENT_TAG from fabric-sdk-node-npm-release-x86_64"
   fi
 }
 
@@ -126,12 +125,14 @@ npmPublish() {
 ##########################
 
 versions() {
+  # Get the unstable tag from package.json
+  CURRENT_TAG=$(cat package.json | grep tag | awk -F\" '{ print $4 }')
+  echo "===> Current TAG --> $CURRENT_TAG"
 
-  CURRENT_RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }')
-  echo "===> Current Version --> $CURRENT_RELEASE"
+  # Get the version from package.json
+  RELEASE_VERSION=$(cat package.json | grep version | awk -F\" '{ print $4 }')
+  echo "===> Current Version --> $RELEASE_VERSION"
 
-  RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }' | cut -d "-" -f 2)
-  echo "===> Current Release --> $RELEASE"
 }
 
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch

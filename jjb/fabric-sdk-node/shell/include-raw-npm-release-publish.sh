@@ -16,15 +16,15 @@
 set -o pipefail
 
 npmPublish() {
-  if [ $RELEASE = "snapshot" ]; then
-    echo "----> Ignore the release as this is a snapshot"
-    echo "----> Merge job publish the snapshot releases"
+  if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]]; then
+    echo "----> Ignore the release as this is an unstable release"
+    echo "----> Merge jobs publishes the unstable releases"
   else
-      if [[ "$RELEASE" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
-        echo "===> PUBLISH --> $RELEASE"
-        npm publish
+      if [[ "$RELEASE_VERSION" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
+        echo "===> PUBLISH --> $RELEASE_VERSION"
+        npm publish --tags $CURRENT_TAG
       else
-        echo "$RELEASE: No such release."
+        echo "$RELEASE_VERSION: No such release."
         exit 1
       fi
   fi
@@ -32,11 +32,11 @@ npmPublish() {
 
 versions() {
 
-  CURRENT_RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }')
-  echo "===> Current Version --> $CURRENT_RELEASE"
+  CURRENT_TAG=$(cat package.json | grep tag | awk -F\" '{ print $4 }')
+  echo "===> Current Tag --> $CURRENT_TAG"
 
-  RELEASE=$(cat package.json | grep version | awk -F\" '{ print $4 }' | cut -d "-" -f 2)
-  echo "===> Current Release --> $RELEASE"
+  RELEASE_VERSION=$(cat package.json | grep version | awk -F\" '{ print $4 }')
+  echo "===> Current RELEASE VERSION --> $RELEASE_VERSION"
 }
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
