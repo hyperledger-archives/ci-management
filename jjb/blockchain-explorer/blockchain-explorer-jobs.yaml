@@ -163,6 +163,8 @@
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
       - release-commit:
           pull-commit: ''
+      - release-version:
+          push-version: '1.2.0'
 
     scm:
       - blockchain-explorer-gerrit-scm:
