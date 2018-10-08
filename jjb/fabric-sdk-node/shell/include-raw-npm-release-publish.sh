@@ -22,7 +22,7 @@ npmPublish() {
   else
       if [[ "$RELEASE_VERSION" =~ alpha*|preview*|beta*|rc*|^[0-9].[0-9].[0-9]$ ]]; then
         echo "===> PUBLISH --> $RELEASE_VERSION"
-        npm publish --tags $CURRENT_TAG
+        npm publish --tag $CURRENT_TAG
       else
         echo "$RELEASE_VERSION: No such release."
         exit 1
