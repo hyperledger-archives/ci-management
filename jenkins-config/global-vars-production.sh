@@ -1,3 +1,4 @@
+BASE_DIR=gopath/src/github.com/hyperledger/$PROJECT
 CHAINCODE_NODE_USERNAME=fabric-shim
 DOCKERHUB_REGISTRY=docker.io
 GIT_BASE=git://cloud.hyperledger.org/mirror/$PROJECT.git

@@ -1,3 +1,4 @@
+BASE_DIR=gopath/src/github.com/hyperledger/$PROJECT
 CLASSPATH=$CLASSPATH:scripts/groovy
 GIT_BASE=git://cloud.hyperledger.org/mirror/$PROJECT.git
 GIT_CLONE_URL=git@github.com:
