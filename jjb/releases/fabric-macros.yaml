@@ -1,17 +1,5 @@
 ---
 - scm:
-    name: hyperledger-fabric-baseimage
-    scm:
-      - git:
-          url: 'git://cloud.hyperledger.org/mirror/fabric-baseimage'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          credentials-id: 'hyperledger-jobbuilder'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
-
-- scm:
     name: hyperledger-fabric-baseimage-release
     scm:
       - git:

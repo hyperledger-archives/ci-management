@@ -10,7 +10,6 @@
 
     project: fabric
     project-name: fabric
-    branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'
 
@@ -21,7 +20,6 @@
 
     project: fabric-ca
     project-name: fabric-ca
-    branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'
 
@@ -32,6 +30,5 @@
 
     project: fabric-baseimage
     project-name: fabric-baseimage
-    branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'

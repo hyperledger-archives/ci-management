@@ -34,8 +34,7 @@
 
     scm:
       - gerrit-trigger-scm:
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -82,8 +81,7 @@
 
     scm:
       - gerrit-trigger-scm:
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-tag:
@@ -129,8 +127,7 @@
 
     scm:
       - gerrit-trigger-scm:
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-tag:

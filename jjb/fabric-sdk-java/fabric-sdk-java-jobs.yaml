@@ -42,7 +42,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-java-gerrit
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -94,8 +95,7 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm-merge:
           base-dir: ''
 
     triggers:
@@ -149,7 +149,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-java-gerrit
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -199,7 +200,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-java-gerrit
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -251,8 +253,7 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm-merge:
           base-dir: ''
 
     triggers:
@@ -305,7 +306,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-java-gerrit
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - timed: '@weekly'

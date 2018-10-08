@@ -21,8 +21,9 @@
           refspec: '{ref_spec}'
 
     scm:
-      - fabric-gerrit-scm:
+      - gerrit-trigger-scm:
           credentials-id: 'hyperledger-jobbuilder'
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-{trigger-type}:

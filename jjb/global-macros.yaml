@@ -102,17 +102,47 @@
           skip-tag: true
           wipe-workspace: true
 
+###################################################################
+# gerrit-trigger-scm - use this macro for all the verify builds
+# you have to pass "base-dir" value from the job template or config
+###################################################################
 - scm:
     name: gerrit-trigger-scm
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
     scm:
       - git:
           credentials-id: 'hyperledger-jobbuilder'
           url: '$GIT_BASE'
-          refspec: '{refspec}'
           branches:
             - 'origin/$GERRIT_BRANCH'
           skip-tag: true
-          choosing-strategy: '{choosing-strategy}'
+          wipe-workspace: true
+          refspec: '$GERRIT_REFSPEC'
+          basedir: '{base-dir}'
+          choosing-strategy: gerrit
+
+###################################################################
+# gerrit-trigger-scm-merge - use this macro for all the merge builds
+# you have to pass "base-dir" value from the job template or config
+###################################################################
+
+- scm:
+    name: gerrit-trigger-scm-merge
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: '$GIT_BASE'
+          branches:
+            - 'refs/heads/$GERRIT_BRANCH'
+          wipe-workspace: true
+          basedir: '{base-dir}'
+          refspec: ''
+          choosing-strategy: default
 
 - scm:
     name: git-branch-scm
@@ -125,22 +155,6 @@
             - 'origin/{branch}'
           skip-tag: true
           wipe-workspace: true
-
-- scm:
-    name: fabric-gerrit-scm-merge
-    # scm for the fabric project which uses basedir for a golang project
-    # Parameters:
-    #   credentials-id: credentials to use for ssh authentication.
-    scm:
-      - git:
-          credentials-id: '{credentials-id}'
-          url: '$GIT_BASE'
-          branches:
-            - 'refs/heads/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: '{base-dir}'
-          refspec: ''
-          choosing-strategy: default
 
 ############
 # WRAPPERS #

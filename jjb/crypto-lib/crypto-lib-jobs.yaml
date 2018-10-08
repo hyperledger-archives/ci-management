@@ -50,8 +50,8 @@
 
     scm:
       - gerrit-trigger-scm:
-          refspec: '$GERRIT_REFSPEC'
           choosing-strategy: 'gerrit'
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:

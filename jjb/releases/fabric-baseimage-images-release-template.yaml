@@ -21,7 +21,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-baseimage
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -66,8 +67,7 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm-merge:
           base-dir: ''
 
     triggers:

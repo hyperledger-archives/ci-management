@@ -11,17 +11,3 @@
     builders:
       - shell:
           !include-raw: include-raw-rest-npm-publish.sh
-
-# FABRIC-SDK-REST SCM
-- scm:
-    name: hyperledger-fabric-sdk-rest
-    scm:
-      - git:
-          credentials-id: 'hyperledger-jobbuilder'
-          url: 'git://cloud.hyperledger.org/mirror/fabric-sdk-rest'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/fabric-sdk-rest'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'

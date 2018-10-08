@@ -23,8 +23,9 @@
           push-version: '{push-version}'
 
     scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
+
     # Trigger at 9:53 PM EST
     triggers:
       - timed: 'H 1 * * *'

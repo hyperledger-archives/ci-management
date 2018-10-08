@@ -22,8 +22,8 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - timed: '{cron_time}'

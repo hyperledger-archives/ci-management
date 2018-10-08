@@ -36,8 +36,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-go:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -85,9 +85,8 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
-          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
+      - gerrit-trigger-scm-merge:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -136,8 +135,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-sdk-go:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -185,9 +184,8 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
-          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
+      - gerrit-trigger-scm-merge:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-merged:

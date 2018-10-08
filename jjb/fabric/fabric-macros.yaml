@@ -27,21 +27,6 @@
             PATH=$GOROOT/bin:$GOPATH/bin:$HOME/.nvm/versions/node/v6.9.5/bin:$HOME/.nvm/versions/node/v8.9.4/bin:/w/npm/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
             ARCH=ppc64le
 
-- scm:
-    name: fabric-gerrit-scm
-    # scm for the fabric project which uses basedir for a golang project
-    # Parameters:
-    #   credentials-id: credentials to use for ssh authentication.
-    scm:
-      - git:
-          credentials-id: '{credentials-id}'
-          url: '$GIT_BASE'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/$PROJECT'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: gerrit
 - property:
     name: 'fabric-s390x'
     properties:
@@ -77,6 +62,7 @@
 # Set Gopath
 ############
 
+# Set Gopath for x86_64 arch
 - builder:
     name: 'golang-environment-x86_64'
     builders:
@@ -85,6 +71,8 @@
           properties-content: |
             GOROOT=/opt/go/go$GO_VER.linux.amd64
             PATH=$GOROOT/bin:$PATH
+
+# Set Gopath for s390x arch
 - builder:
     name: 'golang-environment-s390x'
     builders:
@@ -94,6 +82,7 @@
             GOROOT=/opt/go/go$GO_VER.linux.s390x
             PATH=$GOROOT/bin:$PATH
 
+# Set Gopath for ppc64le arch
 - builder:
     name: golang-environment-ppc64le
     builders:
@@ -102,6 +91,8 @@
           properties-content: |
             GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
             PATH=$GOROOT/bin:$PATH
+
+#######
 
 - builder:
     name: fabric-pull

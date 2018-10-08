@@ -23,7 +23,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-chaincode-java
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -78,8 +79,7 @@
           pull-version: '{stable-version}'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm-merge:
           base-dir: ''
 
     triggers:

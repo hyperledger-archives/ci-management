@@ -40,8 +40,8 @@
           refspec: ''
 
     scm:
-      - blockchain-explorer-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - blockchain-explorer-gerrit-patch-submitted:
@@ -105,8 +105,7 @@
           refspec: ''
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm-merge:
           base-dir: ''
 
     triggers:
@@ -167,8 +166,8 @@
           push-version: '1.2.0'
 
     scm:
-      - blockchain-explorer-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     triggers:
       - gerrit-trigger-tag:

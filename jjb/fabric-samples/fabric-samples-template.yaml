@@ -109,13 +109,13 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: '{branch}'
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - hyperledger-fabric-samples-gerrit:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-submitted:
@@ -156,14 +156,13 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: '{branch}'
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - fabric-gerrit-scm-merge:
-          credentials-id: 'hyperledger-jobbuilder'
-          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
+      - gerrit-trigger-scm-merge:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - gerrit-trigger-patch-merged:
@@ -217,8 +216,8 @@
           trigger-comment: 'Run SmokeTest'
 
     scm:
-      - fabric-gerrit-scm:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -263,8 +262,8 @@
           refspec: ''
 
     scm:
-      - hyperledger-fabric-samples-gerrit:
-          credentials-id: 'hyperledger-jobbuilder'
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
 
     triggers:
       - timed: '@weekly'

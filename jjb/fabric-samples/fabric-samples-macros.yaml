@@ -1,21 +1,4 @@
 ---
-
-# fabric-samples scm configuration
-
-- scm:
-    name: hyperledger-fabric-samples-gerrit
-    scm:
-      - git:
-          credentials-id: 'hyperledger-jobbuilder'
-          url: 'git://cloud.hyperledger.org/mirror/fabric-samples'
-          shallow-clone: true
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          basedir: 'gopath/src/github.com/hyperledger/fabric-samples'
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
-
 # fabric-samples Builder script
 
 - builder:

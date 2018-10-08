@@ -1,16 +1,4 @@
 ---
-- scm:
-    name: hyperledger-fabric-chaincode-java
-    scm:
-      - git:
-          credentials-id: 'hyperledger-jobbuilder'
-          url: 'git://cloud.hyperledger.org/mirror/fabric-chaincode-java'
-          branches:
-            - 'origin/$GERRIT_BRANCH'
-          wipe-workspace: true
-          refspec: '$GERRIT_REFSPEC'
-          choosing-strategy: 'gerrit'
-
 - publisher:
     name: java-chaincode-coverage-report
     publishers:
