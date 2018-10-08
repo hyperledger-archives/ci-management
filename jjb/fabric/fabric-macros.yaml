@@ -312,6 +312,12 @@
           !include-raw: shell/include-raw-fabric-nexus-docker-images.sh
 
 - builder:
+    name: fetchbaseimages
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fetch-dockerimages.sh
+
+- builder:
     name: fabric-unit-tests
     builders:
       - shell: |
