@@ -107,16 +107,15 @@ make docker-fabric-ca || err_Check "make docker-fabric-ca failed"
 echo
 docker images | grep hyperledger/fabric-ca || true
 
-if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
-       echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH & $ARCH"
-else
+if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
+
        #####################################
        # Pull fabric-chaincode-javaenv Image
 
        NEXUS_URL=nexus3.hyperledger.org:10001
        ORG_NAME="hyperledger/fabric"
        IMAGE=javaenv
-       if [ "$GERRIT_BRANCH" = "master" ]; then
+       if [[ "$GERRIT_BRANCH" = "master" ]]; then
             export STABLE_VERSION=1.4.0-stable
             export JAVA_ENV_TAG=1.4.0
        else
@@ -129,6 +128,9 @@ else
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:amd64-$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
        ######################################
        docker images | grep hyperledger/fabric-javaenv || true
+
+else
+    echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH or on $ARCH"
 fi
 
 echo

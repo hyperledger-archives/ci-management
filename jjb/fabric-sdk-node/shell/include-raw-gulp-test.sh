@@ -41,9 +41,8 @@ docker images | grep hyperledger
 
 # Pull fabric-chaincode-javaenv docker image
 
-if [[ "$GERRIT_BRANCH" != "master" || "$ARCH" = "s390x" ]]; then
-      echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH and on $ARCH"
-else
+if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH" != "s390x" ]]; then
+
       ##########
       # Pull fabric-chaincode-javaenv Image
       NEXUS_URL=nexus3.hyperledger.org:10001
@@ -63,6 +62,9 @@ else
       docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
       ##########
       docker images | grep hyperledger/fabric-javaenv || true
+
+else
+      echo "========> SKIP: javaenv image is not available on $GERRIT_BRANCH or on $ARCH"
 fi
 
 ## Test gulp test

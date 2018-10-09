@@ -81,7 +81,7 @@ export_Go
 npmPublish() {
   if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]]; then
     echo
-    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAG/{
+    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/'{
     ver=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
@@ -89,7 +89,7 @@ npmPublish() {
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
 
     # Get the unstable version of $CURRNT_TAG from npm
-    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk '/$CURRENT_TAGE/{
+    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/'{
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
