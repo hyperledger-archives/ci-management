@@ -44,7 +44,8 @@ npmPublish() {
     echo "--------> UNSTABLE_INCREMENT : $UNSTABLE_INCREMENT"
 
     # Append incremented number to the version in package.json
-    UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
+    export UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
+    echo "--------> UNSTABLE_INCREMENT_VERSION" $UNSTABLE_INCREMENT_VERSION
 
     # Replace the existing version with $UNSTABLE_INCREMENT_VERSION
     sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT_VERSION\"\,'/' package.json

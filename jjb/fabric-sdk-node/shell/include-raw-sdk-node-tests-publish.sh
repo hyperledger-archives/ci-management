@@ -101,7 +101,8 @@ npmPublish() {
     echo "--------> UNSTABLE_INCREMENT : $UNSTABLE_INCREMENT"
 
     # Append last digit with the package.json version
-    UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
+    export UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
+    echo "--------> UNSTABLE_INCREMENT_VERSION" $UNSTABLE_INCREMENT_VERSION
 
     if [ "$1" = "fabric-network" ]; then
       sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$CLIENT_VER\"\,'/' package.json
