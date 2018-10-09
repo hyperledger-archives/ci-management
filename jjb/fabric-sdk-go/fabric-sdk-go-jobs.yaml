@@ -1,213 +1,84 @@
 ---
+######
+# fabric-sdk-go verify jobs on x and z arch
+# These jobs triggers on gerrit "patchset created" event
+######
 - project:
-    name: fabric-sdk-go
+    name: fabric-sdk-go-tests-verify-x86_64
     jobs:
-      - 'fabric-sdk-go-tests-merge-{arch}'
-      - 'fabric-sdk-go-tests-verify-{arch}'
-      - 'fabric-sdk-go-tests-verify-s390x'
-      - 'fabric-sdk-go-tests-merge-s390x'
+      - '{project-name}-tests-{type}-{arch}'
 
-    project: 'fabric-sdk-go'
-    arch:
-      - 'x86_64'
-    mvn-settings: 'fabric-settings'
+    project: fabric-sdk-go
+    project-name: fabric-sdk-go
+    type: 'verify'
+    branch: ''
+    scm-type: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 50
+    trigger-type: submitted
+    ref_spec: ''
+    emaild_ids: ''
 
-# gerrit changes
+- project:
+    name: fabric-sdk-go-tests-verify-s390x
+    jobs:
+      - '{project-name}-tests-{type}-{arch}'
 
-- job-template:
-    name: 'fabric-sdk-go-tests-verify-{arch}'
+    project: fabric-sdk-go
+    project-name: fabric-sdk-go
+    type: 'verify'
+    branch: ''
+    scm-type: ''
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'reverify-z$'
+    comment2: 'reverify$'
+    build_timeout: 50
+    trigger-type: submitted
+    ref_spec: ''
+    emaild_ids: ''
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+# These jobs triggers on gerrit "patchset merged" event
+###########
+# Merge Jobs
+###########
+- project:
+    name: fabric-sdk-go-tests-merge-x86_64
+    jobs:
+      - '{project-name}-tests-{type}-{arch}'
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+    project: fabric-sdk-go
+    project-name: fabric-sdk-go
+    type: 'merge'
+    branch: ''
+    scm-type: '-merge'
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: ''
+    comment2: 'remerge'
+    build_timeout: 50
+    trigger-type: merged
+    ref_spec: 'refs/heads/$GERRIT_BRANCH'
+    emaild_ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com troy@troyronda.com'
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
+- project:
+    name: fabric-sdk-go-tests-merge-s390x
+    jobs:
+      - '{project-name}-tests-{type}-{arch}'
 
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
-
-    builders:
-      - verify-commit-message
-      - golang-environment-{arch}
-      - clean-environment
-      - output-environment
-      - fabric-sdk-go-unit-tests
-      - fabric-sdk-go-integration-tests
-
-    publishers:
-      - lf-infra-publish
-      - code-coverage-report
-
-- job-template:
-    name: 'fabric-sdk-go-tests-merge-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
-
-    builders:
-      - clean-environment
-      - golang-environment-{arch}
-      - output-environment
-      - fabric-sdk-go-unit-tests
-      - fabric-sdk-go-integration-tests
-
-    publishers:
-      - lf-infra-publish
-      - code-coverage-report
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
-    name: 'fabric-sdk-go-tests-verify-s390x'
-
-    project-type: freestyle
-    node: 'hyp-z'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-s390x'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-z$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
-
-    builders:
-      - verify-commit-message
-      - golang-environment-s390x
-      - clean-environment
-      - output-environment
-      - fabric-sdk-go-unit-tests
-      - fabric-sdk-go-integration-tests
-
-    publishers:
-      - code-coverage-report
-      - lf-infra-publish
-
-- job-template:
-    name: 'fabric-sdk-go-tests-merge-s390x'
-
-    project-type: freestyle
-    node: 'hyp-z'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-s390x'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '50'
-
-    builders:
-      - clean-environment
-      - golang-environment-s390x
-      - output-environment
-      - fabric-sdk-go-unit-tests
-      - fabric-sdk-go-integration-tests
-
-    publishers:
-      - code-coverage-report
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+    project: fabric-sdk-go
+    project-name: fabric-sdk-go
+    type: 'merge'
+    branch: ''
+    scm-type: '-merge'
+    arch: 's390x'
+    build_node: 'z'
+    comment1: ''
+    comment2: 'remerge'
+    build_timeout: 50
+    trigger-type: merged
+    ref_spec: 'refs/heads/$GERRIT_BRANCH'
+    emaild_ids: 'troy@troyronda.com, rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
