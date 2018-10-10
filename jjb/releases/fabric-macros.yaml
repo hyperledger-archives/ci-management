@@ -53,6 +53,12 @@
       - shell:
           !include-raw: include-raw-fabric-thirdparty-nexus-release.sh
 
+- builder:
+    name: docker-multiarch
+    builders:
+      - shell:
+          !include-raw: include-raw-docker-multiarch.sh
+
 # Publish fabric docker images
 - builder:
     name: publish-fabric-docker-images

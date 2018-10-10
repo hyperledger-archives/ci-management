@@ -1,0 +1,26 @@
+---
+##########################
+# Publish multiarch images
+#########################
+
+- project:
+    name: fabric-docker-multiarch-x86_64
+    jobs:
+      - '{project-name}-docker-multiarch-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x'
+
+- project:
+    name: fabric-ca-docker-multiarch-x86_64
+    jobs:
+      - '{project-name}-docker-multiarch-{arch}'
+
+    project: fabric-ca
+    project-name: fabric-ca
+    branch: master
+    arch: 'x86_64'
+    build-node: 'hyp-x'
