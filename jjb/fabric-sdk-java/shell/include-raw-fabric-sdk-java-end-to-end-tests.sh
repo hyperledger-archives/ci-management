@@ -53,11 +53,11 @@ if [ "$GERRIT_BRANCH" = "master" ]; then
     export JAVA_ENV_TAG=1.4.0
 else
     export JAVA_ENV_VERSION=amd64-1.3.0-stable
-    export JAVA_ENV_TAG=1.3.0
+    export JAVA_ENV_TAG=1.3.1
 fi
 
 ########################
-# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-1.3.0
+# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-1.3.1
 #######################
 
 docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_ENV_VERSION

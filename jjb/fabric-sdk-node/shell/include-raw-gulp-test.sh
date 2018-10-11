@@ -53,7 +53,7 @@ if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH"
           JAVA_ENV_TAG=1.4.0
       else
           STABLE_VERSION=amd64-1.3.0-stable
-          JAVA_ENV_TAG=1.3.0
+          JAVA_ENV_TAG=1.3.1
       fi
 
       docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$STABLE_VERSION

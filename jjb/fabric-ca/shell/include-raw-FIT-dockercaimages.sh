@@ -38,7 +38,7 @@ if [[ "$GERRIT_BRANCH" = "master" || "$GERRIT_BRANCH" = "release-1.3" || "$ARCH"
              export JAVA_ENV_TAG=1.4.0
        else
              export JAVA_ENV_VERSION=amd64-1.3.0-stable
-             export JAVA_ENV_TAG=1.3.0
+             export JAVA_ENV_TAG=1.3.1
        fi
        docker pull $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
        docker tag $NEXUS_URL/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
