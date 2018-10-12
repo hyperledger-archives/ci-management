@@ -25,21 +25,3 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-dependencies.sh
-
-- builder:
-    name: fabric-sdk-go-golang-environment-x86_64
-    builders:
-      - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-go/ci.properties
-          properties-content: |
-            GOROOT=/opt/go/go$GO_VER.linux.amd64
-            PATH=$GOROOT/bin:$PATH
-
-- builder:
-    name: fabric-sdk-go-golang-environment-s390x
-    builders:
-      - inject:
-          properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-go/ci.properties
-          properties-content: |
-            GOROOT=/opt/go/go$GO_VER.linux.s390x
-            PATH=$GOROOT/bin:$PATH

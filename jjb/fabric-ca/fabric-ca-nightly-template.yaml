@@ -37,7 +37,7 @@
     builders:
       - clean-environment
       - output-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

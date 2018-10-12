@@ -66,7 +66,7 @@
     builders:
       - clean-environment
       - output-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
@@ -120,7 +120,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
@@ -174,7 +174,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - dockercaimages
       - end-to-end-NODE
@@ -222,7 +222,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - dockercaimages
       - end-to-end-NODE
@@ -271,7 +271,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-ca-safesql-scan
 
@@ -314,7 +314,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-ca-gosec-scan
 

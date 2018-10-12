@@ -42,7 +42,7 @@
 
     builders:
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       # pull stable fabric-ca images from nexus3, re-tag with release version and publish to dockerhub
       - publish-fabric-ca-docker-images

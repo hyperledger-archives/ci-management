@@ -40,7 +40,7 @@
     builders:
       - verify-commit-message
       - clean-environment
-      - 'ca-golang-environment-{arch}'
+      - 'golang-environment-{arch}'
       - output-environment
       - 'ca-unit-tests-{arch}'
       - shell:
