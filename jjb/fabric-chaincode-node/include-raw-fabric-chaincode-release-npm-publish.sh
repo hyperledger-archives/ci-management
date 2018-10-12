@@ -53,3 +53,9 @@ fi
 cd ../fabric-shim-crypto
 versions
 npmPublish fabric-shim-crypto
+
+if [ "$GERRIT_BRANCH" = "master" ]; then
+   cd ../fabric-contract-api
+   versions
+   npmPublish fabric-contract-api
+fi

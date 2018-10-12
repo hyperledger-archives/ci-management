@@ -56,6 +56,7 @@ npmPublish() {
     echo "----> Publishing $CURRENT_TAG from fabric-chaincode-node-npm-release-x86_64"
 fi
 }
+
 versions() {
   # grep on "tag" from package.json
   CURRENT_TAG=$(cat package.json | grep tag | awk -F\" '{ print $4 }')
