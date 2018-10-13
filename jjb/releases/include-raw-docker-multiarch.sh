@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 # Clone fabric git repository
 clone_Repo() {
@@ -14,15 +14,19 @@ clone_Repo() {
 
 export_Go() {
   # Fetch Go Version from fabric ci.properties file
-  GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-  export GO_VER
+  if [ ! -e ci.properties ]; then
+     curl -L https://raw.githubusercontent.com/hyperledger/fabric-baseimage/master/scripts/common/setup.sh > setup.sh
+     GO_VER=$(cat setup.sh | grep GO_VER= | cut -d "=" -f 2)
+     echo "-------> GO_VER" $GO_VER
+  else
+     GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+     export GO_VER
+     echo "-------> GO_VER" $GO_VER
+  fi
   OS_VER=$(dpkg --print-architecture)
   echo "------> OS_VER" $OS_VER
   export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
   export PATH=$GOROOT/bin:$PATH
-  echo "------> GO_VER" $GO_VER
-  ARCH=$(go env GOARCH)
-  echo "------> ARCH" $ARCH
 }
 
 # Build fabric images
