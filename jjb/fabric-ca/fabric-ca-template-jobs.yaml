@@ -21,9 +21,8 @@
           refspec: '{ref_spec}'
 
     scm:
-      - fabric-gerrit-scm-merge:
+      - fabric-gerrit-scm:
           credentials-id: 'hyperledger-jobbuilder'
-          base-dir: 'gopath/src/github.com/hyperledger/$PROJECT'
 
     triggers:
       - gerrit-trigger-patch-{trigger-type}:
