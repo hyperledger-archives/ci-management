@@ -1,6 +1,6 @@
 ---
 - job-template:
-    name: '{project-name}-verify-docker-{arch}'
+    name: '{project-name}-{type}-docker-{arch}'
 
     project-type: freestyle
     node: '{build-node}'
@@ -18,18 +18,18 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: '{ref_spec}'
 
     scm:
-      - gerrit-trigger-scm:
+      - gerrit-trigger-scm{scm-type}:
           base-dir: ''
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-{trigger-type}:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-{comment}$'
-          trigger-comment2: 'reverify$'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -40,56 +40,14 @@
       - clean-environment
       - output-environment
       - shell:
-          command: "make docker dependent-images"
-
-    publishers:
-      - lf-infra-publish
-
-- job-template:
-    name: '{project-name}-merge-docker-{arch}'
-
-    project-type: freestyle
-    node: '{build-node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '240'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - fetchbaseimages
-      - clone-fabric-samples
-      - fabric-byfn-tests
-      - shell: |
-              #!/bin/bash -exu
-              set -o pipefail
-              cd gopath/src/github.com/hyperledger/fabric && time make unit-test
+          for IMAGES in docker dpendent-images; do
+          make $IMAGES
+            if [ $? != 0 ]; then
+             echo "----------> make $IMAGES failed"
+            else
+             echo "----------> succesfully build make $IMAGES"
+            fi
+          done
 
     publishers:
       - lf-infra-publish
@@ -104,6 +62,7 @@
     project-type: freestyle
     node: '{build-node}'
     concurrent: true
+    mvn-settings: 'fabric-settings'
 
     properties:
       - 'fabric-{arch}'
@@ -125,46 +84,6 @@
     triggers:
       - gerrit-trigger-tag:
           name: '{project}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - shell:
-          command: "make install"
-
-    publishers:
-      - lf-infra-publish
-
-- job-template:
-    name: '{project-name}-{arch}-nexus-release-jobs'
-
-    project-type: freestyle
-    node: '{build-node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-      - release-version:
-          push-version: '1.2.0'
-
-    scm:
-      - hyperledger-fabric-baseimage-release
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -178,100 +97,7 @@
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - shell:
-          command: "make docker dependent-images"
-      - baseimage-nexus-docker-release
-
-    publishers:
-      - lf-infra-publish
-
-- job-template:
-    name: '{project-name}-{arch}-thirdparty-image-release-jobs'
-
-    project-type: freestyle
-    node: '{build-node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-
-    scm:
-      - hyperledger-fabric-baseimage-release
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -exu
-         set -o pipefail
-
-         echo "========> Build Dependent Images"
-         make dependent-images
       - fabric-thirdparty-images
-
-    publishers:
-      - lf-infra-publish
-
-- job-template:
-    name: '{project-name}-{arch}-thirdparty-image-nexus-release-job'
-
-    project-type: freestyle
-    node: '{build-node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-      - release-version:
-          push-version: '1.2.0'
-
-    scm:
-      - hyperledger-fabric-baseimage-release
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - build-docker-thirdparty
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - thirdparty-nexus-release
 
     publishers:
       - lf-infra-publish

@@ -1,68 +1,89 @@
 ---
 ###
-# fabric-baseimage verify jobs on x,p and z arch
+# fabric-baseimage verify jobs on x and z arch
 # These jobs triggers on gerrit "patchset created" event
 ###
 
 - project:
     name: fabric-baseimage-verify-docker-s390x
     jobs:
-      - '{project-name}-verify-docker-{arch}'
+      - '{project-name}-{type}-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
+    type: 'verify'
     branch: master
+    scm-type: ''
     arch: 's390x'
     build-node: 'hyp-z'
-    comment: 'z'
+    comment1: 'reverify-z$'
+    comment2: 'reverify$'
+    trigger-type: 'submitted'
+    ref_spec: ''
 
 - project:
     name: fabric-baseimage-verify-docker-x86_64
     jobs:
-      - '{project-name}-verify-docker-{arch}'
+      - '{project-name}-{type}-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
+    type: 'verify'
     branch: master
+    scm-type: ''
     arch: 'x86_64'
     build-node: 'hyp-x'
-    comment: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    trigger-type: 'submitted'
+    ref_spec: ''
 
 ###
-# fabric-baseimage merge jobs on x,p and z arch
+# fabric-baseimage merge jobs on x and z arch
 # These jobs triggers on gerrit "patchset merged" event
 ###
 
 - project:
     name: fabric-baseimage-merge-docker-s390x
     jobs:
-      - '{project-name}-merge-docker-{arch}'
+      - '{project-name}-{type}-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
+    type: 'merge'
     branch: master
+    scm-type: '-merge'
     arch: 's390x'
     build-node: 'hyp-z'
+    comment1: ''
+    comment2: 'remerge'
+    trigger-type: 'merged'
+    ref_spec: 'refs/heads/$GERRIT_BRANCH'
 
 - project:
     name: fabric-baseimage-merge-docker-x86_64
     jobs:
-      - '{project-name}-merge-docker-{arch}'
+      - '{project-name}-{type}-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
+    type: 'merge'
     branch: master
+    scm-type: '-merge'
     arch: 'x86_64'
     build-node: 'hyp-x'
-
+    comment1: ''
+    comment2: 'remerge'
+    trigger-type: 'merged'
+    ref_spec: 'refs/heads/$GERRIT_BRANCH'
 
 ####
-# fabric-baseimage release jobs on x,p and z arch
+# fabric-baseimage release jobs on x and z arch
 # These jobs triggers on gerrit "ref-updated" event
 ####
 
 - project:
-    name: fabric-baseimage-release-s390x
+    name: fabric-baseimage-s390x-release-jobs
     jobs:
       - '{project-name}-{arch}-release-jobs'
 
@@ -73,7 +94,7 @@
     build-node: 'hyp-z'
 
 - project:
-    name: fabric-baseimage-release-x86_64
+    name: fabric-baseimage-x86_64-release-jobs
     jobs:
       - '{project-name}-{arch}-release-jobs'
 
@@ -82,83 +103,3 @@
     branch: master
     arch: 'x86_64'
     build-node: 'hyp-x'
-
-####
-# fabric-baseimage thirdparty (kafka, couch and zookeeper) image release jobs on x, p and z arch
-# These jobs are triggered on gerrit "ref-updated" event
-###
-
-- project:
-    name: fabric-baseimage-thirdparty-release-s390x
-    jobs:
-      - '{project-name}-{arch}-thirdparty-image-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 's390x'
-    build-node: 'hyp-z'
-
-- project:
-    name: fabric-baseimage-thirdparty-release-x86_64
-    jobs:
-      - '{project-name}-{arch}-thirdparty-image-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'x86_64'
-    build-node: 'hyp-x'
-
-####
-# fabric-baseimage release jobs on x,p and z arch
-# These jobs are triggered on gerrit "ref-updated" event
-###
-
-- project:
-    name: fabric-baseimage-nexus-release-s390x
-    jobs:
-      - '{project-name}-{arch}-nexus-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 's390x'
-    build-node: 'hyp-z'
-    mvn-settings: 'fabric-settings'
-
-- project:
-    name: fabric-baseimage-nexus-release-x86_64
-    jobs:
-      - '{project-name}-{arch}-nexus-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'x86_64'
-    build-node: 'hyp-x'
-    mvn-settings: 'fabric-settings'
-
-- project:
-    name: fabric-thirdparty-images-nexus-release-s390x
-    jobs:
-      - '{project-name}-{arch}-thirdparty-image-nexus-release-job'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 's390x'
-    build-node: 'hyp-z'
-    mvn-settings: 'fabric-settings'
-
-- project:
-    name: fabric-thirdparty-images-nexus-release-x86_64
-    jobs:
-      - '{project-name}-{arch}-thirdparty-image-nexus-release-job'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 'x86_64'
-    build-node: 'hyp-x'
-    mvn-settings: 'fabric-settings'
