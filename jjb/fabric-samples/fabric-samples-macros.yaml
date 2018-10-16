@@ -8,12 +8,6 @@
           !include-raw: shell/include-raw-fabric-samples-byfn-e2e.sh
 
 - builder:
-    name: fabric-byfn-smoke-tests
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-samples-byfn-smoke.sh
-
-- builder:
     name: fabric-upgrade-test
     builders:
       - shell:
