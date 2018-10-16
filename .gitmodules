@@ -1,5 +1,5 @@
 [submodule "jjb/global-jjb"]
-	path = jjb/global-jjb
+	path = global-jjb
 	url = https://github.com/lfit/releng-global-jjb
 [submodule "lf-ansible"]
 	path = lf-ansible

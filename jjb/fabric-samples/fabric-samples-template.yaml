@@ -21,7 +21,9 @@
             shallow-clone: true
             refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
             wipe-workspace: true
-            clean: true
+            clean:
+              before: false
+              after: true
             branches:
               - '$GERRIT_REFSPEC'
 
@@ -62,7 +64,9 @@
             url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
             refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
             wipe-workspace: true
-            clean: true
+            clean:
+              before: false
+              after: true
             branches:
               - '$GERRIT_REFSPEC'
 

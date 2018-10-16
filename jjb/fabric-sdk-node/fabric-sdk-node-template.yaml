@@ -174,7 +174,7 @@
     properties:
       - 'fabric-go-{arch}'
 
-    logrotate:
+    build-discarder:
       daysToKeep: 7
       artifactDaysToKeep: 7
 

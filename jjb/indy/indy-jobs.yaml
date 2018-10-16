@@ -6,8 +6,7 @@
     # TODO JJB support for pipeline project (expected in v.2.0.0)
     # workaround: workflow with dummy dsl and pipeline-scm as raw xml
 
-    # project-type: pipeline
-    project-type: workflow
+    project-type: pipeline
     concurrent: true
 
     sandbox: true
