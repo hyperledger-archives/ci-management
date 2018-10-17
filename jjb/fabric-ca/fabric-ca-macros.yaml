@@ -24,12 +24,6 @@
           cd gopath/src/github.com/hyperledger/fabric-ca && make ci-tests
 
 - builder:
-    name: fabric-ca-nightly-publish
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-ca-nightly-publish.sh
-
-- builder:
     name: push-fabric-ca-binaries
     builders:
       - shell:
