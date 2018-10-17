@@ -3,8 +3,6 @@
     name: cello-jobs
     jobs:
       - 'cello-verify-{arch}'
-      - 'cello-release-s390x'
-      - 'cello-release-ppc64le'
 
     project: 'cello'
     arch:
@@ -57,16 +55,17 @@
       - archive-artifacts:
           artifacts: '.tox/**/*.log'
 
-# s390x Release job
+# s390x and ppc64le Release job template
+
 - job-template:
-    name: 'cello-release-s390x'
+    name: '{project-name}-release-{arch}'
 
     project-type: freestyle
-    node: 'hyp-z'
+    node: 'hyp-{node}'
     concurrent: true
 
     properties:
-      - 'cello-s390x'
+      - 'cello-{arch}'
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -94,52 +93,6 @@
           timeout: '40'
 
     builders:
-      - verify-commit-message
-      - shell: |
-         #!/bin/bash -exu
-         make docker
-         make install
-
-    publishers:
-      - lf-infra-publish
-
-# ppc64le Release job
-- job-template:
-    name: 'cello-release-ppc64le'
-
-    project-type: freestyle
-    node: 'hyp-p'
-    concurrent: true
-
-    properties:
-      - 'cello-ppc64le'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-tag:
-          name: '{project}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '40'
-
-    builders:
-      - verify-commit-message
       - shell: |
          #!/bin/bash -exu
          make docker
