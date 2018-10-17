@@ -247,6 +247,11 @@
       - shell: !include-raw: jjb/fabric/shell/fabric-build-script.sh
 
 - builder:
+    name: publish-nexus-images
+    builders:
+      - shell: !include-raw: shell/include-raw-fabric-publish-nexus-images.sh
+
+- builder:
     name: publish-docker-images
     builders:
       - shell: !include-raw: shell/include-raw-fabric-publish-docker-images.sh
