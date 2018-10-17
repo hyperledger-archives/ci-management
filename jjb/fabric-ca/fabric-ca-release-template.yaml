@@ -33,8 +33,9 @@
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
-      - docker-login
       - fabric-ca-image-release
+      - docker-login
+      - fabric-ca-nexus-docker-release
 
     publishers:
       - lf-infra-publish

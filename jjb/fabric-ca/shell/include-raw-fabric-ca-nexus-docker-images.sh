@@ -11,42 +11,51 @@
 ##############################################################################
 set -o pipefail
 
-# Build fabric-ca images
-cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca || exit
-
-# Publish fabric-ca docker images
-NEXUS_URL=nexus3.hyperledger.org:10002
-# get the GOARCH value (ex: amd64, s390x)
-ARCH=$(dpkg --print-architecture)
+ORG_NAME="hyperledger/fabric"
+NEXUS_REPO_URL=nexus3.hyperledger.org:10002
 # PUSH_VERSION comes from Jenkins environment variable
-echo "================="
-echo "-------> BUILD DOCKER IMAGES <---------"
-make docker PROJECT_VERSION=$PUSH_VERSION
-if [ $? != 0 ]; then
-     echo "--------> make docker failed"
-     exit 1
-fi
-
-# List all docker images
-docker images
-
 if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
-     ARCH=x86_64
+      ARCH=x86_64
+      export ARCH
+      echo "----------> ARCH:" $ARCH
 else
-     ARCH=$(dpkg --print-architecture) # amd64, s390x
-     echo "----------> ARCH:" $ARCH
+      ARCH=$(dpkg --print-architecture) # amd64, s390x
+      export ARCH
+      echo "----------> ARCH:" $ARCH
 fi
 
-# publish fabric-ca docker images from release-1.0
-if [ "$GERRIT_BRANCH" = "release-1.0" ]; then
-     docker tag hyperledger/fabric-ca:$ARCH-$PUSH_VERSION $NEXUS_URL/hyperledger/fabric-ca:$ARCH-$PUSH_VERSION
-     docker push $NEXUS_URL/hyperledger/fabric-ca:$ARCH-$PUSH_VERSION
-     echo "--------> Push fabric-ca Image version:" $NEXUS_URL/hyperledger/fabric-ca:$ARCH-$PUSH_VERSION
-else
-# publish fabric-ca docker images otherthan release-1.0 branch
-     for IMAGES in ca ca-peer ca-tools ca-orderer; do
-          docker tag hyperledger/fabric-$IMAGES:$ARCH-$PUSH_VERSION $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$PUSH_VERSION
-          docker push $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$PUSH_VERSION
-          echo "--------> Push fabric-ca Image version:" $NEXUS_URL/hyperledger/fabric-$IMAGES:$ARCH-$PUSH_VERSION
-     done
-fi
+# tag fabric-ca images
+
+dockerCaTag() {
+  for IMAGES in ${IMAGES_LIST[*]}; do
+    docker tag $ORG_NAME-$IMAGES:$ARCH-$1 $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1
+    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1"
+  done
+}
+# Push fabric-ca images to nexusrepo
+
+dockerCaPush() {
+  for IMAGES in ${IMAGES_LIST[*]}; do
+    docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1
+    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1"
+  done
+}
+
+if [ "$GERRIT_BRANCH" = "release-1.1" ] || [ "$GERRIT_BRANCH" = "release-1.2" ]; then
+    IMAGES_LIST=(ca ca-peer ca-tools ca-orderer)
+    # Tag & Push Fabric Docker Images to Nexus Repository
+    echo "==== Tag Images ===="
+    dockerCaTag $PUSH_VERSION
+    echo "==== Push Images to Nexus ===="
+    dockerCaPush $PUSH_VERSION
+ else
+    IMAGES_LIST=(ca)
+    # Tag & Push Fabric Docker Images to Nexus Repository
+    echo "==== Tag Images ===="
+    dockerCaTag $PUSH_VERSION
+    echo "==== Push Images to Nexus ===="
+    dockerCaPush $PUSH_VERSION
+ fi
+
+# Listout all docker images Before and After Push to NEXUS
+docker images | grep "nexus*"

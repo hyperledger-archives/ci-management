@@ -38,9 +38,6 @@ exportGo () {
  export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
  export PATH=$GOROOT/bin:$PATH
  echo "------> GO_VER" $GO_VER
- # Get ARCH value
- ARCH=$(go env GOARCH)
- echo "------> ARCH" $ARCH
 }
 
 #Build fabric-ca images
@@ -54,10 +51,20 @@ dockerCaPush() {
    clone_Fabric_ca
    # export go
    exportGo
+   if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
+         ARCH=x86_64
+         export ARCH
+         echo "----------> ARCH:" $ARCH
+   else
+         ARCH=$(dpkg --print-architecture) # amd64, s390x
+         export ARCH
+         echo "----------> ARCH:" $ARCH
+   fi
+
    # Call to build fabric-ca images
    docker_Build_ca-Images
    # shellcheck disable=SC2043
-   for IMAGES in ${IMAGES_LIST[*]}; do
+  for IMAGES in ${IMAGES_LIST[*]}; do
     # Tag ca images
     docker tag $ORG_NAME-$IMAGES $ORG_NAME-$IMAGES:$ARCH-$1
     echo "==> $IMAGES"
@@ -71,7 +78,7 @@ dockerCaPush() {
 # list docker images
 docker images | grep hyperledger
 
- if [[ "$GERRIT_BRANCH" = "release-1.1" || "$GERRIT_BRANCH" = "release-1.2" ]]; then
+ if [ "$GERRIT_BRANCH" = "release-1.1" ] || [ "$GERRIT_BRANCH" = "release-1.2" ]; then
     # Images list
     IMAGES_LIST=(ca ca-peer ca-tools ca-orderer)
     # Push Fabric Docker Images to hyperledger dockerhub Repository

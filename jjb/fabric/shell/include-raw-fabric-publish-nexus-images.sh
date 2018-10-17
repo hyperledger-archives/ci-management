@@ -13,7 +13,15 @@ set -o pipefail
 
 ORG_NAME="hyperledger/fabric"
 NEXUS_REPO_URL=nexus3.hyperledger.org:10002
-
+if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
+      ARCH=x86_64
+      export ARCH
+      echo "----------> ARCH:" $ARCH
+else
+      ARCH=$(dpkg --print-architecture) # amd64, s390x
+      export ARCH
+      echo "----------> ARCH:" $ARCH
+fi
 # tag fabric images to nexusrepo
 
 dockerTag() {

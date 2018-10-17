@@ -25,8 +25,6 @@ exportGo() {
   export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
   export PATH=$GOROOT/bin:$PATH
   echo "------> GO_VER" $GO_VER
-  ARCH=$(go env GOARCH)
-  echo "------> ARCH" $ARCH
 }
 
 # Build fabric images
@@ -40,6 +38,15 @@ docker_Fabric_Push() {
    clone_Fabric
    # export go
    exportGo
+   if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
+         ARCH=x86_64
+         export ARCH
+         echo "----------> ARCH:" $ARCH
+   else
+         ARCH=$(dpkg --print-architecture) # amd64, s390x
+         export ARCH
+         echo "----------> ARCH:" $ARCH
+   fi
    # Call to build fabric images
    docker_Build_Images
    # shellcheck disable=SC2043
@@ -98,12 +105,12 @@ publish_Binary() {
 if [[ "$ARCH" = "amd64" ]]; then
    if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
       # platform list
-      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x)
+      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x linux-ppc64le)
       publish_Binary $PUSH_VERSION
       echo "------> Publishing binaries from $GERRIT_BRANCH"
    else
       # platform list
-      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x linux-ppc64le)
+      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x)
       publish_Binary $PUSH_VERSION
       # Provide value to PUSH_VERSION from Jenkins parameter.
    fi
