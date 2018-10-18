@@ -60,9 +60,13 @@ if [[ "$GERRIT_BRANCH" = "release-1.0" || "$GERRIT_BRANCH" = "release-1.1" ]]; t
         make $IMAGES || err_Check "make $IMAGES failed"
      done
         echo
-        echo "-------> Pull couchdb image"
-        PREV_VERSION=`cat Makefile | grep BASEIMAGE_RELEASE= | awk -F= '{print $NF}'`
+if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
+        PREV_VERSION=`cat Makefile | grep "PREV_VERSION =" | awk -F= '{print $NF}' | tr -d '[:space:]'`
         echo "---------> PREV_VERSION: $PREV_VERSION"
+elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then
+        PREV_VERSION=`cat Makefile | grep BASEIMAGE_RELEASE= | awk -F= '{print $NF}'`
+         echo "---------> PREV_VERSION: $PREV_VERSION"
+fi
         docker pull hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION
         docker tag hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION hyperledger/fabric-couchdb
         echo "-----> Docker Images List"
