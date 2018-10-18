@@ -146,7 +146,10 @@ elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then # release-1.1 branch
         make $IMAGES || err_Check "make $IMAGES failed"
      done
         echo
-        docker images | grep hyperledger
+         PREV_VERSION=`cat Makefile | grep BASEIMAGE_RELEASE= | awk -F= '{print $NF}'`
+         docker pull hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION
+         docker tag hyperledger/fabric-couchdb:$ARCH-$PREV_VERSION hyperledger/fabric-couchdb
+         docker images | grep hyperledger
 else
      for IMAGES in peer-docker orderer-docker ccenv; do
          make $IMAGES || err_Check "make $IMAGES failed"
