@@ -18,9 +18,9 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: ''
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: '{ref_spec}'
 
     scm:
       - gerrit-trigger-scm:
@@ -72,9 +72,9 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: ''
       - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
+          refspec: '{ref_spec}'
       - stable-version:
           pull-version: '{stable-version}'
 
