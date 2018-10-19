@@ -108,6 +108,12 @@ deb_install_go() {
     gimme 1.11.1 /opt/go
 }
 
+deb_docker_clean_images() {
+    echo "---> Cleaning docker images"
+    docker rmi -f "$(docker images -aq)"
+    docker images
+}
+
 deb_docker_pull_baseimage() {
     echo "---> Pulling Fabric Baseimage & thirdparty images"
 
@@ -303,6 +309,7 @@ ubuntu_changes() {
     deb_install_node
     deb_install_softhsm
     deb_update_alternatives
+    deb_docker_clean_images
     deb_docker_pull_baseimage
     deb_docker_pull_celloimage
     deb_docker_fix
