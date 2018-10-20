@@ -1,0 +1,25 @@
+---
+- scm:
+    name: hyperledger-fabric-baseimage-release
+    scm:
+      - git:
+          url: 'git://cloud.hyperledger.org/mirror/fabric-baseimage'
+          branches:
+            - '*/tags/**'
+          wipe-workspace: true
+          credentials-id: 'hyperledger-jobbuilder'
+          refspec: '$GERRIT_REFSPEC'
+
+# Publish thirdparty docker images to Nexus and DockerHub
+- builder:
+    name: fabric-thirdparty-images
+    builders:
+      - shell:
+          !include-raw: include-raw-fabric-thirdparty-images.sh
+
+# Publish tag based multiarch images to nexus and DockerHub
+- builder:
+    name: docker-multiarch
+    builders:
+      - shell:
+          !include-raw: include-raw-docker-multiarch.sh
