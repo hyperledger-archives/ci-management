@@ -2,7 +2,7 @@
 # gerrit changes
 
 - job-template:
-    name: 'fabric-chaincode-java-verify-{branch}-{arch}'
+    name: 'fabric-chaincode-java-verify-{arch}'
 
     project-type: freestyle
     node: 'hyp-{build_node}'
@@ -18,7 +18,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '{ref_spec}'
 
@@ -56,7 +56,7 @@
       - lf-infra-publish
 
 - job-template:
-    name: 'fabric-chaincode-java-merge-{branch}-{arch}'
+    name: 'fabric-chaincode-java-merge-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -72,11 +72,9 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: ''
+          branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '{ref_spec}'
-      - stable-version:
-          pull-version: '{stable-version}'
 
     scm:
       - gerrit-trigger-scm-merge:

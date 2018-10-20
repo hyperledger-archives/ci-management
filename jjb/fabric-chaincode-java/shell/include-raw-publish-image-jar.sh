@@ -18,6 +18,11 @@ set -o pipefail
 ORG_NAME=hyperledger/fabric
 NEXUS_URL=nexus3.hyperledger.org:10003
 TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
+if [ "$GERRIT_BRANCH" = "master" ]; then
+     STABLE_VERSION=1.4.0-stable
+else
+     STABLE_VERSION=1.3.0-stable
+fi
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
 PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")

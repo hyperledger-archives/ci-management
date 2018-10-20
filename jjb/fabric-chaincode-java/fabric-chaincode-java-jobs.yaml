@@ -7,25 +7,12 @@
 #############################################
 
 - project:
-    name: fabric-chaincode-java-verify-master-x86_64
+    name: fabric-chaincode-java-verify-x86_64
     jobs:
-      - 'fabric-chaincode-java-verify-{branch}-{arch}'
+      - 'fabric-chaincode-java-verify-{arch}'
 
     project: fabric-chaincode-java
-    branch: master
-    arch: 'x86_64'
-    build_node: 'x86_64'
-    ref_spec: ''
-    # Increase or Decrease build time
-    build_timeout: 80
-
-- project:
-    name: fabric-chaincode-java-verify-release-1.3-x86_64
-    jobs:
-      - 'fabric-chaincode-java-verify-{branch}-{arch}'
-
-    project: fabric-chaincode-java
-    branch: release-1.3
+    branch: ''
     arch: 'x86_64'
     build_node: 'x86_64'
     ref_spec: ''
@@ -37,31 +24,15 @@
 ############
 
 - project:
-    name: fabric-chaincode-java-merge-master-x86_64
+    name: fabric-chaincode-java-merge-x86_64
     jobs:
-      - 'fabric-chaincode-java-merge-{branch}-{arch}'
+      - 'fabric-chaincode-java-merge-{arch}'
 
     project: fabric-chaincode-java
-    branch: master
+    branch: ''
     arch: 'x86_64'
     build_node: 'x86_64'
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
     # Increase or Decrease build time
     build_timeout: 80
     mvn-settings: 'fabric-chaincode-java-settings'
-    stable-version: 1.4.0-stable
-
-- project:
-    name: fabric-chaincode-java-merge-release-1.3-x86_64
-    jobs:
-      - 'fabric-chaincode-java-merge-{branch}-{arch}'
-
-    project: fabric-chaincode-java
-    branch: release-1.3
-    arch: 'x86_64'
-    build_node: 'x86_64'
-    ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    # Increase or Decrease build time
-    build_timeout: 80
-    mvn-settings: 'fabric-chaincode-java-settings'
-    stable-version: 1.3.0-stable
