@@ -10,7 +10,7 @@
     mvn-settings: 'fabric-settings'
 
 - job-template:
-    name: 'fabric-samples-verify-byfn-{branch}'
+    name: 'fabric-samples-verify-byfn'
     project-type: pipeline
     pipeline-scm:
       script-path: Jenkinsfile
@@ -50,10 +50,10 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '30'
+          timeout: '{build_timeout}'
 
 - job-template:
-    name: 'fabric-samples-merge-byfn-{branch}'
+    name: 'fabric-samples-merge-byfn'
     project-type: pipeline
     pipeline-scm:
       script-path: Jenkinsfile
@@ -93,103 +93,7 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '30'
-
-- job-template:
-    name: '{project-name}-verify-byfn-{branch}'
-
-    project-type: freestyle
-    node: 'hyp-{build_node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: '{branch}'
-          trigger-comment1: '{comment1}'
-          trigger-comment2: '{comment2}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
           timeout: '{build_timeout}'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - build-docker-images
-      - fabric-byfn-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-
-- job-template:
-    name: '{project-name}-merge-byfn-{branch}'
-
-    project-type: freestyle
-    node: 'hyp-{build_node}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: '{branch}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '{build_timeout}'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - build-docker-images
-      - fabric-byfn-tests
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-byfn-upgrade-test-weekly-{arch}'
