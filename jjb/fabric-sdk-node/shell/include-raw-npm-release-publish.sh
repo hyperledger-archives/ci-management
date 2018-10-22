@@ -49,3 +49,9 @@ npmPublish fabric-ca-client
 cd ../fabric-client
 versions
 npmPublish fabric-client
+
+if [ -d "../fabric-common" ]; then
+  cd ../fabric-common
+  versions
+  npmPublish fabric-common
+fi

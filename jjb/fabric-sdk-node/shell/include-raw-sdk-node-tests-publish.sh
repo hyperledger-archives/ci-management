@@ -306,4 +306,10 @@ else
      npmPublish fabric-network
    fi
 
+   if [ -d "../fabric-common" ]; then
+     cd ../fabric-common
+     versions
+     npmPublish fabric-common
+   fi
+
 fi
