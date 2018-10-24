@@ -39,8 +39,8 @@
     builders:
       - clean-environment
       - output-environment
-      - shell:
-          for IMAGES in docker dpendent-images; do
+      - shell: |
+          for IMAGES in docker dependent-images; do
           make $IMAGES
             if [ $? != 0 ]; then
              echo "----------> make $IMAGES failed"
