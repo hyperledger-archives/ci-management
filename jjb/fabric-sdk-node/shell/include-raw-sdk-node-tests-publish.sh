@@ -80,39 +80,35 @@ export_Go
 
 npmPublish() {
   if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]]; then
+: '
     echo
-    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/'{
+    UNSTABLE_VER=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/{
     ver=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
-    print ver}')
+    print ver})
     echo "===> UNSTABLE VERSION --> $UNSTABLE_VER"
 
     # Get the unstable version of $CURRNT_TAG from npm
-    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/'{
+    UNSTABLE_INCREMENT=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/{
     ver=$NF
     rel=$NF
     sub(/.*\./,"",rel)
     sub(/\.[[:digit:]]+$/,"",ver)
-    print ver"."rel+1}')
+    print ver"."rel+1})
 
     # Get last digit of the unstable version of $CURRENT_TAG
-    UNSTABLE_INCREMENT=$(echo $UNSTABLE_INCREMENT| rev | cut -d '.' -f 1 | rev)
     echo "--------> UNSTABLE_INCREMENT : $UNSTABLE_INCREMENT"
 
     # Append last digit with the package.json version
     export UNSTABLE_INCREMENT_VERSION=$RELEASE_VERSION.$UNSTABLE_INCREMENT
     echo "--------> UNSTABLE_INCREMENT_VERSION" $UNSTABLE_INCREMENT_VERSION
 
-    if [ "$1" = "fabric-network" ]; then
-      sed -i 's/\(.*\"fabric-client\"\: \"\)\(.*\)/\1'$CLIENT_VER\"\,'/' package.json
-      sed -i 's/\(.*\"fabric-ca-client\"\: \"\)\(.*\)/\1'$CA_CLIENT_VER\"\,'/' package.json
-    fi
-
+'
+UNSTABLE_INCREMENT_VERSION=1.4.0-snapshot.86
     # Replace existing version with $UNSTABLE_INCREMENT_VERSION
     sed -i 's/\(.*\"version\"\: \"\)\(.*\)/\1'$UNSTABLE_INCREMENT_VERSION\"\,'/' package.json
     npm publish --tag $CURRENT_TAG
-    PUBLISHED_VER=$UNSTABLE_INCREMENT_VERSION
 
  else
       echo "----> Publish $CURRENT_TAG from fabric-sdk-node-npm-release-x86_64"
@@ -289,7 +285,7 @@ else
    echo "----> Publish npm node modules from $ARCH <----"
    cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
    npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-
+: '
    cd fabric-ca-client
    versions
    npmPublish fabric-ca-client
@@ -305,9 +301,9 @@ else
      versions
      npmPublish fabric-network
    fi
-
-   if [ -d "../fabric-common" ]; then
-     cd ../fabric-common
+'
+   if [ -d "fabric-common" ]; then
+     cd fabric-common
      versions
      npmPublish fabric-common
    fi
