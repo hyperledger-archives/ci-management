@@ -80,7 +80,9 @@ export_Go
 ############################
 
 npmPublish() {
-  if [[ "$CURRENT_TAG" = *"unstable"* ]] || [[ "$CURRENT_TAG" = *"skip"* ]]; then
+if [[ "$CURRENT_TAG" = *"skip"* ]]; then
+   echo "----> Don't publish npm modules on skip tag"
+ elif [[ "$CURRENT_TAG" = *"unstable"* ]]; then
     echo
     UNSTABLE_VER=$(npm dist-tags ls "$1" | awk "/$CURRENT_TAG"":"/'{
     ver=$NF
@@ -111,7 +113,7 @@ npmPublish() {
 
  else
       echo "----> Publish $CURRENT_TAG from fabric-sdk-node-npm-release-x86_64"
-  fi
+fi
 }
 
 ##########################

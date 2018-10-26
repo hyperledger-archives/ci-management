@@ -297,7 +297,7 @@
 
     project: fabric-sdk-node
     project-name: fabric-sdk-node
-    branch: master
+    branch: ''
     build_timeout: 60
     arch: 'x86_64'
 

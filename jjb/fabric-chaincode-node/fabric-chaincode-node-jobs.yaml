@@ -233,7 +233,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
+          branch: ''
       - gerrit-refspec-parameter:
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
 
