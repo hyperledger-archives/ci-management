@@ -106,12 +106,7 @@ Step 2: Executes the e2e tests:
 
 Below are the tests triggers in Fabric-ca e2e job:
 
-1. e2e-cli - Runs fabric/examples/e2e_cli tests.
-
-   -  Executes the network_setup.sh that spins up the network with
-      docker-compose file from fabric/examples/e2e_cli folder.
-
-2. e2e-node - Runs the sdk-node e2e tests (Executes **gulp test**
+1. e2e-node - Runs the sdk-node e2e tests (Executes **gulp test**
    command).
 
    -  Clones fabric-sdk-node repository and will checkout to Branch
@@ -121,7 +116,7 @@ Below are the tests triggers in Fabric-ca e2e job:
    -  run
       ``istanbul cover --report cobertura test/integration/e2e.js``
 
-3. e2e-java - Runs e2e java integration tests.
+2. e2e-java - Runs e2e java integration tests.
 
    -  If the patchset is on release-1.0 branch, we ignore java e2e
       tests for now.

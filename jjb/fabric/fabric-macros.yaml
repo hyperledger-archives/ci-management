@@ -298,12 +298,6 @@
           !include-raw: shell/include-raw-FIT-dockerimages.sh
 
 - builder:
-    name: end-to-end-CLI
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-FIT-CLI-e2e.sh
-
-- builder:
     name: end-to-end-NODE
     builders:
       - shell:

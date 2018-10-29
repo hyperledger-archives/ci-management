@@ -53,7 +53,6 @@
       - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
-      - end-to-end-CLI
       - end-to-end-NODE
       - end-to-end-JAVA
       - end-to-end-BYFN

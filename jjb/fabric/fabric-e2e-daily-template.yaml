@@ -38,7 +38,6 @@
       - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
-      - end-to-end-CLI
       - clone-fabric-samples
       - fabric-byfn-tests
       - end-to-end-NODE

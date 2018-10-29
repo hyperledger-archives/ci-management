@@ -46,8 +46,8 @@ to ensure that the newly published images and binaries are available.
 - Verify that the fabric and fabric-ca documentation (RTD) is pointing to the
 right release.
 
-- Execute the e2e_byfn, fabric-ca samples, fab car, balance transfer and e2e_cli
-tests across all of the supported platforms.
+- Execute the e2e_byfn, fabric-ca samples, fab car and balance transfer tests
+across all of the supported platforms.
 
 ### Step 4: Release Announcement
 

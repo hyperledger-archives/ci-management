@@ -73,7 +73,7 @@ Supported test types
 Additionally with most job types, you will notice the Jenkins jobs are further isolated to include
 a number of test types. Those include:
 
-    - End-to-End tests (e2e_cli, java sdk e2e, node sdk e2e)
+    - End-to-End tests (java sdk e2e, node sdk e2e)
     - BYFN tests (fabca-samples, byfn, eyfn with default, custom channels,
       couchdb, node lang chaincode)
     - Unit tests (linter, spelling, license etc..)
