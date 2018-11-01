@@ -42,6 +42,7 @@ versions() {
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-node
 npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
 
+: '
 cd fabric-ca-client
 versions
 npmPublish fabric-ca-client
@@ -55,3 +56,8 @@ if [ -d "../fabric-common" ]; then
   versions
   npmPublish fabric-common
 fi
+'
+cd fabric-network
+versions
+npmPublish fabric-network
+
