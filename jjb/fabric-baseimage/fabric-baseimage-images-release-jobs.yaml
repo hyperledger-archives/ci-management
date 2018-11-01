@@ -7,11 +7,10 @@
 - project:
     name: fabric-baseimage-verify-docker-s390x
     jobs:
-      - '{project-name}-{type}-docker-{arch}'
+      - '{project-name}-verify-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
-    type: 'verify'
     branch: master
     scm-type: ''
     arch: 's390x'
@@ -24,11 +23,10 @@
 - project:
     name: fabric-baseimage-verify-docker-x86_64
     jobs:
-      - '{project-name}-{type}-docker-{arch}'
+      - '{project-name}-verify-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
-    type: 'verify'
     branch: master
     scm-type: ''
     arch: 'x86_64'
@@ -46,11 +44,10 @@
 - project:
     name: fabric-baseimage-merge-docker-s390x
     jobs:
-      - '{project-name}-{type}-docker-{arch}'
+      - '{project-name}-merge-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
-    type: 'merge'
     branch: master
     scm-type: '-merge'
     arch: 's390x'
@@ -63,11 +60,10 @@
 - project:
     name: fabric-baseimage-merge-docker-x86_64
     jobs:
-      - '{project-name}-{type}-docker-{arch}'
+      - '{project-name}-merge-docker-{arch}'
 
     project: fabric-baseimage
     project-name: fabric-baseimage
-    type: 'merge'
     branch: master
     scm-type: '-merge'
     arch: 'x86_64'
