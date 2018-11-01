@@ -15,7 +15,7 @@
 TEST_TYPE=(behave ca pte lte ote)
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do
-    curl -f -s -C - https://jenkins.hyperledger.org/view/fabric-test/job/fabric-test-daily-${TEST_TYPE}-master-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip* -o ${TEST_TYPE}-daily.zip
+    curl -f -s -C - https://jenkins.hyperledger.org/view/fabric-test/job/fabric-test-daily-${TEST_TYPE}-$GERRIT_BRANCH-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip* -o ${TEST_TYPE}-daily.zip
     result=$?
 
     if [ $result -eq 0 ]; then

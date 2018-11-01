@@ -4,7 +4,8 @@
     jobs:
       - 'fabric-test-verify-{arch}'
       - 'fabric-test-merge-{arch}'
-      - 'fabric-test-daily-results-{arch}'
+      - 'fabric-test-daily-results-master-{arch}'
+      - 'fabric-test-daily-results-release-1.3-{arch}'
       - 'fabric-test-svt-weekly-pte-{arch}'
 
     project: 'fabric-test'
@@ -209,6 +210,8 @@
 
     wrappers:
       - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '840'
 
     builders:
       - verify-commit-message
@@ -247,7 +250,7 @@
           developer-email: 'developers'
 
 - job-template:
-    name: 'fabric-test-daily-results-{arch}'
+    name: 'fabric-test-daily-results-master-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -264,6 +267,46 @@
           project: '{project}'
       - gerrit-parameter:
           branch: 'master'
+
+    triggers:
+      - timed: 'H 13 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '10'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - fabric-test-daily-report
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+- job-template:
+    name: 'fabric-test-daily-results-release-1.3-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'release-1.3'
 
     triggers:
       - timed: 'H 13 * * *'
