@@ -1,166 +1,39 @@
 ---
-###
-# fabric-samples verify jobs on x
-# These jobs triggers on gerrit "patchset created" event
-###
+############################
+# Pipeline Job Configuration
+############################
 
-##############
-# Verify Jobs
-##############
-
+############
+# Verify Job
+############
 - project:
-    name: fabric-samples-verify-byfn-release-1.1
+    name: fabric-samples-verify-byfn
     jobs:
-      - '{project-name}-verify-byfn-{branch}'
+      - 'fabric-samples-verify-byfn'
 
     project: fabric-samples
     project-name: fabric-samples
-    branch: release-1.1
+    branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: 'reverify-x'
+    comment1: ''
     comment2: 'reverify$'
     build_timeout: 60
 
+###########
+# Merge Job
+###########
+
 - project:
-    name: fabric-samples-verify-byfn-release-1.0
+    name: fabric-samples-merge-byfn
     jobs:
-      - '{project-name}-verify-byfn-{branch}'
+      - 'fabric-samples-merge-byfn'
 
     project: fabric-samples
     project-name: fabric-samples
-    branch: release-1.0
+    branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-- project:
-    name: fabric-samples-verify-byfn-release-1.3
-    jobs:
-      - '{project-name}-verify-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.3
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-################
-# Merge Jobs
-################
-
-- project:
-    name: fabric-samples-merge-byfn-release-1.1
-    jobs:
-      - '{project-name}-merge-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.1
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-- project:
-    name: fabric-samples-merge-byfn-release-1.0
-    jobs:
-      - '{project-name}-merge-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.0
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-- project:
-    name: fabric-samples-merge-byfn-release-1.3
-    jobs:
-      - '{project-name}-merge-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.3
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-#####################################################
-# Pipeline Job Configuration for master, release-1.2
-####################################################
-
-#############
-# release-1.2
-#############
-
-- project:
-    name: fabric-samples-verify-byfn-release-1.2
-    jobs:
-      - 'fabric-samples-verify-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.2
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-
-- project:
-    name: fabric-samples-merge-byfn-release-1.2
-    jobs:
-      - 'fabric-samples-merge-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: release-1.2
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'remerge-x$'
-    comment2: 'remerge$'
-    build_timeout: 60
-
-#################
-# master
-#################
-
-- project:
-    name: fabric-samples-verify-byfn-master
-    jobs:
-      - 'fabric-samples-verify-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: master
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 60
-
-- project:
-    name: fabric-samples-merge-byfn-master
-    jobs:
-      - 'fabric-samples-merge-byfn-{branch}'
-
-    project: fabric-samples
-    project-name: fabric-samples
-    branch: master
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'remerge-x$'
+    comment1: ''
     comment2: 'remerge$'
     build_timeout: 60
