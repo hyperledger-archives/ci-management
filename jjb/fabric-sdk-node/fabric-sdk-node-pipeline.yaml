@@ -1,0 +1,155 @@
+---
+- job-group:
+    name: '{project-name}-pipeline-jobs'
+
+    jobs:
+      - fab-sdk-node-pipeline-verify
+      - fab-sdk-node-pipeline-merge
+
+###########
+# Pipeline
+###########
+
+- sdk_node_pipeline_common: &sdk_node_pipeline_common
+    name: sdk-node-pipeline-common
+
+    project-type: pipeline
+    pipeline-scm:
+      script-path: '{jenkins_file}'
+      scm:
+        - git:
+            credentials-id: 'hyperledger-jobbuilder'
+            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
+            shallow-clone: true
+            refspec: '{src_code}'
+            wipe-workspace: true
+            clean: true
+            branches:
+              - '{src_branch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '{refspec}'
+
+    properties:
+      - build-discarder:
+          days-to-keep: '{log_days}'
+          artifact-days-to-keep: '{log_days}'
+
+    triggers:
+      - gerrit-trigger-patch-{trigger_type}:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build_timeout}'
+
+#############
+# Verify Job
+#############
+
+- job-template:
+    name: '{project}-verify-{arch}'
+    id: fab-sdk-node-pipeline-verify
+    <<: *sdk_node_pipeline_common
+
+############
+# Merge job
+############
+
+- job-template:
+    name: '{project}-merge-{arch}'
+    id: fab-sdk-node-pipeline-merge
+    <<: *sdk_node_pipeline_common
+
+##########################
+# Verify Job Configuration
+##########################
+
+- project:
+    name: fabric-sdk-node-verify-x86_64
+    jobs:
+      - fab-sdk-node-pipeline-verify
+
+    project: fabric-sdk-node
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+    trigger_type: submitted
+    log_days: 7
+    jenkins_file: Jenkinsfile.x
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+- project:
+    name: fabric-sdk-node-verify-s390x
+    jobs:
+      - fab-sdk-node-pipeline-verify
+
+    project: fabric-sdk-node
+    branch: ''
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'reverify-z$'
+    comment2: 'reverify$'
+    build_timeout: 60
+    trigger_type: submitted
+    log_days: 7
+    jenkins_file: Jenkinsfile.z
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+#########################
+# Merge Job Configuration
+#########################
+
+- project:
+    name: fabric-sdk-node-merge-s390x
+    jobs:
+      - fab-sdk-node-pipeline-merge
+
+    project: fabric-sdk-node
+    branch: ''
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'remerge-z$'
+    comment2: 'remerge$'
+    build_timeout: 60
+    trigger_type: merged
+    log_days: 7
+    jenkins_file: Jenkinsfile.z
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'
+
+- project:
+    name: fabric-sdk-node-merge-x86_64
+    jobs:
+      - fab-sdk-node-pipeline-merge
+
+    project: fabric-sdk-node
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    build_timeout: 60
+    trigger_type: merged
+    log_days: 7
+    jenkins_file: Jenkinsfile.z
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'
