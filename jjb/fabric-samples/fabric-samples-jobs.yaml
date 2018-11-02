@@ -16,7 +16,7 @@
     branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: ''
+    comment1: 'reverify-x$'
     comment2: 'reverify$'
     build_timeout: 60
 
@@ -34,6 +34,6 @@
     branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: ''
+    comment1: 'remerge-x$'
     comment2: 'remerge$'
     build_timeout: 60

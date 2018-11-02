@@ -72,26 +72,15 @@ patch set’s parent commit which may or may not be the latest commit on
 
 .. figure:: ./images/SDK.png
    :alt: Views
-   
+
    Views
 
 The following verify jobs and merge jobs are triggered for sdk-node respectively for the {arch}:
 
-`fabric-sdk-node8-verify-master-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-master-x86_64/>`__
-
-`fabric-sdk-node6-verify-release-1.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-verify-release-1.0-x86_64/>`__
-
-`fabric-sdk-node8-verify-release-1.1-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-release-1.1-x86_64/>`__
-
-`fabric-sdk-node8-verify-release-1.2-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-verify-release-1.2-x86_64/>`__
-
-`fabric-sdk-node8-merge-master-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-master-x86_64/>`__
-
-`fabric-sdk-node6-merge-release-1.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node6-merge-release-1.0-x86_64/>`__
-
-`fabric-sdk-node8-merge-release-1.1-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-release-1.1-x86_64/>`__
-
-`fabric-sdk-node8-merge-release-1.2-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-node/job/fabric-sdk-node8-merge-release-1.2-x86_64/>`__
+fabric-sdk-node-verify-x86_64
+fabric-sdk-node-verify-s390x
+fabric-sdk-node-merge-x86_64
+fabric-sdk-node-merge-s390x
 
 The above jobs are triggered for the x86_64, and this is same for s390x too,
 
@@ -127,7 +116,7 @@ file to spinup the network from /test/fixtures directory.
 
 Step 3: - After the network is up, install the nodejs version based on
 the Job we are running. If the job name says
-``fabric-sdk-node8-verify-x86_64``, script installs nodejs version
+``fabric-sdk-node-verify-x86_64``, script installs nodejs version
 ``8.9.4`` in x86_64 build machine
 
 Step 4: - After the nodejs version installed, CI script executes
@@ -234,13 +223,13 @@ In such cases, restarting all the fabric-sdk-node jobs through ``reverify``
 comment is not necessary. Instead, the developer can post below comment to
 trigger the particular failed build:
 
-  ``reverify-node8z``  - to restart the build on sdk-node8-verify s390x platform.
+  ``reverify-z``  - to restart the build on sdk-node-verify s390x platform.
 
-  ``reverify-node8x``  - to restart the build on sdk-node8-verify x86_64 platform.
+  ``reverify-x``  - to restart the build on sdk-node-verify x86_64 platform.
 
-  ``reverify-node6z``  - to restart the build on sdk-node6-verify s390x platform.
+  ``remerge-z``  - to restart the build on sdk-node-verify s390x platform.
 
-  ``reverify-node6x``  - to restart the build on sdk-node6-verify x86_64 platform.
+  ``remerge-x``  - to restart the build on sdk-node-verify x86_64 platform.
 
 Questions
 ~~~~~~~~~
