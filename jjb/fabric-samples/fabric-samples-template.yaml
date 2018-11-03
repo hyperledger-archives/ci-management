@@ -12,6 +12,7 @@
 - job-template:
     name: 'fabric-samples-verify-byfn'
     project-type: pipeline
+    concurrent: true
     pipeline-scm:
       script-path: Jenkinsfile
       scm:
@@ -55,6 +56,7 @@
 - job-template:
     name: 'fabric-samples-merge-byfn'
     project-type: pipeline
+    concurrent: true
     pipeline-scm:
       script-path: Jenkinsfile
       scm:

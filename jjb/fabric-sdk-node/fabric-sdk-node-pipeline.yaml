@@ -14,6 +14,7 @@
     name: sdk-node-pipeline-common
 
     project-type: pipeline
+    concurrent: true
     pipeline-scm:
       script-path: '{jenkins_file}'
       scm:
