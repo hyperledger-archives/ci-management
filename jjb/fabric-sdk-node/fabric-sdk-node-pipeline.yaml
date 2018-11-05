@@ -24,7 +24,9 @@
             shallow-clone: true
             refspec: '{src_code}'
             wipe-workspace: true
-            clean: true
+            clean:
+              before: true
+              after: true
             branches:
               - '{src_branch}'
 
