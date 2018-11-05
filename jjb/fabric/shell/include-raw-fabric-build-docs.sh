@@ -9,7 +9,6 @@
 # which accompanies this distribution, and is available at
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-echo "---> tox-install.sh"
 
 # Ensure we fail the job if any steps fail.
 # DO NOT set -u as virtualenv's activate script has unbound variables
@@ -19,8 +18,9 @@ virtualenv --quiet -p "$PYTHON_VERSION" "/tmp/v/tox"
 # shellcheck source=/tmp/v/tox/bin/activate disable=SC1091
 source "/tmp/v/tox/bin/activate"
 pip install --quiet --upgrade pip setuptools
-pip install --quiet --upgrade argparse detox "tox==2.9.1" tox-pyenv
-
+pip install --quiet --upgrade argparse detox "tox==3.5.0" tox-pyenv
+echo "-------> tox VERSION"
+tox --version
 echo "---> rtd-verify.sh"
 
 # Ensure we fail the job if any steps fail.
