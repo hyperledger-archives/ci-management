@@ -150,7 +150,7 @@
     build_timeout: 60
     trigger_type: merged
     log_days: 7
-    jenkins_file: Jenkinsfile.z
+    jenkins_file: Jenkinsfile.x
     src_branch: 'refs/heads/$GERRIT_BRANCH'
     src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
     refspec: 'refs/heads/$GERRIT_BRANCH'
