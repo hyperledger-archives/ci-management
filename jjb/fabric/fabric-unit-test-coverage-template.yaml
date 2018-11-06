@@ -43,18 +43,10 @@
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric
-          if [ "$GERRIT_BRANCH" == "release-1.0" ] || [ "$GERRIT_BRANCH" == "release-1.1" ]; then
+          if [[ $GERRIT_BRANCH == release-1.0 || $GERRIT_BRANCH == release-1.1 ]]; then
             time make profile
-               if [ $? != 0 ]; then
-                    echo "------> make profile failed"
-                    exit 1
-               fi
           else
-            time make ccenv profile
-               if [ $? != 0 ]; then
-                    echo "------> make profile failed"
-                    exit 1
-               fi
+            time make gotools ccenv profile
           fi
 
     publishers:
