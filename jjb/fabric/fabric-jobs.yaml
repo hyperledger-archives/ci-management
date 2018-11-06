@@ -45,9 +45,9 @@
       - gerrit-trigger-scm:
           base-dir: '$BASE_DIR'
 
-    # Trigger at 9:53 PM EST
+    # Trigger at 8 PM EST
     triggers:
-      - timed: 'H 1 * * *'
+      - timed: 'H 0 * * *'
 
     wrappers:
       - hyperledger-infra-wrappers
