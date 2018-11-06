@@ -227,6 +227,10 @@
     publishers:
       - lf-infra-publish
       - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'ashku@us.ibm.com'
+          output_format: ''
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-ca-gosec-weekly-{arch}'
@@ -270,3 +274,7 @@
     publishers:
       - lf-infra-publish
       - fabric-ca-gosec-scan-results
+      - fabric-email-notification:
+          email-ids: 'ashku@us.ibm.com'
+          output_format: ''
+          developer-email: 'developers'
