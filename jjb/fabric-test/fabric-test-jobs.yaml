@@ -75,6 +75,11 @@
       - lf-infra-publish
       - log-artifacts
       - daily-test-results
+      - fabric-submitter-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+          notify_submitter: '$GERRIT_PATCHSET_UPLOADER_EMAIL'
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
@@ -133,10 +138,11 @@
       - lf-infra-publish
       - log-artifacts
       - daily-test-results
-      - fabric-email-notification:
+      - fabric-submitter-notification:
           email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
+          notify_submitter: '$GERRIT_PATCHSET_UPLOADER_EMAIL'
 
 # gerrit changes
 

@@ -385,6 +385,34 @@
             - recipients
             - '{developer-email}'
 
+- publisher:
+    name: fabric-submitter-notification
+    publishers:
+      - email-ext:
+          recipients: '{email-ids}'
+          reply-to: 'nobody@hyperledger.org'
+          content-type: default
+          subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
+          body: |
+                $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+                Please refer to the logs server URL for console logs when possible
+                and use the Jenkins Build URL as a last resort.
+
+                Console Logs URL:
+                https://logs.hyperledger.org/$SILO/$JENKINS_HOSTNAME/$JOB_NAME/$BUILD_NUMBER
+
+                Jenkins Build URL:
+                $BUILD_URL
+
+          unstable: true
+          failed: true
+          attachments: '{output_format}'
+          send-to:
+            - recipients
+            - '{developer-email}'
+            - '{notify_submitter}'
+
 ############
 # BUILDERS #
 ############

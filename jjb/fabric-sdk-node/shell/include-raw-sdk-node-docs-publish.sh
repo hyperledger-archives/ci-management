@@ -51,7 +51,7 @@ rm -rf node_modules && npm install || err_Check "ERROR!!! npm install failed"
 
 if [ "$ARCH" != "s390x" ]; then
     # Generate SDK-Node API docs
-    gulp doc
+    gulp docs
     # Short Head commit
     SDK_COMMIT=$(git rev-parse --short HEAD)
     TARGET_REPO=$NODE_SDK_USERNAME.github.io.git
