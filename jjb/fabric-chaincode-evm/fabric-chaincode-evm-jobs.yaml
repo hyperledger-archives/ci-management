@@ -13,6 +13,7 @@
 - job-template:
     name: 'fabric-chaincode-evm-verify-master-{arch}'
     project-type: pipeline
+    concurrent: true
     pipeline-scm:
       script-path: Jenkinsfile
       scm:
@@ -56,6 +57,7 @@
 - job-template:
     name: 'fabric-chaincode-evm-merge-master-{arch}'
     project-type: pipeline
+    concurrent: true
     pipeline-scm:
       script-path: Jenkinsfile
       scm:
