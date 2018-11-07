@@ -40,6 +40,12 @@
           !include-raw: shell/include-raw-publish-doc.sh
 
 - builder:
+    name: gulp-doc-publish
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-sdk-node-docs-publish.sh
+
+- builder:
     name: fabric-sdk-node-vulnerable-tests
     builders:
       - shell:
