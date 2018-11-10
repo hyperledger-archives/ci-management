@@ -232,6 +232,9 @@
          git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
          cd $WD
          git checkout $GERRIT_BRANCH
+         FABRIC_TEST_COMMIT=$(git rev-parse --short HEAD)
+         echo "------> FABRIC_TEST_COMMIT : $FABRIC_TEST_COMMIT"
+         echo "------> BRANCH: $GERRIT_BRANCH"
          RELEASE_COMMIT=$GIT_COMMIT
          export RELEASE_COMMIT
          echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
