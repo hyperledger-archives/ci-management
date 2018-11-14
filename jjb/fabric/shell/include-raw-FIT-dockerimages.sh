@@ -24,7 +24,7 @@ echo "-------> fabric GERRIT_BRANCH:" $GERRIT_BRANCH
 # Gerrit Checkout to Branch
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
 
-     for IMAGES in docker release-clean release; do
+     for IMAGES in docker-thirdparty peer-docker orderer-docker buildenv testenv tools-docker release-clean release; do
         make $IMAGES
         if [ $? != 0 ]; then
            echo "------> make $IMAGES failed"
