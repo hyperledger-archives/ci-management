@@ -94,6 +94,16 @@
           description: "Provide release-commit here to pull stable binaries from nexus2"
 
 - parameter:
+    name: maven-exec
+    parameters:
+      - string:
+          name: MVN
+          # yamllint disable rule:line-length
+          default: '/w/tools/hudson.tasks.Maven_MavenInstallation/{maven-version}/bin/mvn'
+          # yamllint enable
+          description: 'Maven selector to be used by shell scripts'
+
+- parameter:
     name: fabric-previous-version
     parameters:
       - string:

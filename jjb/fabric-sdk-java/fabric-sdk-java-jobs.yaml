@@ -39,6 +39,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
+      - maven-exec:
+          maven-version: '{mvn-version}'
 
     scm:
       - gerrit-trigger-scm:
@@ -58,6 +60,21 @@
 
     builders:
       - verify-commit-message
+      - lf-provide-maven-settings:
+          global-settings-file: 'global-settings'
+          settings-file: '{mvn-settings}'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
       - clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |
@@ -92,6 +109,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
+      - maven-exec:
+          maven-version: '{mvn-version}'
 
     scm:
       - gerrit-trigger-scm-merge:
@@ -108,6 +127,21 @@
           timeout: '60'
 
     builders:
+      - lf-provide-maven-settings:
+          global-settings-file: 'global-settings'
+          settings-file: '{mvn-settings}'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
       - clean-environment
       - fabric-sdk-java-end-to-end-test
       - shell: |

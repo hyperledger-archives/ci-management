@@ -9,6 +9,9 @@
 # which accompanies this distribution, and is available at
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
+
+echo "----> include-raw-fabric-clean-environment.sh"
+
 function clearContainers () {
         CONTAINER_IDS=$(docker ps -aq)
         if [ -z "$CONTAINER_IDS" ] || [ "$CONTAINER_IDS" = " " ]; then
