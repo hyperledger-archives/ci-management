@@ -13,20 +13,20 @@
 # This script publishes the docker images to Nexus3 and binaries to Nexus2 if
 # the nightly build is successful.
 
-    cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
-    ORG_NAME=hyperledger/fabric
-    NEXUS_URL=nexus3.hyperledger.org:10003
-    TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
-    ARCH=$(go env GOARCH) && echo "--------->" $ARCH
-    PROJECT_VERSION=$PUSH_VERSION
-    echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
-    STABLE_TAG=$ARCH-$PROJECT_VERSION
-    echo "-----------> STABLE_TAG:" $STABLE_TAG
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+ORG_NAME=hyperledger/fabric
+NEXUS_URL=nexus3.hyperledger.org:10003
+TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
+ARCH=$(go env GOARCH) && echo "--------->" $ARCH
+PROJECT_VERSION=$PUSH_VERSION
+echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
+STABLE_TAG=$ARCH-$PROJECT_VERSION
+echo "-----------> STABLE_TAG:" $STABLE_TAG
 
-    cd ../fabric-ca || exit
-    CA_COMMIT=$(git log -1 --pretty=format:"%h")
-    echo "CA COMMIT" $CA_COMMIT
-    cd - || exit
+cd ../fabric-ca || exit
+CA_COMMIT=$(git log -1 --pretty=format:"%h")
+echo "CA COMMIT" $CA_COMMIT
+cd - || exit
 
 fabric_DockerTag() {
     for IMAGES in peer orderer ccenv tools; do
@@ -91,7 +91,8 @@ df -h
 
 # Publish fabric binaries
 # Don't publish same binaries if they are available in nexus
-curl -L https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
+curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
+
 if cat output.xml | grep $COMMIT_TAG > /dev/null; then
     echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
 else
