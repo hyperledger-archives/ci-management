@@ -91,7 +91,7 @@ df -h
 
 # Publish fabric binaries
 # Don't publish same binaries if they are available in nexus
-curl -L https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
+curl -L https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
 if cat output.xml | grep $COMMIT_TAG > /dev/null; then
     echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
 else
@@ -103,8 +103,8 @@ else
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
               -DupdateReleaseInfo=true \
               -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
-              -DrepositoryId=hyperledger-releases \
-              -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
+              -DrepositoryId=hyperledger-snapshots \
+              -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
               -DgroupId=org.hyperledger.fabric \
               -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
               -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
