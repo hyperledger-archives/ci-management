@@ -102,18 +102,27 @@ else
         for binary in "${PLATFORMS[@]}"; do
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
               echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
-              mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-              -DupdateReleaseInfo=true \
-              -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
-              -DrepositoryId=hyperledger-snapshots \
-              -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
-              -DgroupId=org.hyperledger.fabric \
-              -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
-              -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
-              -DgeneratePom=true \
-              -DuniqueVersion=false \
-              -Dpackaging=tar.gz \
-              -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+              # mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              # -DupdateReleaseInfo=true \
+              # -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              # -DrepositoryId=hyperledger-snapshots \
+              # -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+              # -DgroupId=org.hyperledger.fabric \
+              # -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
+              # -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
+              # -DgeneratePom=true \
+              # -DuniqueVersion=false \
+              # -Dpackaging=tar.gz \
+              # -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+
+              # curl -v -u --upload-file $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              # https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric/fabric-master/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gzhyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz
+
+              curl -v -F r=snapshots -F hasPom=false -F e=tar.gz -F g=org.hyperledger.fabric
+              -F a=hyperledger-fabric-$PROJECT_VERSION -F v=binary.$PROJECT_VERSION-$COMMIT_TAG \
+              -F p=tar.gz -F file=@hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              -u $GLOBAL_SETTINGS_FILE:$SETTINGS_FILE https://nexus.hyperledger.org/content/repositories/snapshots/
+
               echo "-------> DONE <----------"
               rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
        done
