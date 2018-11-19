@@ -42,7 +42,7 @@ if [ "$ARCH" = "s390x" ]; then
        build_Fabric dist
 else
        echo "---------> ARCH:" $ARCH
-       build_Fabric dist-all
+       build_Fabric dist
 fi
 
 # Clone fabric-ca git repository
