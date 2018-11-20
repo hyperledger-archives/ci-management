@@ -53,7 +53,6 @@
     builders:
       - clean-environment
       - output-environment
-      - 'golang-environment-{arch}'
       - pull-nexus-chaincode-java-image
       - fabric-nightly-release-builds
       - fabric-nightly-smoke-build

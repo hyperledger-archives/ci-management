@@ -17,7 +17,7 @@ set -o pipefail
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
 WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 FABRIC_REPO=fabric
-git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
+git clone --single-branch -b $GERRIT_BRANCH --depth 1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
 cd $WD
 GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
 export GO_VER

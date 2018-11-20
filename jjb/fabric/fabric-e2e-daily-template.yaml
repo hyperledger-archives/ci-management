@@ -31,7 +31,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - clone-fabric-samples
