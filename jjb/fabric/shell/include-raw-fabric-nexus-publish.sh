@@ -118,9 +118,9 @@ else
               # curl -v -u --upload-file $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
               # https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric/fabric-master/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gzhyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz
 
-              curl -v -F r=snapshots -F hasPom=false -F e=tar.gz -F g=org.hyperledger.fabric
-              -F a=hyperledger-fabric-$PROJECT_VERSION -F v=binary.$PROJECT_VERSION-$COMMIT_TAG \
-              -F p=tar.gz -F file=@hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              curl -v -F "r=snapshots" -F "hasPom=false" -F "e=tar.gz" -F "g=org.hyperledger.fabric"
+              -F "a=hyperledger-fabric-$PROJECT_VERSION" -F "v=binary.$PROJECT_VERSION-$COMMIT_TAG" \
+              -F "p=tar.gz" -F "file=@hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz" \
               -u $GLOBAL_SETTINGS_FILE:$SETTINGS_FILE https://nexus.hyperledger.org/content/repositories/snapshots/
 
               echo "-------> DONE <----------"
