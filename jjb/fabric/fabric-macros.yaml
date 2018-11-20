@@ -104,7 +104,7 @@
           FABRIC_REPO_NAME=fabric
           WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
           rm -rf $WD
-          git clone git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
+          git clone --single-branch -b $GERRIT_BRANCH --depth 1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
           cd $WD && git checkout $GERRIT_BRANCH
           FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "FABRIC_COMMIT =========> $FABRIC_COMMIT"

@@ -27,7 +27,6 @@ cd ../fabric-ca || exit
 CA_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "CA COMMIT" $CA_COMMIT
 cd - || exit
-declare -a PLATFORMS=("linux-amd64 windows-amd64 darwin-amd64 linux-s390x")
 
 fabric_DockerTag() {
     for IMAGES in peer orderer ccenv tools; do
@@ -99,14 +98,14 @@ if cat output.xml | grep $COMMIT_TAG > /dev/null; then
 else
     if [ $ARCH = "amd64" ]; then
         # Push fabric-binaries to nexus2
-        for binary in "${PLATFORMS[@]}"; do
+        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
               cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
               echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
               mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
               -DupdateReleaseInfo=true \
               -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
-              -DrepositoryId=hyperledger-snapshots \
-              -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+              -DrepositoryId=hyperledger-releases \
+              -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
               -DgroupId=org.hyperledger.fabric \
               -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
               -DartifactId=hyperledger-fabric-$PROJECT_VERSION \

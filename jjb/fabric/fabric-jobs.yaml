@@ -41,10 +41,6 @@
       - release-version:
           push-version: '{rel_version}'
 
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
     # Trigger at 8 PM EST
     triggers:
       - timed: 'H 0 * * *'
