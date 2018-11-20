@@ -604,3 +604,44 @@
     name: fabric-docs-build-comment
     builders:
       - shell: !include-raw: shell/include-raw-fabric-build-docs.sh
+
+- builder:
+    name: fabric-curl-make-dist
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          set -o pipefail
+
+          cd gopath/src/github.com/hyperledger/fabric || exit
+          make dist
+
+- builder:
+    name: fabric-curl-publish
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit 1
+          ORG_NAME=hyperledger/fabric
+          NEXUS_URL=nexus3.hyperledger.org:10003
+          TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
+          ARCH=$(go env GOARCH) && echo "--------->" $ARCH
+          PROJECT_VERSION=$PUSH_VERSION
+          echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
+          STABLE_TAG=$ARCH-$PROJECT_VERSION
+          echo "-----------> STABLE_TAG:" $STABLE_TAG
+          binary=linux-amd64
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
+          ls -l
+
+          if [ $ARCH = "amd64" ]; then
+          # Push fabric-binaries to nexus2
+            for binary in $binary;  do
+              echo "=====> Executing curl"
+              curl --upload-file $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              -u $GLOBAL_SETTINGS_FILE:$SETTINGS_FILE \
+              -v https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/
+            done
+          else
+            echo "-------> Dont publish binaries from s390x or ppc64le platform"
+          fi
