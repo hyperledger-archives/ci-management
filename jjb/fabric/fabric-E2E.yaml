@@ -54,7 +54,6 @@
       - output-environment
       - dockerimages
       - end-to-end-NODE
-      - end-to-end-JAVA
       - end-to-end-BYFN
 
     publishers:

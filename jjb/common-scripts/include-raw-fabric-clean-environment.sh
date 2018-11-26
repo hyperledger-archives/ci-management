@@ -27,14 +27,15 @@ function removeUnwantedImages() {
         else
 	        docker rmi -f $DOCKER_IMAGES_SNAPSHOTS || true
 	fi
-        DOCKER_IMAGE_IDS=$(docker images | grep -v 'base*\|couchdb\|kafka\|zookeeper\|cello' | awk '{print $3}')
 
-        if [ -z "$DOCKER_IMAGE_IDS" ] || [ "$DOCKER_IMAGE_IDS" = " " ]; then
-                echo "---- No images available for deletion ----"
-        else
-                docker rmi -f $DOCKER_IMAGE_IDS || true
-                docker images
-        fi
+	for i in $(docker images | grep none | awk '{print $3}'); do
+		docker rmi ${i};
+	done
+
+	for i in $(docker images | grep -vE ".*baseimage.*(0.4.13|0.4.14)" | grep -vE ".*baseos.*(0.4.13|0.4.14)" | grep -vE ".*couchdb.*(0.4.13|0.4.14)" | grep -vE ".*zoo.*(0.4.13|0.4.14)" | grep -vE ".*kafka.*(0.4.13|0.4.14)" | grep -v "REPOSITORY" | awk '{print $1":" $2}'); do
+	        docker rmi ${i};
+        done
+		docker images
 }
 
 # Delete nvm prefix & then delete nvm
