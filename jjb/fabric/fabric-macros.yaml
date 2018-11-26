@@ -614,7 +614,7 @@
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric || exit
-          make dist
+          make dist-all
 
 - builder:
     name: fabric-curl-publish
@@ -636,12 +636,24 @@
 
           if [ $ARCH = "amd64" ]; then
           # Push fabric-binaries to nexus2
-            for binary in $binary;  do
-              echo "=====> Executing curl"
-              curl --upload-file $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
-              -u $GLOBAL_SETTINGS_FILE:$SETTINGS_FILE \
-              -v https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/
-            done
+           for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+              cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
+              echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz to maven.."
+              mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              -DupdateReleaseInfo=true \
+              -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+              -DrepositoryId=hyperledger-snapshots \
+              -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+              -DgroupId=org.hyperledger.fabric \
+              -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG \
+              -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
+              -DgeneratePom=true \
+              -DuniqueVersion=true \
+              -Dpackaging=tar.gz \
+              -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+              echo "-------> DONE <----------"
+              rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
+           done
           else
-            echo "-------> Dont publish binaries from s390x or ppc64le platform"
+              echo "-------> Dont publish binaries from s390x or ppc64le platform"
           fi
