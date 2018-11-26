@@ -20,7 +20,7 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
     scm:
-      - gerrit-trigger-scm:
+      - gerrit-trigger-github:
           base-dir: '$BASE_DIR'
 
     triggers:

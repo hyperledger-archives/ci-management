@@ -107,6 +107,27 @@
 # you have to pass "base-dir" value from the job template or config
 ###################################################################
 - scm:
+    name: gerrit-trigger-github
+    # scm for the fabric project which uses basedir for a golang project
+    # Parameters:
+    #   credentials-id: credentials to use for ssh authentication.
+    scm:
+      - git:
+          credentials-id: 'hyperledger-jobbuilder'
+          url: 'https://github.com/hyperledger/$PROJECT'
+          branches:
+            - 'origin/$GERRIT_BRANCH'
+          skip-tag: true
+          wipe-workspace: true
+          refspec: '$GERRIT_REFSPEC'
+          basedir: '{base-dir}'
+          choosing-strategy: gerrit
+
+###################################################################
+# gerrit-trigger-scm - use this macro for all the verify builds
+# you have to pass "base-dir" value from the job template or config
+###################################################################
+- scm:
     name: gerrit-trigger-scm
     # scm for the fabric project which uses basedir for a golang project
     # Parameters:
