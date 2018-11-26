@@ -21,6 +21,10 @@
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
 
+    scm:
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
+
     triggers:
       - timed: '{cron_time}'
 
@@ -32,6 +36,7 @@
     builders:
       - clean-environment
       - output-environment
+      - 'golang-environment-{arch}'
       - dockerimages
       - clone-fabric-samples
       - fabric-byfn-tests

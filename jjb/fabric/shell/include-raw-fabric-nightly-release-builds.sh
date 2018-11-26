@@ -19,12 +19,6 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
 FABRIC_REPO=fabric
 git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
 cd $WD || exit
-GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-export GO_VER
-OS_VER=$(dpkg --print-architecture)
-echo "------> ARCH: $OS_VER"
-export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-export PATH=$GOROOT/bin:$PATH
 FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
 echo "FABRIC_COMMIT ----------> $FABRIC_COMMIT" >> commit.log
