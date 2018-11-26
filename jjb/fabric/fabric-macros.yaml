@@ -630,9 +630,6 @@
           echo "-----------> PROJECT_VERSION:" $PROJECT_VERSION
           STABLE_TAG=$ARCH-$PROJECT_VERSION
           echo "-----------> STABLE_TAG:" $STABLE_TAG
-          binary=linux-amd64
-          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary && tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
-          ls -l
 
           if [ $ARCH = "amd64" ]; then
           # Push fabric-binaries to nexus2
