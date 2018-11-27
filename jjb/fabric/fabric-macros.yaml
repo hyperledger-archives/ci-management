@@ -642,7 +642,7 @@
               -DrepositoryId=hyperledger-snapshots \
               -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
               -DgroupId=org.hyperledger.fabric \
-              -Dversion=$binary.$PROJECT_VERSION-$COMMIT_TAG-SNAPSHOT \
+              -Dversion=$binary.$PROJECT_VERSION-SNAPSHOT \
               -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
               -DgeneratePom=true \
               -DuniqueVersion=true \
