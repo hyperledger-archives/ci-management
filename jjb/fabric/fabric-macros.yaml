@@ -644,7 +644,6 @@
               -DgroupId=org.hyperledger.fabric \
               -Dversion=$binary.$PROJECT_VERSION-SNAPSHOT \
               -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
-              -DgeneratePom=false \
               -DuniqueVersion=false \
               -Dpackaging=tar.gz \
               -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE

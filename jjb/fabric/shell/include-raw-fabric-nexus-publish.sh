@@ -34,6 +34,7 @@ fabric_DockerTag() {
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
     done
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
@@ -44,6 +45,7 @@ fabric_Ca_DockerTag() {
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
     done
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
@@ -53,6 +55,7 @@ dockerFabricPush() {
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          echo
     done
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
@@ -63,6 +66,7 @@ dockerFabricCaPush() {
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
+         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          echo
     done
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
