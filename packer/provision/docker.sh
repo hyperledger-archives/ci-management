@@ -291,6 +291,14 @@ deb_instal_x86_tools() {
     cd - || exit
 }
 
+deb_patch_openjdk() {
+    echo "---> deb_patch_openjdk"
+    set -eu
+    apt-get --purge remove openjdk-8-jdk-headless openjdk-8-jre-headless
+    apt-get install -y openjdk-8-jre-headless=8u77-b03-3ubuntu3
+    apt-get install -y openjdk-8-jdk-headless=8u77-b03-3ubuntu3
+}
+
 ubuntu_changes() {
     echo "---> Ubuntu changes"
     export DEBIAN_FRONTEND=noninteractive
@@ -315,6 +323,7 @@ ubuntu_changes() {
     deb_docker_fix
     deb_rust_install
     deb_instal_x86_tools
+    deb_patch_openjdk
 
     echo "---> No extra steps presently for ${FACTER_OS}"
 }
@@ -331,3 +340,4 @@ case "$OS" in
         echo "${OS} has no configuration changes"
     ;;
 esac
+
