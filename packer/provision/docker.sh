@@ -280,7 +280,7 @@ deb_install_haveged() {
     update-rc.d haveged defaults
 }
 
-deb_instal_x86_tools() {
+deb_install_x86_tools() {
     # install npm and fabric node sdk dependencies
     curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -
 
@@ -291,8 +291,9 @@ deb_instal_x86_tools() {
     cd - || exit
 }
 
-deb_patch_openjdk() {
-    echo "---> deb_patch_openjdk"
+deb_update_openjdk() {
+    echo "---> Updating OpenJDK"
+    # Specific version of these packages are required by maven 3.5
     set -eu
     apt-get --purge remove openjdk-8-jdk-headless openjdk-8-jre-headless
     apt-get install -y openjdk-8-jre-headless=8u77-b03-3ubuntu3
@@ -322,22 +323,18 @@ ubuntu_changes() {
     deb_docker_pull_celloimage
     deb_docker_fix
     deb_rust_install
-    deb_instal_x86_tools
-    deb_patch_openjdk
-
-    echo "---> No extra steps presently for ${FACTER_OS}"
+    deb_install_x86_tools
+    # This should have been enabled all along, set it here so anything
+    # added after here will have it set
+    set -eu
+    deb_update_openjdk
 }
 
 OS=$(/usr/bin/facter operatingsystem)
-case "$OS" in
-    CentOS|Fedora|RedHat)
-        rh_changes
-    ;;
-    Ubuntu)
-        ubuntu_changes
-    ;;
-    *)
-        echo "${OS} has no configuration changes"
-    ;;
+case $OS in
+    CentOS|Fedora|RedHat)  rh_changes      ;;
+    Ubuntu)                ubuntu_changes  ;;
+    *) echo "Unknown OS: $OS" ; exit 1     ;;
 esac
 
+echo "---> $OS changes complete"
