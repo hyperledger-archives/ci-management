@@ -7,6 +7,7 @@
     project: 'fabric'
     arch: 'x86_64'
     mvn-settings: 'fabric-settings'
+    ca-mvn-settings: 'fabric-ca-settings'
 
 - job-template:
     name: 'fabric-curl-test-x86_64'
@@ -48,3 +49,8 @@
           fabric-settings-file: '{mvn-settings}'
       - fabric-curl-make-dist
       - fabric-curl-publish
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{ca-mvn-settings}'
+      - fabric-ca-curl-make-dist
+      - fabric-ca-curl-publish

@@ -653,3 +653,59 @@
           else
               echo "-------> Dont publish binaries from s390x or ppc64le platform"
           fi
+
+- builder:
+    name: fabric-ca-curl-make-dist
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          set -o pipefail
+
+          WD=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
+
+          git clone --single-branch -b master --depth=1 \
+          git://cloud.hyperledger.org/mirror/fabric-ca $WD
+
+          cd gopath/src/github.com/hyperledger/fabric-ca || exit
+          make dist-all
+
+- builder:
+    name: fabric-ca-curl-publish
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+          # This macro is used in the temp 'fabric-curl-test' job to publish
+          # fabric-ca binaries to nexus 2
+
+          cd $WD || exit 1
+
+          CA_COMMIT=$(git log -1 --pretty=format:"%h")
+          echo "CA COMMIT: " $CA_COMMIT
+
+          ARCH=$(go env GOARCH) && echo "---------> " $ARCH
+          PROJECT_VERSION=$PUSH_VERSION
+          echo "-----------> PROJECT_VERSION: " $PROJECT_VERSION
+
+          if [ $ARCH = "amd64" ]; then
+            # Push fabric-ca binaries to nexus2
+            for binary in linux-amd64 windows-amd64 darwin-amd64 linux-ppc64le linux-s390x; do
+              cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary && tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
+              echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
+              mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+              -DupdateReleaseInfo=true \
+              -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \
+              -DrepositoryId=hyperledger-snapshots \
+              -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+              -DgroupId=org.hyperledger.fabric-ca \
+              -Dversion=$binary.$PROJECT_VERSION-$CA_COMMIT \
+              -DartifactId=hyperledger-fabric-ca-$PROJECT_VERSION \
+              -DuniqueVersion=false \
+              -Dpackaging=tar.gz \
+              -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+              echo "-------> DONE <----------"
+              rm -f hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz || true
+            done
+          else
+            echo "-------> Dont publish binaries from s390x platform"
+          fi
