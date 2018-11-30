@@ -12,6 +12,7 @@
 
     project-type: freestyle
     node: 'hyp-z'
+    disabled: true
     concurrent: true
 
     properties:

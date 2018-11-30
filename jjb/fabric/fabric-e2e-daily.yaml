@@ -179,7 +179,7 @@
     arch: 's390x'
     node: 'z'
     # Change this to "true" if you wish to disable this job
-    disable: false
+    disable: true
     # Increase or Decrease build time
     build_timeout: 80
 

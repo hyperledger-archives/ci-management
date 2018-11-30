@@ -3,7 +3,6 @@
     name: fabric-jobs
     jobs:
       - 'fabric-merge-{arch}'
-      - 'fabric-binaries-{arch}'
       - 'fabric-gosec-weekly-{arch}'
       - 'fabric-verify-unit-tests-{arch}'
       - 'fabric-verify-build-checks-{arch}'
@@ -30,6 +29,8 @@
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
+
+    disabled: '{disable}'
 
     parameters:
       - project-parameter:
@@ -145,58 +146,6 @@
           developer-email: 'developers'
 
 - job-template:
-    name: 'fabric-binaries-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-      - release-version:
-          push-version: '1.2.0'
-      - stable-version:
-          pull-version: '1.2.0-stable'
-      - release-commit:
-          pull-commit: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '40'
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - provide-maven-settings:
-          fabric-settings-file: '{mvn-settings}'
-          global-settings-file: 'global-settings'
-      # Publish fabric binaries
-      - publish-fabric-binaries
-    publishers:
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
     name: 'fabric-gosec-weekly-{arch}'
 
     project-type: freestyle
@@ -281,10 +230,8 @@
 
     builders:
       - clean-environment
-      - fabric-fetch
       - 'golang-environment-{arch}'
       - output-environment
-      - pull-images
       - fabric-unit-tests-verification
 
     publishers:
@@ -328,11 +275,8 @@
 
     builders:
       - clean-environment
-      - fabric-fetch
       - 'golang-environment-{arch}'
       - output-environment
-      - pull-images
-      - pull-nexus-fabric-docker-images
       - fabric-integration-tests-verification
 
     publishers:
@@ -351,6 +295,8 @@
           days-to-keep: 7
           artifact-days-to-keep: 7
 
+    disabled: false
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -358,8 +304,6 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
-
-    disabled: false
 
     scm:
       - gerrit-trigger-scm:
@@ -378,11 +322,6 @@
       - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
-      - provide-maven-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - docker-login
-      - pull-nexus-chaincode-java-image
       - fabric-build-artifacts
 
     publishers:
@@ -426,7 +365,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-docs-build-comment
 

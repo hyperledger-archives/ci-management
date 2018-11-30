@@ -37,104 +37,18 @@ then
   exit 1
 fi
 
-# Verify if there are trailing spaces in the files.
-
-COMMIT_FILES=`git diff-tree --no-commit-id --name-only -r HEAD | grep -Ev '(^|/)vendor/'`
-
-for filename in `echo $COMMIT_FILES`; do
-  if [[ `file $filename` == *"ASCII text"* ]];
-  then
-    if [ ! -z "`egrep -l " +$" $filename`" ];
-    then
-      FOUND_TRAILING='yes'
-      echo "Error: Trailing white spaces found in file:$filename"
-    fi
-  fi
-done
-
-if [ ! -z ${FOUND_TRAILING+x} ];
-then
-  vote -m '"Trailing white spaces found"' -l F1-VerifyBuild=-1
-  exit 1
-fi
-
 codeChange() {
-             CHECKS_CMD="make basic-checks"
+             CHECKS_CMD="make basic-checks native"
              if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then # release-1.0 branch
                  echo "------> make linter"
                  CHECKS_CMD="make linter"
              fi
                  echo "------> $CHECKS_CMD"
                  $CHECKS_CMD
-                    if [ $? = 0 ]; then
-                         echo
-                         echo "------> Build docker images"
-                    else
+                    if [ $? != 0 ]; then
                          echo "------> $CHECKS_CMD FAILED"
                          vote -m '"code checks are failed"' -l F1-VerifyBuild=-1
                          exit 1
-                    fi
-             make docker
-                    if [ $? = 0 ]; then
-                         ORG_NAME=hyperledger/fabric
-                         NEXUS_URL=nexus3.hyperledger.org:10003
-                         ORG_NAME="hyperledger/fabric"
-                         TAG=$GIT_COMMIT
-                         export COMMIT_TAG=${TAG:0:7}
-
-                         dockerTag() {
-                               for IMAGES in peer orderer ccenv tools; do
-                                    echo "==> $IMAGES"
-                                    echo
-                                    docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
-                                    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG"
-                               done
-                               }
-
-                          dockerFabricPush() {
-                               for IMAGES in peer orderer ccenv tools; do
-                                    echo "==> $IMAGES"
-                                    docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG
-                                    echo
-                                    echo "==> $NEXUS_URL/$ORG_NAME-$IMAGES:$COMMIT_TAG"
-                               done
-                               }
-
-                          # Tag Fabric Docker Images to Nexus Repository
-                          dockerTag
-                          # Push Fabric Docker Images to Nexus Repository
-                          dockerFabricPush
-                          # Listout all docker images Before and After Push to NEXUS
-                          docker images | grep "nexus*"
-                     else
-                          echo "-------> make docker failed"
-                          vote -m '"make docker failed"' -l F1-VerifyBuild=-1
-                          exit 1
-                    fi
-               binary=linux-amd64
-               make release-clean dist-clean
-               make dist
-                    if [ $? = 0 ]; then
-                                     # Push fabric-binaries to nexus2
-                                     cd release/$binary && tar -czf hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz *
-                                     cd $FABRIC_ROOT_DIR || exit
-                                     echo "Pushing hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz to maven.."
-                                     mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-                                     -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$COMMIT_TAG.tar.gz \
-                                     -DrepositoryId=hyperledger-releases \
-                                     -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
-                                     -DgroupId=org.hyperledger.fabric \
-                                     -Dversion=$binary-$COMMIT_TAG \
-                                     -DartifactId=hyperledger-fabric-build \
-                                     -DgeneratePom=true \
-                                     -DuniqueVersion=false \
-                                     -Dpackaging=tar.gz \
-                                     -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-                                     echo "-------> DONE <----------"
-                    else
-                                     echo "-------> make dist failed"
-                                     vote -m '"make dist failed"' -l F1-VerifyBuild=-1
-                                     exit 1
                     fi
 }
 

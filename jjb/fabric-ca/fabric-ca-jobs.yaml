@@ -51,11 +51,9 @@
       - gerrit-parameter:
           branch: 'release-1.2'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: 'refs/heads/$GERRIT_BRANCH'
       - release-version:
           push-version: '1.2.0'
-      - stable-version:
-          pull-version: '1.2.0-stable'
       - release-commit:
           pull-commit: ''
 

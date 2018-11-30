@@ -9,7 +9,7 @@ clone_Fabric() {
  rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
  WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
  REPO_NAME=fabric
- git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+ git clone --single-branch -b $GERRIT_BRANCH --depth 1 https://github.com/hyperledger/$REPO_NAME $WD
  cd $WD && git checkout $GERRIT_BRANCH && git checkout $RELEASE_COMMIT
  # Checkout to the branch and checkout to release commit
  # Provide the value to release commit from Jenkins parameter
