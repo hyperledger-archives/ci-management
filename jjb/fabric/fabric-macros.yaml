@@ -641,7 +641,7 @@
 
           # This macro is used in the temp 'fabric-curl-test' job to publish
           # fabric-ca binaries to nexus 2
-          cd $WD || exit 1
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca || exit 1
 
           CA_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "CA COMMIT: " $CA_COMMIT
