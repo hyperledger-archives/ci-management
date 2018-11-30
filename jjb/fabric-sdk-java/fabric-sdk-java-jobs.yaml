@@ -2,10 +2,9 @@
 - project:
     name: fabric-sdk-java-jobs
     jobs:
-      # TODO: Add CLM jobs back once issue is resolved:
-      #       https://jira.linuxfoundation.org/browse/RELENG-1165
-      # - gerrit-maven-clm:
-      #    build-node: hyp-x
+      - gerrit-maven-clm:
+          nexus-iq-namespace: 'hyp-'
+          build-node: hyp-x
       - 'fabric-sdk-java-verify-{arch}'
       - 'fabric-sdk-java-verify-1.0.0-{arch}'
       - 'fabric-sdk-java-merge-1.0.0-{arch}'
