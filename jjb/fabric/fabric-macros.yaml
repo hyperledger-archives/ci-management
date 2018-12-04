@@ -662,7 +662,7 @@
               -DrepositoryId=hyperledger-snapshots \
               -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
               -DgroupId=org.hyperledger.fabric-ca \
-              -Dversion=$binary.$PROJECT_VERSION-$CA_COMMIT \
+              -Dversion=$binary.$PROJECT_VERSION-SNAPSHOT \
               -DartifactId=hyperledger-fabric-ca-$PROJECT_VERSION \
               -DuniqueVersion=false \
               -Dpackaging=tar.gz \
