@@ -291,15 +291,6 @@ deb_install_x86_tools() {
     cd - || exit
 }
 
-deb_update_openjdk() {
-    echo "---> Updating OpenJDK"
-    # Specific version of these packages are required by maven 3.5
-    set -eu
-    apt-get --purge remove openjdk-8-jdk-headless openjdk-8-jre-headless
-    apt-get install -y openjdk-8-jre-headless=8u77-b03-3ubuntu3
-    apt-get install -y openjdk-8-jdk-headless=8u77-b03-3ubuntu3
-}
-
 ubuntu_changes() {
     echo "---> Ubuntu changes"
     export DEBIAN_FRONTEND=noninteractive
@@ -324,10 +315,7 @@ ubuntu_changes() {
     deb_docker_fix
     deb_rust_install
     deb_install_x86_tools
-    # This should have been enabled all along, set it here so anything
-    # added after here will have it set
-    set -eu
-    deb_update_openjdk
+
 }
 
 OS=$(/usr/bin/facter operatingsystem)
