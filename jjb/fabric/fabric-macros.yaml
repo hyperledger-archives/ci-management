@@ -333,6 +333,7 @@
       - shell: |
           #!/bin/bash -eu
           set -o pipefail
+          export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
           cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
 
 # Macro for fabric unit-test job
@@ -350,6 +351,7 @@
           }
 
           vote -m '"Starting unit tests"' -l F3-UnitTest=0
+          export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
           res=$(echo $?)
           if [ $res = 0 ]; then
