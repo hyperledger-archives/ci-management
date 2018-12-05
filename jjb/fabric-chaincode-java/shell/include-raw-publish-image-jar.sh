@@ -43,7 +43,10 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         # tag hyperledger/fabric-javaenv
 	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
 	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
-
+        if [ "$GERRIT_BRANCH" = "master" ]; then
+	   docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+	   docker push $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+        fi
 	# Push javenv docker image to nexus3
         echo "------> PUSHING"
 	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
