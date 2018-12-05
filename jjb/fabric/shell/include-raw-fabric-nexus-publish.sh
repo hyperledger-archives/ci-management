@@ -33,10 +33,12 @@ fabric_DockerTag() {
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-	 if [ $GERRIT_BRANCH = "master" ]; then
+	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
+            echo "-----> tag latest"
             docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          fi
     done
+         docker images
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 
@@ -45,10 +47,12 @@ fabric_Ca_DockerTag() {
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-	 if [ $GERRIT_BRANCH = "master" ]; then
+         echo "-----> tag latest"
+	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
             docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          fi
     done
+         docker images
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 
@@ -56,11 +60,13 @@ dockerFabricPush() {
     for IMAGES in peer orderer ccenv tools; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-	 if [ $GERRIT_BRANCH = "master" ]; then
-            docker push $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
+            echo "-----> push latest"
+            docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          fi
          echo
     done
+         docker images
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 
@@ -68,11 +74,13 @@ dockerFabricCaPush() {
     for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-	 if [ $GERRIT_BRANCH = "master" ]; then
-            docker push $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
+            echo "-----> push latest"
+            docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
          fi
          echo
     done
+         docker images
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 # Tag Fabric Docker Images

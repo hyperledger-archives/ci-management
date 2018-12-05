@@ -59,16 +59,17 @@
       - clean-environment
       - output-environment
       - 'golang-environment-{arch}'
-      - pull-nexus-chaincode-java-image
+      # - pull-nexus-chaincode-java-image
       - fabric-nightly-release-builds
-      - fabric-nightly-smoke-build
+      # - fabric-nightly-smoke-build
       - shell: |
           #!/bin/bash
 
           cd gopath/src/github.com/hyperledger/fabric || exit
           ARCH=$(go env GOARCH)
           if [ "$ARCH" != "s390x" ]; then
-             make integration-test
+             # make integration-test
+             echo "IGNORE IntegrationTests"
              if [ $? != 0 ]; then
                   echo "---------> make integration-test failed"
                   exit 1
