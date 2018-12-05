@@ -102,7 +102,6 @@
       - shell: |
               #!/bin/bash -exu
               set -o pipefail
-              export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
               cd gopath/src/github.com/hyperledger/fabric && time make unit-test-clean peer-docker ccenv && ./unit-test/run.sh
 
     publishers:
