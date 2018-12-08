@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # docker container list
-CONTAINER_LIST=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 peer0.org3 peer1.org3 orderer)
-COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
+CONTAINER_LIST=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 orderer)
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples || exit
 
@@ -15,6 +14,13 @@ echo "------> ARCH: $OS_VER"
 export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
 export PATH=$GOROOT/bin:$PATH
 echo "------> GO_VER" $GO_VER
+ 
+ARCH=$(go env GOARCH)
+export ARCH
+ORG_NAME=hyperledger/fabric
+export ORG_NAME
+MARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
+export MARCH
 
 cd first-network || exit
 
@@ -24,8 +30,7 @@ mkdir -p $WORKSPACE/Docker_Container_Logs
 #Set INFO to DEBUG
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 
-export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin:$PATH
-
+# Archive the container logs
 artifacts() {
 
     echo "---> Archiving generated logs"
@@ -38,23 +43,15 @@ artifacts() {
 logs() {
 
 for CONTAINER in ${CONTAINER_LIST[*]}; do
-    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$2.log
     echo
 done
-
-if [ ! -z $2 ]; then
-
-    for CONTAINER in ${COUCHDB_CONTAINER_LIST[*]}; do
-        docker logs $CONTAINER >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
-        echo
-    done
-fi
 }
 
 copy_logs() {
 
 # Call logs function
-logs $2 $3
+logs $2
 
 if [ $1 != 0 ]; then
     artifacts
@@ -62,47 +59,45 @@ if [ $1 != 0 ]; then
 fi
 }
 
-binaries_110 () {
-
-# pull 1.1.0 binaries
-cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network || exit
-rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/linux-amd64-1.1.0/hyperledger-fabric-linux-amd64-1.1.0.tar.gz | tar xz
-export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin:$PATH
-ls bin/
-echo "Binaries v1.1.0"
+pull_images () {
+IMAGES_LIST=(peer orderer tools ccenv)
+export IMAGES_LIST
+   for IMAGES in ${IMAGES_LIST[*]}; do
+       docker pull $DOCKER_REPOSITORY/fabric-$IMAGES:$ARCH-$FAB_REL_VER-stable
+       docker tag $DOCKER_REPOSITORY/fabric-$IMAGES:$ARCH-$FAB_REL_VER-stable $ORG_NAME-$IMAGES:$ARCH-$FAB_REL_VER
+   done
 }
 
-binaries_120 () {
+pull_prev_binary() {
+    rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin
+    curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/$MARCH-$FAB_PREV_VER/hyperledger-fabric-$MARCH-$FAB_PREV_VER.tar.gz | tar xz
+    export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin:$PATH
+    ls -l bin
+    }
 
-# pull 1.2.0 binaries
-cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network || exit
-rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin
-curl https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/linux-amd64-1.2.0/hyperledger-fabric-linux-amd64-1.2.0.tar.gz | tar xz
-export PATH=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-samples/first-network/bin:$PATH
-ls bin/
-echo "Binaries v1.2.0"
-}
-
-echo "------> Deleting Containers...."
-# shellcheck disable=SC2046
-docker rm -f $(docker ps -aq)
-echo "------> List Docker Containers"
-docker ps -aq
-
-# Execute below tests
-echo "------> BRANCH: " $GERRIT_BRANCH
-
-        echo "##################### BYFN UPGRADE TEST #########################"
-        echo "#################################################################"
-        echo y | ./byfn.sh -m down
-        git checkout v1.1.0
-        binaries_110
-        echo y |./byfn.sh up -t 3000 -i 1.1.0
-        copy_logs $? default-channel
-        git fetch origin
-        git checkout v1.2.0
-        binaries_120
-        echo y |./byfn.sh upgrade -i 1.2.0
-        copy_logs $? default-channel
-        echo
+echo "##################### BYFN UPGRADE TEST #########################"
+echo "#################################################################"
+# Bring down the network
+echo y | ./byfn.sh -m down
+# Get the binaries
+pull_prev_binary
+# Start the BYFN test with previous version
+git fetch origin
+git checkout v$FAB_PREV_VER
+echo y |./byfn.sh up -t 3000 -i $FAB_PREV_VER
+# Archive the container log files
+copy_logs $? default-channel
+git fetch origin
+# Verify if we need the latest images from Nexus
+if [ $DOCKER_REPOSITORY != "hyperledger" ]; then
+    git checkout $GERRIT_BRANCH
+    pull_images
+else
+    git checkout v$FAB_REL_VER
+fi
+# Start the BYFN upgrade test with the latest images
+echo y |./byfn.sh upgrade -i $FAB_REL_VER
+copy_logs $? default-channel
+# Bring down the network after all tests are executed
+echo y | ./byfn.sh -m down
+echo

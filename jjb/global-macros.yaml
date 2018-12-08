@@ -85,6 +85,30 @@
           default: '{pull-commit}'
           description: "Provide release-commit here to pull stable binaries from nexus2"
 
+- parameter:
+    name: fabric-previous-version
+    parameters:
+      - string:
+          name: FAB_PREV_VER
+          default: '{prev-version}'
+          description: "Provide the previous fabric version number"
+
+- parameter:
+    name: fabric-release-version
+    parameters:
+      - string:
+          name: FAB_REL_VER
+          default: '{rel-version}'
+          description: "Provide the current fabric version number"
+
+- parameter:
+    name: docker-repository
+    parameters:
+      - string:
+          name: DOCKER_REPOSITORY
+          default: '{docker-repository}'
+          description: "Default to Nexus repo"
+
 #
 ########
 # SCMS #

@@ -116,8 +116,13 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
-
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - fabric-previous-version:
+          prev-version: '1.3.0'
+      - fabric-release-version:
+          rel-version: '1.4.0'
+      - docker-repository:
+          docker-repository: 'nexus3.hyperledger.org:10001/hyperledger'
     scm:
       - gerrit-trigger-scm:
           base-dir: '$BASE_DIR'
