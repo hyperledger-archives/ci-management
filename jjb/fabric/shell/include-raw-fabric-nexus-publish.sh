@@ -33,8 +33,9 @@ fabric_DockerTag() {
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
-         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [ $GERRIT_BRANCH = "master" ]; then
+            docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+         fi
     done
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
@@ -44,8 +45,9 @@ fabric_Ca_DockerTag() {
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
-         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [ $GERRIT_BRANCH = "master" ]; then
+            docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+         fi
     done
          echo "----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
@@ -54,8 +56,9 @@ dockerFabricPush() {
     for IMAGES in peer orderer ccenv tools; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$COMMIT_TAG
-         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [ $GERRIT_BRANCH = "master" ]; then
+            docker push $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+         fi
          echo
     done
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
@@ -65,8 +68,9 @@ dockerFabricCaPush() {
     for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
-         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG-$CA_COMMIT
-         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+	 if [ $GERRIT_BRANCH = "master" ]; then
+            docker push $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
+         fi
          echo
     done
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
