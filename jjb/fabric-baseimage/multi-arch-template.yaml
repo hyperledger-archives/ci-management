@@ -24,6 +24,8 @@
           branch: 'master'
       - release-version:
           push-version: '0.4.14'
+      - two-digit-version:
+          two-digit-version: ''
       - gerrit-refspec-parameter:
           refspec: 'refs/heads/$GERRIT_BRANCH'
       - release-commit:

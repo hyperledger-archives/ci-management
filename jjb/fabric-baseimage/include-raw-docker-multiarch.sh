@@ -17,9 +17,10 @@ export_Go() {
   if [ ! -e ci.properties ]; then
      curl -L https://raw.githubusercontent.com/hyperledger/fabric-baseimage/master/scripts/common/setup.sh > setup.sh
      GO_VER=$(cat setup.sh | grep GO_VER= | cut -d "=" -f 2)
+     export GO_VER
      echo "-------> GO_VER" $GO_VER
   else
-     GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+     GO_VER=$(cat ci.properties | grep GO_VER | cut -d "=" -f 2)
      export GO_VER
      echo "-------> GO_VER" $GO_VER
   fi
@@ -38,7 +39,8 @@ publish_Multiarch() {
   go get github.com/estesp/manifest-tool
   go install github.com/estesp/manifest-tool
   cd $WD/scripts
-  BASE_VERSION=$PUSH_VERSION ./multiarch.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD
+  BASE_VERSION=$PUSH_VERSION TWO_DIGIT_VERSION=$TWO_DIGIT_VERSION ./multiarch.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD
+  cd -
 }
 
 # Clone repository

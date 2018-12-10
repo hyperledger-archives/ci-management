@@ -70,6 +70,14 @@
           description: "Provide release version here to publish docker images"
 
 - parameter:
+    name: two-digit-version
+    parameters:
+      - string:
+          name: TWO_DIGIT_VERSION
+          default: '{two-digit-version}'
+          description: "Provide two digit version here to publish docker images"
+
+- parameter:
     name: stable-version
     parameters:
       - string:
