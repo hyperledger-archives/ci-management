@@ -32,3 +32,13 @@
     project-name: fabric-baseimage
     arch: 'x86_64'
     build-node: 'hyp-x'
+
+- project:
+    name: fabric-chaincode-java-docker-multiarch-x86_64
+    jobs:
+      - '{project-name}-docker-multiarch-{arch}'
+
+    project: fabric-chaincode-java
+    project-name: fabric-chaincode-java
+    arch: 'x86_64'
+    build-node: 'hyp-x'
