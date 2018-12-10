@@ -20,7 +20,7 @@
     arch: s390x
     build-node: hyp-z
     disable: false
-    rel_version: 1.4.0-stable
+    rel_version: 2.0.0-stable
 
 - project:
     name: fabric-nightly-release-job-master-x86_64
@@ -33,7 +33,7 @@
     arch: x86_64
     build-node: hyp-x
     disable: false
-    rel_version: 1.4.0-stable
+    rel_version: 2.0.0-stable
 
 - project:
     name: fabric-nightly-release-job-master-ppc64le
@@ -46,11 +46,43 @@
     arch: ppc64le
     build-node: hyp-p
     disable: true
-    rel_version: 1.4.0-stable
+    rel_version: 2.0.0-stable
+
+#############
+# release-1.4
+#############
+
+- project:
+    name: fabric-nightly-release-job-release-1.4-s390x
+    jobs:
+      - '{project-name}-nightly-release-job-{branch}-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: release-1.4
+    arch: s390x
+    build-node: hyp-z
+    disable: false
+    rel_version: 1.4.1-stable
+
+- project:
+    name: fabric-nightly-release-job-release-1.4-x86_64
+    jobs:
+      - '{project-name}-nightly-release-job-{branch}-{arch}'
+
+    mvn-settings: 'fabric-settings'
+    project: fabric
+    project-name: fabric
+    branch: release-1.4
+    arch: x86_64
+    build-node: hyp-x
+    disable: false
+    rel_version: 1.4.1-stable
 
 #############
 # release-1.3
-############
+#############
 
 - project:
     name: fabric-nightly-release-job-release-1.3-s390x

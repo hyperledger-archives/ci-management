@@ -49,3 +49,16 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     node: 'x86_64'
+
+
+- project:
+    name: fabric-unit-test-coverage-daily-release-1.4-x86_64
+    jobs:
+      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.4
+    cron_time: 'H 1 * * *'
+    arch: 'x86_64'
+    node: 'x86_64'
