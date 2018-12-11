@@ -64,7 +64,7 @@
     arch: s390x
     build-node: hyp-z
     disable: false
-    rel_version: 1.4.1-stable
+    rel_version: 1.4.0-stable
 
 - project:
     name: fabric-nightly-release-job-release-1.4-x86_64
@@ -78,7 +78,7 @@
     arch: x86_64
     build-node: hyp-x
     disable: false
-    rel_version: 1.4.1-stable
+    rel_version: 1.4.0-stable
 
 #############
 # release-1.3

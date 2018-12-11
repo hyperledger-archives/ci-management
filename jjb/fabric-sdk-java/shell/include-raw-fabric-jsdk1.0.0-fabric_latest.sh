@@ -45,13 +45,15 @@ fi
 docker images | grep hyperledger
 
 if [ "$GERRIT_BRANCH" = "master" ]; then
-    export JAVA_VERSION=amd64-1.4.0-stable
-    export JAVA_ENV_TAG=1.4.0
+   export STABLE_VERSION=amd64-2.0.0-stable
+   export JAVA_ENV_TAG=2.0.0
+elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
+   export STABLE_VERSION=amd64-1.4.0-stable
+   export JAVA_ENV_TAG=1.4.0
 else
-    export JAVA_VERSION=amd64-1.3.0-stable
-    export JAVA_ENV_TAG=1.3.1
+   export STABLE_VERSION=amd64-1.3.1-stable
+   export JAVA_ENV_TAG=1.3.1
 fi
-
 ########################
 # Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:$JAVA_VERSION
 #######################
