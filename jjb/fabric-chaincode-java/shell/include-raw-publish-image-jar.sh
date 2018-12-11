@@ -19,6 +19,8 @@ ORG_NAME=hyperledger/fabric
 NEXUS_URL=nexus3.hyperledger.org:10003
 TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
 if [ "$GERRIT_BRANCH" = "master" ]; then
+     STABLE_VERSION=2.0.0-stable
+elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
      STABLE_VERSION=1.4.0-stable
 else
      STABLE_VERSION=1.3.0-stable
