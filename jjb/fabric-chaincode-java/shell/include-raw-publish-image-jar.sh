@@ -23,7 +23,7 @@ if [ "$GERRIT_BRANCH" = "master" ]; then
 elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
      STABLE_VERSION=1.4.0-stable
 else
-     STABLE_VERSION=1.3.0-stable
+     STABLE_VERSION=1.3.1-stable
 fi
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
