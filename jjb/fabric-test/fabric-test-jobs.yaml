@@ -4,8 +4,6 @@
     jobs:
       - 'fabric-test-verify-{arch}'
       - 'fabric-test-merge-{arch}'
-      - 'fabric-test-daily-results-master-{arch}'
-      - 'fabric-test-daily-results-release-1.3-{arch}'
       - 'fabric-test-svt-weekly-pte-{arch}'
 
     project: 'fabric-test'
@@ -190,7 +188,7 @@
 # fabric-test daily jobs, ote,lte,pte,svt.
 
 - job-template:
-    name: '{project-name}-daily-{test}-{branch}-{arch}'
+    name: '{project-name}-daily-{test}-{job_branch}-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -211,8 +209,8 @@
           refspec: ''
       - stable-version:
           pull-version: '{stable-tag}'
-      - git-commit:
-          commit: ''
+      - release-version:
+          push-version: '{rel_version}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -235,9 +233,6 @@
          FABRIC_TEST_COMMIT=$(git rev-parse --short HEAD)
          echo "------> FABRIC_TEST_COMMIT : $FABRIC_TEST_COMMIT"
          echo "------> BRANCH: $GERRIT_BRANCH"
-         RELEASE_COMMIT=$GIT_COMMIT
-         export RELEASE_COMMIT
-         echo "---------> RELEASE_COMMIT:" $RELEASE_COMMIT
          # Fetch Go Version from fabric ci.properties file
          curl -L https://raw.githubusercontent.com/hyperledger/fabric/$GERRIT_BRANCH/ci.properties > ci.properties
          export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
@@ -247,6 +242,10 @@
          export PATH=$GOROOT/bin:$PATH
          echo "------> GO_VER" $GO_VER
          # Execute Make target from fabric-test Makefile
+         LATEST_TAG=$STABLE_VERSION
+         echo "========> LATEST_TAG: $LATEST_TAG"
+         RELEASE_VERSION=$PUSH_VERSION
+         echo "========> RELEASE_VERSION: $RELEASE_VERSION"
          make {target}
 
     publishers:
@@ -259,7 +258,7 @@
           developer-email: 'developers'
 
 - job-template:
-    name: 'fabric-test-daily-results-master-{arch}'
+    name: '{project-name}-daily-results-{job_branch}-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -275,47 +274,7 @@
       - project-parameter:
           project: '{project}'
       - gerrit-parameter:
-          branch: 'master'
-
-    triggers:
-      - timed: 'H 13 * * *'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '10'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - fabric-test-daily-report
-
-    publishers:
-      - lf-infra-publish
-      - daily-test-results
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
-    name: 'fabric-test-daily-results-release-1.3-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'release-1.3'
+          branch: '{branch}'
 
     triggers:
       - timed: 'H 13 * * *'
