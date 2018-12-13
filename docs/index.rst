@@ -104,6 +104,7 @@ https://jira.hyperledger.org/issues/?filter=11500
    :caption: CI Process
 
    source/fabric_ci_process
+   source/fabric_baseimage
    source/fabric_sdk_node_process
    source/fabric_ca_process
    source/fabric_sdk_java_process
