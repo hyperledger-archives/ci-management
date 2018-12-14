@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ue
 
 # vim: ts=4 sw=4 sts=4 et tw=72 :
 
@@ -142,10 +142,14 @@ Defaults:jenkins !requiretty
 jenkins ALL = NOPASSWD: /usr/bin/update-alternatives
 EOF
 
-    mkdir /w
-    cat <<EOF >>/etc/fstab
-none /w tmpfs defaults,size=2g 0 0
-EOF
+    # Validate contents of fstab in base image
+    # sed will return OK even if match was not found, so a simple grep will do
+    [[ -d /w ]] || mkdir /w
+    if ! grep -s "defaults,size=2g" /etc/fstab > /dev/null; then
+        echo "ERROR: baseline.sh ($((LINENO-3))): Contents of /etc/fstab unexpected"
+        exit 1
+    fi
+    sed -i s:size=2g:size=3g: /etc/fstab
 
     export DEBIAN_FRONTEND=noninteractive
     cat <<EOF >> /etc/apt/apt.conf
@@ -201,6 +205,7 @@ EOF
     # Cabal update fails on a 1G system so workaround that with a swap file
     dd if=/dev/zero of=/tmp/swap bs=1M count=1024
     mkswap /tmp/swap
+    chmod 600 /tmp/swap
     swapon /tmp/swap
 
     # ShellCheck
