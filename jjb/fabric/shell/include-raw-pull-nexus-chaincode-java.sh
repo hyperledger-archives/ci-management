@@ -32,19 +32,19 @@ pullChaincodeJavaImage() {
          ORG_NAME="hyperledger/fabric"
          IMAGE=javaenv
          if [ "$GERRIT_BRANCH" = "master" ]; then
-            export STABLE_VERSION=amd64-2.0.0-stable
+            export JAVA_ENV_VERSION=amd64-2.0.0-stable
             export JAVA_ENV_TAG=2.0.0
          elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-	    export STABLE_VERSION=amd64-1.4.0-stable
+	    export JAVA_ENV_VERSION=amd64-1.4.0-stable
 	    export JAVA_ENV_TAG=1.4.0
 	 else
-            export STABLE_VERSION=amd64-1.3.1-stable
+            export JAVA_ENV_VERSION=amd64-1.3.1-stable
             export JAVA_ENV_TAG=1.3.1
          fi
-         docker pull $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION
-         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE
-         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
-         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$STABLE_VERSION $ORG_NAME-$IMAGE:amd64-latest
+         docker pull $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
+         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
+         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
+         docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-latest
          ######################################
          docker images | grep hyperledger/fabric-javaenv || true
 

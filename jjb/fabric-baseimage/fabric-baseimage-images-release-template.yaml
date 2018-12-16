@@ -97,6 +97,7 @@
       - clean-environment
       - output-environment
       - fetchbaseimages
+      - pull-nexus-chaincode-java-image
       - clone-fabric-samples
       - fabric-byfn-tests
       - shell: |

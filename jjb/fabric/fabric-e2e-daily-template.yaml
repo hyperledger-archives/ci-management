@@ -38,6 +38,7 @@
       - output-environment
       - 'golang-environment-{arch}'
       - dockerimages
+      - pull-nexus-chaincode-java-image
       - clone-fabric-samples
       - fabric-byfn-tests
       - end-to-end-NODE

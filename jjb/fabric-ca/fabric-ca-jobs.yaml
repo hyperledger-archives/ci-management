@@ -125,6 +125,7 @@
       - 'golang-environment-{arch}'
       - output-environment
       - dockercaimages
+      - pull-nexus-chaincode-java-image
       - end-to-end-NODE
       - end-to-end-JAVA
 
@@ -172,6 +173,7 @@
       - 'golang-environment-{arch}'
       - output-environment
       - dockercaimages
+      - pull-nexus-chaincode-java-image
       - end-to-end-NODE
       - end-to-end-JAVA
 
