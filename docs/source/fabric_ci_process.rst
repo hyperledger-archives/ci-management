@@ -1,53 +1,51 @@
-Fabric
-======
+Fabric CI process
+=================
 
-This document explains the CI process for the **Fabric** repository. The below
-steps explain the execution process when a patch set is submitted to the Fabric
+This document explains the CI process for the **fabric** repository. The following
+steps explain the execution process when a patch set is submitted to the fabric
 repository.
 
-Whenever a patch set is submitted to the Fabric repository, Jenkins
+At whatever point a patch set is submitted to the Fabric repository, Jenkins
 triggers the CI build process to test and validate the patch set. The Fabric
 CI **verify and merge** jobs are configured to test patch sets in the
-below environment(s).
+jenkins environment.
 
 The Hyperledger Fabric (and associated) projects utilize various tools
 and workflows for continuous integration. Fabric CI is
-currently utilizing the following revisions in the **Master** and
-**Release-1.1**, **Release-1.0** branches.
+currently utilizing the following revisions in the **master**, **release-1.4**, **release-1.3** branches...
 
 **Master:**
 
--  GO version:(e.g. v1.10)
+-  GO version:(e.g. v1.11.1)
    https://github.com/hyperledger/fabric/blob/master/ci.properties
 
--  DOCKER version: 17.12.0-ce
+-  DOCKER version: 18.06.1-ce
 
--  baseimage version:(e.g. 0.4.6)
-   https://github.com/hyperledger/fabric/blob/196c0de7c1618952a8f342e406a1021203845eba/Makefile#L46
+-  baseimage version:(e.g. 0.4.14)
+   https://github.com/hyperledger/fabric/blob/master/Makefile#L50
 
-**Release-1.0:**
+**Release-1.4:**
 
--  GO version:(e.g. v1.7.5)
-   https://github.com/hyperledger/fabric/blob/release-1.0/ci.properties
+-  GO version:(e.g. v1.11.1)
+   https://github.com/hyperledger/fabric/blob/release-1.4/ci.properties
 
--  DOCKER version: 17.12.0-ce
+-  DOCKER version: 18.06.1-ce
 
--  baseimage version:(e.g. 0.4.6)
+-  baseimage version:(e.g. 0.4.14)
+   https://github.com/hyperledger/fabric/blob/release-1.4/Makefile#L50
 
-**Release-1.1:**
+**Release-1.3:**
 
--  GO version:(e.g. v1.9.2)
-   https://github.com/hyperledger/fabric/blob/release-1.1/ci.properties
+-  GO version:(e.g. v1.10.4)
+   https://github.com/hyperledger/fabric/blob/release-1.3/ci.properties
 
--  DOCKER version: 17.12.0-ce
+-  DOCKER version: 18.06.1-ce
 
--  baseimage version:(e.g. 0.4.6)
-   https://github.com/hyperledger/fabric/blob/da14b6bae4a843dfb3fcece5a08ae0ea18488a7a/Makefile#L39
+-  baseimage version:(e.g. 0.4.13)
+   https://github.com/hyperledger/fabric/blob/release-1.3/Makefile#L50
 
-If you would like to know more details on the tool versions, you can refer to
-any of the Fabric jobs listed here: `Fabric <https://jenkins.hyperledger.org/view/fabric/>`__,
-select one of the jobs, Click on any build number in the bottom left and view
-the output for details.
+If you are interested to know more details about fabric CI process,
+Please click the link: `Fabric <https://jenkins.hyperledger.org/view/fabric/>`__,
 
 There are several job types that are common across all Hyperledger Fabric
 projects. In some cases, all of the common job types are not in every project.
@@ -62,27 +60,28 @@ configuration is straightforward. You can find more details about Jenkins Job
 Builder on `the JJB webpage <https://docs.openstack.org/infra/jenkins-job-builder/>`__.
 
 The following steps explain what happens when a developer submits a patch set to
-the **Fabric** repository.
-
-When a patch set is submitted to the `Fabric <https://jenkins.hyperledger.org/view/fabric/>`__
-repository, the Hyperledger Community CI server (Jenkins) triggers **Verify**
-jobs on **x86_64** platform using the patch set’s parent commit which may or may
-not be the latest commit on **Fabric**.
+the **fabric** repository.
 
 Build Process
 ^^^^^^^^^^^^^^
+At the point when a patch set is submitted to the `fabric <https://jenkins.hyperledger.org/view/fabric/>`__
+repository, the Hyperledger Community CI server (Jenkins) triggers **Verify**
+jobs on **x86_64** platform using the patch set’s parent commit which may or may
+not be the latest commit on **fabric**.
 
-The Fabric **verify** build process is split up into multiple jobs. The initial
-job (fabric-verify-build-checks-x86_64) is to build and publish docker images
-and binaries to Nexus3 and Nexus2, respectfully. These images are later
-pulled/downloaded in the downstream jobs, when the triggered conditions are met
-in ``fabric-verify-build-checks-x86_64`` CI job.
+Verify Jobs
+^^^^^^^^^^^^
+The Fabric **verify** build process is split up into multiple jobs.
+ - `fabric-verify-build-checks-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-verify-build-checks-x86_64/>`__
+ - `fabric-docs-build-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-docs-build-x86_64/>`__
+ - `fabric-verify-integration-tests-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-verify-integration-tests-x86_64/>`__
+ - `fabric-verify-unit-tests-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-verify-unit-tests-x86_64/>`__
 
-The list below describes the events that trigger relevant jobs based on the
-patch set:
+What does verify jobs do:
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Gerrit trigger events that trigger relevant jobs based on the patch set:
 
--  ``fabric-verify-build-checks-x86_64`` job is triggered when a
-   ``patch set`` is created and it validates the patch sets git commit message.
+-  ``fabric-verify-build-checks-x86_64`` job is triggered when a ``patch set`` is created and it validates the patch sets git commit message.
 
 -  If the commit message in the patch set contains 'WIP', the above build job
    **ignores** the build process and will not post a vote back to Gerrit.
@@ -96,7 +95,7 @@ patch set:
    extensions (.rst, .md, .py, .png,.css,.html and .ini), the above
    job posts the ``Run DocBuild`` comment to the patch set in Gerrit and
    sends the following votes against the patch set:
-   ``F1-VerifyBuild=+1 F2-SmokeTest=+1 F3-IntegrationTest=+1 F3-UnitTest=+1``.
+   ``F1-VerifyBuild=+1 F3-IntegrationTest=+1 F3-UnitTest=+1``.
 
 .. figure:: ./images/verifyjob.png
    :alt: Views
@@ -116,13 +115,11 @@ patch set:
    flow also applies to the **code only** patch set excluding documentation
    build process.
 
-        * Executes `make basic-checks`, `make docker` (builds, re-tags and
-          publish images to nexus3), `make dist` (builds binaries and
-          publishes to nexus2). If any of these make targets fail, the
+        * Executes `make basic-checks`, `make native`. If any of these make targets fail, the
           fabric-verify-build-checks-x86_64 job sends a `F1-VerifyBuild=-1`
           vote to Gerrit on the patch set, otherwise it sends
           `F1-VerifyBuild=+1`, then triggers **DocsBuild** and
-          **SmokeTest** jobs in parallel by posting comments to the patch
+          **IntegrationTest & UnitTest** jobs in parallel by posting comments to the patch
           set:
 
         * Run DocsBuild
@@ -140,17 +137,9 @@ patch set:
                      like syntax, and tox verification.This job is triggered
                      only when a patch set contains documentation files.
 
-                Step 2: Documented output is published to Nexus:
+                Step 2: Documented output is published to build logs:
                    - Once the documentation build is successful, it is
                      archived, and published on the Nexus repository.
-
-           * Run SmokeTest
-               - This comment triggers `fabric-smoke-tests-x86_64` job and posts
-                 `F2-SmokeTest=+1` to the patch set and triggers the Unit-Test
-                 and IntegrationTest jobs by posting `Run UnitTest` and `Run
-                 IntegrationTest` comment if successful, otherwise posts
-                 `F2-SmokeTest=-1` which doesn't trigger the Unit-Test or
-                 IntegrationTest jobs upon failure.
 
           * Run IntegrationTest
                - This comment triggers `fabric-verify-integration-tests-x86_64`
@@ -178,7 +167,6 @@ patch sets. The votes on the patch set will look like the following:
 
     F1-VerifyBuild     +1 Hyperledger Jobbuilder
     F2-DocBuild        +1 Hyperledger Jobbuilder
-    F2-SmokeTest       +1 Hyperledger Jobbuilder
     F3-IntegrationTest +1 Hyperledger Jobbuilder
     F3-UnitTest        +1 Hyperledger Jobbuilder
 
@@ -189,11 +177,16 @@ patch set is not eligible to merge, if it even gets one -1.
 
    Views
 
-Merge process for Fabric
-^^^^^^^^^^^^^^^^^^^^^^^^
+Merge Jobs
+^^^^^^^^^^^
+The Fabric **merge** build process is split up into multiple jobs.
+ - `fabric-merge-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-merge-x86_64/>`__
+ - `fabric-merge-end-2-end-x86_64 <https://jenkins.hyperledger.org/view/fabric/job/fabric-merge-end-2-end-x86_64/>`__
 
-Once the patch set is approved by CI and the maintainers, they will merge the
-patch set which triggers the **Merge** jobs mentioned below on the latest Fabric
+What does merge jobs do:
+^^^^^^^^^^^^^^^^^^^^^^^^^
+Once the patch set is approved by the maintainers ofthe fabric repository, they will merge the
+patch set which triggers the **Merge** jobs mentioned above on the latest Fabric
 commit (note: this process does not use the patch set’s parent commit).
 
 .. figure:: ./images/mergejobflow.png
@@ -202,11 +195,16 @@ commit (note: this process does not use the patch set’s parent commit).
    Views
 
 **fabric-merge-end-2-end-x86_64:**
-https://jenkins.hyperledger.org/view/fabric/job/fabric-merge-end-2-end-x86_64/
 
-Step 1: Clones the fabric-ca repository:
+Step 1: Builds the fabric images and binaries and third-party images (Kafka, Zookeeper, CouchDB) by using make targets.
+        -  ``docker`` -- builds the fabric images
+        -  ``release-clean`` -- clean the binaries from the host platform
+        -  ``release`` -- builds release packages for the host platform
+        -  ``docker-thirdparty`` -- builds the third-party images
 
--  Clones the latest commit from the Fabric fabric-ca repository and
+Step 2: Clone the fabric-ca repository:
+
+-  Clone the latest commit from the fabric-ca repository and
    then checks out the branch associated with the patch set. If the patch set is
    triggered on the fabric-ca release-1.1 branch, the script will checkout to
    the release-1.1 branch.
@@ -215,7 +213,7 @@ Step 1: Clones the fabric-ca repository:
    proceeds to build the docker images that will be used to run the end-to-end
    (e2e) tests.
 
-Step 2: Executes the e2e tests:
+Step 3: Executes the e2e tests:
 
 Below are the tests triggers in Fabric e2e job:
 
@@ -225,7 +223,7 @@ Below are the tests triggers in Fabric e2e job:
    -  Clones fabric-sdk-node repository and will checkout to Branch
    -  Spins up network using the docker-compose file from
       test/fixtures folder
-   -  Install nodejs 8.9.4 version
+   -  Install nodejs 8.11.3 version on master (varies from fabric branch to branch)
    -  RUN
       ``istanbul cover --report cobertura test/integration/e2e.js``
 
@@ -236,24 +234,23 @@ Below are the tests triggers in Fabric e2e job:
    -  If not, run the java e2e tests by executing ``source cirun.sh``
 
 3. byfn and efyn - Runs byfn and eyfn tests with default, custom channel,
-   couchdb and nodejs chaincode and fabric-ca sample tests. See the CI script
+   couchdb and nodejs chaincode. See the CI script
    here: https://github.com/hyperledger/ci-management/blob/master/jjb/fabric-samples/shell/include-raw-fabric-samples-byfn-e2e.sh
 
 **fabric-merge-x86_64:**
-https://jenkins.hyperledger.org/view/fabric/job/fabric-merge-x86_64
 
 Step 1: Pulls the third party docker images:
 
--  Pulls the fabric baseimage version third party docker images (kafka,
+-  Pulls the fabric-javaenv from nexus and fabric baseimage version third party docker images (kafka,
    zookeeper, couchdb). The image name is appended with ‘hyperledger’ and tagged
    with the latest tag.
 
 Step 2: Executes Fabric tests using below two commands:
 
     ``make linter`` See the make linter target in fabric/Makefile
-      ( https://github.com/hyperledger/fabric/blob/master/Makefile#L206 )
+      ( https://github.com/hyperledger/fabric/blob/master/Makefile#L207 )
     ``make unit-test`` See the make unit-test target in fabric/Makefile
-      ( https://github.com/hyperledger/fabric/blob/master/Makefile#L184 )
+      ( https://github.com/hyperledger/fabric/blob/master/Makefile#L186 )
 
 After the verify or merge tests are executed, It is time to archive the
 logs (artifacts). CI publishes the logs(artifacts) on Jenkins console.
@@ -265,11 +262,7 @@ logs (artifacts). CI publishes the logs(artifacts) on Jenkins console.
 
 Build Notifications
 ^^^^^^^^^^^^^^^^^^^^
-
-The build results can be viewed on the Jenkins console, and depending on the
-results, it displays a status with a colored bubble (green for success, red for
-failure). See the build results on Jenkins console
-(Jenkins Console)[https://jenkins.hyperledger.org/view/fabric/]
+Jenkins sends the build failure email notifications to the CI team.
 
 Trigger failed jobs through Gerrit comments
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -285,16 +278,11 @@ click **Post**
 
    ``VerifyBuild``   – Triggers fabric-verify-build-checks-x86_64 CI job,
    developers have to check the result of this job before posting the below
-   comments on the patch set. As mentioned above, this job publishes images and
-   binaries to nexus which further downloaded by SmokeTest and UnitTest jobs.
-   Please make sure that the images and binaries are published for that specific
-   commit.
+   comments on the patch set.
 
-   ``Run SmokeTest`` – Triggers fabric-smoke-tests-x86_64.
+   ``Run UnitTest``  - Triggers fabric-verify-unit-tests-x86_64.
 
-   ``Run UnitTest``  –  Triggers fabric-verify-unit-tests-x86_64.
-
-   ``Run DocsBuild`` – Triggers fabric-docs-build-x86_64
+   ``Run DocsBuild`` - Triggers fabric-docs-build-x86_64
 
    ``Run IntegrationTest`` - Triggers fabric-verify-integration-tests-x86_64.
 
@@ -304,22 +292,22 @@ are interested to know how the build is actively making progress.
 
 Rebasing Patch Sets
 ^^^^^^^^^^^^^^^^^^^
+With the existing Jenkins configuration, when rebasing a patchset from gerrit, Jenkins will not 
+trigger the builds if it is a trivial rebase.
 
-When rebasing a patch set, it is important to know that the jobs will only be
-re-triggered if there is a change to the files submitted in the original patch
-set. This means that if a rebase updates files that were not a part of the
-submitted patch set, the VerifyBuild (and downstream) jobs will not be triggered.
-When this is the case, and you would like to re-run the tests against your
-newly rebased patch set, add the ``VerifyBuild`` comment to the patch set, which
-manually triggers the verification/test process.
+What is trivial rebase means?
+Conflict-free merge between the new parent and the prior patch set.
 
-Amending Commit Messages
-^^^^^^^^^^^^^^^^^^^^^^^^
-Similar to rebasing, the amendment of a commit message will not re-trigger the
-build jobs since there are no changes to the code previously submitted.
+How to trigger manually from Gerrit?
+
+1) Click on rebase button from the patchset
+2) Post "Run VerifyBuild" or "VerifyBuild" comment phrase and click on post.
+
+Build on Commit Message changes:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+With the existing Jenkins job configuration, Jenkins will not trigger jobs on commit message changes.
 
 Questions
 ^^^^^^^^^
-
 Please reach out to us in https://chat.hyperledger.org/channel/ci-pipeline or
 https://chat.hyperledger.org/channel/fabric-ci RC channels for any questions.
