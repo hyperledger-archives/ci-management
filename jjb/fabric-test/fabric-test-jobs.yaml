@@ -211,6 +211,8 @@
           pull-version: '{stable-tag}'
       - release-version:
           push-version: '{rel_version}'
+      - git-commit:
+          commit: ''
 
     wrappers:
       - hyperledger-infra-wrappers
