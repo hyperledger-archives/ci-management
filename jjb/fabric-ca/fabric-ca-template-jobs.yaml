@@ -52,4 +52,4 @@
       - fabric-email-notification:
           email-ids: '{emaild_ids}'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: '{developer_id}'
