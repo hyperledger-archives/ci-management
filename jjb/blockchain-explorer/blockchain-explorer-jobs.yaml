@@ -2,143 +2,10 @@
 - project:
     name: blockchain-explorer
     jobs:
-      - '{project}-node8-verify-{arch}'
-      - '{project}-node8-merge-{arch}'
       - '{project}-release-job-{arch}'
     project: 'blockchain-explorer'
     arch:
       - 'x86_64'
-
-# gerrit changes
-
-- job-template:
-    name: '{project}-node8-verify-{arch}'
-
-    ######################
-    # Default parameters #
-    ######################
-
-    node-version: '8.11.3'
-    nvm-version: '0.33.2'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: ''
-
-    triggers:
-      - blockchain-explorer-gerrit-patch-submitted:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '20'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - npm-install:
-          node-version: '{node-version}'
-          nvm-version: '{nvm-version}'
-      - shell: |
-          #!/bin/bash -e
-          set -o pipefail
-
-          echo "---> Run npm tests"
-          npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
-          cd app/test && npm install
-          npm run test
-          cd ../../client && npm install
-          echo "--------> npm tests with code coverage"
-          npm test -- -u --coverage && npm run build
-
-    publishers:
-      - lf-infra-publish
-      - BE-coverage-report
-
-- job-template:
-    name: '{project}-node8-merge-{arch}'
-
-    ######################
-    # Default parameters #
-    ######################
-
-    node-version: '8.11.3'
-    nvm-version: '0.33.2'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: ''
-
-    triggers:
-      - blockchain-explorer-gerrit-patch-merged:
-          name: '{project}'
-          branch: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '20'
-
-    builders:
-      - clean-environment
-      - output-environment
-      - npm-install:
-          node-version: '{node-version}'
-          nvm-version: '{nvm-version}'
-      - shell: |
-          #!/bin/bash -e
-          set -o pipefail
-
-          echo "---> Run npm tests"
-          npm config set prefix ~/npm && npm install -g mocha && npm install chai && npm install
-          cd app/test && npm install
-          npm run test
-          cd ../../client && npm install
-          echo "--------> npm tests with code coverage"
-          npm test -- -u --coverage && npm run build
-
-    publishers:
-      - lf-infra-publish
-      - BE-coverage-report
 
 - job-template:
     name: '{project}-release-job-{arch}'
@@ -163,7 +30,7 @@
       - release-commit:
           pull-commit: ''
       - release-version:
-          push-version: '1.2.0'
+          push-version: ''
 
     scm:
       - gerrit-trigger-scm:
@@ -189,3 +56,44 @@
 
     publishers:
       - lf-infra-publish
+
+###############
+# Pipeline Jobs
+##############
+
+- project:
+    name: blockchain-explorer-verify-x86_64
+    jobs:
+
+      - 'fab-pipeline-verify'
+
+    project: blockchain-explorer
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    trigger_type: submitted
+    jenkins_file: Jenkinsfile
+    log_days: 7
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+- project:
+    name: blockchain-explorer-merge-x86_64
+    jobs:
+      - 'fab-pipeline-merge'
+
+    project: blockchain-explorer
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    trigger_type: merged
+    jenkins_file: Jenkinsfile
+    log_days: 7
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'
