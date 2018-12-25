@@ -4,29 +4,33 @@
     project: 'fabric-samples'
     arch:
       - 'x86_64'
+
     jobs:
       - 'fabric-byfn-upgrade-test-weekly-{arch}'
 
-    mvn-settings: 'fabric-settings'
+###########
+# Pipeline
+###########
 
-- job-template:
-    name: 'fabric-samples-verify-byfn'
+- samples_pipeline_common: &samples_pipeline_common
+    name: samples-pipeline-common
+
     project-type: pipeline
     concurrent: true
     pipeline-scm:
-      script-path: Jenkinsfile
+      script-path: '{jenkins_file}'
       scm:
         - git:
             credentials-id: 'hyperledger-jobbuilder'
-            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
+            url: '$GIT_BASE'
             shallow-clone: true
-            refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
+            refspec: '{src_code}'
             wipe-workspace: true
             clean:
-              before: false
+              before: true
               after: true
             branches:
-              - '$GERRIT_REFSPEC'
+              - '{src_branch}'
 
     parameters:
       - project-parameter:
@@ -34,68 +38,87 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: ''
+          refspec: '{refspec}'
 
     properties:
       - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+          days-to-keep: '{log_days}'
+          artifact-days-to-keep: '{log_days}'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-patch-{trigger_type}:
           name: '{project}'
           branch: '{branch}'
           trigger-comment1: '{comment1}'
           trigger-comment2: '{comment2}'
 
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '{build_timeout}'
+#############
+# Verify Job
+#############
 
 - job-template:
-    name: 'fabric-samples-merge-byfn'
-    project-type: pipeline
-    concurrent: true
-    pipeline-scm:
-      script-path: Jenkinsfile
-      scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            shallow-clone-depth: true
-            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
-            refspec: $GERRIT_REFSPEC:$GERRIT_REFSPEC
-            wipe-workspace: true
-            clean:
-              before: false
-              after: true
-            branches:
-              - '$GERRIT_REFSPEC'
+    name: '{project}-verify-job'
+    id: fab-samples-pipeline-verify
+    <<: *samples_pipeline_common
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
+############
+# Merge job
+############
 
-    properties:
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+- job-template:
+    name: '{project}-merge-job'
+    id: fab-samples-pipeline-merge
+    <<: *samples_pipeline_common
 
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: '{branch}'
-          trigger-comment1: '{comment1}'
-          trigger-comment2: '{comment2}'
+##########################
+# Verify Job Configuration
+##########################
 
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '{build_timeout}'
+- project:
+    name: fabric-samples-verify-job
+    jobs:
+      - fab-samples-pipeline-verify
+
+    project: fabric-samples
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    build_timeout: 60
+    trigger_type: submitted
+    log_days: 7
+    jenkins_file: Jenkinsfile
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+#########################
+# Merge Job Configuration
+#########################
+
+- project:
+    name: fabric-samples-merge-job
+    jobs:
+      - fab-samples-pipeline-merge
+
+    project: fabric-samples
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    build_timeout: 60
+    trigger_type: merged
+    log_days: 7
+    jenkins_file: Jenkinsfile
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'
+
+###################
+# BYFN Upgrade job
+###################
 
 - job-template:
     name: 'fabric-byfn-upgrade-test-weekly-{arch}'

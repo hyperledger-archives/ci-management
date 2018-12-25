@@ -93,7 +93,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
     test: behave
@@ -108,7 +108,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
     test: pte
@@ -123,7 +123,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
     test: lte
@@ -138,7 +138,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
     test: ote
@@ -153,7 +153,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
     test: ca
