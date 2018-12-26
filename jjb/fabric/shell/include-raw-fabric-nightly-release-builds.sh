@@ -12,43 +12,6 @@
 
 set -o pipefail
 
-# Checkout to fabric repository
-################################
-rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
-FABRIC_REPO=fabric
-git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
-cd $WD || exit
-FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
-echo "FABRIC_COMMIT ----------> $FABRIC_COMMIT" >> commit.log
-mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-
-# Pull thirdparty images
-make docker-thirdparty
-
-build_Fabric() {
-# Build fabric images with $PUSH_VERSION tag
-     for IMAGES in docker release-clean $1; do
-         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
-         if [ $? != 0 ]; then
-            echo "----------> make $IMAGES failed"
-            exit 1
-         fi
-     done
-echo
-echo "----------> List all fabric docker images"
-docker images | grep hyperledger
-}
-ARCH=$(go env GOARCH)
-if [ "$ARCH" = "s390x" ]; then
-       echo "---------> ARCH:" $ARCH
-       build_Fabric dist
-else
-       echo "---------> ARCH:" $ARCH
-       build_Fabric dist-all
-fi
-
 # Clone fabric-ca git repository
 ################################
 
@@ -100,4 +63,41 @@ if [ "$ARCH" = "s390x" ]; then
 else
        echo "---------> ARCH:" $ARCH
        build_Fabric_Ca dist-all docker-fvt
+fi
+
+# Checkout to fabric repository
+################################
+rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
+WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
+FABRIC_REPO=fabric
+git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
+cd $WD || exit
+FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
+echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
+echo "FABRIC_COMMIT ----------> $FABRIC_COMMIT" >> commit.log
+mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
+
+# Pull thirdparty images
+make docker-thirdparty
+
+build_Fabric() {
+# Build fabric images with $PUSH_VERSION tag
+     for IMAGES in docker release-clean $1; do
+         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+         if [ $? != 0 ]; then
+            echo "----------> make $IMAGES failed"
+            exit 1
+         fi
+     done
+echo
+echo "----------> List all fabric docker images"
+docker images | grep hyperledger
+}
+ARCH=$(go env GOARCH)
+if [ "$ARCH" = "s390x" ]; then
+       echo "---------> ARCH:" $ARCH
+       build_Fabric dist
+else
+       echo "---------> ARCH:" $ARCH
+       build_Fabric dist-all
 fi
