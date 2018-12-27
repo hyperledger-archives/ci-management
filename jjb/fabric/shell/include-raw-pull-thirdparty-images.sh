@@ -25,9 +25,13 @@ fi
 if [[ $GERRIT_BRANCH = 'release-1.0' ]]; then
     BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep "PREV_VERSION =" | cut -d " " -f 3`
     echo "------> $BASEIMAGE_RELEASE"
+elif [[ $GERRIT_BRANCH = 'master' ]]; then
+    BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep "BASEIMAGE_RELEASE =" | cut -d "=" -f 2 | tr -d ' '`
+    echo "-----> BASEIMAGE_RELEASE: $BASEIMAGE_RELEASE"
 else
     BASEIMAGE_RELEASE=`cat $WORKSPACE/gopath/src/github.com/hyperledger/fabric/Makefile | grep BASEIMAGE_RELEASE= | cut -d "=" -f 2`
     echo "-----> BASEIMAGE_RELEASE: $BASEIMAGE_RELEASE"
+
 fi
 
 dockerTag() {

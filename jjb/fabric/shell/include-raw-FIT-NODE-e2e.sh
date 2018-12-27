@@ -44,7 +44,7 @@ docker ps -a
 cd ../..
 
 # Install nvm to install multi node versions
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
 # shellcheck source=/dev/null
 export NVM_DIR="$HOME/.nvm"
 # shellcheck source=/dev/null
@@ -67,10 +67,16 @@ elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"*
     nvm use --delete-prefix v$NODE_VER --silent
  else
     NODE_VER=8.11.3
-    echo "------> Use $NODE_VER for master"
-    nvm install $NODE_VER
-    # use nodejs 8.11.3 version
-    nvm use --delete-prefix v$NODE_VER --silent
+    echo "------> Use $NODE_VER"
+    INSTL_VER=$(node -v)
+    echo "====> $INSTL_VER"
+    if [[ $INSTL_VER = "$NODE_VER" ]]; then
+       echo "====> NODE $NODE_VER is installed already"
+    else
+       nvm install $NODE_VER
+       # use nodejs 8.11.3 version
+       nvm use --delete-prefix v$NODE_VER --silent
+    fi
 fi
 
 echo "npm version ======>"

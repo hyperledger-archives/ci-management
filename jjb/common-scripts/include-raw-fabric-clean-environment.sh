@@ -23,20 +23,12 @@ function clearContainers () {
 }
 
 function removeUnwantedImages() {
-        DOCKER_IMAGES_SNAPSHOTS=$(docker images | grep snapshot | grep -v grep | awk '{print $1":" $2}')
-
-        if [ -z "$DOCKER_IMAGES_SNAPSHOTS" ] || [ "$DOCKER_IMAGES_SNAPSHOTS" = " " ]; then
-                echo "---- No snapshot images available for deletion ----"
-        else
-	        docker rmi -f $DOCKER_IMAGES_SNAPSHOTS || true
-	fi
-
-	for i in $(docker images | grep none | awk '{print $3}'); do
-		docker rmi ${i};
-	done
+        for i in $(docker images | grep none | awk '{print $3}'); do
+		docker rmi ${i} || true
+        done
 
 	for i in $(docker images | grep -vE ".*baseimage.*(0.4.13|0.4.14)" | grep -vE ".*baseos.*(0.4.13|0.4.14)" | grep -vE ".*couchdb.*(0.4.13|0.4.14)" | grep -vE ".*zoo.*(0.4.13|0.4.14)" | grep -vE ".*kafka.*(0.4.13|0.4.14)" | grep -v "REPOSITORY" | awk '{print $1":" $2}'); do
-	        docker rmi ${i};
+	        docker rmi ${i} || true
         done
 		docker images
 }
