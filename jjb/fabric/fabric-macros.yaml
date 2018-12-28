@@ -368,7 +368,7 @@
             export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
             softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
           fi
-            cd gopath/src/github.com/hyperledger/fabric && time make linter && time make unit-test
+            cd $GOPATH/src/github.com/hyperledger/fabric && time make linter && time make unit-test
 # Macro for fabric unit-test job
 - builder:
     name: fabric-unit-tests-verification

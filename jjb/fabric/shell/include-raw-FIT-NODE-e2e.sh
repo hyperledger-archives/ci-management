@@ -19,12 +19,7 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
 git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
 cd $WD
-# checkout to master branch till we cut 1.4 branch on fabric-sdk-node
-if [[ "$GERRIT_BRANCH" != "release-1.4" ]]; then
-   git checkout $GERRIT_BRANCH
-else
-   git checkout master
-fi
+git checkout $GERRIT_BRANCH
 
 # error check
 err_check() {
@@ -66,16 +61,25 @@ elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"*
     # use nodejs 8.9.4 version
     nvm use --delete-prefix v$NODE_VER --silent
  else
-    NODE_VER=8.11.3
-    echo "------> Use $NODE_VER"
-    INSTL_VER=$(node -v)
-    echo "====> $INSTL_VER"
-    if [[ $INSTL_VER = "$NODE_VER" ]]; then
-       echo "====> NODE $NODE_VER is installed already"
+    if [[ "$GERRIT_BRANCH" = "master" ]]; then
+      NODE_VER=8.11.3
+      echo "------> Use $NODE_VER"
+      INSTL_VER=$(node -v)
+      echo "====> $INSTL_VER"
+
+      if [[ $INSTL_VER = "$NODE_VER" ]]; then
+         echo "====> NODE $NODE_VER is installed already"
+      else
+         nvm install $NODE_VER
+         # use nodejs 8.11.3 version
+         nvm use --delete-prefix v$NODE_VER --silent
+      fi
+
     else
-       nvm install $NODE_VER
-       # use nodejs 8.11.3 version
-       nvm use --delete-prefix v$NODE_VER --silent
+      NODE_VER=8.11.3
+      nvm install $NODE_VER
+      # use nodejs 8.11.3 version
+      nvm use --delete-prefix v$NODE_VER --silent
     fi
 fi
 
