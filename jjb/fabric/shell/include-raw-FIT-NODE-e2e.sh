@@ -15,10 +15,10 @@ set -o pipefail
 #####################
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node
 
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
+SDK_NODE_WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-node"
 SDK_REPO_NAME=fabric-sdk-node
-git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
-cd $WD
+git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $SDK_NODE_WD
+cd $SDK_NODE_WD
 git checkout $GERRIT_BRANCH
 
 # error check
@@ -60,34 +60,36 @@ elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"*
     nvm install $NODE_VER
     # use nodejs 8.9.4 version
     nvm use --delete-prefix v$NODE_VER --silent
- else
-    if [[ "$GERRIT_BRANCH" = "master" ]]; then
-      NODE_VER=8.11.3
-      echo "------> Use $NODE_VER"
-      INSTL_VER=$(node -v)
-      echo "====> $INSTL_VER"
-
-      if [[ $INSTL_VER = "$NODE_VER" ]]; then
-         echo "====> NODE $NODE_VER is installed already"
-      else
-         nvm install $NODE_VER
-         # use nodejs 8.11.3 version
-         nvm use --delete-prefix v$NODE_VER --silent
-      fi
-
-    else
-      NODE_VER=8.11.3
-      nvm install $NODE_VER
-      # use nodejs 8.11.3 version
-      nvm use --delete-prefix v$NODE_VER --silent
-    fi
+elif [[ "$GERRIT_BRANCH" = "master" ]]; then
+    echo -e "\033[32m Build Chaincode-nodeenv-image" "\033[0m"
+    rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node
+    WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node"
+    REPO_NAME=fabric-chaincode-node
+    git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+    cd $WD || exit
+    NODE_VER=8.11.3
+    nvm install $NODE_VER
+    # use nodejs 8.11.3 version
+    nvm use --delete-prefix v$NODE_VER --silent
+    npm install || err_check "npm install failed"
+    npm config set prefix ~/npm || exit 1
+    npm install -g gulp || exit 1
+    # Build nodeenv image
+    gulp docker-image-build
+    docker images | grep hyperledger && docker ps -a
+else
+    NODE_VER=8.11.3
+    echo "------> Use $NODE_VER for master"
+    nvm install $NODE_VER
+    # use nodejs 8.11.3 version
+    nvm use --delete-prefix v$NODE_VER --silent
+    echo "npm version ======>"
+    npm -v
+    echo "node version =======>"
+    node -v
 fi
 
-echo "npm version ======>"
-npm -v
-echo "node version =======>"
-node -v
-
+cd $SDK_NODE_WD
 npm install || err_check "npm install failed"
 npm config set prefix ~/npm || exit 1
 npm install -g gulp || exit 1
