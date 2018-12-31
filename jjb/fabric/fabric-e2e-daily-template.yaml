@@ -39,9 +39,9 @@
       - 'golang-environment-{arch}'
       - dockerimages
       - pull-nexus-chaincode-java-image
+      - end-to-end-NODE
       - clone-fabric-samples
       - fabric-byfn-tests
-      - end-to-end-NODE
       - end-to-end-JAVA
 
     publishers:
