@@ -13,7 +13,7 @@ set -o pipefail
 
 echo "---------> GERRIT_BRANCH" $GERRIT_BRANCH
 echo "---------> ARCH" $ARCH
-if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" != "ppc64le" ]; then
+if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$GERRIT_BRANCH" != "master" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" != "ppc64le" ]; then
       echo "----> $GERRIT_BRANCH"
       # Move to fabric-sdk-java repository and execute end-to-end tests
       rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java
