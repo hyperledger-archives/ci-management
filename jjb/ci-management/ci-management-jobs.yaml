@@ -10,7 +10,7 @@
     stream: master
     branch: master
     build-node: hyp-x
-    jjb-version: 2.2.1
+    jjb-version: 2.9.1
 
 - project:
     name: packer-jobs
