@@ -25,7 +25,8 @@
           base-dir: '$BASE_DIR'
 
     triggers:
-      - timed: '{cron_time}'
+      - pollscm:
+          cron: '{cron_time}'
 
     wrappers:
       - hyperledger-infra-wrappers
