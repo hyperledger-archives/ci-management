@@ -118,11 +118,6 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
         copy_logs $? default-channel-node
         echo y | ./eyfn.sh -m down
 
-        echo "############### FABRIC-CA SAMPLES TEST ########################"
-        echo "###############################################################"
-        cd ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples/fabric-ca || exit
-        ./start.sh && ./stop.sh
-
 else
         echo "############## BYFN DEFAULT CHANNEL TEST#########################"
         echo "#################################################################"

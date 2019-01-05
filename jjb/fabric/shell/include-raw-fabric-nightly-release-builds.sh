@@ -27,7 +27,7 @@ echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperl
 build_Fabric_Ca() {
        #### Build fabric-ca docker images
 if [ $GERRIT_BRANCH = "master" ] || [ $GERRIT_BRANCH = "release-1.4" ] || [ $GERRIT_BRANCH = "release-1.3" ]; then
-       for IMAGES in docker-all $2 release-clean $1; do
+       for IMAGES in docker $2 release-clean $1; do
            make $IMAGES PROJECT_VERSION=$PUSH_VERSION
            if [ $? != 0 ]; then
                echo "-------> make $IMAGES failed"

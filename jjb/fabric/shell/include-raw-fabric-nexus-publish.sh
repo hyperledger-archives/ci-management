@@ -43,7 +43,7 @@ fabric_DockerTag() {
 }
 
 fabric_Ca_DockerTag() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
+    for IMAGES in ca $1; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
@@ -71,7 +71,7 @@ dockerFabricPush() {
 }
 
 dockerFabricCaPush() {
-    for IMAGES in ca ca-peer ca-orderer ca-tools $1; do
+    for IMAGES in ca $1; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
 	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
