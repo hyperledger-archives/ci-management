@@ -29,9 +29,6 @@ STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
 PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")
 
-# Build chaincode-javaenv docker image
-./gradlew buildImage
-
 echo "========> gradlew build"
 
 # gladlew build from fabric-chaincode-java repo

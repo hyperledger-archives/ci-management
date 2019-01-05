@@ -45,8 +45,6 @@
          #!/bin/bash -exu
 
          set -o pipefail
-         # gradlew build javaenv image
-         ./gradlew buildImage
          # gradlew build from fabric-chaincode-java repo
          ./gradlew build
 
