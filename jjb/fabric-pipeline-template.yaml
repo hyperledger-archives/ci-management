@@ -1,0 +1,63 @@
+---
+
+###########
+# Pipeline
+###########
+
+- pipeline_common: &pipeline_common
+    name: pipeline-common
+
+    project-type: pipeline
+    concurrent: true
+    pipeline-scm:
+      script-path: '{jenkins_file}'
+      scm:
+        - git:
+            credentials-id: 'hyperledger-jobbuilder'
+            url: '$GIT_BASE'
+            shallow-clone: true
+            refspec: '{src_code}'
+            wipe-workspace: true
+            clean:
+              before: true
+              after: true
+            branches:
+              - '{src_branch}'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: '{refspec}'
+
+    properties:
+      - build-discarder:
+          days-to-keep: '{log_days}'
+          artifact-days-to-keep: '{log_days}'
+
+    triggers:
+      - gerrit-trigger-patch-{trigger_type}:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: '{comment1}'
+          trigger-comment2: '{comment2}'
+
+#############
+# Verify Job
+#############
+
+- job-template:
+    name: '{project}-verify-{arch}'
+    id: fab-pipeline-verify
+    <<: *pipeline_common
+
+############
+# Merge job
+############
+
+- job-template:
+    name: '{project}-merge-{arch}'
+    id: fab-pipeline-merge
+    <<: *pipeline_common
