@@ -26,7 +26,8 @@
           base-dir: '$BASE_DIR'
 
     triggers:
-      - timed: '{cron_time}'
+      - pollscm:
+          cron: '{cron_time}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -48,6 +49,6 @@
       - lf-infra-publish
       - log-artifacts
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'

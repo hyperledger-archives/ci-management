@@ -22,12 +22,7 @@ COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
 
 git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
 cd $WD || exit
-# checkout to master branch till we cut 1.4 branch on fabric-samples
-if [[ "$GERRIT_BRANCH" != "release-1.4" ]]; then
-   git checkout $GERRIT_BRANCH
-else
-   git checkout master
-fi
+git checkout $GERRIT_BRANCH
 echo "-------> GERRIT_BRANCH: $GERRIT_BRANCH"
 FABRIC_SAMPLES_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "FABRIC_SAMPLES_COMMIT ========> $FABRIC_SAMPLES_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log

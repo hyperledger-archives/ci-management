@@ -35,9 +35,9 @@ pullChaincodeJavaImage() {
             export JAVA_ENV_VERSION=amd64-2.0.0-stable
             export JAVA_ENV_TAG=2.0.0
          elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-	    export JAVA_ENV_VERSION=amd64-1.4.0-stable
-	    export JAVA_ENV_TAG=1.4.0
-	 else
+            export JAVA_ENV_VERSION=amd64-1.4.0-stable
+            export JAVA_ENV_TAG=1.4.0
+         else
             export JAVA_ENV_VERSION=amd64-1.3.1-stable
             export JAVA_ENV_TAG=1.3.1
          fi
@@ -58,4 +58,8 @@ main() {
   pullChaincodeJavaImage
 }
 
-main
+if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$GERRIT_BRANCH" != "release-1.1" ] && [ "$GERRIT_BRANCH" != "release-1.2" ]; then
+   main
+else
+   echo "=======> javaenv is not available on $GERRIT_BRANCH"
+fi
