@@ -29,7 +29,7 @@ echo "CA COMMIT" $CA_COMMIT
 cd - || exit
 
 fabric_DockerTag() {
-    for IMAGES in peer orderer ccenv tools; do
+    for IMAGES in ${IMAGES_LIST[*]}; do
          echo "----------> $IMAGES"
          echo
          docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
@@ -57,7 +57,7 @@ fabric_Ca_DockerTag() {
 }
 
 dockerFabricPush() {
-    for IMAGES in peer orderer ccenv tools; do
+    for IMAGES in ${IMAGES_LIST[*]}; do
          echo "-----------> $IMAGES"
          docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
 	 if [[ "$GERRIT_BRANCH" = "master" ]]; then
@@ -83,16 +83,24 @@ dockerFabricCaPush() {
          docker images
          echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
-# Tag Fabric Docker Images
-fabric_DockerTag
+
+if [[ "$GERRIT_BRANCH" = "master" ]]; then
+   IMAGES_LIST=(baseos peer orderer ccenv tools)
+   fabric_DockerTag  #Tag Fabric Docker Images
+   dockerFabricPush  #Push Fabric Docker Images to Nexus3
+else
+   IMAGES_LIST=(peer orderer ccenv tools)
+   fabric_DockerTag  #Tag Fabric Docker Images
+   dockerFabricPush  #Push Fabric Docker Images to Nexus3
+fi
+
 # Tag Fabric Ca Docker Images
 if [ $ARCH = s390x ] || [ $ARCH = ppc64le ]; then
     fabric_Ca_DockerTag
 else
     fabric_Ca_DockerTag ca-fvt
 fi
-# Push Fabric Docker Images to Nexus3
-dockerFabricPush
+
 # Push Fabric Ca Docker Images to Nexus3
 if [ $ARCH = s390x ] || [ $ARCH = ppc64le ]; then
     dockerFabricCaPush
