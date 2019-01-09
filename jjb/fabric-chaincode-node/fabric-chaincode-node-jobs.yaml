@@ -7,150 +7,6 @@
       - fabric-nodeenv-x86_64
       - fabric-nodeenv-s390x
 
-- job-group:
-    name: '{project-name}-jobs'
-
-    jobs:
-      - fab-chaincode-node-verify
-      - fab-chaincode-node-merge
-
-###########
-# Pipeline
-###########
-
-- chaincode_node_pipeline_common: &chaincode_node_pipeline_common
-    name: chaincode-node-pipeline-common
-
-    project-type: pipeline
-    concurrent: true
-    pipeline-scm:
-      script-path: '{jenkins_file}'
-      scm:
-        - git:
-            credentials-id: 'hyperledger-jobbuilder'
-            url: 'git://cloud.hyperledger.org/mirror/$PROJECT'
-            shallow-clone: true
-            refspec: '{src_code}'
-            wipe-workspace: true
-            clean:
-              before: true
-              after: true
-            branches:
-              - '{src_branch}'
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    properties:
-      - build-discarder:
-          days-to-keep: '{log_days}'
-          artifact-days-to-keep: '{log_days}'
-
-    triggers:
-      - gerrit-trigger-patch-{trigger_type}:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: '{comment1}'
-          trigger-comment2: '{comment2}'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-
-#############
-# Verify Jobs
-#############
-
-- job-template:
-    name: '{project-name}-verify-{arch}'
-    id: fab-chaincode-node-verify
-    <<: *chaincode_node_pipeline_common
-
-- job-template:
-    name: '{project-name}-merge-{arch}'
-    id: fab-chaincode-node-merge
-    <<: *chaincode_node_pipeline_common
-
-###############
-# Verify
-###############
-
-- project:
-    name: fabric-chaincode-node-verify-x86_64
-    jobs:
-      - fab-chaincode-node-verify
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    trigger_type: submitted
-    log_days: 7
-    jenkins_file: Jenkinsfile.x
-    src_branch: '$GERRIT_REFSPEC'
-    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
-
-- project:
-    name: fabric-chaincode-node-verify-s390x
-    jobs:
-      - fab-chaincode-node-verify
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    arch: 's390x'
-    build_node: 'z'
-    comment1: 'reverify-z$'
-    comment2: 'reverify$'
-    trigger_type: submitted
-    log_days: 7
-    jenkins_file: Jenkinsfile.z
-    src_branch: '$GERRIT_REFSPEC'
-    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
-
-############
-# Merge Jobs
-############
-
-- project:
-    name: fabric-chaincode-node-merge-s390x
-    jobs:
-      - fab-chaincode-node-merge
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    arch: 's390x'
-    build_node: 'z'
-    comment1: 'remerge-z$'
-    comment2: 'remerge$'
-    trigger_type: merged
-    log_days: 7
-    jenkins_file: Jenkinsfile.z
-    src_branch: 'refs/heads/$GERRIT_BRANCH'
-    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
-
-- project:
-    name: fabric-chaincode-node-merge-x86_64
-    jobs:
-      - fab-chaincode-node-merge
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'remerge-x$'
-    comment2: 'remerge$'
-    trigger_type: merged
-    log_days: 7
-    jenkins_file: Jenkinsfile.x
-    src_branch: 'refs/heads/$GERRIT_BRANCH'
-    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
-
 #######################
 # Publish nodeenv image
 #######################
@@ -300,3 +156,87 @@
           docker tag $ORG_NAME-nodeenv $NEXUS_URL/$ORG_NAME-nodeenv:s390x-latest
           docker push $NEXUS_URL/$ORG_NAME-nodeenv:s390x-latest
           docker push $NEXUS_URL/$ORG_NAME-nodeenv:s390x-$PUSH_VERSION
+
+###############
+## Pipeline job configuration for verify and merge jobs
+##############
+
+##########################
+# Verify Job Configuration
+##########################
+
+- project:
+    name: fabric-chaincode-node-verify-x86_64
+    jobs:
+      - 'fab-pipeline-verify'
+
+    project: fabric-chaincode-node
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'reverify-x$'
+    comment2: 'reverify$'
+    trigger_type: submitted
+    jenkins_file: Jenkinsfile.x
+    log_days: 7
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+- project:
+    name: fabric-chaincode-node-verify-s390x
+    jobs:
+      - 'fab-pipeline-verify'
+
+    project: fabric-chaincode-node
+    branch: ''
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'reverify-z$'
+    comment2: 'reverify$'
+    trigger_type: submitted
+    jenkins_file: Jenkinsfile.z
+    log_days: 7
+    src_branch: '$GERRIT_REFSPEC'
+    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
+    refspec: ''
+
+#########################
+# Merge Job Configuration
+#########################
+
+- project:
+    name: fabric-chaincode-node-merge-s390x
+    jobs:
+      - 'fab-pipeline-merge'
+
+    project: fabric-chaincode-node
+    branch: ''
+    arch: 's390x'
+    build_node: 'z'
+    comment1: 'remerge-z$'
+    comment2: 'remerge$'
+    trigger_type: merged
+    jenkins_file: Jenkinsfile.z
+    log_days: 7
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'
+
+- project:
+    name: fabric-chaincode-node-merge-x86_64
+    jobs:
+      - 'fab-pipeline-merge'
+
+    project: fabric-chaincode-node
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
+    trigger_type: merged
+    jenkins_file: Jenkinsfile.x
+    log_days: 7
+    src_branch: 'refs/heads/$GERRIT_BRANCH'
+    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
+    refspec: 'refs/heads/$GERRIT_BRANCH'

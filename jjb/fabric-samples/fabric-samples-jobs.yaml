@@ -1,12 +1,11 @@
 ---
-
 - project:
-    name: fabric-chaincode-evm-verify-x86_64
+    name: fabric-samples-verify-jobs
     jobs:
       - 'fab-pipeline-verify'
 
-    project: fabric-chaincode-evm
-    branch: 'master'
+    project: fabric-samples
+    branch: ''
     arch: 'x86_64'
     build_node: 'x'
     comment1: 'reverify-x$'
@@ -18,17 +17,13 @@
     src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
     refspec: ''
 
-#########################
-# Merge Job Configuration
-#########################
-
 - project:
-    name: fabric-chaincode-evm-merge-x86_64
+    name: fabric-samples-merge-job
     jobs:
       - 'fab-pipeline-merge'
 
-    project: fabric-chaincode-evm
-    branch: 'master'
+    project: fabric-samples
+    branch: ''
     arch: 'x86_64'
     build_node: 'x'
     comment1: 'remerge-x$'
