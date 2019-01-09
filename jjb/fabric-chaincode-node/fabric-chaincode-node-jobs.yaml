@@ -87,7 +87,7 @@
 - job-template:
     name: 'fabric-nodeenv-s390x'
     project-type: freestyle
-    node: 'hyp-x'
+    node: 'hyp-z'
     concurrent: true
     mvn-settings: 'fabric-settings'
 
