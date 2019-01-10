@@ -116,8 +116,14 @@ run_e2e_tests() {
 }
 
 main() {
-  clone_fabric
-  clone_fabric_ca
+    # Skip build when the value is true
+    if [[ "$FABRIC_NO_BUILD" = "" ]]; then
+          clone_fabric
+    fi
+    # Skip build when the value is true
+    if [[ "$FABRIC_CA_NO_BUILD" = "" ]]; then
+          clone_fabric_ca
+    fi
   run_e2e_tests
 }
 
