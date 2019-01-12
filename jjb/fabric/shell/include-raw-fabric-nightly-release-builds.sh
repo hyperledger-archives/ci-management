@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -eu
+set -o pipefail
+
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -10,94 +12,64 @@
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
-set -o pipefail
-
-# Clone fabric-ca git repository
-################################
-
-rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
-CA_REPO_NAME=fabric-ca
-git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
-cd $WD && git checkout $GERRIT_BRANCH && echo "--------> $GERRIT_BRANCH"
-CA_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "---------> FABRIC_CA_COMMIT : $CA_COMMIT"
-echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
 build_Fabric_Ca() {
-       #### Build fabric-ca docker images
-if [ $GERRIT_BRANCH = "master" ] || [ $GERRIT_BRANCH = "release-1.4" ] || [ $GERRIT_BRANCH = "release-1.3" ]; then
-       for IMAGES in docker $2 release-clean $1; do
-           make $IMAGES PROJECT_VERSION=$PUSH_VERSION
-           if [ $? != 0 ]; then
-               echo "-------> make $IMAGES failed"
-               exit 1
-           fi
-        done
-               echo
-               echo "-------> List fabric-ca docker images"
-               docker images | grep hyperledger/fabric-ca
+    FABRIC_CA_WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
+    echo -e "\033[32m === Clone fabric-ca repository ===  \033[0m"
+    rm -rf $FABRIC_CA_WD
 
-else
+    # Clone fabric-ca repository with specific branch and depth=1
+    git clone --single-branch -b $GERRIT_BRANCH --depth=2 git://cloud.hyperledger.org/mirror/fabric-ca $FABRIC_CA_WD
+    cd $FABRIC_CA_WD
+    git checkout $GERRIT_BRANCH
+    echo "--------> $GERRIT_BRANCH"
 
-        for IMAGES in docker $2 release-clean $1; do
-             make $IMAGES PROJECT_VERSION=$PUSH_VERSION
-           if [ $? != 0 ]; then
-               echo "-------> make $IMAGES failed"
-               exit 1
-           fi
-        done
-               echo
-               echo "----------> List all fabric-ca docker images"
-               docker images | grep hyperledger/fabric-ca || true
-fi
+    # Print last two commits
+    git log -n2
+
+    echo -e "\033[32m ==== Build fabric-ca docker images ==== \033[0m"
+    for IMAGES in docker-fabric-ca $2 release-clean $1; do
+        # Build docker images with PROJECT_VERSION
+        # Get the PUSH_VERSION from Jenkins Enviornment Variable
+        make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+    done
 }
 
-docker images | grep hyperledger/fabric-ca
+build_Fabric() {
+    FABRIC_WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
+    rm -rf $FABRIC_WD
+    # Clone fabric repository with specific branch and depth=1
+    git clone --single-branch -b $GERRIT_BRANCH --depth=2 git://cloud.hyperledger.org/mirror/fabric $FABRIC_WD
+    cd $FABRIC_WD
+
+    # Checkout to Branch
+    git checkout $GERRIT_BRANCH
+
+    # print last two commits
+    git log -n2
+
+    # Pull thirdparty images
+    make docker-thirdparty
+
+    # Build fabric images with $PUSH_VERSION tag
+    for IMAGES in docker release-clean $1; do
+        make $IMAGES PROJECT_VERSION=$PUSH_VERSION
+    done
+
+    echo
+    echo "----------> List all fabric docker images"
+    docker images | grep hyperledger
+}
 
 # Execute release-all target on x arch
 ARCH=$(go env GOARCH)
+
 if [ "$ARCH" = "s390x" ]; then
-       echo "---------> ARCH:" $ARCH
-       build_Fabric_Ca release
+    echo "---------> ARCH:" $ARCH
+    build_Fabric_Ca release
+    build_Fabric dist
 else
-       echo "---------> ARCH:" $ARCH
-       build_Fabric_Ca dist-all docker-fvt
-fi
-
-# Checkout to fabric repository
-################################
-rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
-FABRIC_REPO=fabric
-git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO $WD
-cd $WD || exit
-FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "----------> FABRIC_COMMIT : $FABRIC_COMMIT"
-echo "FABRIC_COMMIT ----------> $FABRIC_COMMIT" >> commit.log
-mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-
-# Pull thirdparty images
-make docker-thirdparty
-
-build_Fabric() {
-# Build fabric images with $PUSH_VERSION tag
-     for IMAGES in docker release-clean $1; do
-         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
-         if [ $? != 0 ]; then
-            echo "----------> make $IMAGES failed"
-            exit 1
-         fi
-     done
-echo
-echo "----------> List all fabric docker images"
-docker images | grep hyperledger
-}
-ARCH=$(go env GOARCH)
-if [ "$ARCH" = "s390x" ]; then
-       echo "---------> ARCH:" $ARCH
-       build_Fabric dist
-else
-       echo "---------> ARCH:" $ARCH
-       build_Fabric dist-all
+    echo "---------> ARCH:" $ARCH
+    build_Fabric_Ca dist-all docker-fvt
+    build_Fabric dist-all
 fi

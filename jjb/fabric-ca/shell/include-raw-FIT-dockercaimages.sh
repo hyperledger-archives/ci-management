@@ -11,50 +11,45 @@
 ##############################################################################
 set -o pipefail
 
-echo "=========>Build FABRIC_CA Image<=========="
-cd $GOPATH/src/github.com/hyperledger/fabric-ca
-CA_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "CA_COMMIT ===========> $CA_COMMIT" >> commit.log
-echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
-mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-make docker-fabric-ca
-if [ $? != 0 ]; then
-   echo "------> make docker failed"
-   exit 1
-fi
-docker images | grep hyperledger
+BASE_WD=${WORKSPACE}/gopath/src/github.com/hyperledger
 
-# Clone fabric repository
-echo "========>Cloning Fabric<=========="
-rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
-REPO_NAME=fabric
-git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
-cd $WD || exit
+# Build fabric-ca docker images
+###############################
+echo -e "\033[32m Build fabric_ca Images \033[0m"
+
+# Print last two commits
+git -C $BASE_WD/fabric-ca log -n2
+
+# Build fabric-ca docker image
+make -C $BASE_WD/fabric-ca docker-fabric-ca
+
+# Build fabric docker images
+############################
+echo -e "\033[32m Build fabric docker images \033[0m"
+
+# Delete fabric directory
+rm -rf $BASE_WD/fabric
+
+# Clone single branch from gerrit mirro url
+echo -e "\033[32m Clone fabric repository \033[0m"
+git clone --single-branch -b $GERRIT_BRANCH git://cloud.hyperledger.org/mirror/fabric $BASE_WD/fabric
+cd $BASE_WD/fabric
+
+# Checkout to branch
+git checkout $GERRIT_BRANCH
+
+# Print last two commits
+git log -n2
+
+if ! GO_VER=$(grep GO_VER ci.properties | cut -d "=" -f2); then
+    echo "-----> GO_VER not set"
+    exit 1
+fi
+echo -e "\033[32m -------> GO_VER $GO_VER \033[0m"
 
 # export fabric go version
-GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-export GOROOT=/opt/go/go$GO_VER.linux.amd64
-export PATH=$GOROOT/bin:$PATH
-echo "----> GO_VER" $GO_VER
-set +e
+GOROOT=/opt/go/go$GO_VER.linux.amd64
+PATH=$GOROOT/bin:$PATH
 
-BRANCH_NAME=$(echo $GERRIT_BRANCH | grep 'release-')
-echo "-----> $BRANCH_NAME"
-if [ ! -z "$BRANCH_NAME" ]; then
-      echo "-----> Checkout to $GERRIT_BRANCH branch"
-      git checkout $GERRIT_BRANCH
-fi
-set -e
-echo "-----> $GERRIT_BRANCH"
-git checkout $GERRIT_BRANCH
-FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "-----> FABRIC_COMMIT : $FABRIC_COMMIT"
-echo "FABRIC_COMMIT ===========> $FABRIC_COMMIT" >> commit.log
-
+# Build fabric docker images
 make docker
-if [ $? != 0 ]; then
-   echo "-------> make docker failed"
-   exit 1
-fi
-docker images | grep hyperledger

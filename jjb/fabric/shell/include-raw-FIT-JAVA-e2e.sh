@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash -eu
+set -o pipefail
+
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -9,33 +11,25 @@
 # which accompanies this distribution, and is available at
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-set -o pipefail
 
-echo "---------> GERRIT_BRANCH" $GERRIT_BRANCH
-echo "---------> ARCH" $ARCH
-if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$GERRIT_BRANCH" != "master" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" != "ppc64le" ]; then
-      echo "----> $GERRIT_BRANCH"
-      # Move to fabric-sdk-java repository and execute end-to-end tests
-      rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java
+if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" != "ppc64le" ]; then
 
-      WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java"
-      SDK_REPO_NAME=fabric-sdk-java
-      git clone git://cloud.hyperledger.org/mirror/$SDK_REPO_NAME $WD
-      cd $WD
-      if [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-          # checkout to master branch till we cut 1.4 branch on sdk-java
-          git checkout master
-      else
-          git checkout $GERRIT_BRANCH
-      fi
-      echo "-----> $GERRIT_BRANCH"
-      SDK_JAVA_COMMIT=$(git log -1 --pretty=format:"%h")
-      echo "-----> SDK_JAVA_COMMIT : $SDK_JAVA_COMMIT"
-      echo "-----> SDK_JAVA_COMMIT=======> $SDK_JAVA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
-      export GOPATH=$WD/src/test/fixture
-      cd $WD/src/test
-      chmod +x cirun.sh
-      source cirun.sh
+    echo -e "\033[32m STARTING fabric-sdk-java tests on $GERRIT_BRANCH \033[0m"
+    WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java"
+    rm -rf $WD
+    # Clone fabric-sdk-java repository
+    git clone git://cloud.hyperledger.org/mirror/fabric-sdk-java $WD
+    cd $WD
+    # TODO CHECK
+    if [ "$GERRIT_BRANCH" = "release-1.4" ]; then
+        # checkout to master branch till we cut 1.4 branch on sdk-java
+        git checkout master
+    else
+        git checkout $GERRIT_BRANCH
+    fi
+    export GOPATH=$WD/src/test/fixture
+    cd $WD/src/test
+    ./cirun.sh
 else
-      echo "-----> TEMPORARILY SDK JAVA TESTS ARE DISABLED IN $GERRIT_BRANCH BRANCH"
+    echo -e "\033[32m TEMPORARILY SDK JAVA TESTS ARE DISABLED IN $GERRIT_BRANCH BRANCH \033[0m"
 fi

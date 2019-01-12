@@ -1,4 +1,6 @@
-#!/bin/bash -e
+#!/bin/bash -eu
+set -o pipefail
+
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -9,71 +11,38 @@
 # which accompanies this distribution, and is available at
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-set -o pipefail
 
-# Checkout to fabric repository
-################################
+BASE_WD=${WORKSPACE}/gopath/src/github.com/hyperledger
 
-cd gopath/src/github.com/hyperledger/fabric
-FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "------> FABRIC_COMMIT : $FABRIC_COMMIT"
-echo "FABRIC_COMMIT ------> $FABRIC_COMMIT" >> commit.log
-mv commit.log ${WORKSPACE}/gopath/src/github.com/hyperledger/
-echo "-------> fabric GERRIT_BRANCH:" $GERRIT_BRANCH
+# Build fabric docker images
+############################
 
-# Gerrit Checkout to Branch
+# Print last two commits
+git -C $BASE_WD/fabric log -n2
+
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
-
      for IMAGES in docker-thirdparty peer-docker orderer-docker buildenv testenv tools-docker release-clean release; do
-        make $IMAGES
-        if [ $? != 0 ]; then
-           echo "------> make $IMAGES failed"
-           exit 1
-        fi
+        make -C $BASE_WD/fabric $IMAGES
      done
 else
      for IMAGES in docker release-clean release docker-thirdparty; do
-         make $IMAGES
-         if [ $? != 0 ]; then
-            echo "------> make $IMAGES failed"
-            exit 1
-         fi
+         make -C $BASE_WD/fabric $IMAGES
      done
 fi
-docker images | grep hyperledger
 
-# Clone fabric-ca git repository
+# Build fabric-ca docker image
 ################################
 
-rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
-WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
-CA_REPO_NAME=fabric-ca
-git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
-cd $WD
+# Delete fabric-ca repository directory
+rm -rf $BASE_WD/fabric-ca
+# Clone fabric-ca repisitory
+git clone git://cloud.hyperledger.org/mirror/fabric-ca $BASE_WD/fabric-ca
 
-# Gerrit checkout to Branch
-if [[ "$GERRIT_BRANCH" = *"release-"* ]]; then
-     echo "-----> Checkout to $GERRIT_BRANCH branch"
-     git checkout $GERRIT_BRANCH
-fi
+# Print last two commits
+git -C $BASE_WD/fabric log -n2
 
-echo "-----> fabric-ca GERRIT_BRANCH:" $GERRIT_BRANCH
-CA_COMMIT=$(git log -1 --pretty=format:"%h")
-echo "-----> FABRIC_CA_COMMIT : $CA_COMMIT"
+# Build fabric-ca docker image
+make -C $BASE_WD/fabric-ca docker
 
-if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
-     # Build only fabric-ca docker image
-     make docker-fabric-ca
-     if [ $? != 0 ]; then
-         echo "------> make docker-fabric-ca failed"
-         exit 1
-     fi
-else
-         make docker
-         if [ $? != 0 ]; then
-            echo "------> make docker failed"
-            exit 1
-         fi
-fi
+# List all the docker images
 docker images | grep hyperledger
-echo "CA COMMIT ------> $CA_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
