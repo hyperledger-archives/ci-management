@@ -11,41 +11,32 @@
 - project:
     name: fabric-nightly-release-job-master-s390x
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: master
     arch: s390x
-    build-node: hyp-z
-    disable: false
+    build-node: z
     rel_version: 2.0.0-stable
 
 - project:
     name: fabric-nightly-release-job-master-x86_64
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
+      - 'fabric-nightly-release-jobs'
+
     branch: master
     arch: x86_64
-    build-node: hyp-x
-    disable: false
+    build-node: x
     rel_version: 2.0.0-stable
 
 - project:
     name: fabric-nightly-release-job-master-ppc64le
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
+      - 'fabric-nightly-release-jobs'
+
     branch: master
     arch: ppc64le
-    build-node: hyp-p
-    disable: true
+    build-node: p
+    disable-job: true
     rel_version: 2.0.0-stable
 
 #############
@@ -55,29 +46,22 @@
 - project:
     name: fabric-nightly-release-job-release-1.4-s390x
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     arch: s390x
-    build-node: hyp-z
-    disable: false
+    build-node: z
     rel_version: 1.4.0-stable
 
 - project:
     name: fabric-nightly-release-job-release-1.4-x86_64
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     arch: x86_64
-    build-node: hyp-x
-    disable: false
+    build-node: x
+    disable-job: false
     rel_version: 1.4.0-stable
 
 #############
@@ -87,29 +71,21 @@
 - project:
     name: fabric-nightly-release-job-release-1.3-s390x
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     arch: s390x
-    build-node: hyp-z
-    disable: false
+    build-node: z
     rel_version: 1.3.1-stable
 
 - project:
     name: fabric-nightly-release-job-release-1.3-x86_64
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     arch: x86_64
-    build-node: hyp-x
-    disable: false
+    build-node: x
     rel_version: 1.3.1-stable
 
 #############
@@ -119,28 +95,20 @@
 - project:
     name: fabric-nightly-release-job-release-1.2-s390x
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     arch: s390x
-    build-node: hyp-z
-    disable: false
+    build-node: z
     rel_version: 1.2.1-stable
 
 
 - project:
     name: fabric-nightly-release-job-release-1.2-x86_64
     jobs:
-      - '{project-name}-nightly-release-job-{branch}-{arch}'
+      - 'fabric-nightly-release-jobs'
 
-    mvn-settings: 'fabric-settings'
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     arch: x86_64
-    build-node: hyp-x
-    disable: false
+    build-node: x
     rel_version: 1.2.1-stable

@@ -3,110 +3,92 @@
 - project:
     name: fabric-unit-test-daily-master-x86_64
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: master
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
 
 # The below jobs trigger thrice every week at 00 hours/12 AM UTC
 - project:
     name: fabric-unit-test-daily-release-1.1-s390x
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.1
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
-    node: 'z'
+    build-node: 'z'
 
 # The below jobs trigger thrice every week at 00 hours/12 AM UTC
 - project:
     name: fabric-unit-test-daily-release-1.2-s390x
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
-    node: 'z'
+    build-node: 'z'
 
 - project:
     name: fabric-unit-test-daily-release-1.2-x86_64
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
 
 # The below jobs trigger thrice every week at 00 hours/12 AM UTC
 - project:
     name: fabric-unit-test-daily-release-1.3-s390x
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
-    node: 'z'
+    build-node: 'z'
 
 - project:
     name: fabric-unit-test-daily-release-1.3-x86_64
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
 
 - project:
     name: fabric-unit-test-daily-release-1.4-s390x
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
-    node: 'z'
+    build-node: 'z'
 
 - project:
     name: fabric-unit-test-daily-release-1.4-x86_64
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
 
 - project:
     name: fabric-unit-test-daily-release-1.0-s390x
     jobs:
-      - '{project-name}-unit-test-daily-{branch}-{arch}'
+      - 'fabric-unit-test-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.0
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
-    node: 'z'
+    build-node: 'z'

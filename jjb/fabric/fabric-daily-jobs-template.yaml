@@ -1,0 +1,176 @@
+---
+# This file contains job template and default parameters for daily-jobs
+
+- fabric_daily_jobs: &fabric_daily_jobs
+    name: fabric-daily-jobs
+
+    ######################
+    # Default Parameters #
+    ######################
+
+    build-days-to-keep: 7
+    build-timeout: 240
+    disable-job: false
+    project-type: freestyle
+    arch: x86_64
+    branch: master
+    stream: ''
+    project-name: fabric
+    project: fabric
+    build-node: 'hyp-x'
+    mvn-settings: 'fabric-settings'
+
+    #####################
+    # Job Configuration #
+    #####################
+
+    node: 'hyp-{build-node}'
+    concurrent: true
+    disabled: '{disable-job}'
+
+    properties:
+      - lf-infra-properties:
+          build-days-to-keep: '{build-days-to-keep}'
+      - 'fabric-go-{arch}'
+
+    scm:
+      - gerrit-trigger-github:
+          base-dir: '$BASE_DIR'
+
+    triggers:
+      - pollscm:
+          cron: '{cron_time}'
+
+    parameters:
+      - lf-infra-parameters:
+          project: '{project}'
+          branch: '{branch}'
+          stream: '{stream}'
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    wrappers:
+      - lf-infra-wrappers:
+          build-timeout: '{build-timeout}'
+          jenkins-ssh-credential: '{jenkins-ssh-credential}'
+
+    publishers:
+      - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# This job template contains fabric daily unit-test code coverage job configuration
+- job-template:
+    name: '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+    id: fabric-unit-test-coverage-jobs
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          make {target}
+
+    publishers:
+      - code-coverage-report
+
+# This job template contains fabric daily unit-test job configuration
+- job-template:
+    name: '{project-name}-unit-test-daily-{branch}-{arch}'
+    id: fabric-unit-test-daily-jobs
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - 'golang-environment-{arch}'
+      - output-environment
+      - fabric-unit-tests
+
+    publishers:
+      - lf-infra-publish
+      - code-coverage-report
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# This job template contains fabric daily end-2-end job configuration
+- job-template:
+    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
+    id: fabric-end-2-end-daily-jobs
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - dockerimages
+      - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
+      - clone-fabric-samples
+      - fabric-byfn-tests
+      - end-to-end-NODE
+      - end-to-end-JAVA
+
+    publishers:
+      - log-artifacts
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# This job template contains fabric daily end-2-end job configuration
+- job-template:
+    name: '{project-name}-nightly-release-job-{branch}-{arch}'
+    id: fabric-nightly-release-jobs
+    <<: *fabric_daily_jobs
+
+    parameters:
+      - lf-infra-parameters:
+          project: '{project}'
+          branch: '{branch}'
+          stream: '{stream}'
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-version:
+          push-version: '{rel_version}'
+
+    # Trigger at 8 PM EST
+    triggers:
+      - timed: 'H 0 * * *'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - pull-nexus-chaincode-java-image
+      - fabric-nightly-release-builds
+      - fabric-nightly-smoke-build
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          ARCH=$(go env GOARCH)
+          if [ "$ARCH" != "s390x" ]; then
+             make integration-test
+          else
+             echo "-------> Integration tests are disabled on s390x"
+          fi
+
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-nightly-publish-images
+      - clean-environment
+      - 'down-stream-jobs-{branch}-{arch}'
+
+    publishers:
+      - fabric-email-notification:
+          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'

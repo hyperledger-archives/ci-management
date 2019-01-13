@@ -11,53 +11,37 @@
 - project:
     name: fabric-end-2-end-daily-master-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: master
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
 
 - project:
     name: fabric-end-2-end-daily-master-ppc64le
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: master
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 'ppc64le'
-    node: 'p'
+    build-node: 'p'
     # Change this to "true" if you wish to disable this job
-    disable: true
-    # Increase or Decrease build time
-    build_timeout: 80
+    disable-job: true
 
 - project:
     name: fabric-end-2-end-daily-master-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: master
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 ##################################################
 #
@@ -69,36 +53,24 @@
 - project:
     name: fabric-end-2-end-daily-release-1.4-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
 
 - project:
     name: fabric-end-2-end-daily-release-1.4-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 ##################################################
 #
@@ -110,7 +82,7 @@
 - project:
     name: fabric-end-2-end-daily-release-1.3-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
     project: fabric
     project-name: fabric
@@ -118,28 +90,18 @@
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
 
 - project:
     name: fabric-end-2-end-daily-release-1.3-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     # Triggers at 7 PM EST
     cron_time: 'H 23 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 ##########################################
 #
@@ -151,36 +113,24 @@
 - project:
     name: fabric-end-2-end-daily-release-1.2-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     # Triggers at 8 PM EST
     cron_time: 'H 0 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
 
 - project:
     name: fabric-end-2-end-daily-release-1.2-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     # Triggers at 8 PM EST
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 #######################
 # release-1.1 - x86_64
@@ -189,19 +139,13 @@
 - project:
     name: fabric-end-2-end-daily-release-1.1-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.1
     # Triggers at 10 PM EST
     cron_time: 'H 2 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 #######################
 # release-1.1 - s390x
@@ -210,19 +154,13 @@
 - project:
     name: fabric-end-2-end-daily-release-1.1-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.1
     # Triggers at 10 PM EST
     cron_time: 'H 2 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: true
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
 
 #######################
 # release-1.0 - x86_64
@@ -231,19 +169,13 @@
 - project:
     name: fabric-end-2-end-daily-release-1.0-x86_64
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.0
     # Triggers at 10 PM EST
     cron_time: 'H 2 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'x86_64'
 
 #######################
 # release-1.0 - s390x
@@ -252,16 +184,10 @@
 - project:
     name: fabric-end-2-end-daily-release-1.0-s390x
     jobs:
-      - '{project-name}-end-2-end-daily-{branch}-{arch}'
+      - 'fabric-end-2-end-daily-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.0
     # Triggers at 10 PM EST
     cron_time: 'H 2 * * *'
     arch: 's390x'
-    node: 'z'
-    # Change this to "true" if you wish to disable this job
-    disable: false
-    # Increase or Decrease build time
-    build_timeout: 80
+    build-node: 'z'
