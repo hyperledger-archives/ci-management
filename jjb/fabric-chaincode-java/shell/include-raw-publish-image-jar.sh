@@ -70,34 +70,4 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
     done
        echo "========> DONE <======="
-
-else
-        # if release
-
-        # Publish docker images to hyperledger dockerhub
-        docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
-        # tag javaenv image to $PROJECT_VERSION
-        docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
-        # push javaenv to hyperledger dockerhub
-        docker push $ORG_NAME-javaenv:amd64-$PROJECT_VERSION
-
-        # Publish chaincode-shim and chaincode-protos to nexus
-    for binary in shim protos; do
-       echo "Pushing fabric-chaincode-$binary.$PROJECT_VERSION.jar to maven releases.."
-       cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$PROJECT_VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar
-       mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-        -DupdateReleaseInfo=true \
-        -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar \
-	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
-        -DrepositoryId=hyperledger-releases \
-        -Durl=https://nexus.hyperledger.org/content/repositories/releases/ \
-        -DgroupId=org.hyperledger.fabric-chaincode-java \
-        -Dversion=$PROJECT_VERSION \
-        -DartifactId=fabric-chaincode-$binary \
-        -DgeneratePom=false \
-        -DuniqueVersion=false \
-        -Dpackaging=jar \
-        -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-   done
-     echo "========> DONE <======="
 fi
