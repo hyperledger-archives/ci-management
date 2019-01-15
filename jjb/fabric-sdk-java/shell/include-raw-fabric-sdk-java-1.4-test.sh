@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -exu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -16,4 +16,5 @@ export GOPATH=$WD/src/test/fixture
 cd $GOPATH
 export ORG_HYPERLEDGER_FABRIC_SDKTEST_VERSION="1.4"
 cd $WD/src/test
-./cirun.sh
+chmod +x cirun.sh
+source cirun.sh

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -exu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -89,4 +89,5 @@ export GOPATH=$WD/src/test/fixture
 cd $WD/src/test
 JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "JAVA COMMIT =====> $JAVA_SDK_COMMIT_LEVEL"
-./cirun.sh
+chmod +x cirun.sh
+source cirun.sh

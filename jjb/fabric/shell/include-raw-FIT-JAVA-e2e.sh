@@ -20,16 +20,11 @@ if [ "$GERRIT_BRANCH" != "release-1.0" ] && [ "$ARCH" != "s390x" ] && [ "$ARCH" 
     # Clone fabric-sdk-java repository
     git clone git://cloud.hyperledger.org/mirror/fabric-sdk-java $WD
     cd $WD
-    # TODO CHECK
-    if [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-        # checkout to master branch till we cut 1.4 branch on sdk-java
-        git checkout master
-    else
-        git checkout $GERRIT_BRANCH
-    fi
+    git checkout $GERRIT_BRANCH
     export GOPATH=$WD/src/test/fixture
     cd $WD/src/test
-    ./cirun.sh
+    chmod +x cirun.sh
+    source cirun.sh
 else
     echo -e "\033[32m TEMPORARILY SDK JAVA TESTS ARE DISABLED IN $GERRIT_BRANCH BRANCH \033[0m"
 fi
