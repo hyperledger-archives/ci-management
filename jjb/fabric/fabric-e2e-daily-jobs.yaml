@@ -1,0 +1,193 @@
+---
+# The below jobs trigger daily at 02 hours/2 AM UTC
+
+#############################################
+#
+# master s390x & x86_64
+# Add new job configuration for master branch
+#
+#############################################
+
+- project:
+    name: fabric-end-2-end-daily-master-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: master
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 's390x'
+    build-node: 'z'
+
+- project:
+    name: fabric-end-2-end-daily-master-ppc64le
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: master
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 'ppc64le'
+    build-node: 'p'
+    # Change this to "true" if you wish to disable this job
+    disable-job: true
+
+- project:
+    name: fabric-end-2-end-daily-master-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: master
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+##################################################
+#
+# release-1.4 s390x & x86_64
+# Add new job configuration for release-1.4 branch
+#
+###################################################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.4-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.4
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 's390x'
+    build-node: 'z'
+
+- project:
+    name: fabric-end-2-end-daily-release-1.4-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.4
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+##################################################
+#
+# release-1.3 s390x & x86_64
+# Add new job configuration for release-1.3 branch
+#
+###################################################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.3-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    project: fabric
+    project-name: fabric
+    branch: release-1.3
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 's390x'
+    build-node: 'z'
+
+- project:
+    name: fabric-end-2-end-daily-release-1.3-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.3
+    # Triggers at 7 PM EST
+    cron_time: 'H 23 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+##########################################
+#
+# release-1.2 s390x & x86_64
+# Add new job configuration for release-1.2
+#
+###########################################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.2-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.2
+    # Triggers at 8 PM EST
+    cron_time: 'H 0 * * *'
+    arch: 's390x'
+    build-node: 'z'
+
+- project:
+    name: fabric-end-2-end-daily-release-1.2-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.2
+    # Triggers at 8 PM EST
+    cron_time: 'H 0 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+#######################
+# release-1.1 - x86_64
+#######################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.1-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.1
+    # Triggers at 10 PM EST
+    cron_time: 'H 2 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+#######################
+# release-1.1 - s390x
+#######################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.1-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.1
+    # Triggers at 10 PM EST
+    cron_time: 'H 2 * * *'
+    arch: 's390x'
+    build-node: 'z'
+
+#######################
+# release-1.0 - x86_64
+#######################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.0-x86_64
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.0
+    # Triggers at 10 PM EST
+    cron_time: 'H 2 * * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'
+
+#######################
+# release-1.0 - s390x
+#######################
+
+- project:
+    name: fabric-end-2-end-daily-release-1.0-s390x
+    jobs:
+      - 'fabric-end-2-end-daily-jobs'
+
+    branch: release-1.0
+    # Triggers at 10 PM EST
+    cron_time: 'H 2 * * *'
+    arch: 's390x'
+    build-node: 'z'

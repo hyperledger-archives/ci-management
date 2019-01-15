@@ -373,6 +373,12 @@
           !include-raw: shell/include-raw-pull-nexus-chaincode-java.sh
 
 - builder:
+    name: fabric-chaincode-nodeenv-image
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-build-nodeenv-image.sh
+
+- builder:
     name: end-to-end-BYFN
     builders:
       - shell: !include-raw: shell/include-raw-fabric-byfn-daily-tests.sh
