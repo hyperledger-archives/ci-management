@@ -3,62 +3,57 @@
 - project:
     name: fabric-unit-test-coverage-daily-master-x86_64
     jobs:
-      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+      - 'fabric-unit-test-coverage-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: master
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
+    target: gotools ccenv profile
 
 # The below job triggers daily at 01 hours/01 AM UTC
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.1-x86_64
     jobs:
-      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+      - 'fabric-unit-test-coverage-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.1
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
+    target: profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.2-x86_64
     jobs:
-      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+      - 'fabric-unit-test-coverage-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.2
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
+    target: gotools ccenv profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.3-x86_64
     jobs:
-      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+      - 'fabric-unit-test-coverage-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.3
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
+    target: gotools ccenv profile
 
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.4-x86_64
     jobs:
-      - '{project-name}-unit-test-coverage-daily-{branch}-{arch}'
+      - 'fabric-unit-test-coverage-jobs'
 
-    project: fabric
-    project-name: fabric
     branch: release-1.4
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
-    node: 'x86_64'
+    build-node: 'x86_64'
+    target: gotools ccenv profile
