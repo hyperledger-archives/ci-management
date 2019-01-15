@@ -92,24 +92,6 @@
             GOROOT=/usr/local/go/go$GO_VER.linux.ppc64le
             PATH=$GOROOT/bin:$PATH
 
-#######
-
-- builder:
-    name: fabric-pull
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          FABRIC_REPO_NAME=fabric
-          WD="${WORKSPACE}/gopath/src/github.com/hyperledger/${FABRIC_REPO_NAME}"
-          rm -rf $WD
-          git clone --single-branch -b $GERRIT_BRANCH --depth 1 git://cloud.hyperledger.org/mirror/$FABRIC_REPO_NAME $WD
-          cd $WD && git checkout $GERRIT_BRANCH
-          FABRIC_COMMIT=$(git log -1 --pretty=format:"%h")
-          echo "FABRIC_COMMIT =========> $FABRIC_COMMIT"
-          echo
-
 ##################
 # Nightly Builds #
 ##################
@@ -245,20 +227,6 @@
 ##################
 
 - builder:
-    name: fabric-fetch
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric
-          echo "---> Fetching project"
-          git fetch origin "$GERRIT_REFSPEC" && git checkout FETCH_HEAD
-          GIT_COMMIT=$(git log -1 --pretty=format:"%H")
-          echo "FABRIC_GIT_COMMIT =========> $GIT_COMMIT"
-          echo
-
-- builder:
     name: output-environment
     builders:
       - shell: |
@@ -293,22 +261,10 @@
       - shell: !include-raw: shell/include-raw-fabric-publish-docker-images.sh
 
 - builder:
-    name: buildimages
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-buildimages.sh
-
-- builder:
-    name: pull-images
+    name: pull-thirdparty-images
     builders:
       - shell:
           !include-raw: shell/include-raw-pull-thirdparty-images.sh
-
-- builder:
-    name: build-docker-images
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-build-docker-images.sh
 
 - builder:
     name: clean-environment
@@ -333,18 +289,6 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-FIT-JAVA-e2e.sh
-
-- builder:
-    name: fabric-build-check
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-verify-commit-checks.sh
-
-- builder:
-    name: fabric-nexus-docker-release
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-nexus-docker-images.sh
 
 - builder:
     name: fetchbaseimages
@@ -423,22 +367,10 @@
           fi
 
 - builder:
-    name: pull-nexus-fabric-docker-images
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-pull-nexus-images.sh
-
-- builder:
     name: pull-nexus-chaincode-java-image
     builders:
       - shell:
           !include-raw: shell/include-raw-pull-nexus-chaincode-java.sh
-
-- builder:
-    name: fabric-chaincode-nodeenv-image
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-build-nodeenv-image.sh
 
 - builder:
     name: end-to-end-BYFN

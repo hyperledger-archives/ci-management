@@ -59,7 +59,7 @@ commit which may or may not be the latest commit on **fabric-sdk-java**.
 
 `fabric-sdk-java-verify-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-verify-x86_64/>`__
 
-`fabric-sdk-java-verify-1.0.0-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-verify-1.0.0-x86_64/>`__
+`fabric-sdk-java-verify-1.4-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-verify-1.4-x86_64/>`__
 
 As part of the CI process on **fabric-sdk-java** repository, the
 following tests are executed on **x86_64**\ (x) platform, see the arch
@@ -93,16 +93,16 @@ src/test directory of fabric-sdk-java.
 -  With the latest JSDK version, now that we have the latest images for Fabric
    and Fabric-ca, run the java integration tests.
 
-For the **fabric-sdk-java-verify-1.0.0-x86_64** or **fabric-sdk-java-merge-1.0.0-x86_64** jobs,
+For the **fabric-sdk-java-verify-1.4-x86_64** or **fabric-sdk-java-merge-1.4-x86_64** jobs,
 
 -  This job is to run the integration tests using the latest JSDK
-   version with Fabric & Fabric-ca 1.0.0 version. A check is made to
-   verify if the tests have to execute on Fabric & Fabric-ca 1.0.0
+   version with Fabric & Fabric-ca 1.4 version. A check is made to
+   verify if the tests have to execute on Fabric & Fabric-ca 1.4
    Docker images.
 
--  The version for Fabric and Fabric-ca is set to 1.0.0. The 1.0.0
+-  The version for Fabric and Fabric-ca is set to 1.4. The 1.4
    version Docker images are fetched for Fabric and Fabric-ca. The
-   Fabric generated configuration version is set to v1.0
+   Fabric generated configuration version is set to v1.4
 
 Step 3: - Execute the Docker compose file from the
 /src/test/fixture/sdkintegration/fabric.sh
@@ -169,8 +169,7 @@ through ``reverify`` comment is not necessary. Instead, the developer
 can post below comment to trigger the particular failed build:
 
 -  reverify-x - to retrigger the build on fabric-sdk-java-verify-x86_64.
--  reverify-1.1.0 - to retrigger the build on
-   fabric-sdk-java-verify-1.0.0-x86_64.
+-  reverify-1.4 - to retrigger the build on fabric-sdk-java-verify-1.4-x86_64.
 
 Questions
 ~~~~~~~~~
