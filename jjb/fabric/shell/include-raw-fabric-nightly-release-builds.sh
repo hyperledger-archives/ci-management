@@ -73,3 +73,6 @@ else
     build_Fabric_Ca dist-all docker-fvt
     build_Fabric dist-all
 fi
+
+# Most recent system info
+df -h

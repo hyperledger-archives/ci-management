@@ -32,8 +32,6 @@
     disable-job: true
 
 # The below jobs trigger thrice every week at 00 hours/12 AM UTC
-
-# The below jobs trigger thrice every week at 00 hours/12 AM UTC
 - project:
     name: fabric-unit-test-daily-release-1.1-s390x
     jobs:
@@ -43,6 +41,16 @@
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
     build-node: 'z'
+
+- project:
+    name: fabric-unit-test-daily-release-1.1-x86_64
+    jobs:
+      - 'fabric-unit-test-daily-jobs'
+
+    branch: release-1.1
+    cron_time: 'H 0 1-31/2 * *'
+    arch: 'x86_64'
+    build-node: 'x'
 
 # The below jobs trigger thrice every week at 00 hours/12 AM UTC
 - project:
@@ -115,3 +123,13 @@
     cron_time: 'H 0 1-31/2 * *'
     arch: 's390x'
     build-node: 'z'
+
+- project:
+    name: fabric-unit-test-daily-release-1.0-x86_64
+    jobs:
+      - 'fabric-unit-test-daily-jobs'
+
+    branch: release-1.0
+    cron_time: 'H 0 1-31/2 * *'
+    arch: 'x86_64'
+    build-node: 'x86_64'

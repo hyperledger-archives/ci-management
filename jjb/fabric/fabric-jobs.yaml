@@ -343,7 +343,7 @@
       - dockerimages
       - pull-nexus-chaincode-java-image
       - end-to-end-NODE
-      - end-to-end-JAVA
+      # - end-to-end-JAVA
       - end-to-end-BYFN
 
     publishers:
