@@ -61,13 +61,13 @@
           !include-raw: shell/include-raw-fabric-sdk-java-end-to-end-tests.sh
 
 - builder:
-    name: fabric-sdk-java-1.0.0-test
+    name: fabric-sdk-java-1.4-test
     builders:
       - shell:
-          !include-raw: shell/include-raw-fabric-sdk-java-1.0.0-test.sh
+          !include-raw: shell/include-raw-fabric-sdk-java-1.4-test.sh
 
 - builder:
-    name: fabric-jsdk1.0.0-fabric_latest
+    name: fabric-jsdk1.4-fabric_latest
     builders:
       - shell:
-          !include-raw: shell/include-raw-fabric-jsdk1.0.0-fabric_latest.sh
+          !include-raw: shell/include-raw-fabric-jsdk1.4-fabric_latest.sh

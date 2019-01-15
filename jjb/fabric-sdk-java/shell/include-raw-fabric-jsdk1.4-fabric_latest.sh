@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -e
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -14,7 +14,7 @@ export WD=${WORKSPACE}
 
 cd $WD
 # checkout to jsdk v1.0.0 release
-git checkout tags/v1.0.0
+git checkout tags/v1.4.0
 # shellcheck source=/dev/null
 source ${WORKSPACE}/src/test/fabric_test_commitlevel.sh
 
@@ -38,21 +38,17 @@ FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "====> FABRIC_COMMIT_LEVEL $FABRIC_COMMIT_LEVEL"
 # Build fabric Docker images
 make docker
-if [ $? != 0 ]; then
-    echo "--------> make docker failed"
-    exit 1
-fi
 docker images | grep hyperledger
 
 if [ "$GERRIT_BRANCH" = "master" ]; then
    export JAVA_VERSION=amd64-2.0.0-stable
    export JAVA_ENV_TAG=2.0.0
 elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-   export JAVA_VERSION=amd64-1.4.0-stable
+   export JAVA_VERSION=amd64-1.4.0
    export JAVA_ENV_TAG=1.4.0
 else
-   export JAVA_VERSION=amd64-1.3.1-stable
-   export JAVA_ENV_TAG=1.3.1
+   export JAVA_VERSION=amd64-1.3.0
+   export JAVA_ENV_TAG=1.3.0
 fi
 ########################
 # Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:$JAVA_VERSION
@@ -85,10 +81,6 @@ echo "======> CA_COMMIT_LEVEL $CA_COMMIT_LEVEL"
 
 # Build CA Docker Images
 make docker-fabric-ca
-if [ $? != 0 ]; then
-   echo "--------> make docker-fabric-ca failed"
-   exit 1
-fi
 docker images | grep hyperledger
 
 # Move to fabric-sdk-java repository and execute SDK end-to-end tests
@@ -97,5 +89,4 @@ export GOPATH=$WD/src/test/fixture
 cd $WD/src/test
 JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
 echo "JAVA COMMIT =====> $JAVA_SDK_COMMIT_LEVEL"
-chmod +x cirun.sh
-source cirun.sh
+./cirun.sh

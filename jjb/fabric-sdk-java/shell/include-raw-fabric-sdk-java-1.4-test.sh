@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -eu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -14,7 +14,6 @@ set -o pipefail
 export WD=${WORKSPACE}
 export GOPATH=$WD/src/test/fixture
 cd $GOPATH
-export ORG_HYPERLEDGER_FABRIC_SDKTEST_VERSION="1.0.0"
+export ORG_HYPERLEDGER_FABRIC_SDKTEST_VERSION="1.4"
 cd $WD/src/test
-chmod +x cirun.sh
-source cirun.sh
+./cirun.sh

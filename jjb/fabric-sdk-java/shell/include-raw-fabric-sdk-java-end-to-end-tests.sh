@@ -52,22 +52,40 @@ if [ "$GERRIT_BRANCH" = "master" ]; then
    export JAVA_ENV_VERSION=amd64-2.0.0-stable
    export JAVA_ENV_TAG=2.0.0
 elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-   export JAVA_ENV_VERSION=amd64-1.4.0-stable
+   export JAVA_ENV_VERSION=amd64-1.4.0
    export JAVA_ENV_TAG=1.4.0
 else
-   export JAVA_ENV_VERSION=amd64-1.3.1-stable
-   export JAVA_ENV_TAG=1.3.1
+   export JAVA_ENV_VERSION=amd64-1.3.0
+   export JAVA_ENV_TAG=1.3.0
 fi
+
 ########################
-# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:amd64-1.3.1
+# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv
 #######################
 
 docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_ENV_VERSION
 docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_ENV_VERSION hyperledger/fabric-javaenv:amd64-$JAVA_ENV_TAG
 docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_ENV_VERSION hyperledger/fabric-javaenv:amd64-latest
 docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_ENV_VERSION hyperledger/fabric-javaenv
+
 ##########
 docker images | grep hyperledger/fabric-javaenv || true
+
+if [ "$GERRIT_BRANCH" = "master" ]; then
+   export NODE_ENV_VERSION=amd64-2.0.0-stable
+   export NODE_ENV_TAG=2.0.0
+
+   ########################
+   # Pull nodenev image from nexus and re-tag to hyperledger/fabric-nodeenv
+   #######################
+
+   docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION
+   docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv:amd64-$NODE_ENV_TAG
+   docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv:amd64-latest
+   docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv
+   ##########
+   docker images | grep hyperledger/fabric-nodeenv || true
+fi
 
 # Clone fabric-ca git repository
 ################################
@@ -111,8 +129,7 @@ run_e2e_tests() {
   export GOPATH=$WD/src/test/fixture
 
   cd $WD/src/test
-  chmod +x cirun.sh
-  source cirun.sh
+  ./cirun.sh
 }
 
 main() {

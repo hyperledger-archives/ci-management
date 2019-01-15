@@ -6,10 +6,9 @@
           nexus-iq-namespace: 'hyp-'
           build-node: hyp-x
       - 'fabric-sdk-java-verify-{arch}'
-      - 'fabric-sdk-java-verify-1.0.0-{arch}'
-      - 'fabric-sdk-java-merge-1.0.0-{arch}'
+      - 'fabric-sdk-java-verify-1.4-{arch}'
+      - 'fabric-sdk-java-merge-1.4-{arch}'
       - 'fabric-sdk-java-merge-{arch}'
-      - 'fabric-sdk-java-release-{arch}'
       - 'fabric-sdk-java-owasp-weekly-{arch}'
 
     mvn-settings: 'fabric-settings'
@@ -111,7 +110,6 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
       - maven-exec:
           maven-version: '{mvn-version}'
-
     scm:
       - gerrit-trigger-scm-merge:
           base-dir: ''
@@ -159,60 +157,9 @@
           output_format: ''
           developer-email: 'developers'
 
-# release job
+# Verify 1.4 job
 - job-template:
-    name: 'fabric-sdk-java-release-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: ''
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - fabric-sdk-java-end-to-end-test
-      - shell: |
-          echo "----> ", $(pwd)
-          echo "----> ", "$(ls -al)"
-          echo "----> ", $WORKSPACE
-          echo "----> ", $(find . -name "*.xml")
-      - hyperledger-fabric-ship-java-jar:
-          maven-version: 'mvn33'
-
-    publishers:
-      - jacoco-coverage-report
-      - lf-infra-publish
-      - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-# Verify 1.0.0 job
-- job-template:
-    name: 'fabric-sdk-java-verify-1.0.0-{arch}'
+    name: 'fabric-sdk-java-verify-1.4-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -240,7 +187,7 @@
       - gerrit-trigger-patch-submitted:
           name: '{project}'
           branch: ''
-          trigger-comment1: 'reverify-1.0.0$'
+          trigger-comment1: 'reverify-1.4$'
           trigger-comment2: 'reverify$'
 
     wrappers:
@@ -251,7 +198,7 @@
     builders:
       - verify-commit-message
       - clean-environment
-      - fabric-sdk-java-1.0.0-test
+      - fabric-sdk-java-1.4-test
       - shell: |
           echo "----> ", $(pwd)
           echo "----> ", "$(ls -al)"
@@ -263,9 +210,9 @@
       - lf-infra-publish
       - java-sdk-logs
 
-# Merge 1.0.0 job
+# Merge 1.4 job
 - job-template:
-    name: 'fabric-sdk-java-merge-1.0.0-{arch}'
+    name: 'fabric-sdk-java-merge-1.4-{arch}'
 
     project-type: freestyle
     node: 'hyp-{arch}'
@@ -301,7 +248,7 @@
 
     builders:
       - clean-environment
-      - fabric-sdk-java-1.0.0-test
+      - fabric-sdk-java-1.4-test
       - shell: |
           echo "----> ", $(pwd)
           echo "----> ", "$(ls -al)"
