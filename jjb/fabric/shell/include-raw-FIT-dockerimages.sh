@@ -36,10 +36,10 @@ fi
 # Delete fabric-ca repository directory
 rm -rf $BASE_WD/fabric-ca
 # Clone fabric-ca repisitory
-git clone git://cloud.hyperledger.org/mirror/fabric-ca $BASE_WD/fabric-ca
+git clone --single-branch -b $GERRIT_BRANCH git://cloud.hyperledger.org/mirror/fabric-ca $BASE_WD/fabric-ca
 
 # Print last two commits
-git -C $BASE_WD/fabric log -n2
+git -C $BASE_WD/fabric-ca log -n2
 
 # Build fabric-ca docker image
 make -C $BASE_WD/fabric-ca docker

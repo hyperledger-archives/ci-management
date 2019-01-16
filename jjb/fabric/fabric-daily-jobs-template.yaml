@@ -148,6 +148,7 @@
       - output-environment
       - 'golang-environment-{arch}'
       - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
       - fabric-nightly-release-builds
       - fabric-nightly-smoke-build
       - shell: |
