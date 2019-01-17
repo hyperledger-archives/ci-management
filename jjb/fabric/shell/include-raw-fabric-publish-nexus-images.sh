@@ -53,6 +53,13 @@ elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then
    dockerTag $PUSH_VERSION
    echo "==== Push Images to Nexus ===="
    docker_Fabric_Push $PUSH_VERSION
+elif [[ "$GERRIT_BRANCH" = "master" ]]; then
+   IMAGES_LIST=(baseos peer orderer ccenv tools)
+   # Tag & Push Fabric Docker Images to Nexus Repository
+   echo "==== Tag Images ===="
+   dockerTag $PUSH_VERSION
+   echo "==== Push Images to Nexus ===="
+   docker_Fabric_Push $PUSH_VERSION
 else
    IMAGES_LIST=(peer orderer ccenv tools)
    # Tag & Push Fabric Docker Images to Nexus Repository

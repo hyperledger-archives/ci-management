@@ -74,10 +74,15 @@ if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
     # Push Fabric Docker Images to hyperledger dockerhub Repository
     docker_Fabric_Push $PUSH_VERSION
 elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then
-    # Images list
-    IMAGES_LIST=(peer orderer ccenv tools javaenv)
-    # Push Fabric Docker Images to hyperledger dockerhub Repository
-    docker_Fabric_Push $PUSH_VERSION
+   # Images list
+   IMAGES_LIST=(peer orderer ccenv tools javaenv)
+   # Push Fabric Docker Images to hyperledger dockerhub Repository
+   docker_Fabric_Push $PUSH_VERSION
+elif [[ "$GERRIT_BRANCH" = "master" ]]; then
+   # Images list
+   IMAGES_LIST=(baseos peer orderer ccenv tools)
+   # Push Fabric Docker Images to hyperledger dockerhub Repository
+   docker_Fabric_Push $PUSH_VERSION
 else
     # Images list
     IMAGES_LIST=(peer orderer ccenv tools)

@@ -23,12 +23,12 @@ echo "----------> ARCH:" $ARCH
 dockerBaseImages() {
 
   # shellcheck disable=SC2043
-    for IMAGES in baseimage baseos basejvm; do
-      echo "==> $IMAGES"
-      docker tag $ORG_NAME-$IMAGES:$DEPENDENT_TAG $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
-      echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG"
-      docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
-    done
+  for IMAGES in baseimage basejvm; do
+    echo "==> $IMAGES"
+    docker tag $ORG_NAME-$IMAGES:$DEPENDENT_TAG $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
+    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG"
+    docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
+  done
 }
 
 #docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
