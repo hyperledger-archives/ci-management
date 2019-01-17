@@ -87,6 +87,10 @@
     publishers:
       - lf-infra-publish
       - code-coverage-report
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
 
 # This job template contains fabric daily end-2-end job configuration
 - job-template:
@@ -152,6 +156,6 @@
     publishers:
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com,vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'

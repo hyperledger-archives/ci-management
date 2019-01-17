@@ -62,7 +62,7 @@
     build_timeout: 50
     trigger-type: merged
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com troy@troyronda.com'
+    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
 
 - project:
     name: fabric-sdk-go-tests-merge-s390x
@@ -81,4 +81,4 @@
     build_timeout: 50
     trigger-type: merged
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'troy@troyronda.com, rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+    emaild_ids: 'troy@troyronda.com, sambhavdutt@gmail.com, vijaypunugubati@gmail.com'

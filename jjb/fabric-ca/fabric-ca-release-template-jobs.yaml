@@ -40,7 +40,7 @@
     publishers:
       - lf-infra-publish
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
