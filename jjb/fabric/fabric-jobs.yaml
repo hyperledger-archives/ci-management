@@ -255,7 +255,7 @@
     name: 'fabric-docs-build-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}-p'
+    node: 'hyp-{arch}'
     concurrent: true
 
     properties:
