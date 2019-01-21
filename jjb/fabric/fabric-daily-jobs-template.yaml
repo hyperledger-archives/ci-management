@@ -79,26 +79,6 @@
     publishers:
       - code-coverage-report
 
-# This job template contains fabric daily unit-test job configuration
-- job-template:
-    name: '{project-name}-unit-test-daily-{branch}-{arch}'
-    id: fabric-unit-test-daily-jobs
-    <<: *fabric_daily_jobs
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - fabric-unit-tests
-
-    publishers:
-      - lf-infra-publish
-      - code-coverage-report
-      - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
 # This job template contains fabric daily end-2-end job configuration
 - job-template:
     name: '{project-name}-end-2-end-daily-{branch}-{arch}'
@@ -151,17 +131,6 @@
       - fabric-chaincode-nodeenv-image
       - fabric-nightly-release-builds
       - fabric-nightly-smoke-build
-      - shell: |
-          #!/bin/bash -eu
-
-          cd $BASE_DIR
-          ARCH=$(go env GOARCH)
-          if [ "$ARCH" != "s390x" ]; then
-             make integration-test
-          else
-             echo "-------> Integration tests are disabled on s390x"
-          fi
-
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
@@ -172,6 +141,6 @@
 
     publishers:
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com,vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'

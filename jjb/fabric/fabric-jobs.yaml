@@ -55,8 +55,6 @@
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
-      - pull-nexus-chaincode-java-image
-      - pull-thirdparty-images
       - output-environment
       - fabric-unit-tests
 
@@ -200,7 +198,6 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
-      - pull-nexus-chaincode-java-image
       - fabric-integration-tests-verification
 
     publishers:
