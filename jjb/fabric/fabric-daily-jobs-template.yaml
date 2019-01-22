@@ -70,13 +70,15 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
+      - softhsm-init
       - shell: |
           #!/bin/bash -eu
 
-          cd $BASE_DIR
+          cd $GOPATH/src/github.com/hyperledger/fabric
           make {target}
 
     publishers:
+      - workspace-cleanup
       - code-coverage-report
 
 # This job template contains fabric daily end-2-end job configuration
@@ -98,6 +100,7 @@
       - end-to-end-JAVA
 
     publishers:
+      - workspace-cleanup
       - log-artifacts
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
@@ -140,6 +143,7 @@
       - 'down-stream-jobs-{branch}-{arch}'
 
     publishers:
+      - workspace-cleanup
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com,vijaypunugubati@gmail.com'
           output_format: ''

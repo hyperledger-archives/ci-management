@@ -56,7 +56,11 @@
       - clean-environment
       - 'golang-environment-{arch}'
       - output-environment
-      - fabric-unit-tests
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          make unit-tests
 
     publishers:
       - lf-infra-publish
@@ -340,7 +344,7 @@
       - dockerimages
       - pull-nexus-chaincode-java-image
       - end-to-end-NODE
-      # - end-to-end-JAVA
+      - end-to-end-JAVA
       - end-to-end-BYFN
 
     publishers:
