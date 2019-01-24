@@ -38,12 +38,18 @@ sleep 10
 docker ps -a
 cd ../..
 
-# Install nvm to install multi node versions
-wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-# shellcheck source=/dev/null
-export NVM_DIR="$HOME/.nvm"
-# shellcheck source=/dev/null
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+ARCH=$(dpkg --print-architecture)
+echo "======" $ARCH
+if [[ "$ARCH" = "amd64" || "$ARCH" = "ppc64le" ]]; then
+
+   # Install nvm to install multi node versions
+   wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+   export NVM_DIR=$HOME/.nvm
+   # shellcheck source=/dev/null
+   source $NVM_DIR/nvm.sh # Setup environment for running nvm
+else
+   source /etc/profile.d/nvmrc.sh
+fi
 
 echo "-------> Install NodeJS"
 

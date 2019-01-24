@@ -297,7 +297,7 @@
           !include-raw: shell/include-raw-fetch-dockerimages.sh
 
 - builder:
-    name: fabric-unit-tests
+    name: softhsm-init
     builders:
       - shell: |
           #!/bin/bash -eu
@@ -312,7 +312,7 @@
             export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
             softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
           fi
-            cd $GOPATH/src/github.com/hyperledger/fabric && time make linter && time make unit-test
+
 # Macro for fabric unit-test job
 - builder:
     name: fabric-unit-tests-verification
