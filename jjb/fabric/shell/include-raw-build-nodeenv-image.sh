@@ -11,7 +11,7 @@
 ##############################################################################
 ARCH="$(dpkg --print-architecture)"
 if [ "$GERRIT_BRANCH" = "master" ]; then
-  export NODE_ENV_VERSION=$ARCH-2.0.0-stable
+  export NODE_ENV_VERSION=$ARCH-latest
   export NODE_ENV_TAG=2.0.0
 
 ########################
