@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -eu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -31,9 +31,14 @@ PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d
 
 echo "========> gradlew build"
 
-# gladlew build from fabric-chaincode-java repo
-./gradlew build
-
+# gradlew build from fabric-chaincode-java repo
+set -x
+if [[ $GERRIT_BRANCH == "release-1.3" ]]; then
+     ./gradlew buildImage
+else
+     ./gradlew build
+fi
+set +x
 # gradle publish maven
 ./gradlew publishToMavenLocal
 # shellcheck disable=SC2046
