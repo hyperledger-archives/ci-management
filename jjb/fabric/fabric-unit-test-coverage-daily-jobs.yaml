@@ -9,7 +9,7 @@
     cron_time: 'H 0 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: profile
+    target: gotools profile
 
 # The below job triggers daily at 01 hours/01 AM UTC
 
@@ -33,7 +33,7 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: profile
+    target: gotools profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.3-x86_64
@@ -44,7 +44,7 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: profile
+    target: gotools profile
 
 
 - project:
@@ -56,7 +56,7 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: profile
+    target: gotools profile
 
 ###########
 # s390x
@@ -72,7 +72,7 @@
     cron_time: 'H 0 * * *'
     arch: 's390x'
     build-node: 's390x'
-    target: profile
+    target: gotools profile
 
 # The below job triggers daily at 01 hours/01 AM UTC
 
@@ -96,7 +96,7 @@
     cron_time: 'H 1 * * *'
     arch: 's390x'
     build-node: 's390x'
-    target: profile
+    target: gotools profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.3-s390x
@@ -107,7 +107,7 @@
     cron_time: 'H 1 * * *'
     arch: 's390x'
     build-node: 's390x'
-    target: profile
+    target: gotools profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.4-s390x
@@ -118,4 +118,4 @@
     cron_time: 'H 1 * * *'
     arch: 's390x'
     build-node: 's390x'
-    target: profile
+    target: gotools profile
