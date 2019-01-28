@@ -78,6 +78,7 @@
           make {target}
 
     publishers:
+      - lf-infra-publish
       - workspace-cleanup
       - code-coverage-report
 
