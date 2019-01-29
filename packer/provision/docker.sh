@@ -110,22 +110,27 @@ deb_install_go() {
 
 deb_docker_clean_images() {
     echo "---> Cleaning docker images"
-    docker rmi -f "$(docker images -aq)"
-    docker images
+    # Exit on error (-e not set)
+    # shellcheck disable=SC2046
+    set -ue
+    # shellcheck disable=SC2046
+    docker rmi -f $(docker images -aq)
+    set +eu
 }
 
-deb_docker_pull_baseimage() {
+deb_docker_pull_images() {
     echo "---> Pulling Fabric Baseimage & thirdparty images"
 
+    set -ue
     # List of images to be generated and pushed
-    export IMAGES_LIST=(couchdb kafka zookeeper baseimage baseos)
-        echo "---> Pulling Thirdparty Images"
-        for image in ${IMAGES_LIST[*]}; do
-            docker pull hyperledger/fabric-$image:amd64-0.4.13
-            docker pull hyperledger/fabric-$image:amd64-0.4.14
-        done
+    IMAGES_LIST="couchdb kafka zookeeper baseimage"
+    echo "---> Pulling Thirdparty Images"
+    for image in $IMAGES_LIST; do
+        docker pull hyperledger/fabric-$image:amd64-0.4.14
+    done
     echo "---> Pulling Indy images"
     docker pull hyperledger/indy-core-baseci:0.0.1
+    set +ue
 }
 
 deb_create_hyperledger_vardir() {
@@ -212,12 +217,12 @@ deb_install_softhsm() {
 
 deb_install_node() {
     # Node install
-    pushd /usr/local
+    cd /usr/local || exit 1
     nvm install 8.9.1
     nvm install 8.4.0
     nvm install 7.4.0
     nvm ls
-    popd
+    cd - || exit 1
     echo "npm -v: `npm -v`"
     echo "node -v: `node -v`"
 }
@@ -310,8 +315,7 @@ ubuntu_changes() {
     deb_install_softhsm
     deb_update_alternatives
     deb_docker_clean_images
-    deb_docker_pull_baseimage
-    deb_docker_pull_celloimage
+    deb_docker_pull_images
     deb_docker_fix
     deb_rust_install
     deb_install_x86_tools

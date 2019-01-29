@@ -7,9 +7,7 @@ ensure_ubuntu_install() {
     # On Ubuntu sometimes the mirrors fail to install a package. This wrapper
     # checks that a package is successfully installed before moving on.
 
-   packages=($@)
-
-   for pkg in "${packages[@]}"
+   for pkg in "$@";
     do
         # Retry installing package 5 times if necessary
         # shellcheck disable=SC2034
