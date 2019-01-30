@@ -33,7 +33,7 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: gotools profile
+    target: ccenv gotools profile
 
 - project:
     name: fabric-unit-test-coverage-daily-release-1.3-x86_64
@@ -44,7 +44,7 @@
     cron_time: 'H 1 * * *'
     arch: 'x86_64'
     build-node: 'x86_64'
-    target: gotools profile
+    target: ccenv gotools profile
 
 
 - project:
