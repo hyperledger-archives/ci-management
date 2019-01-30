@@ -12,7 +12,8 @@
           rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
           rm -rf $GOPATH/src/golang.org
 
-          cd gopath/src/github.com/hyperledger/fabric-ca && make all-tests docs
+          cd gopath/src/github.com/hyperledger/fabric-ca
+          make unit-test docs
 
 - builder:
     name: ca-unit-tests-x86_64
@@ -21,7 +22,17 @@
           #!/bin/bash -eu
           set -o pipefail
 
-          cd gopath/src/github.com/hyperledger/fabric-ca && make ci-tests
+          cd gopath/src/github.com/hyperledger/fabric-ca
+          make unit-test
+
+- builder:
+    name: ca-fvt-tests-x86_64
+    builders:
+      - shell: |
+          #!/bin/bash -eu
+
+          cd gopath/src/github.com/hyperledger/fabric-ca
+          make docker-clean docker-fvt fvt-tests
 
 - builder:
     name: push-fabric-ca-binaries
