@@ -296,23 +296,6 @@
       - shell:
           !include-raw: shell/include-raw-fetch-dockerimages.sh
 
-- builder:
-    name: softhsm-init
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          if [[ "$ARCH" = "s390x" ]]; then
-            cd $HOME
-            mkdir -p $HOME/lib/softhsm/tokens
-            cd $HOME/lib/softhsm/
-            echo "directories.tokendir = $PWD/tokens" > softhsm2.conf
-            echo "Update SOFTHSM2_CONF via export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf"
-            export SOFTHSM2_CONF=$HOME/lib/softhsm/softhsm2.conf
-            softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
-          fi
-
 # Macro for fabric unit-test job
 - builder:
     name: fabric-unit-tests-verification
