@@ -40,26 +40,6 @@ echo "====> FABRIC_COMMIT_LEVEL $FABRIC_COMMIT_LEVEL"
 make docker
 docker images | grep hyperledger
 
-if [ "$GERRIT_BRANCH" = "master" ]; then
-   export JAVA_VERSION=amd64-2.0.0-stable
-   export JAVA_ENV_TAG=2.0.0
-elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-   export JAVA_VERSION=amd64-1.4.0
-   export JAVA_ENV_TAG=1.4.0
-else
-   export JAVA_VERSION=amd64-1.3.0
-   export JAVA_ENV_TAG=1.3.0
-fi
-########################
-# Pull Javaenv image from nexus and re-tag to hyperledger/fabric-javaenv:$JAVA_VERSION
-#######################
-docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv:amd64-$JAVA_ENV_TAG
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv:amd64-latest
-docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-javaenv:$JAVA_VERSION hyperledger/fabric-javaenv
-##########
-docker images | grep hyperledger/fabric-javaenv || true
-
 # Clone fabric-ca git repository
 ################################
 

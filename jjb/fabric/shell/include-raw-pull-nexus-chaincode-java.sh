@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -9,35 +9,39 @@
 # which accompanies this distribution, and is available at
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
-# Pull javaenv images from nexus3 (docker.snapshot)
+# Pull javaenv images from nexus3 (docker.snapshot) if the branch is master
+# Pull javaenv images from dockerhub if the branch is release
 # javaenv image is available only on amd64
 set -o pipefail
 
-# Set NEXUS_URL_REGISTRY to docker.snapshot
-NEXUS_URL_REGISTRY=nexus3.hyperledger.org:10001
-ORG_NAME="hyperledger/fabric"
-ARCH=$(go env GOARCH)
+REPO="fabric"
 # fabric-chaincode-java (javaenv image name)
 IMAGE=javaenv
+
+pulljavaenv() {
+  # Pull javaenv images and tag them as latest, amd64-$JAVA_ENV_TAG, amd64-latest
+  docker pull $1/$REPO-$IMAGE:$JAVA_ENV_VERSION
+  docker tag $1/$REPO-$IMAGE:$JAVA_ENV_VERSION hyperledger/$REPO-$IMAGE
+  docker tag $1/$REPO-$IMAGE:$JAVA_ENV_VERSION hyperledger/$REPO-$IMAGE:amd64-$JAVA_ENV_TAG
+  docker tag $1/$REPO-$IMAGE:$JAVA_ENV_VERSION hyperledger/$REPO-$IMAGE:amd64-latest
+  docker images | grep hyperledger/fabric-javaenv
+}
 
 pullChaincodeJavaImage() {
 
   if [ "$GERRIT_BRANCH" = "master" ]; then
     export JAVA_ENV_VERSION=amd64-2.0.0-stable
     export JAVA_ENV_TAG=2.0.0
+    pulljavaenv nexus3.hyperledger.org:10001/hyperledger
   elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-    export JAVA_ENV_VERSION=amd64-1.4.0-stable
+    export JAVA_ENV_VERSION=amd64-1.4.0
     export JAVA_ENV_TAG=1.4.0
+    pulljavaenv hyperledger
   else
-    export JAVA_ENV_VERSION=amd64-1.3.1-stable
-    export JAVA_ENV_TAG=1.3.1
+    export JAVA_ENV_VERSION=amd64-1.3.0
+    export JAVA_ENV_TAG=1.3.0
+    pulljavaenv hyperledger
   fi
-  # Pull javaenv images and tag them as latest, amd64-$JAVA_ENV_TAG, amd64-latest
-  docker pull $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION
-  docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE
-  docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-$JAVA_ENV_TAG
-  docker tag $NEXUS_URL_REGISTRY/$ORG_NAME-$IMAGE:$JAVA_ENV_VERSION $ORG_NAME-$IMAGE:amd64-latest
-  docker images | grep hyperledger/fabric-javaenv || true
 }
 
 main() {
