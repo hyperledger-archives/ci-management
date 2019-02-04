@@ -75,6 +75,7 @@
           global-settings: 'global-settings'
           global-settings-type: cfp
       - clean-environment
+      - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
@@ -141,6 +142,7 @@
           global-settings: 'global-settings'
           global-settings-type: cfp
       - clean-environment
+      - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
@@ -300,6 +302,7 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
       - shell: |
           echo "----> ", $(pwd)
