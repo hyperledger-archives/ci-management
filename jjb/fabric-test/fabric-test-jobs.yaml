@@ -39,7 +39,7 @@
           base-dir: '$BASE_DIR'
 
     triggers:
-      - gerrit-trigger-patch-submitted:
+      - gerrit-trigger-test-patch-submitted:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-x$'
@@ -77,7 +77,6 @@
           email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
-          notify_submitter: '$GERRIT_PATCHSET_UPLOADER_EMAIL'
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
@@ -140,7 +139,6 @@
           email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
-          notify_submitter: '$GERRIT_PATCHSET_UPLOADER_EMAIL'
 
 # gerrit changes
 

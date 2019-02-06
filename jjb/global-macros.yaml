@@ -270,6 +270,38 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
+
+- trigger:
+    name: gerrit-trigger-test-patch-submitted
+    triggers:
+      - gerrit:
+          server-name: 'hyperledger'
+          trigger-on:
+            - patchset-created-event:
+                exclude-drafts: 'false'
+                exclude-trivial-rebase: 'false'
+                exclude-no-code-change: 'true'
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-comment1}'
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-comment2}'
+          projects:
+            - project-compare-type: 'ANT'
+              project-pattern: '{name}'
+              branches:
+                - branch-compare-type: 'ANT'
+                  branch-pattern: '**/{branch}'
+              disable-strict-forbidden-file-verification: 'true'
+              forbidden-file-paths:
+                - compare-type: 'ANT'
+                  pattern: '**/*.md'
+                - compare-type: ANT
+                  pattern: '**/*.rst'
+                - compare-type: ANT
+                  pattern: '**/*.txt'
+                - compare-type: ANT
+                  pattern: '**/conf.py'
+
 - trigger:
     name: gerrit-trigger-patch-submitted-no-docs
     triggers:
@@ -474,8 +506,8 @@
           attachments: '{output_format}'
           send-to:
             - recipients
+            - culprits
             - '{developer-email}'
-            - '{notify_submitter}'
 
 ############
 # BUILDERS #
