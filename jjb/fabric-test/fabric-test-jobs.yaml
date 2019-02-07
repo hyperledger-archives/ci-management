@@ -74,9 +74,10 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
+          notify_submitter: ''
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
@@ -136,7 +137,7 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -253,7 +254,7 @@
       - daily-test-results
       - test-logs
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -277,7 +278,7 @@
           branch: '{branch}'
 
     triggers:
-      - timed: 'H 13 * * *'
+      - timed: 'H 15 * * *'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -293,7 +294,7 @@
       - lf-infra-publish
       - daily-test-results
       - fabric-email-notification:
-          email-ids: 'rameshbabu.thoomu@gmail.com, sambhavdutt@gmail.com, jtclark@linux.vnet.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -335,6 +336,6 @@
       - lf-infra-publish
       - log-artifacts
       - fabric-email-notification:
-          email-ids: 'jason.clark@linux.vnet.ibm.com,rameshbabu.thoomu@gmail.com,sambhavdutt@gmail.com,scottz@us.ibm.com,vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com,scottz@us.ibm.com,vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
