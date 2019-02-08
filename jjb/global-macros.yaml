@@ -291,7 +291,7 @@
               branches:
                 - branch-compare-type: 'ANT'
                   branch-pattern: '**/{branch}'
-              disable-strict-forbidden-file-verification: 'false'
+              disable-strict-forbidden-file-verification: 'true'
               forbidden-file-paths:
                 - compare-type: ANT
                   pattern: '**/*.md'
