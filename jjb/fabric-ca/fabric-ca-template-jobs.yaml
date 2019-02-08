@@ -61,7 +61,7 @@
     node: 'hyp-{build_node}'
     concurrent: true
 
-    disabled: true
+    disabled: false
 
     properties:
       - 'fabric-go-{arch}'
