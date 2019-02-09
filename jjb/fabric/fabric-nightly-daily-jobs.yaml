@@ -51,7 +51,7 @@
     branch: release-1.4
     arch: s390x
     build-node: z
-    rel_version: 1.4.0-stable
+    rel_version: 1.4.1-stable
 
 - project:
     name: fabric-nightly-release-job-release-1.4-x86_64
@@ -62,7 +62,7 @@
     arch: x86_64
     build-node: x
     disable-job: false
-    rel_version: 1.4.0-stable
+    rel_version: 1.4.1-stable
 
 #############
 # release-1.3
