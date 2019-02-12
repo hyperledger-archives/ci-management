@@ -218,6 +218,16 @@ EOF
     # --- END LFTOOLS DEPS
     ########################
 
+    # Add some hostname aliases for loop-back
+
+    echo "---> Updating /etc/hosts"
+cat <<EOF >> /etc/hosts
+
+127.0.0.1 peer0.org1.example.com peer1.org1.example.com
+127.0.0.1 peer0.org2.example.com peer1.org2.example.com
+127.0.0.1 orderer.example.com
+EOF
+
     # disable unattended upgrades & daily updates
     echo '---> Disabling automatic daily upgrades'
     sed -ine 's/"1"/"0"/g' /etc/apt/apt.conf.d/10periodic
