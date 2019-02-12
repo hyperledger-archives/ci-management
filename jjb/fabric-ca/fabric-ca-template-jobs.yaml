@@ -133,6 +133,7 @@
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''
+
 - project:
     name: fabric-ca-verify-s390x
     jobs:
@@ -151,6 +152,7 @@
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''
+
 - project:
     name: fabric-ca-verify-fvt-x86_64
     jobs:
@@ -169,6 +171,7 @@
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''
+
 # These jobs trigger on gerrit "patchset merged" event
 ###########
 # Merge Jobs
@@ -190,8 +193,7 @@
     build_timeout: 60
     trigger-type: merged
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com, \
-    sambhavdutt@gmail.com,vijaypunugubati@gmail.com'
+    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
     developer_id: 'developers'
 
 - project:
@@ -210,9 +212,9 @@
     build_timeout: 60
     trigger-type: merged
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com, \
-    sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
     developer_id: 'developers'
+
 - project:
     name: fabric-ca-merge-fvt-x86_64
     jobs:
@@ -229,6 +231,5 @@
     build_timeout: 60
     trigger-type: merged
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'chris.ferris@gmail.com,enyeart@us.ibm.com,gari.r.singh@gmail.com,bksmith@us.ibm.com,yacovm@il.ibm.com, \
-    sambhavdutt@gmail.com,vijaypunugubati@gmail.com'
+    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
     developer_id: 'developers'
