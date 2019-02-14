@@ -139,7 +139,7 @@
       - fabric-submitter-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
-          developer-email: 'developers'
+          notify_submitter: 'GERRIT_EVENT_ACCOUNT_EMAIL'
 
 # gerrit changes
 
