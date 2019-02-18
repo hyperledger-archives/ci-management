@@ -38,17 +38,6 @@
   "provisioners": [
     {
       "type": "shell",
-      "inline": [
-        "mkdir -p /tmp/packer"
-      ]
-    },
-    {
-      "type": "file",
-      "source": "provision/",
-      "destination": "/tmp/packer"
-    },
-    {
-      "type": "shell",
       "scripts": [
         "provision/baseline.sh",
         "provision/docker.sh",
