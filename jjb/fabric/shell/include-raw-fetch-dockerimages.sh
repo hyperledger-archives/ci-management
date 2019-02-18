@@ -24,6 +24,7 @@ export GOROOT=/opt/go/go$GO_VER.linux.$ARCH
 export PATH=$GOROOT/bin:$PATH
 
 # Build fabric baseimages and thirdparty images
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-baseimage
 make docker dependent-images
 
 BASE_VERSION=$(cat Makefile | grep "^VERSION ?=" | cut -d "=" -f2 | tr -d '')

@@ -31,10 +31,6 @@
       - release-commit:
           pull-commit: ''
 
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:

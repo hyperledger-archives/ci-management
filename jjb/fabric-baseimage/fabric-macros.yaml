@@ -6,6 +6,7 @@
           url: 'git://cloud.hyperledger.org/mirror/fabric-baseimage'
           branches:
             - '*/tags/**'
+          basedir: '$BASE_DIR'
           wipe-workspace: true
           credentials-id: 'hyperledger-jobbuilder'
           refspec: '$GERRIT_REFSPEC'

@@ -22,7 +22,7 @@
 
     scm:
       - gerrit-trigger-scm{scm-type}:
-          base-dir: ''
+          base-dir: 'gopath/src/github.com/hyperledger/fabric-baseimage'
 
     triggers:
       - gerrit-trigger-patch-{trigger-type}:
@@ -40,6 +40,9 @@
       - clean-environment
       - output-environment
       - shell: |
+          #!/bin/bash -e
+
+          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-baseimage
           for IMAGES in docker dependent-images; do
           make $IMAGES
             if [ $? != 0 ]; then
@@ -79,7 +82,7 @@
 
     scm:
       - gerrit-trigger-scm{scm-type}:
-          base-dir: ''
+          base-dir: 'gopath/src/github.com/hyperledger/fabric-baseimage'
 
     triggers:
       - gerrit-trigger-patch-{trigger-type}:

@@ -11,6 +11,7 @@
 ##############################################################################
 set -o pipefail
 
+cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-baseimage || exit
 MARCH=$(go env GOARCH)
 DEPENDENT_TAG=$MARCH-$(make -f Makefile -f <(printf 'p:\n\t@echo $(VERSION)\n') p)
 echo "DEPENDENT_TAG Images TAG ID is: " $DEPENDENT_TAG
@@ -22,12 +23,12 @@ echo "----------> ARCH:" $ARCH
 dockerBaseImages() {
 
   # shellcheck disable=SC2043
-  for IMAGES in baseimage baseos basejvm; do
-    echo "==> $IMAGES"
-    docker tag $ORG_NAME-$IMAGES:$DEPENDENT_TAG $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
-    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG"
-    docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
-  done
+    for IMAGES in baseimage baseos basejvm; do
+      echo "==> $IMAGES"
+      docker tag $ORG_NAME-$IMAGES:$DEPENDENT_TAG $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
+      echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG"
+      docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$DEPENDENT_TAG
+    done
 }
 
 #docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
