@@ -74,10 +74,9 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: ''
           output_format: ''
-          developer-email: 'developers'
-          notify_submitter: ''
+          developer-email: 'requester'
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
@@ -137,9 +136,9 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, scottz@us.ibm.com'
           output_format: ''
-          notify_submitter: 'GERRIT_EVENT_ACCOUNT_EMAIL'
+          developer-email: 'requester'
 
 # gerrit changes
 

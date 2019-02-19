@@ -489,7 +489,6 @@
     publishers:
       - email-ext:
           recipients: '{email-ids}'
-          requester: '{notify_submitter}'
           reply-to: 'nobody@hyperledger.org'
           content-type: default
           subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!'
@@ -510,7 +509,7 @@
           attachments: '{output_format}'
           send-to:
             - recipients
-            - requester
+            - '{developer-email}'
 
 ############
 # BUILDERS #
