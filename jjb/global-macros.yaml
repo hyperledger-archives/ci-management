@@ -293,17 +293,8 @@
                   branch-pattern: '**/{branch}'
               disable-strict-forbidden-file-verification: 'true'
               file-paths:
-                - compare-type: ANT
-                  pattern: '**'
-              forbidden-file-paths:
-                - compare-type: ANT
-                  pattern: '**/*.md'
-                - compare-type: ANT
-                  pattern: '**/*.rst'
-                - compare-type: ANT
-                  pattern: '**/*.txt'
-                - compare-type: ANT
-                  pattern: '**/conf.py'
+                - compare-type: 'REG_EXP'
+                  pattern: '^((?!\/COMMIT_MSG|\.rst|\.md|\.txt|conf\.py).)*$'
 
 - trigger:
     name: gerrit-trigger-patch-submitted-no-docs
