@@ -129,7 +129,7 @@
     comment1: 'reverify-x$'
     comment2: 'reverify$'
     build_timeout: 60
-    trigger-type: submitted
+    trigger-type: submitted-no-docs
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''
@@ -148,7 +148,7 @@
     comment1: 'reverify-z$'
     comment2: 'reverify$'
     build_timeout: 60
-    trigger-type: submitted
+    trigger-type: submitted-no-docs
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''
@@ -167,7 +167,7 @@
     comment1: 'reverify-fvt$'
     comment2: 'reverify$'
     build_timeout: 60
-    trigger-type: submitted
+    trigger-type: submitted-no-docs
     ref_spec: ''
     emaild_ids: ''
     developer_id: ''

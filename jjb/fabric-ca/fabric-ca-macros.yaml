@@ -23,7 +23,7 @@
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric-ca
-          make unit-test int-tests docs
+          make dist-all unit-test int-tests docs
 
 - builder:
     name: ca-fvt-tests-x86_64

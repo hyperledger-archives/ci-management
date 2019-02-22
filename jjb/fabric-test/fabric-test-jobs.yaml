@@ -39,7 +39,7 @@
           base-dir: '$BASE_DIR'
 
     triggers:
-      - gerrit-trigger-test-patch-submitted:
+      - gerrit-trigger-patch-submitted-no-docs:
           name: '{project}'
           branch: ''
           trigger-comment1: 'reverify-x$'
