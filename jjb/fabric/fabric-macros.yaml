@@ -112,6 +112,11 @@
       - shell: !include-raw: shell/include-raw-fabric-nexus-publish.sh
 
 - builder:
+    name: fabric-ca-nightly-publish-binary
+    builders:
+      - shell: !include-raw: shell/include-raw-fabric-ca-nexus-publish.sh
+
+- builder:
     name: down-stream-jobs-master-x86_64
     builders:
       - conditional-step:

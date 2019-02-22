@@ -1,5 +1,5 @@
 ---
-# This file contains job template and default parameters for daily-jobs
+# This file contains job template and default parameters for daily fabric jobs
 
 - fabric_daily_jobs: &fabric_daily_jobs
     name: fabric-daily-jobs
@@ -111,14 +111,15 @@
       - end-to-end-JAVA
 
     publishers:
-      - workspace-cleanup
+      - lf-infra-publish
       - log-artifacts
+      - workspace-cleanup
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
-# This job template contains fabric daily end-2-end job configuration
+# This job template contains fabric nightly release job configuration
 - job-template:
     name: '{project-name}-nightly-release-job-{branch}-{arch}'
     id: fabric-nightly-release-jobs
@@ -152,6 +153,43 @@
       - fabric-nightly-publish-images
       - clean-environment
       - 'down-stream-jobs-{branch}-{arch}'
+
+    publishers:
+      - workspace-cleanup
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# This job template contains fabric-ca-client nightly release job configuration
+
+- job-template:
+    name: '{project-name}-client-nightly-release-job-{branch}-{arch}'
+    id: fabric-ca-nightly-release-jobs
+    <<: *fabric_daily_jobs
+
+    parameters:
+      - lf-infra-parameters:
+          project: '{project}'
+          branch: '{branch}'
+          stream: '{stream}'
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-version:
+          push-version: '{rel_version}'
+
+    triggers:
+      - timed: 'H 0 * * *'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - fabric-ca-nightly-publish-binary
+      - clean-environment
 
     publishers:
       - workspace-cleanup
