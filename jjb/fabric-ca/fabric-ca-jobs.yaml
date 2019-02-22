@@ -90,6 +90,8 @@
     node: 'hyp-{arch}'
     concurrent: true
 
+    disabled: true
+
     properties:
       - 'fabric-go-{arch}'
       - build-discarder:
