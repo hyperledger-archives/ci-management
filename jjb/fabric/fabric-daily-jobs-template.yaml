@@ -144,7 +144,6 @@
       - pull-nexus-chaincode-java-image
       - fabric-chaincode-nodeenv-image
       - fabric-nightly-release-builds
-      - fabric-nightly-smoke-build
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
