@@ -18,7 +18,7 @@ clone_Blockchain_Explorer() {
 # Build blockchain-explorer images
 docker_Build_Images() {
      # build "explorer & explorer-db" images
-     ./deploy_explorer.sh
+     ./build_docker_image.sh
 }
 
 # list docker images
