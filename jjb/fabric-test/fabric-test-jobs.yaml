@@ -8,8 +8,6 @@
 - project:
     name: fabric-test-jobs
     jobs:
-      - 'fabric-test-verify-{arch}'
-      - 'fabric-test-merge-{arch}'
       - 'fabric-test-svt-weekly-pte-{arch}'
 
     project: 'fabric-test'
@@ -19,134 +17,37 @@
 
 # gerrit changes
 
-- job-template:
-    name: 'fabric-test-verify-{arch}'
+######
+# fabric-test verify job on x platform
+# This job triggers on gerrit "patchset created" event
+######
+- project:
+    name: 'fabric-test-verify-x86_64'
+    jobs:
+      - 'fabric-test-verify-job'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: 'x86_64'
+    build-node: 'x'
+    build-timeout: 120
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+######
+# fabric-test merge job on x platform
+# This job triggers on gerrit "patchset merged" event
+######
+- project:
+    name: 'fabric-test-merge-x86_64'
+    jobs:
+      - 'fabric-test-merge-job'
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-submitted-no-docs:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -e
-         set -o pipefail
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-         # Fetch Go Version from fabric ci.properties file
-         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
-         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-         OS_VER=$(dpkg --print-architecture)
-         echo "------> ARCH: $OS_VER"
-         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-         export PATH=$GOROOT/bin:$PATH
-         echo "------> GO_VER" $GO_VER
-         make ci-smoke
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-      - daily-test-results
-      - fabric-submitter-notification:
-          email-ids: 'sambhavdutt@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
-    name: 'fabric-test-merge-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'remerge-x$'
-          trigger-comment2: 'remerge$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '120'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - output-environment
-      - shell: |
-         #!/bin/bash -e
-
-         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-         # Fetch Go Version from fabric ci.properties file
-         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
-         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-         OS_VER=$(dpkg --print-architecture)
-         echo "------> ARCH: $OS_VER"
-         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-         export PATH=$GOROOT/bin:$PATH
-         echo "------> GO_VER" $GO_VER
-         make ci-smoke
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-      - daily-test-results
-      - fabric-submitter-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, scottz@us.ibm.com'
-          output_format: ''
-          developer-email: 'requester'
+    project: fabric-test
+    project-name: fabric-test
+    branch: master
+    arch: 'x86_64'
+    build-node: 'x'
+    build-timeout: 120
 
 # gerrit changes
 

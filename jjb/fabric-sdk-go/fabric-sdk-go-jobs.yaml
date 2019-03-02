@@ -7,84 +7,60 @@
 
 ######
 # fabric-sdk-go verify jobs on x and z arch
-# These jobs triggers on gerrit "patchset created" event
+# These jobs trigger on gerrit "patchset created" event
 ######
 - project:
-    name: fabric-sdk-go-tests-verify-x86_64
+    name: 'fabric-sdk-go-verify-x86_64'
     jobs:
-      - '{project-name}-tests-{type}-{arch}'
+      - 'fabric-sdk-go-verify'
 
     project: fabric-sdk-go
     project-name: fabric-sdk-go
-    type: 'verify'
     branch: ''
-    scm-type: ''
     arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    build_timeout: 50
-    trigger-type: submitted
-    ref_spec: ''
+    build-node: 'x'
+    build-timeout: 50
     emaild_ids: ''
 
 - project:
-    name: fabric-sdk-go-tests-verify-s390x
+    name: 'fabric-sdk-go-verify-s390x'
     jobs:
-      - '{project-name}-tests-{type}-{arch}'
+      - 'fabric-sdk-go-verify'
 
     project: fabric-sdk-go
     project-name: fabric-sdk-go
-    type: 'verify'
     branch: ''
-    scm-type: ''
     arch: 's390x'
-    build_node: 'z'
-    comment1: 'reverify-z$'
-    comment2: 'reverify$'
-    build_timeout: 50
-    trigger-type: submitted
-    ref_spec: ''
+    build-node: 'z'
+    build-timeout: 50
     emaild_ids: ''
 
-# These jobs triggers on gerrit "patchset merged" event
-###########
-# Merge Jobs
-###########
+######
+# fabric-sdk-go merge jobs on x and z arch
+# These jobs trigger on gerrit "patchset merged" event
+######
 - project:
-    name: fabric-sdk-go-tests-merge-x86_64
+    name: 'fabric-sdk-go-merge-x86_64'
     jobs:
-      - '{project-name}-tests-{type}-{arch}'
+      - 'fabric-sdk-go-merge'
 
     project: fabric-sdk-go
     project-name: fabric-sdk-go
-    type: 'merge'
     branch: ''
-    scm-type: '-merge'
     arch: 'x86_64'
-    build_node: 'x'
-    comment1: 'remerge-x'
-    comment2: 'remerge'
-    build_timeout: 50
-    trigger-type: merged
-    ref_spec: 'refs/heads/$GERRIT_BRANCH'
+    build-node: 'x'
+    build-timeout: 50
     emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
 
 - project:
-    name: fabric-sdk-go-tests-merge-s390x
+    name: 'fabric-sdk-go-merge-s390x'
     jobs:
-      - '{project-name}-tests-{type}-{arch}'
+      - 'fabric-sdk-go-merge'
 
     project: fabric-sdk-go
     project-name: fabric-sdk-go
-    type: 'merge'
     branch: ''
-    scm-type: '-merge'
     arch: 's390x'
-    build_node: 'z'
-    comment1: 'remerge-z'
-    comment2: 'remerge'
-    build_timeout: 50
-    trigger-type: merged
-    ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'troy@troyronda.com, sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+    build-node: 'z'
+    build-timeout: 50
+    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'

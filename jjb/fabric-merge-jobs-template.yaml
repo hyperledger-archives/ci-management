@@ -1,0 +1,228 @@
+---
+# This file contains job template and default parameters for merge jobs
+
+- fabric_merge_jobs: &fabric_merge_jobs
+    name: fabric-merge-jobs
+
+    ######################
+    # Default Parameters #
+    ######################
+
+    build-days-to-keep: 7
+    artifact-days-to-keep: 7
+    build-timeout: 120
+    disable-job: false
+    project-type: freestyle
+    arch: x86_64
+    branch: master
+    stream: ''
+    project-name: fabric
+    project: fabric
+    build-node: 'x'
+    mvn-settings: 'fabric-settings'
+
+    #####################
+    # Job Configuration #
+    #####################
+
+    node: 'hyp-{build-node}'
+    concurrent: true
+    disabled: '{disable-job}'
+
+    properties:
+      - lf-infra-properties:
+          build-days-to-keep: '{build-days-to-keep}'
+          artifact-days-to-keep: '{artifact-days-to-keep}'
+      - 'fabric-go-{arch}'
+
+    scm:
+      - gerrit-trigger-scm:
+          base-dir: '$BASE_DIR'
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: 'remerge-{build-node}$'
+          trigger-comment2: 'remerge$'
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    wrappers:
+      - lf-infra-wrappers:
+          build-timeout: '{build-timeout}'
+          jenkins-ssh-credential: '{jenkins-ssh-credential}'
+
+    publishers:
+      - lf-infra-publish
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# fabric-sdk-go job configuration
+- job-template:
+    name: '{project-name}-merge-{arch}'
+    id: fabric-sdk-go-merge
+    <<: *fabric_merge_jobs
+
+    builders:
+      - verify-commit-message
+      - 'golang-environment-{arch}'
+      - clean-environment
+      - output-environment
+      - fabric-sdk-go-unit-tests
+      - fabric-sdk-go-integration-tests
+
+    publishers:
+      - code-coverage-report
+      - fabric-email-notification:
+          email-ids: '{emaild_ids}'
+          output_format: ''
+          developer-email: 'developers'
+
+# fabric-sdk-py job configuration
+- job-template:
+    name: '{project-name}-merge-{arch}'
+    id: fabric-sdk-py-merge-jobs
+    <<: *fabric_merge_jobs
+
+    properties:
+      - 'fabric-sdk-py-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    builders:
+      - verify-commit-message
+      - fabric-verify-sdk-py
+
+    publishers:
+      - archive-artifacts:
+          artifacts: '.tox/**/*.log'
+
+# fabric-sdk-java job configuration
+# sdk-java-merge job
+- job-template:
+    name: '{project-name}-{branch}-merge-{arch}'
+    id: fabric-sdk-java-merge-job
+    <<: *fabric_merge_jobs
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - maven-exec:
+          maven-version: '{mvn-version}'
+    scm:
+      - gerrit-trigger-scm-merge:
+          base-dir: ''
+
+    builders:
+      - lf-provide-maven-settings:
+          global-settings-file: 'global-settings'
+          settings-file: '{mvn-settings}'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
+      - clean-environment
+      - pull-nexus-chaincode-java-image
+      - fabric-sdk-java-end-to-end-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "---->   $(find . -name \*.xml)"
+
+    publishers:
+      - jacoco-coverage-report
+      - java-sdk-logs
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# sdk-java-merge-1.4 job
+- job-template:
+    name: '{project-name}-{branch}-merge-1.4-{arch}'
+    id: fabric-sdk-java-merge-1.4-job
+    <<: *fabric_merge_jobs
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+
+    scm:
+      - gerrit-trigger-scm-merge:
+          base-dir: ''
+
+    builders:
+      - clean-environment
+      - fabric-sdk-java-1.4-test
+      - shell: |
+          echo "----> ", $(pwd)
+          echo "----> ", "$(ls -al)"
+          echo "----> ", $WORKSPACE
+          echo "---->   $(find . -name \*.xml)"
+
+    publishers:
+      - jacoco-coverage-report
+      - java-sdk-logs
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
+
+# fabric-test merge job configuration
+- job-template:
+    name: '{project-name}-merge-{arch}'
+    id: fabric-test-merge-job
+    <<: *fabric_merge_jobs
+
+    builders:
+      - verify-commit-message
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -eu
+
+         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
+         export GO_VER=$(cat ci.properties | grep GO_VER | cut -d "=" -f 2)
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         make ci-smoke
+
+    publishers:
+      - log-artifacts
+      - daily-test-results
+      - fabric-submitter-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, scottz@us.ibm.com'
+          output_format: ''
+          developer-email: 'developer'
