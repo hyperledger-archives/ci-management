@@ -1,11 +1,11 @@
 ---
 
-###########
-# Pipeline
-###########
+#################################################
+# Merge Pipeline Job Template for Gerrit Projects
+#################################################
 
-- pipeline_common: &pipeline_common
-    name: pipeline-common
+- pipeline_merge: &pipeline_merge
+    name: pipeline-merge
 
     project-type: pipeline
     concurrent: true
@@ -16,13 +16,13 @@
             credentials-id: 'hyperledger-jobbuilder'
             url: '$GIT_BASE'
             shallow-clone: true
-            refspec: '{src_code}'
+            refspec: +refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
             wipe-workspace: true
             clean:
               before: true
               after: true
             branches:
-              - '{src_branch}'
+              - refs/heads/$GERRIT_BRANCH
 
     parameters:
       - project-parameter:
@@ -30,34 +30,24 @@
       - gerrit-parameter:
           branch: 'master'
       - gerrit-refspec-parameter:
-          refspec: '{refspec}'
+          refspec: 'refs/heads/$GERRIT_BRANCH'
 
     properties:
+      - fabric-pipeline-properties:
+          job-type: '{job_type}'
+          build-node: 'hyp-{build_node}'
       - build-discarder:
-          days-to-keep: '{log_days}'
-          artifact-days-to-keep: '{log_days}'
+          days-to-keep: 10
+          artifact-days-to-keep: 7
 
     triggers:
-      - gerrit-trigger-patch-{trigger_type}:
+      - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: '{branch}'
-          trigger-comment1: '{comment1}'
-          trigger-comment2: '{comment2}'
-
-#############
-# Verify Job
-#############
-
-- job-template:
-    name: '{project}-verify-{arch}'
-    id: fab-pipeline-verify
-    <<: *pipeline_common
-
-############
-# Merge job
-############
+          trigger-comment1: 'remerge$'
+          trigger-comment2: 'remerge-{build_node}$'
 
 - job-template:
     name: '{project}-merge-{arch}'
     id: fab-pipeline-merge
-    <<: *pipeline_common
+    <<: *pipeline_merge

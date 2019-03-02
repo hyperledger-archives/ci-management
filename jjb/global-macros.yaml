@@ -127,6 +127,16 @@
           default: '{docker-repository}'
           description: "Default to Nexus repo"
 
+- property:
+    name: 'fabric-pipeline-properties'
+    properties:
+      - inject:
+          properties-content: |
+            PROJECT_DIR=$BASE_DIR
+            ORG_NAME=hyperledger/fabric
+            NEXUS_REPO_URL=nexus3.hyperledger.org:10001
+            JOB_TYPE={job-type}
+            NODE_ARCH={build-node}
 #
 ########
 # SCMS #

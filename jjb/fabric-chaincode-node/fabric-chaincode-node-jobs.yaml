@@ -16,14 +16,8 @@
     branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: 'reverify-x$'
-    comment2: 'reverify$'
-    trigger_type: submitted
+    job_type: 'verify'
     jenkins_file: Jenkinsfile.x
-    log_days: 7
-    src_branch: '$GERRIT_REFSPEC'
-    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
-    refspec: ''
 
 - project:
     name: fabric-chaincode-node-verify-s390x
@@ -34,14 +28,8 @@
     branch: ''
     arch: 's390x'
     build_node: 'z'
-    comment1: 'reverify-z$'
-    comment2: 'reverify$'
-    trigger_type: submitted
+    job_type: 'verify'
     jenkins_file: Jenkinsfile.z
-    log_days: 7
-    src_branch: '$GERRIT_REFSPEC'
-    src_code: '$GERRIT_REFSPEC:$GERRIT_REFSPEC'
-    refspec: ''
 
 #########################
 # Merge Job Configuration
@@ -56,14 +44,8 @@
     branch: ''
     arch: 's390x'
     build_node: 'z'
-    comment1: 'remerge-z$'
-    comment2: 'remerge$'
-    trigger_type: merged
+    job_type: 'merge'
     jenkins_file: Jenkinsfile.z
-    log_days: 7
-    src_branch: 'refs/heads/$GERRIT_BRANCH'
-    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
-    refspec: 'refs/heads/$GERRIT_BRANCH'
 
 - project:
     name: fabric-chaincode-node-merge-x86_64
@@ -74,11 +56,5 @@
     branch: ''
     arch: 'x86_64'
     build_node: 'x'
-    comment1: 'remerge-x$'
-    comment2: 'remerge$'
-    trigger_type: merged
+    job_type: 'merge'
     jenkins_file: Jenkinsfile.x
-    log_days: 7
-    src_branch: 'refs/heads/$GERRIT_BRANCH'
-    src_code: '+refs/heads/$GERRIT_BRANCH:refs/remotes/origin/$GERRIT_BRANCH'
-    refspec: 'refs/heads/$GERRIT_BRANCH'
