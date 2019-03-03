@@ -17,10 +17,3 @@
     builders:
       - shell:
           !include-raw: include-raw-fabric-thirdparty-images.sh
-
-# Publish tag based multiarch images to nexus and DockerHub
-- builder:
-    name: docker-multiarch
-    builders:
-      - shell:
-          !include-raw: include-raw-docker-multiarch.sh
