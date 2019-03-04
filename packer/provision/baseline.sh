@@ -228,6 +228,8 @@ cat <<EOF >> /etc/hosts
 127.0.0.1 orderer.example.com
 EOF
 
+    apt-get install figlet sysvbanner html2text
+
     # disable unattended upgrades & daily updates
     echo '---> Disabling automatic daily upgrades'
     sed -ine 's/"1"/"0"/g' /etc/apt/apt.conf.d/10periodic

@@ -18,6 +18,7 @@ SYSTEM_TYPE=''
 IFS='-' read -r -a HOSTPARTS <<< "${HOST}"
 
 # slurp in the control scripts
+# shellcheck disable=SC2207
 FILES=($(find . -maxdepth 1 -type f -iname '*.sh' -exec basename -s '.sh' {} \;))
 # remap into an associative array
 declare -A A_FILES
