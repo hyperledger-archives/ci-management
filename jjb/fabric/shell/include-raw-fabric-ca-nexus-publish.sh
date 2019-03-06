@@ -64,10 +64,10 @@ if [[ $ARCH == "amd64" ]]; then
     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary
         tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
-        echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz to maven.."
+        echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
         mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
             -DupdateReleaseInfo=true \
-            -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.tar.gz \
+            -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \
             -DrepositoryId=hyperledger-snapshots \
             -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
             -DgroupId=org.hyperledger.fabric-ca \

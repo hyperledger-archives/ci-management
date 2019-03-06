@@ -90,7 +90,7 @@
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
 
 # This job template contains fabric daily end-2-end job configuration
 - job-template:
@@ -117,7 +117,7 @@
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
 
 # This job template contains fabric nightly release job configuration
 - job-template:
@@ -159,7 +159,7 @@
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
 
 # This job template contains fabric-ca-client nightly release job configuration
 
@@ -196,4 +196,4 @@
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
