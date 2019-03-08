@@ -27,10 +27,6 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
-      - release-commit:
-          pull-commit: ''
-      - release-version:
-          push-version: ''
 
     scm:
       - gerrit-trigger-scm:
