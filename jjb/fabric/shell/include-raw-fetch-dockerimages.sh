@@ -13,9 +13,12 @@ set -o pipefail
 
  # Fetch Go Version from fabric ci.properties file
 curl -L https://raw.githubusercontent.com/hyperledger/fabric-baseimage/master/scripts/common/setup.sh > setup.sh
-GO_VER=$(cat setup.sh | grep GO_VER= | cut -d "=" -f 2)
-[ -z "$GO_VER" ] && echo "-----> Empty GO_VER"
-exit 1
+eval "$(grep GO_VER= setup.sh)"
+if [ -z "$GO_VER" ]; then
+   echo "-----> Empty GO_VER"
+   exit 1
+fi
+echo "GO_VER="$GO_VER
 # Get ARCH
 ARCH=$(dpkg --print-architecture)
 echo "------> ARCH: $ARCH"
@@ -27,7 +30,7 @@ export PATH=$GOROOT/bin:$PATH
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-baseimage
 make docker dependent-images
 
-BASE_VERSION=$(cat Makefile | grep "^VERSION ?=" | cut -d "=" -f2 | tr -d '')
+BASE_VERSION=$(cat Makefile | grep "^VERSION ?=" | cut -d "=" -f2 | tr -d '[:space:]')
 echo "-------> BASE_VERSION" $BASE_VERSION
 
 # Tag images to $ARCH-$BASE_VERSION
@@ -49,14 +52,10 @@ git checkout $GERRIT_BRANCH
 # Print last two commits
 git log -n2
 
-# Modify the Baseimage version
-FAB_BASE="$(cat Makefile | grep "BASEIMAGE_RELEASE=" | cut -d "=" -f2)"
-# Replace FAB_BASE with BASE VERSION
-sed -i "s/BASEIMAGE_RELEASE=$FAB_BASE/BASEIMAGE_RELEASE=$BASE_VERSION/g" Makefile
-
+# Override value for BASEIMAGE_RELEASE in fabric Makefile with BASE VERSION
 # Build docker images, binaries & execute basic-checks
 for IMAGES in basic-checks docker release-clean release; do
-    make $IMAGES
+    make BASEIMAGE_RELEASE=$BASE_VERSION $IMAGES
 done
 
 ##############
@@ -71,14 +70,9 @@ cd $FABRIC_CA_WD
 # Print last two commits
 git log -n2
 
-# Get Baseimage version
-CA_BASE="$(cat Makefile | grep "BASEIMAGE_RELEASE =" | cut -d "=" -f2)"
-
-# Replace CA_BASE with BASE VERSION
-sed -i "s/BASEIMAGE_RELEASE=$CA_BASE/BASEIMAGE_RELEASE=$BASE_VERSION/g" Makefile
-
+# Override value for BASEIMAGE_RELEASE in fabric-ca Makefile with BASE VERSION
 # Build fabric-ca docker images
-make docker
+make BASEIMAGE_RELEASE=$BASE_VERSION docker
 
 # List all docker images
 docker images | grep hyperledger
