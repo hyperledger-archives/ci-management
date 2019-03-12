@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e -o pipefail
 
 #
 # SPDX-License-Identifier: Apache-2.0
