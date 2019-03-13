@@ -82,6 +82,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x$'
+          trigger-comment2: 'remerge$'
 
     wrappers:
       - hyperledger-infra-wrappers

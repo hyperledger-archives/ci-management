@@ -119,6 +119,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x$'
+          trigger-comment2: 'remerge$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -242,7 +244,8 @@
       - gerrit-trigger-patch-merged:
           name: '{project}'
           branch: ''
-
+          trigger-comment1: 'remerge-1.4$'
+          trigger-comment2: 'remerge$'
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
