@@ -31,17 +31,9 @@ SDK_NODE_COMMIT=$(git log -1 --pretty=format:"%h")
 echo "------> SDK_NODE_COMMIT : $SDK_NODE_COMMIT"
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
-cd test/fixtures
-docker rm -f "$(docker ps -aq)" || true
-docker-compose up >> node_dockerlogfile.log 2>&1 &
-sleep 10
-docker ps -a
-cd ../..
-
 ARCH=$(dpkg --print-architecture)
 echo "======" $ARCH
 if [[ "$ARCH" = "amd64" || "$ARCH" = "ppc64le" ]]; then
-
    # Install nvm to install multi node versions
    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
    export NVM_DIR=$HOME/.nvm
@@ -51,6 +43,7 @@ else
    source /etc/profile.d/nvmrc.sh
 fi
 
+figlet -w 132 'SDK-NODE TESTS'
 echo "-------> Install NodeJS"
 
 # Checkout to GERRIT_BRANCH
@@ -99,20 +92,39 @@ cd $SDK_NODE_WD
 npm install || err_check "npm install failed"
 npm config set prefix ~/npm || exit 1
 npm install -g gulp || exit 1
-npm install -g istanbul || exit 1
 
-gulp || err_check "gulp failed"
-gulp ca || err_check "gulp ca failed"
+generatecerts () {
+# Generate crypto material before running the tests
+if [ $ARCH == "s390x" ]; then
+# Run the s390x gulp task
+    gulp install-and-generate-certs-s390 || err_check "ERROR!!! gulp install and generation of test certificates failed"
+else
+# Run the amd64 gulp task
+    gulp install-and-generate-certs || err_check "ERROR!!! gulp install and generation of test certificates failed"
+fi
+}
 
-rm -rf node_modules/fabric-ca-client && npm install || err_check "npm install failed"
+echo "#################"
+echo " Run gulp tests"
+echo "#################"
 
-# Execute e2e tests and code coverage report
-
-echo "#######################################"
-echo "Run e2e tests and Code coverage report"
-echo "#######################################"
-
-istanbul cover --report cobertura test/integration/e2e.js
+case $GERRIT_BRANCH in
+"release-1.0" | "release-1.1" | "release-1.2" | "release-1.3")
+gulp || err_Check "ERROR!!! gulp failed"
+gulp ca || err_Check "ERROR!!! gulp ca failed"
+echo "------> Run node Headless & Integration tests"
+gulp test || err_Check "ERROR!!! gulp test failed"
+;;
+release-1.4)
+echo "------> Starting gulp end-to-end tests"
+gulp run-end-to-end || err_check "ERROR!!! gulp end-2-end tests failed"
+;;
+*)
+generatecerts
+echo "------> Starting gulp end-to-end tests"
+gulp run-end-to-end || err_check "ERROR!!! gulp end-2-end tests failed"
+;;
+esac
 
 function clearContainers () {
     CONTAINER_IDS=$(docker ps -aq)
