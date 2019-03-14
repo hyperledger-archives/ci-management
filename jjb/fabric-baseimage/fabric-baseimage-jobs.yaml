@@ -52,8 +52,8 @@
     scm-type: '-merge'
     arch: 's390x'
     build-node: 'hyp-z'
-    comment1: ''
-    comment2: 'remerge'
+    comment1: 'remerge-z$'
+    comment2: 'remerge$'
     trigger-type: 'merged'
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
 
@@ -68,8 +68,8 @@
     scm-type: '-merge'
     arch: 'x86_64'
     build-node: 'hyp-x'
-    comment1: ''
-    comment2: 'remerge'
+    comment1: 'remerge-x$'
+    comment2: 'remerge$'
     trigger-type: 'merged'
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
 
