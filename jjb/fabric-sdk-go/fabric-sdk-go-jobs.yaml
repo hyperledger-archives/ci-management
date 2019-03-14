@@ -57,7 +57,7 @@
     scm-type: '-merge'
     arch: 'x86_64'
     build_node: 'x'
-    comment1: ''
+    comment1: 'remerge-x'
     comment2: 'remerge'
     build_timeout: 50
     trigger-type: merged
@@ -76,7 +76,7 @@
     scm-type: '-merge'
     arch: 's390x'
     build_node: 'z'
-    comment1: ''
+    comment1: 'remerge-z'
     comment2: 'remerge'
     build_timeout: 50
     trigger-type: merged
