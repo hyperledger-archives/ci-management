@@ -1,5 +1,11 @@
 ---
 - project:
+    name: cello-project-view
+    project-name: cello
+    views:
+      - project-view
+
+- project:
     name: cello-jobs
     jobs:
       - 'cello-verify-{arch}'

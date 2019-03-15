@@ -1,5 +1,11 @@
 ---
 - project:
+    name: blockchain-explorer-project-view
+    project-name: blockchain-explorer
+    views:
+      - project-view
+
+- project:
     name: blockchain-explorer
     jobs:
       - '{project}-release-job-{arch}'

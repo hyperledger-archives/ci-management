@@ -1,5 +1,11 @@
 ---
 - project:
+    name: ci-management-project-view
+    project-name: ci-management
+    views:
+      - project-view
+
+- project:
     name: ci-management-jobs
     jobs:
       - '{project-name}-ci-jobs'
