@@ -101,6 +101,7 @@
       - output-environment
       - fetchbaseimages
       - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
       - shell: |
