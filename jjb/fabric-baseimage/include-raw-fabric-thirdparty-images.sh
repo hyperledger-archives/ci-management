@@ -53,13 +53,13 @@ dockerThirdpartyImage() {
 echo "--------> Publish baseimage to DockerHub"
 make install
 
-echo "--------> Publish baseimage to Nexus3
+echo "--------> Publish baseimage to Nexus3"
 dockerBaseImages
 
 echo "--------> Build Thirdparty Docker images"
 make dependent-images
 
-echo "--------> Publish Thirdparty Docker images to DockerHub and Nexus3
+echo "--------> Publish Thirdparty Docker images to DockerHub and Nexus3"
 dockerThirdpartyImage
 
 # Listout all docker images
