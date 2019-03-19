@@ -74,9 +74,9 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: ''
+          email-ids: 'sambhavdutt@gmail.com'
           output_format: ''
-          developer-email: 'requester'
+          developer-email: 'developers'
 
 - job-template:
     name: 'fabric-test-merge-{arch}'
