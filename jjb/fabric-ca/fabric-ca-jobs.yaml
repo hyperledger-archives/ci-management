@@ -1,5 +1,11 @@
 ---
 - project:
+    name: fabric-ca-project-view
+    project-name: fabric-ca
+    views:
+      - project-view
+
+- project:
     name: fabric-ca
     jobs:
       - 'fabric-ca-binaries-{arch}'

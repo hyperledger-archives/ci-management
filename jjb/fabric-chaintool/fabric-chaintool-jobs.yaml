@@ -1,5 +1,11 @@
 ---
 - project:
+    name: fabric-chaintool-project-view
+    project-name: fabric-chaintool
+    views:
+      - project-view
+
+- project:
     name: fabric-chaintool-jobs
     jobs:
       - 'fabric-chaintool-verify-{arch}'
