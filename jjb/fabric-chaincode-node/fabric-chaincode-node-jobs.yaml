@@ -2,6 +2,11 @@
 ###############
 ## Pipeline job configuration for verify and merge jobs
 ##############
+- project:
+    name: fabric-chaincode-node-project-view
+    project-name: fabric-chaincode-node
+    views:
+      - project-view
 
 ##########################
 # Verify Job Configuration

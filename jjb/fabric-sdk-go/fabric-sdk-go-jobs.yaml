@@ -1,4 +1,10 @@
 ---
+- project:
+    name: fabric-sdk-go-project-view
+    project-name: fabric-sdk-go
+    views:
+      - project-view
+
 ######
 # fabric-sdk-go verify jobs on x and z arch
 # These jobs triggers on gerrit "patchset created" event

@@ -1,4 +1,9 @@
 ---
+- project:
+    name: fabric-sdk-node-project-view
+    project-name: fabric-sdk-node
+    views:
+      - project-view
 
 - project:
     name: fabric-sdk-node-verify-x86_64

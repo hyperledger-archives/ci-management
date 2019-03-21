@@ -1,5 +1,11 @@
 ---
 - project:
+    name: fabric-sdk-py-project-view
+    project-name: fabric-sdk-py
+    views:
+      - project-view
+
+- project:
     name: fabric-sdk-py-jobs
     jobs:
       - 'fabric-sdk-py-verify-{arch}'

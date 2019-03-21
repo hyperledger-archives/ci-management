@@ -1,4 +1,9 @@
 ---
+- project:
+    name: fabric-chaincode-evm-project-view
+    project-name: fabric-chaincode-evm
+    views:
+      - project-view
 
 - project:
     name: fabric-chaincode-evm-verify-x86_64

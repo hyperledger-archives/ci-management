@@ -1,5 +1,11 @@
 ---
 - project:
+    name: fabric-sdk-java-project-view
+    project-name: fabric-sdk-java
+    views:
+      - project-view
+
+- project:
     name: fabric-sdk-java-jobs
     jobs:
       - gerrit-maven-clm:

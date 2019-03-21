@@ -1,4 +1,10 @@
 ---
+- project:
+    name: indy-project-view
+    project-name: indy
+    views:
+      - project-view
+
 - job-template:
     name: '{repo}-verify-{arch}'
     id: indy-ci-pipeline-template

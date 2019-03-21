@@ -35,3 +35,24 @@
     view-regex: 'fabric-baseimage-.*|fabric-thirdparty-image-release-.*'
     views:
       - common-view
+
+- project:
+    name: fabric-chaincode-java
+    view-name: fabric-chaincode-java
+    view-regex: '^fabric-chaincode-java.*'
+    views:
+      - common-view
+
+- project:
+    name: fabric
+    view-name: fabric
+    view-regex: '^fabric-[smv][me].*|fabric-docs-.*|fabric-rtd.*'
+    views:
+      - common-view
+
+- project:
+    name: multi-arch
+    view-name: multi-arch
+    view-regex: '.*-multiarch-.*'
+    views:
+      - common-view

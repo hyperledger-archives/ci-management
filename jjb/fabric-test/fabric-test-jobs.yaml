@@ -1,5 +1,11 @@
 ---
 - project:
+    name: fabric-test-project-view
+    project-name: fabric-test
+    views:
+      - project-view
+
+- project:
     name: fabric-test-jobs
     jobs:
       - 'fabric-test-verify-{arch}'
