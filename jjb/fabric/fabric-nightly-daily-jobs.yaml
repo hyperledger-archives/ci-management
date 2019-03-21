@@ -150,4 +150,4 @@
     mvn-settings: 'fabric-ca-settings'
     arch: x86_64
     build-node: x
-    rel_version: 1.4.0-stable
+    rel_version: 1.4.1-stable
