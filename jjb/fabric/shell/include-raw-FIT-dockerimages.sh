@@ -17,9 +17,12 @@ BASE_WD=${WORKSPACE}/gopath/src/github.com/hyperledger
 # Build fabric docker images
 ############################
 
+echo "######################"
+echo -e "\033[1m B U I L D - F A B R I C\033[0m"
+echo "######################"
+echo
 # Print last two commits
 git -C $BASE_WD/fabric log -n2
-
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
      for IMAGES in docker-thirdparty peer-docker orderer-docker buildenv testenv tools-docker release-clean release; do
         make -C $BASE_WD/fabric $IMAGES
@@ -33,6 +36,10 @@ fi
 # Build fabric-ca docker image
 ################################
 
+echo "#######################"
+echo -e "\033[1m B U I L D - F A B R I C-C A\033[0m"
+echo "#######################"
+echo
 # Delete fabric-ca repository directory
 rm -rf $BASE_WD/fabric-ca
 # Clone fabric-ca repisitory

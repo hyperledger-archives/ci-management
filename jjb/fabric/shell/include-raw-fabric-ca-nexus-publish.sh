@@ -32,6 +32,9 @@ fabric_ca_build() {
 
     # Print the last commit
     git log -n1
+    # Build fabric-ca-client binary
+    echo -e "\033[1;32m ==== Build fabric-ca-client binary ==== \033[0m"
+    ARCH=$(go env GOARCH)
 
     # Build fabric-ca images with PROJECT_VERSION and binary
     for IMAGES in docker-fabric-ca $2 release-clean $1; do
@@ -96,7 +99,7 @@ if [[ $ARCH == "amd64" ]]; then
     for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary
         tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
-        echo "----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven.."
+        echo -e "\033[1m----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven..\033[0m"
         mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
             -DupdateReleaseInfo=true \
             -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary/hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz \

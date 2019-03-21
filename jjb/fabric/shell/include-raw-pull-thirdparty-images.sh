@@ -12,6 +12,10 @@
 set -o pipefail
 
 ORG_NAME="hyperledger/fabric"
+echo "#######################"
+echo -e "\033[1m P U L L - T H I R D P A R T Y\033[0m"
+echo "#######################"
+echo
 # tag fabric images
 # release-1.2 branch supports amd64 and rest all on x86_64
 if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then

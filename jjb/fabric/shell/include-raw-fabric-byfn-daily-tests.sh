@@ -32,6 +32,10 @@ cp -r ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/
 # Create Logs directory
 mkdir -p $WORKSPACE/Docker_Container_Logs
 
+echo "######################"
+echo -e "\033[1m B Y F N - T E S T S\033[0m"
+echo "######################"
+echo
 cd first-network || exit
 #Set INFO to DEBUG
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
@@ -40,37 +44,37 @@ export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
 artifacts() {
 
     echo "---> Archiving generated logs"
+    rm -rf $WORKSPACE/archives
     mkdir -p "$WORKSPACE/archives"
-    mv "$WORKSPACE/Docker_Container_Logs" $WORKSPACE/archives/
+    cp -r "$WORKSPACE/Docker_Container_Logs" $WORKSPACE/archives/
 }
 
 # Capture docker logs of each container
 logs() {
 
-for CONTAINER in ${CONTAINER_LIST[*]}; do
-    docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
-    echo
-done
+    for CONTAINER in ${CONTAINER_LIST[*]}; do
+        docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+        echo
+    done
 
-if [ ! -z $2 ]; then
+    if [ ! -z $2 ]; then
 
-for CONTAINER in ${COUCHDB_CONTAINER_LIST[*]}; do
-    docker logs $CONTAINER >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
-    echo
-done
-fi
+        for CONTAINER in ${COUCHDB_CONTAINER_LIST[*]}; do
+            docker logs $CONTAINER >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+            echo
+        done
+    fi
 }
 
 copy_logs() {
 
-   # Call logs function
+# Call logs function
     logs $2 $3
 
-if [ $1 != 0 ]; then
-
-    artifacts
-    exit 1
-fi
+    if [ $1 != 0 ]; then
+        artifacts
+        exit 1
+    fi
 }
 
 echo "------> Deleting Containers...."
@@ -80,47 +84,61 @@ echo "------> List Docker Containers"
 docker ps -aq
 
 # Execute below tests
-echo "############## BYFN,EYFN DEFAULT TEST####################"
-echo "#########################################################"
+if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
-echo y | ./byfn.sh -m down
-echo y | ./byfn.sh -m generate
-copy_logs $? default-channel
-echo y | ./byfn.sh -m up -t 60
-copy_logs $? default-channel
-echo y | ./eyfn.sh -m up
-copy_logs $? default-channel
-echo y | ./eyfn.sh -m down
-echo
-echo "############## BYFN,EYFN CUSTOM CHANNEL TEST#############"
-echo "#########################################################"
+    echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
+    echo "#########################################################"
+    set -x
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -t 60; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m up -t 60; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m ################"
+    echo "#########################################################"
+    set -x
+    echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
+    echo y | ./eyfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
+    echo "#########################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 15; copy_logs $? custom-channel-couch couchdb
+    echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 15; copy_logs $? custom-channel-couch couchdb
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############### \033[1mN O D E-C H A I N C O D E\033[0m ################"
+    echo "####################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
+    echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
+    echo y | ./eyfn.sh -m down
+    set +x
+else
+    echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m#########################"
+    echo "#################################################################"
+    set -x
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -t 60; copy_logs $? default-channel
+    echo y | ./byfn.sh -m down
+    set +x
+    echo
 
-echo y | ./byfn.sh -m generate -c custom-channel
-copy_logs $? custom-channel
-echo y | ./byfn.sh -m up -c custom-channel -t 60
-copy_logs $? custom-channel
-echo y | ./eyfn.sh -m up -c custom-channel -t 60
-copy_logs $? custom-channel
-echo y | ./eyfn.sh -m down
-echo
-echo "############### BYFN,EYFN COUCHDB TEST ##################"
-echo "#########################################################"
+    echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m #################"
+    echo "#########################################################"
+    set -x
+    echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
+    set +x
 
-echo y | ./byfn.sh -m generate -c couchdbtest
-copy_logs $? custom_channel_couchdb couchdb
-echo y | ./byfn.sh -m up -c couchdbtest -s couchdb -t 60 -d 15
-copy_logs $? custom_channel_couchdb couchdb
-echo y | ./eyfn.sh -m up -c couchdbtest -s couchdb -t 60 -d 15
-copy_logs $? custom_channel_couchdb couchdb
-echo y | ./eyfn.sh -m down
-echo
-echo "############### BYFN,EYFN NODE Chaincode TEST ###########"
-echo "#########################################################"
-
-echo y | ./byfn.sh -m up -l node -t 60
-copy_logs $? default-channel-node
-echo y | ./eyfn.sh -m up -l node -t 60
-copy_logs $? default-channel-node
-echo y | ./eyfn.sh -m down
-
-artifacts
+    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################"
+    echo "#########################################################################"
+    set -x
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60; copy_logs $? custom-channel-couchdb couchdb
+    echo y | ./byfn.sh -m down
+    set +x
+fi

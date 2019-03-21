@@ -35,7 +35,7 @@ echo "-------> BASE_VERSION" $BASE_VERSION
 
 # Tag images to $ARCH-$BASE_VERSION
 for IMAGES in baseimage baseos kafka zookeeper couchdb; do
-    docker tag hyperledger/fabric-$IMAGES hyperledger/fabric-$IMAGES:$ARCH-$BASE_VERSION
+   docker tag hyperledger/fabric-$IMAGES hyperledger/fabric-$IMAGES:$ARCH-$BASE_VERSION
 done
 
 # Clone & Checkout to fabric repository
@@ -54,16 +54,21 @@ git log -n2
 
 # Override value for BASEIMAGE_RELEASE in fabric Makefile with BASE VERSION
 # Build docker images, binaries & execute basic-checks
+echo "######################"
+echo -e "\033[1m B U I L D - F A B R I C\033[0m"
+echo "######################"
+echo
 for IMAGES in basic-checks docker release-clean release; do
-    make BASEIMAGE_RELEASE=$BASE_VERSION $IMAGES
+   make BASEIMAGE_RELEASE=$BASE_VERSION $IMAGES
 done
 
-##############
-# FABRIC_CA
-###############
+echo "#######################"
+echo -e "\033[1m B U I L D - F A B R I C-C A\033[0m"
+echo "#######################"
+echo
 FABRIC_CA_WD=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
 rm -rf $FABRIC_CA_WD
-# Clone fabri-ca repository with single branch
+# Clone fabric-ca repository with single branch
 git clone --single-branch -b $GERRIT_BRANCH git://cloud.hyperledger.org/mirror/fabric-ca $FABRIC_CA_WD
 cd $FABRIC_CA_WD
 

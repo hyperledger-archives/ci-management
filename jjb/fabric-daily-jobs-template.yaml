@@ -47,11 +47,10 @@
           branch: '{branch}'
           stream: '{stream}'
           refspec: 'refs/heads/$GERRIT_BRANCH'
-
     wrappers:
-      - lf-infra-wrappers:
-          build-timeout: '{build-timeout}'
-          jenkins-ssh-credential: '{jenkins-ssh-credential}'
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build-timeout}'
 
     publishers:
       - lf-infra-publish

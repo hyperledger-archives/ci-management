@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 ORG_NAME="hyperledger/fabric"
 
@@ -50,14 +50,18 @@ docker_Fabric_Push() {
    # Call to build fabric images
    docker_Build_Images
    # shellcheck disable=SC2043
+   echo "######################"
+   echo -e "\033[1m B U I L D - F A B R I C\033[0m"
+   echo "######################"
+   echo
    for IMAGES in ${IMAGES_LIST[*]}; do
-    # Tag :latest to :release version ($PUSH_VERSION)
-    docker tag $ORG_NAME-$IMAGES $ORG_NAME-$IMAGES:$ARCH-$1
-    echo "==> $IMAGES"
-    docker push $ORG_NAME-$IMAGES:$ARCH-$1
-    echo
-    echo "==> $ORG_NAME-$IMAGES:$ARCH-$1"
-    echo
+       # Tag :latest to :release version ($PUSH_VERSION)
+       docker tag $ORG_NAME-$IMAGES $ORG_NAME-$IMAGES:$ARCH-$1
+       echo "==> $IMAGES"
+       docker push $ORG_NAME-$IMAGES:$ARCH-$1
+       echo
+       echo "==> $ORG_NAME-$IMAGES:$ARCH-$1"
+       echo
   done
 }
 
@@ -65,20 +69,20 @@ docker_Fabric_Push() {
 docker images | grep hyperledger
 
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
-   # Images list
-   IMAGES_LIST=(peer orderer ccenv tools zookeeper kafka couchdb javaenv)
-   # Push Fabric Docker Images to hyperledger dockerhub Repository
-   docker_Fabric_Push $PUSH_VERSION
+    # Images list
+    IMAGES_LIST=(peer orderer ccenv tools zookeeper kafka couchdb javaenv)
+    # Push Fabric Docker Images to hyperledger dockerhub Repository
+    docker_Fabric_Push $PUSH_VERSION
 elif [[ "$GERRIT_BRANCH" = "release-1.1" ]]; then
-   # Images list
-   IMAGES_LIST=(peer orderer ccenv tools javaenv)
-   # Push Fabric Docker Images to hyperledger dockerhub Repository
-   docker_Fabric_Push $PUSH_VERSION
+    # Images list
+    IMAGES_LIST=(peer orderer ccenv tools javaenv)
+    # Push Fabric Docker Images to hyperledger dockerhub Repository
+    docker_Fabric_Push $PUSH_VERSION
 else
-   # Images list
-   IMAGES_LIST=(peer orderer ccenv tools)
-   # Push Fabric Docker Images to hyperledger dockerhub Repository
-   docker_Fabric_Push $PUSH_VERSION
+    # Images list
+    IMAGES_LIST=(peer orderer ccenv tools)
+    # Push Fabric Docker Images to hyperledger dockerhub Repository
+    docker_Fabric_Push $PUSH_VERSION
 fi
 
 publish_Binary() {
@@ -104,16 +108,20 @@ publish_Binary() {
 
 if [[ "$ARCH" = "amd64" ]]; then
    if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
-      # platform list
-      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x linux-ppc64le)
-      publish_Binary $PUSH_VERSION
-      echo "------> Publishing binaries from $GERRIT_BRANCH"
+       # platform list
+       PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x linux-ppc64le)
+       echo "#########################"
+       echo -e "\033[1m P U B L I S H - F A B R I C - B I N A R I E S\033[0m"
+       echo "#########################"
+       echo
+       publish_Binary $PUSH_VERSION
+       echo "------> Publishing binaries from $GERRIT_BRANCH"
    else
-      # platform list
-      PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x)
-      publish_Binary $PUSH_VERSION
-      # Provide value to PUSH_VERSION from Jenkins parameter.
+       # platform list
+       PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x)
+       publish_Binary $PUSH_VERSION
+       # Provide value to PUSH_VERSION from Jenkins parameter.
    fi
 else
-   echo "=====> Dont publish binaries from $ARCH"
+    echo -e "\033[1;31m=====> Dont publish binaries from $ARCH\033"
 fi

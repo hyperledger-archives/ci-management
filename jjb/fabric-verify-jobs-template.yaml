@@ -10,7 +10,7 @@
 
     build-days-to-keep: 7
     artifact-days-to-keep: 7
-    build-timeout: 'build-timeout'
+    build-timeout: 240
     disable-job: false
     project-type: freestyle
     arch: x86_64
@@ -55,9 +55,9 @@
           refspec: '$GERRIT_REFSPEC'
 
     wrappers:
-      - lf-infra-wrappers:
-          build-timeout: '{build-timeout}'
-          jenkins-ssh-credential: '{jenkins-ssh-credential}'
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build-timeout}'
 
     publishers:
       - fabric-email-notification:

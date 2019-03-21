@@ -76,6 +76,10 @@ else
     PROJECT_VERSION=$PUSH_VERSION
 fi
 
+echo "######################"
+echo " Publishing Binaries"
+echo "######################"
+echo
 curl -L https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/fabric/hyperledger-fabric-$PROJECT_VERSION > output.xml
 
 if cat output.xml | grep $COMMIT_TAG > /dev/null; then

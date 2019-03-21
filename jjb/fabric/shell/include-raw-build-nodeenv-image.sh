@@ -14,14 +14,22 @@ if [ "$GERRIT_BRANCH" = "master" ]; then
   export NODE_ENV_VERSION=$ARCH-latest
   export NODE_ENV_TAG=2.0.0
 
+echo  " ############# "
+echo -e "\033[1mP U L L - N O D E E N V\033[0m"
+echo  " ############# "
+echo
+
 ########################
 # Pull nodenev image from nexus and re-tag to hyperledger/fabric-nodeenv
 #######################
 
   docker pull nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION
-  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv:amd64-$NODE_ENV_TAG
-  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv:amd64-latest
-  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION hyperledger/fabric-nodeenv
+  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION \
+      hyperledger/fabric-nodeenv:amd64-$NODE_ENV_TAG
+  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION \
+      hyperledger/fabric-nodeenv:amd64-latest
+  docker tag nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION \
+      hyperledger/fabric-nodeenv
 ##########
   docker rmi -f nexus3.hyperledger.org:10001/hyperledger/fabric-nodeenv:$NODE_ENV_VERSION
   docker images | grep hyperledger/fabric-nodeenv || true
