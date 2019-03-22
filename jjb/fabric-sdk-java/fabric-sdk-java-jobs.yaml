@@ -11,10 +11,6 @@
       - gerrit-maven-clm:
           nexus-iq-namespace: 'hyp-'
           build-node: hyp-x
-      - 'fabric-sdk-java-verify-{arch}'
-      - 'fabric-sdk-java-verify-1.4-{arch}'
-      - 'fabric-sdk-java-merge-1.4-{arch}'
-      - 'fabric-sdk-java-merge-{arch}'
       - 'fabric-sdk-java-owasp-weekly-{arch}'
 
     mvn-settings: 'fabric-settings'
@@ -24,257 +20,94 @@
       - 'x86_64'
 
 # Verify job
-- job-template:
-    name: 'fabric-sdk-java-verify-{arch}'
+- project:
+    name: 'fabric-sdk-java-master-verify-x86_64'
+    jobs:
+      - 'fabric-sdk-java-verify-job'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: master
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+- project:
+    name: 'fabric-sdk-java-release-1.4-verify-x86_64'
+    jobs:
+      - 'fabric-sdk-java-verify-job'
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-      - maven-exec:
-          maven-version: '{mvn-version}'
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-x$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - verify-commit-message
-      - lf-provide-maven-settings:
-          global-settings-file: 'global-settings'
-          settings-file: '{mvn-settings}'
-      - maven-target:
-          maven-version: '{mvn-version}'
-          goals: |
-              {mvn-goals}
-          java-opts:
-            - '{mvn-opts}'
-          properties:
-            - deployAtEnd=true
-          settings: '{mvn-settings}'
-          settings-type: cfp
-          global-settings: 'global-settings'
-          global-settings-type: cfp
-      - clean-environment
-      - pull-nexus-chaincode-java-image
-      - fabric-sdk-java-end-to-end-test
-      - shell: |
-          echo "----> ", $(pwd)
-          echo "----> ", "$(ls -al)"
-          echo "----> ", $WORKSPACE
-          echo "----> ", $(find . -name "*.xml")
-
-    publishers:
-      - jacoco-coverage-report
-      - lf-infra-publish
-      - java-sdk-logs
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: release-1.4
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
 # Merge job
-- job-template:
-    name: 'fabric-sdk-java-merge-{arch}'
+- project:
+    name: 'fabric-sdk-java-master-merge-x86_64'
+    jobs:
+      - 'fabric-sdk-java-merge-job'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: master
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
+- project:
+    name: 'fabric-sdk-java-release-1.4-merge-x86_64'
+    jobs:
+      - 'fabric-sdk-java-merge-job'
 
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-      - maven-exec:
-          maven-version: '{mvn-version}'
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'remerge-x$'
-          trigger-comment2: 'remerge$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - lf-provide-maven-settings:
-          global-settings-file: 'global-settings'
-          settings-file: '{mvn-settings}'
-      - maven-target:
-          maven-version: '{mvn-version}'
-          goals: |
-              {mvn-goals}
-          java-opts:
-            - '{mvn-opts}'
-          properties:
-            - deployAtEnd=true
-          settings: '{mvn-settings}'
-          settings-type: cfp
-          global-settings: 'global-settings'
-          global-settings-type: cfp
-      - clean-environment
-      - pull-nexus-chaincode-java-image
-      - fabric-sdk-java-end-to-end-test
-      - shell: |
-          echo "----> ", $(pwd)
-          echo "----> ", "$(ls -al)"
-          echo "----> ", $WORKSPACE
-          echo "----> ", $(find . -name "*.xml")
-
-    publishers:
-      - jacoco-coverage-report
-      - lf-infra-publish
-      - java-sdk-logs
-      - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: release-1.4
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
 # Verify 1.4 job
-- job-template:
-    name: 'fabric-sdk-java-verify-1.4-{arch}'
+- project:
+    name: 'fabric-sdk-java-master-verify-1.4-x86_64'
+    jobs:
+      - 'fabric-sdk-java-verify-1.4-job'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: ''
-
-    scm:
-      - gerrit-trigger-scm:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-submitted:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'reverify-1.4$'
-          trigger-comment2: 'reverify$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - verify-commit-message
-      - clean-environment
-      - fabric-sdk-java-1.4-test
-      - shell: |
-          echo "----> ", $(pwd)
-          echo "----> ", "$(ls -al)"
-          echo "----> ", $WORKSPACE
-          echo "----> ", $(find . -name "*.xml")
-
-    publishers:
-      - jacoco-coverage-report
-      - lf-infra-publish
-      - java-sdk-logs
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: master
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
 # Merge 1.4 job
-- job-template:
-    name: 'fabric-sdk-java-merge-1.4-{arch}'
+- project:
+    name: 'fabric-sdk-java-master-merge-1.4-x86_64'
+    jobs:
+      - 'fabric-sdk-java-merge-1.4-job'
 
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
+    project: fabric-sdk-java
+    project-name: fabric-sdk-java
+    mvn-settings: fabric-settings
+    branch: master
+    arch: x86_64
+    build-node: 'x'
+    build-timeout: 50
+    disable-job: false
 
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: ''
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'remerge-1.4$'
-          trigger-comment2: 'remerge$'
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - fabric-sdk-java-1.4-test
-      - shell: |
-          echo "----> ", $(pwd)
-          echo "----> ", "$(ls -al)"
-          echo "----> ", $WORKSPACE
-          echo "----> ", $(find . -name "*.xml")
-
-    publishers:
-      - jacoco-coverage-report
-      - lf-infra-publish
-      - java-sdk-logs
-      - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
+# fabric-sdk-java weekly job
 - job-template:
     name: 'fabric-sdk-java-owasp-weekly-{arch}'
 
