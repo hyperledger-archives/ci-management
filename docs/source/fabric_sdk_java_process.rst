@@ -57,9 +57,9 @@ repository, the Hyperledger Community CI server (Jenkins) triggers
 **Verify** and jobs on **x86_64** platform using the patch set’s parent
 commit which may or may not be the latest commit on **fabric-sdk-java**.
 
-`fabric-sdk-java-verify-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-verify-x86_64/>`__
+`fabric-sdk-java-verify-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-master-verify-x86_64/>`__
 
-`fabric-sdk-java-verify-1.4-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-verify-1.4-x86_64/>`__
+`fabric-sdk-java-verify-1.4-x86_64 <https://jenkins.hyperledger.org/view/fabric-sdk-java/job/fabric-sdk-java-master-verify-1.4-x86_64/>`__
 
 As part of the CI process on **fabric-sdk-java** repository, the
 following tests are executed on **x86_64**\ (x) platform, see the arch

@@ -17,12 +17,12 @@ currently utilizing the following versions in the **Master** ,
 
 **Master:**
 
--  GO version: v1.9.2
+-  GO version: v1.11.5
    https://github.com/hyperledger/fabric-ca/blob/master/ci.properties
 
 -  DOCKER version: 17.12.0-ce
 
--  baseimage version(e.g. 0.4.6):
+-  baseimage version(e.g. 0.4.15):
    https://github.com/hyperledger/fabric-ca/blob/be7180447ce9b47a4d3ae33210b5cf00d67ff6d9/Makefile#L55
 
 **Release1.0:**
@@ -81,7 +81,7 @@ patchset’s parent commit which may or may not be the latest commit on
 
 -  `fabric-ca-verify-s390x <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-verify-s390x/>`__
 
--  `fabric-ca-verify-end-2-end-x86_64 <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-verify-end-2-end-x86_64/>`__
+-  `fabric-ca-verify-fvt-x86_64 <https://jenkins.hyperledger.org/job/fabric-ca-verify-fvt-x86_64/>`__
 
 .. figure:: ./images/views-ca.png
    :alt: Views
@@ -151,6 +151,8 @@ patchset’s parent commit).
 
 -  `fabric-ca-merge-end-2-end-x86_64 <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-merge-end-2-end-x86_64/>`__
 
+-  `fabric-ca-merge-fvt-x86_64 <https://jenkins.hyperledger.org/job/fabric-ca-merge-fvt-x86_64/>`__
+
 After the tests are executed, It is time to archive the logs (artifacts)
 and publish the code coverage. CI publishes the logs(artifacts) and the
 Code Coverage report(Cobertura Coverage Report)on Jenkins console.
@@ -192,7 +194,7 @@ network issues. In such cases, restarting all the fabric-ca jobs through
 ``reverify`` comment is not necessary. Instead, the developer can post
 below comment to trigger the particular failed build:
 
-  ``reverify-e2e`` - re-triggers fabric-ca-merge-end-2-end-x86_64 CI job.
+  ``reverify-fvt`` - re-triggers fabric-ca-verify-fvt-x86_64 CI job.
 
   ``reverify-x``   - re-triggers fabric-ca-verify-x86_64 on x86_64 platform.
 
