@@ -30,8 +30,8 @@ def call(String buildStatus, String channelName) {
     colorCode = '#FF0000'
   }
 
-  // Send notifications
-  //slackSend (color: colorCode, channel: channelName, message: summary)
+  // Slack notifications
+  //slackSend (color: colorCode, channel: channelName, message: message)
 
   //rocketChat notification
   rocketSend (color: colorCode, channel: channelName, message: message)
@@ -44,6 +44,6 @@ def call(String buildStatus, String channelName) {
       attachLog: 'true',
       compressLog: 'true',
       attachmentsPattern: '**/*.log',
-      recipientProviders: [requestor()]
+      recipientProviders: [developers()]
   )
 }

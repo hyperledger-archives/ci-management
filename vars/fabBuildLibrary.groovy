@@ -18,7 +18,7 @@ def cleanupEnv() {
     dir("${WORKSPACE}/gopath/src/github.com/hyperledger/ci-management") {
       sh ''' set +x -ue
         echo " ################# "
-        echo " C L E A N - E N V "
+        echo -e "\033[1m C L E A N - E N V \033[0m"
         echo " ################# "
         if [ -d "ci-management" ]; then
           rm -rf ci-management
@@ -41,7 +41,7 @@ def envOutput() {
   try {
     sh '''set +x -eu
       echo " ################### "
-      echo " E N V - O U T P U T "
+      echo -e "\033[1m E N V - O U T P U T \033[0m"
       echo " ################### "
       uname -a
       cat /etc/*-release
@@ -67,9 +67,9 @@ def cloneRefSpec(project) {
     def ROOTDIR = pwd()
     if (env.JOB_TYPE != "merge")  {
       // Clone patchset changes on verify Job
-      sh '''
+      sh '''set +x -eu
         echo " ################################## "
-        echo " F E T C H PATCHSET $GERRIT_REFSPEC "
+        echo -e "\033[1m F E T C H PATCHSET $GERRIT_REFSPEC \033[0m"
         echo " ################################## "
       '''
       checkout([
@@ -82,9 +82,9 @@ def cloneRefSpec(project) {
             url: '$GIT_BASE']]])
     } else {
       // Clone latest merged commit on Merge Job
-      sh '''
+      sh '''set +x -eu
         echo " #################### "
-        echo " C L O N E - $project "
+        echo -e "\033[1m C L O N E - $project \033[0m"
         echo " #################### "
       '''
       checkout([
@@ -98,7 +98,8 @@ def cloneRefSpec(project) {
     }
     dir("$ROOTDIR/$BASE_DIR") {
       sh '''set +x -eu
-        echo " #### COMMIT LOG #### "
+        echo -e "\033[1m $GERRIT_BRANCH \033[0m"
+        echo -e "\033[1m COMMIT LOG \033[0m"
         echo
         echo " ####################### "
         git log -n2 --pretty=oneline --abbrev-commit
@@ -118,7 +119,7 @@ def pullDockerImages(fabBaseVersion, fabImages) {
     try {
       sh """set +x -eu
         echo " ##################### "
-        echo " P U L L - I M A G E S "
+        echo -e "\033[1mP U L L - I M A G E S\033[0m"
         echo " ##################### "
         echo "FABRIC_IAMGES: $fabImages"
         echo "BASE_VERSION: $fabBaseVersion"
@@ -142,7 +143,7 @@ def pullDockerImages(fabBaseVersion, fabImages) {
             esac
           else
             echo "#################################"
-            echo "#### Pull \$fabImages Image ####"
+            echo -e "\033[1m Pull \$fabImages Image \033[0m"
             echo "#################################"
             set -x
             if ! docker pull $NEXUS_REPO_URL/$ORG_NAME-"\$fabImages":$MARCH-$fabBaseVersion-stable > /dev/null; then
@@ -151,7 +152,7 @@ def pullDockerImages(fabBaseVersion, fabImages) {
             fi
             set +x
           fi
-          echo " ####### TAG \$fabImages ####### "
+          echo -e "\033[1m TAG \$fabImages image \033[0m"
           set -x
           docker tag $NEXUS_REPO_URL/$ORG_NAME-"\$fabImages":$MARCH-$fabBaseVersion-stable $ORG_NAME-"\$fabImages"
           docker tag $NEXUS_REPO_URL/$ORG_NAME-"\$fabImages":$MARCH-$fabBaseVersion-stable $ORG_NAME-"\$fabImages":$MARCH-$fabBaseVersion
@@ -175,7 +176,7 @@ def pullThirdPartyImages(baseImageVersion, fabThirdPartyImages) {
     try {
       sh """set +x -eu
         echo " ################################### "
-        echo " P U L L - 3rd P A R T Y I M A G E S "
+        echo -e "\033[1m P U L L - 3rd P A R T Y I M A G E S \033[0m"
         echo " ################################### "
         echo "THIRDPARTY_IMAGES: $fabThirdPartyImages"
         echo "BASEIMAGE_VERSION: $baseImageVersion"
@@ -204,7 +205,7 @@ def pullBinaries(fabBaseVersion, fabRepo) {
     try {
       sh """set +x -eu
         echo " ######################### "
-        echo " P U L L - B I N A R I E S "
+        echo -e "\033[1m P U L L - B I N A R I E S \033[0m"
         echo " ######################### "
         echo "FABRIC_REPO: $fabRepo"
         echo "BASE_VERSION: $fabBaseVersion"
@@ -232,7 +233,7 @@ def pullBinaries(fabBaseVersion, fabRepo) {
           fi
         done
         # List binaries
-        echo " ##### BINARIES ##### "
+        echo -e "\033[1m BINARIES \033[0m"
         ls $WORKSPACE/$BASE_DIR/bin
         echo " #################### "
       """
@@ -249,7 +250,7 @@ def cloneScm(repoName, branchName) {
   dir("$WORKSPACE/gopath/src/github.com/hyperledger") {
     sh """set +x -eu
       echo " ############### "
-      echo " CLONE $repoName "
+      echo -e "\033[1m CLONE $repoName \033[0m"
       echo " ############### "
       if ! git clone --single-branch -b $branchName --depth=1 https://github.com/hyperledger/$repoName; then
         echo -e "\033[31m ##### FAILED to clone $repoName ##### \033[0m"
@@ -263,7 +264,7 @@ def cloneScm(repoName, branchName) {
         git log -n1 --pretty=oneline --abbrev-commit
         echo " ##################################### "
       else
-        echo "======= FAILED to CLONE $repoName repository ======= "
+        echo -e "\033[31m ======= FAILED to CLONE $repoName repository ======= \033[0m"
       fi
     """
   }
@@ -273,7 +274,7 @@ def fabBuildImages(repoName, makeTarget) {
   dir("$WORKSPACE/gopath/src/github.com/hyperledger/$repoName") {
     sh """set +x -ue
       echo " ##################### "
-      echo " B U I L D I M A G E S "
+      echo -e "\033[1m B U I L D I M A G E S \033[0m"
       echo " ##################### "
       make clean $makeTarget
     """
