@@ -163,7 +163,7 @@
 # This job template contains fabric-ca-client nightly release job configuration
 
 - job-template:
-    name: '{project-name}-client-nightly-release-job-{branch}-{arch}'
+    name: '{project-name}-nightly-publish-job-{branch}-{arch}'
     id: fabric-ca-nightly-release-jobs
     <<: *fabric_daily_jobs
 
