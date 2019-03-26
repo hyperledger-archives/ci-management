@@ -82,11 +82,11 @@ def cloneRefSpec(project) {
             url: '$GIT_BASE']]])
     } else {
       // Clone latest merged commit on Merge Job
-      sh '''set +x -eu
+      sh """set +x -eu
         echo " #################### "
         echo -e "\033[1m C L O N E - $project \033[0m"
         echo " #################### "
-      '''
+      """
       checkout([
         $class: 'GitSCM',
           branches: [[name: 'refs/heads/$GERRIT_BRANCH']],
