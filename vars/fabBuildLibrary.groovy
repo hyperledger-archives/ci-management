@@ -121,9 +121,9 @@ def pullDockerImages(fabBaseVersion, fabImages) {
         echo " ##################### "
         echo -e "\033[1mP U L L - I M A G E S\033[0m"
         echo " ##################### "
-        echo "FABRIC_IAMGES: $fabImages"
-        echo "BASE_VERSION: $fabBaseVersion"
-        echo "MARCH: $MARCH"
+        echo -e "\033[1mFABRIC_IAMGES: $fabImages\033[0m"
+        echo -e "\033[1mBASE_VERSION: $fabBaseVersion\033[0m"
+        echo -e "\033[1mMARCH: $MARCH\033[0m"
         for fabImages in $fabImages; do
           if [ "\$fabImages" = "javaenv" ]; then
             case $MARCH in
@@ -178,8 +178,8 @@ def pullThirdPartyImages(baseImageVersion, fabThirdPartyImages) {
         echo " ################################### "
         echo -e "\033[1m P U L L - 3rd P A R T Y I M A G E S \033[0m"
         echo " ################################### "
-        echo "THIRDPARTY_IMAGES: $fabThirdPartyImages"
-        echo "BASEIMAGE_VERSION: $baseImageVersion"
+        echo -e "\033[1mTHIRDPARTY_IMAGES: $fabThirdPartyImages\033[0m"
+        echo -e "\033[1mBASEIMAGE_VERSION: $baseImageVersion\033[0m"
         for baseImage in $fabThirdPartyImages; do
           set -x
           if ! docker pull $ORG_NAME-\$baseImage:$baseImageVersion > /dev/null; then
@@ -207,8 +207,8 @@ def pullBinaries(fabBaseVersion, fabRepo) {
         echo " ######################### "
         echo -e "\033[1m P U L L - B I N A R I E S \033[0m"
         echo " ######################### "
-        echo "FABRIC_REPO: $fabRepo"
-        echo "BASE_VERSION: $fabBaseVersion"
+        echo -e "\033[1m FABRIC_REPO: $fabRepo\033[0m"
+        echo -e "\033[1m BASE_VERSION: $fabBaseVersion\033[0m"
         for fabRepo in $fabRepo; do
           echo "#################################"
           echo "#### Pull \$fabRepo Binaries ####"
@@ -290,8 +290,6 @@ def deleteUnusedImages() {
   } else {
     println "No unsed images to remove."
   }
-  println " ==== Docker Images List ==== "
-  sh 'docker images'
 }
 
 def deleteContainers() {
@@ -303,6 +301,4 @@ def deleteContainers() {
   } else {
     println "No unsed containers to remove."
   }
-  println " ==== Docker Container List ==== "
-  sh 'docker ps -a'
 }
