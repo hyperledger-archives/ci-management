@@ -230,6 +230,14 @@ EOF
 
     apt-get install figlet sysvbanner html2text
 
+    # Install sysstat and enable System Activity Monitoring
+    apt-get install sysstat
+    sed -i s:ENABLED=\"false\":ENABLED=\"true\": /etc/default/sysstat
+    # Change collection interval to every 1 min (from 10)
+    sed -i -e s:^5-55/10:*: -e 's:10 minutes:minute:' /etc/cron.d/sysstat
+    # Disable the log rotation
+    sed -i 's:^59:#59:'  /etc/cron.d/sysstat
+
     # disable unattended upgrades & daily updates
     echo '---> Disabling automatic daily upgrades'
     sed -ine 's/"1"/"0"/g' /etc/apt/apt.conf.d/10periodic
