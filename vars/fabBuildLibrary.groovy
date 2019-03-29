@@ -128,7 +128,7 @@ def pullDockerImages(fabBaseVersion, fabImages) {
           if [ "\$fabImages" = "javaenv" ]; then
             case $MARCH in
               s390x|ppc64le)
-                # Do not pull javaenv if ARCH is s390x
+                # Do not pull javaenv if MARCH is s390x
                 echo "\033[32m ##### Javaenv image not available on $MARCH ##### \033[0m"
                 break;
                 ;;
@@ -213,7 +213,7 @@ def pullBinaries(fabBaseVersion, fabRepo) {
           echo "#################################"
           echo "#### Pull \$fabRepo Binaries ####"
           echo "#################################"
-          nexusBinUrl=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/\$fabRepo/hyperledger-\$fabRepo-$fabBaseVersion/$ARCH-$MARCH.$fabBaseVersion-SNAPSHOT
+          nexusBinUrl=https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperledger/\$fabRepo/hyperledger-\$fabRepo-$fabBaseVersion/$OS_NAME-$MARCH.$fabBaseVersion-SNAPSHOT
           echo "NEXUS_BIN_URL: \$nexusBinUrl"
           # Download the maven-metadata.xml file
           curl \$nexusBinUrl/maven-metadata.xml > maven-metadata.xml
