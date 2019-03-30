@@ -38,6 +38,7 @@ fabric_ca_build() {
 
     # Build fabric-ca images with PROJECT_VERSION and binary
     for IMAGES in docker-fabric-ca $2 release-clean $1; do
+        echo -e "\033[1m----------> $IMAGES\033[0m"
         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
     done
 }
@@ -49,7 +50,7 @@ fabric_ca_tag() {
         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
         if [[ "$GERRIT_BRANCH" = "master" ]]; then
             docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
-            echo "-----> tag latest"
+            echo "--------> tag latest"
         fi
     done
     docker images
@@ -61,7 +62,7 @@ fabric_ca_push() {
         echo "-----------> Push $IMAGES:$STABLE_TAG"
         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
         if [[ "$GERRIT_BRANCH" = "master" ]]; then
-            echo "-----> $IMAGES Push latest"
+            echo -e "\033[1m-----> $IMAGES\033[0m Push latest"
             docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$ARCH-latest
         fi
         echo

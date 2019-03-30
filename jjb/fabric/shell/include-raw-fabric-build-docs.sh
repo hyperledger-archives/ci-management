@@ -47,7 +47,7 @@ set +e
 
 vote -m '"Starting documentation build"' -l F2-DocBuild=0
 
-echo "---> Generating docs"
+echo "\033[1m---> Generating docs\033[0m"
 cd "$GOPATH/src/github.com/hyperledger/fabric" || exit
 tox -edocs
 post_Result $?

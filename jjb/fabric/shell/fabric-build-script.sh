@@ -55,23 +55,23 @@ codeChange() {
 WIP=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'WIP'`
 echo
 if [[ ! -z "$WIP" ]];then
-    echo '-------> Ignore WIP Build'
+    echo -e "\033[1m-------> Ignore WIP Build\033[0m"
     vote -m '"WIP - No Build"' -l F1-VerifyBuild=0
 else
-    DOC_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
-    echo "------> DOC_CHANGE = $DOC_CHANGE"
-    CODE_CHANGE=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
-    echo "------> CODE_CHANGE = $CODE_CHANGE"
-           if [ ! -z "$DOC_CHANGE" ] && [ -z "$CODE_CHANGE" ]; then # only doc change
-                  echo "------> Only Doc change, trigger documentation build"
-                  vote -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F3-UnitTest=+1 -l F3-IntegrationTest=+1
-           elif [ ! -z "$DOC_CHANGE" ] && [ ! -z "$CODE_CHANGE" ]; then # Code and Doc change
-                    echo "------> Code and Doc change"
-                    codeChange
-                    vote -m '"Succeeded, Run DocBuild, Run UnitTest, Run IntegrationTest"' -l F1-VerifyBuild=+1
-               else  # only code change
-                    echo "------> Only code change, trigger Unit and Integration Tests"
-                    codeChange
-                    vote -m '"Succeeded, Run IntegrationTest, Run UnitTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
-           fi
+    doc_change=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
+    echo -e "------> DOC_CHANGE = $doc_change"
+    code_change=$(git diff-tree --no-commit-id --name-only -r HEAD | egrep -v '.md$|.rst$|.txt$|conf.py$|.png$|.pptx$|.css$|.html$|.ini$')
+    echo "------> CODE_CHANGE = $code_change"
+    if [ ! -z "$doc_change" ] && [ -z "$code_change" ]; then # only doc change
+          echo "------> Only Doc change, trigger documentation build"
+          vote -m '"Succeeded, Run DocBuild"' -l F1-VerifyBuild=+1 -l F3-UnitTest=+1 -l F3-IntegrationTest=+1
+     elif [ ! -z "$doc_change" ] && [ ! -z "$code_change" ]; then # Code and Doc change
+          echo -e "\033[1m------> Code and Doc change\033[0m"
+          codeChange
+          vote -m '"Succeeded, Run DocBuild, Run UnitTest, Run IntegrationTest"' -l F1-VerifyBuild=+1
+     else  # only code change
+          echo "------> Only code change, trigger Unit and Integration Tests"
+          codeChange
+          vote -m '"Succeeded, Run IntegrationTest, Run UnitTest"' -l F1-VerifyBuild=+1 -l F2-DocBuild=+1
+     fi
 fi

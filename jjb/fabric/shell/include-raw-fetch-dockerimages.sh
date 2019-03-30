@@ -35,7 +35,8 @@ echo "-------> BASE_VERSION" $BASE_VERSION
 
 # Tag images to $ARCH-$BASE_VERSION
 for IMAGES in baseimage baseos kafka zookeeper couchdb; do
-   docker tag hyperledger/fabric-$IMAGES hyperledger/fabric-$IMAGES:$ARCH-$BASE_VERSION
+    echo -e "\033[1m----------> $IMAGES\033[0m"
+    docker tag hyperledger/fabric-$IMAGES hyperledger/fabric-$IMAGES:$ARCH-$BASE_VERSION
 done
 
 # Clone & Checkout to fabric repository
@@ -59,7 +60,7 @@ echo -e "\033[1m B U I L D - F A B R I C\033[0m"
 echo "######################"
 echo
 for IMAGES in basic-checks docker release-clean release; do
-   make BASEIMAGE_RELEASE=$BASE_VERSION $IMAGES
+    make BASEIMAGE_RELEASE=$BASE_VERSION $IMAGES
 done
 
 echo "#######################"

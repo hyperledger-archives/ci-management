@@ -40,7 +40,7 @@ fi
 
 dockerTag() {
     for IMAGES in couchdb kafka zookeeper; do
-       echo "==> $IMAGES"
+       echo -e "\033[1m==> $IMAGES\033[0m"
        docker pull $ORG_NAME-$IMAGES:$MARCH-$BASEIMAGE_RELEASE
        docker tag $ORG_NAME-$IMAGES:$MARCH-$BASEIMAGE_RELEASE $ORG_NAME-$IMAGES
        echo

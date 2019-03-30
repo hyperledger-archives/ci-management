@@ -60,6 +60,7 @@
           #!/bin/bash -eu
 
           cd $BASE_DIR
+          echo -e "\033[1m--------> Unit Tests\033[0m"
           make unit-tests
 
     publishers:

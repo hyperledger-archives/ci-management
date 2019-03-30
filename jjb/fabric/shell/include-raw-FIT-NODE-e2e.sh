@@ -32,7 +32,7 @@ echo "------> SDK_NODE_COMMIT : $SDK_NODE_COMMIT"
 echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 
 ARCH=$(dpkg --print-architecture)
-echo "======" $ARCH
+echo "======> ARCH" $ARCH
 if [[ "$ARCH" = "amd64" || "$ARCH" = "ppc64le" ]]; then
    # Install nvm to install multi node versions
    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
@@ -43,7 +43,7 @@ else
    source /etc/profile.d/nvmrc.sh
 fi
 
-figlet -w 132 'SDK-NODE TESTS'
+echo -e "\033[1m----------> SDK-NODE TESTS\033[0m"
 echo "-------> Install NodeJS"
 
 # Checkout to GERRIT_BRANCH

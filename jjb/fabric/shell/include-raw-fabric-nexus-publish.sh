@@ -26,7 +26,7 @@ echo "-----------> STABLE_TAG:" $STABLE_TAG
 
 fabric_DockerTag() {
     for IMAGES in ${IMAGES_LIST[*]}; do
-        echo "----------> $IMAGES"
+        echo -e "\033[1m----------> $IMAGES\033[0m"
         echo
         docker tag $ORG_NAME-$IMAGES $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
         if [[ "$GERRIT_BRANCH" = "master" ]]; then
@@ -40,7 +40,7 @@ fabric_DockerTag() {
 
 dockerFabricPush() {
     for IMAGES in ${IMAGES_LIST[*]}; do
-        echo "-----------> $IMAGES"
+        echo -e "\033[1m----------> $IMAGES\033[0m"
         docker push $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG
         if [[ "$GERRIT_BRANCH" = "master" ]]; then
             echo "-----> push latest"

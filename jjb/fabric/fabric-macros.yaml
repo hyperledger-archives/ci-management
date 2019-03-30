@@ -316,6 +316,7 @@
           }
 
           vote -m '"Starting unit tests"' -l F3-UnitTest=0
+          echo -e "\033[1m--------> Unit Tests\033[0m"
           cd gopath/src/github.com/hyperledger/fabric && time make unit-test
           res=$(echo $?)
           if [ $res = 0 ]; then
@@ -341,9 +342,10 @@
           vote -m '"Starting Integration tests"' -l F3-IntegrationTest=0
           cd gopath/src/github.com/hyperledger/fabric
           if [[ "$GERRIT_BRANCH" == "release-1.1" || "$GERRIT_BRANCH" == "release-1.0" ]]; then
-              echo "--------> Don't Trigger IntegrationTests on $GERRIT_BRANCH branch"
+              echo -e "\033[1m--------> Don't Trigger IntegrationTests on $GERRIT_BRANCH branch\033[0m"
               vote -m '"Succeeded"' -l F3-IntegrationTest=+1
           else
+              echo -e "\033[1m--------> Intergration Tests\033[0m"
               time make integration-test
               res=$(echo $?)
               if [ $res = 0 ]; then

@@ -25,10 +25,12 @@ echo
 git -C $BASE_WD/fabric log -n2
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
      for IMAGES in docker-thirdparty peer-docker orderer-docker buildenv testenv tools-docker release-clean release; do
-        make -C $BASE_WD/fabric $IMAGES
+         echo -e "\033[1m----------> $IMAGES\033[0m"
+         make -C $BASE_WD/fabric $IMAGES
      done
 else
      for IMAGES in docker release-clean release docker-thirdparty; do
+         echo -e "\033[1m----------> $IMAGES\033[0m"
          make -C $BASE_WD/fabric $IMAGES
      done
 fi

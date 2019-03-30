@@ -27,7 +27,7 @@ fi
 dockerTag() {
   for IMAGES in ${IMAGES_LIST[*]}; do
     docker tag $ORG_NAME-$IMAGES $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1
-    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1"
+    echo -e "\033[1m==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1\033[0m"
   done
 }
 # Push fabric images to nexus repository
@@ -35,7 +35,7 @@ dockerTag() {
 docker_Fabric_Push() {
   for IMAGES in ${IMAGES_LIST[*]}; do
     docker push $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1
-    echo "==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1"
+    echo -e "\033[1m==> $NEXUS_REPO_URL/$ORG_NAME-$IMAGES:$ARCH-$1\033[0m"
   done
 }
 

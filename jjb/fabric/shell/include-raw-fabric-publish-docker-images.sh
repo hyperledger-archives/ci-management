@@ -50,14 +50,14 @@ docker_Fabric_Push() {
    # Call to build fabric images
    docker_Build_Images
    # shellcheck disable=SC2043
-   echo "######################"
-   echo -e "\033[1m B U I L D - F A B R I C\033[0m"
-   echo "######################"
+   echo "#########################"
+   echo -e "\033[1m P U B L I S H - F A B R I C\033[0m"
+   echo "#########################"
    echo
    for IMAGES in ${IMAGES_LIST[*]}; do
        # Tag :latest to :release version ($PUSH_VERSION)
        docker tag $ORG_NAME-$IMAGES $ORG_NAME-$IMAGES:$ARCH-$1
-       echo "==> $IMAGES"
+       echo -e "\033[1m==> $IMAGES\033[0m"
        docker push $ORG_NAME-$IMAGES:$ARCH-$1
        echo
        echo "==> $ORG_NAME-$IMAGES:$ARCH-$1"
@@ -123,5 +123,5 @@ if [[ "$ARCH" = "amd64" ]]; then
        # Provide value to PUSH_VERSION from Jenkins parameter.
    fi
 else
-    echo -e "\033[1;31m=====> Dont publish binaries from $ARCH\033"
+    echo -e "\033[1m=====> Dont publish binaries from $ARCH\033[0m"
 fi

@@ -30,6 +30,7 @@ build_Fabric() {
 
     # Build fabric images with $PUSH_VERSION tag
     for IMAGES in docker release-clean $1; do
+        echo -e "\033[1m----------> $IMAGES\033[0m"
         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
     done
 

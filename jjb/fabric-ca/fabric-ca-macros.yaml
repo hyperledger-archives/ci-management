@@ -13,6 +13,7 @@
           rm -rf $GOPATH/src/golang.org
 
           cd gopath/src/github.com/hyperledger/fabric-ca
+          echo -e "\033[1m--------> Unit Tests\033[0m"
           make unit-test docs
 
 - builder:
@@ -23,6 +24,7 @@
           set -o pipefail
 
           cd gopath/src/github.com/hyperledger/fabric-ca
+          echo -e "\033[1m--------> Unit & Integration Tests\033[0m"
           make dist-all unit-test int-tests docs
 
 - builder:
@@ -34,8 +36,10 @@
           cd gopath/src/github.com/hyperledger/fabric-ca
 
             if [[ $GERRIT_BRANCH == "master" ]]; then
+                echo -e "\033[1m--------> FVT Tests\033[0m"
                 make fvt-tests
             else
+                echo -e "\033[1m--------> FVT Tests\033[0m"
                 make docker-clean docker-fvt
                 docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
             fi
