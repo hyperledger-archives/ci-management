@@ -127,6 +127,16 @@
       - gerrit-trigger-scm-merge:
           base-dir: ''
 
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '{build-timeout}'
+      - credentials-binding:
+          - username-password-separated:
+              credential-id: fabric-sdk-java-gh
+              username: SDK_JAVA_GH_USERNAME
+              password: SDK_JAVA_GH_PASSWORD
+
     builders:
       - lf-provide-maven-settings:
           global-settings-file: 'global-settings'
@@ -146,6 +156,7 @@
       - clean-environment
       - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
+      - publish-fabric-sdkjava-docs
       - shell: |
           echo "----> ", $(pwd)
           echo "----> ", "$(ls -al)"

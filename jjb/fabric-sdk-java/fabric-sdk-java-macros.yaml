@@ -71,3 +71,10 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-fabric-jsdk1.4-fabric_latest.sh
+
+# This macro is used to publish JAVA API docs to gh-pages.
+- builder:
+    name: publish-fabric-sdkjava-docs
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-sdkjava-docs.sh
