@@ -33,6 +33,7 @@ echo "SDK_NODE_COMMIT=======> $SDK_NODE_COMMIT" >> ${WORKSPACE}/gopath/src/githu
 
 ARCH=$(dpkg --print-architecture)
 echo "======> ARCH" $ARCH
+set +e
 if [[ "$ARCH" = "amd64" || "$ARCH" = "ppc64le" ]]; then
    # Install nvm to install multi node versions
    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
@@ -42,10 +43,11 @@ if [[ "$ARCH" = "amd64" || "$ARCH" = "ppc64le" ]]; then
 else
    source /etc/profile.d/nvmrc.sh
 fi
-
+set -e
 echo -e "\033[1m----------> SDK-NODE TESTS\033[0m"
 echo "-------> Install NodeJS"
 
+WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node"
 # Checkout to GERRIT_BRANCH
 if [[ "$GERRIT_BRANCH" = *"release-1.0"* ]]; then # Only on release-1.0 branch
     NODE_VER=6.9.5
@@ -61,8 +63,7 @@ elif [[ "$GERRIT_BRANCH" = *"release-1.1"* || "$GERRIT_BRANCH" = *"release-1.2"*
     nvm use --delete-prefix v$NODE_VER --silent
 elif [[ "$GERRIT_BRANCH" = "master" ]]; then
     echo -e "\033[32m Build Chaincode-nodeenv-image" "\033[0m"
-    rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node
-    WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node"
+    rm -rf $WD
     REPO_NAME=fabric-chaincode-node
     git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
     cd $WD || exit
@@ -128,7 +129,7 @@ esac
 
 function clearContainers () {
     CONTAINER_IDS=$(docker ps -aq)
-        if [ -z "$CONTAINER_IDS" ] || [ "$CONTAINER_IDS" = " " ]; then
+        if [[ -z "$CONTAINER_IDS" || "$CONTAINER_IDS" = " " ]]; then
                 echo "---- No containers available for deletion ----"
         else
                 docker rm -f $CONTAINER_IDS || true
@@ -139,7 +140,7 @@ function clearContainers () {
 
 function removeUnwantedImages() {
         DOCKER_IMAGE_IDS=$(docker images | grep "dev\|none\|test-vp\|peer[0-9]-" | awk '{print $3}')
-        if [ -z "$DOCKER_IMAGE_IDS" ] || [ "$DOCKER_IMAGE_IDS" = " " ]; then
+        if [[ -z "$DOCKER_IMAGE_IDS" || "$DOCKER_IMAGE_IDS" = " " ]]; then
                 echo "---- No images available for deletion ----"
         else
                 docker rmi -f $DOCKER_IMAGE_IDS || true
@@ -147,9 +148,11 @@ function removeUnwantedImages() {
                 docker images
         fi
 }
-
-cd $WD
-# remove tmp/hfc and hfc-key-store data
-rm -rf node_modules package-lock.json || true
 clearContainers
 removeUnwantedImages
+
+# remove tmp/hfc and hfc-key-store data
+if [[ "$GERRIT_BRANCH" = "master" ]]; then
+    cd $WD
+    rm -rf node_modules package-lock.json
+fi

@@ -295,6 +295,12 @@
           !include-raw: shell/include-raw-publish-nodeenv-images.sh
 
 - builder:
+    name: end-to-end-NODE-daily
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-FIT-NODE-e2e-daily.sh
+
+- builder:
     name: end-to-end-JAVA
     builders:
       - shell:
