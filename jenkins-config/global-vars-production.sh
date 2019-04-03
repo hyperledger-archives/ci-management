@@ -5,7 +5,6 @@ GIT_BASE=git://cloud.hyperledger.org/mirror/$PROJECT.git
 GIT_CLONE_URL=git@github.com:
 GIT_URL=git://cloud.hyperledger.org/mirror
 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-JAVA_SDK_USERNAME=sdkjavadocs
 JENKINS_HOSTNAME=vex-yul-hyp-jenkins-3
 JIRA_URL=https://jira.hyperledger.org
 LOGS_SERVER=https://logs.hyperledger.org
