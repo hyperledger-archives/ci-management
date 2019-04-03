@@ -91,10 +91,10 @@
           output_format: ''
           developer-email: ''
 
-# This job template contains fabric daily end-2-end job configuration
+# This job template contains fabric master daily end-2-end job configuration
 - job-template:
-    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
-    id: fabric-end-2-end-daily-jobs
+    name: '{project-name}-end-2-end-daily-master-{arch}'
+    id: fabric-end-2-end-daily-jobs-master
     <<: *fabric_daily_jobs
 
     builders:
@@ -108,6 +108,31 @@
       - fabric-byfn-tests
       - end-to-end-NODE
       - end-to-end-JAVA
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+      - workspace-cleanup
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: ''
+
+# This job template contains fabric release daily end-2-end job configuration
+- job-template:
+    name: '{project-name}-end-2-end-daily-{branch}-{arch}'
+    id: fabric-end-2-end-daily-jobs-release
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - dockerimages
+      - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
+      - clone-fabric-samples
+      - fabric-byfn-tests
 
     publishers:
       - lf-infra-publish
