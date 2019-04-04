@@ -24,6 +24,7 @@ clearContainers () {
         fi
 }
 
+base_image="0.4.13"
 removeUnwantedImages() {
         # Delete <none> images
         docker images | grep none | awk '{ print $3; }' | xargs docker rmi || true
@@ -34,7 +35,7 @@ removeUnwantedImages() {
         # Deleete Makefile
         rm -rf Makefile
         # Delete all docker images except the latest one fetched from fabric master Makefile
-        IMAGE_IDS=$(docker images | grep -v "$BASE_IMAGE" | awk 'NR>1 {print $3}')
+        IMAGE_IDS=$(docker images | grep -v "$base_image\|$BASE_IMAGE" | awk 'NR>1 {print $3}')
         if [[ -z ${IMAGE_IDS// } ]]; then
              echo "---- No Images available for deletion ----"
         else
