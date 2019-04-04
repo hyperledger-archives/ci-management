@@ -1,0 +1,30 @@
+---
+- project:
+    name: fabric-gateway-java-project-view
+    project-name: fabric-gateway-java
+    views:
+      - project-view
+
+- project:
+    name: fabric-gateway-java-verify-x86_64
+    jobs:
+      - 'fab-pipeline-verify'
+
+    project: fabric-gateway-java
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    job_type: 'verify'
+    jenkins_file: Jenkinsfile
+
+- project:
+    name: fabric-gateway-java-merge-x86_64
+    jobs:
+      - 'fab-pipeline-merge'
+
+    project: fabric-gateway-java
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    job_type: 'merge'
+    jenkins_file: Jenkinsfile
