@@ -261,31 +261,6 @@
 ############
 
 - trigger:
-    name: gerrit-trigger-patch-test
-    triggers:
-      - gerrit:
-          server-name: 'hyperledger'
-          trigger-on:
-            - patchset-created-event:
-                exclude-drafts: 'false'
-                exclude-trivial-rebase: 'false'
-                exclude-no-code-change: 'true'
-            - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment1}'
-            - comment-added-contains-event:
-                comment-contains-value: '{trigger-comment2}'
-          projects:
-            - project-compare-type: 'ANT'
-              project-pattern: '{name}'
-              branches:
-                - branch-compare-type: 'ANT'
-                  branch-pattern: '**/{branch}'
-              disable-strict-forbidden-file-verification: '{forbidden}'
-              file-paths:
-                - compare-type: 'REG_EXP'
-                  pattern: '{file-paths}'
-
-- trigger:
     name: gerrit-trigger-patch-submitted
     triggers:
       - gerrit:

@@ -30,8 +30,6 @@
           branch: ''
           trigger-comment1: '{comment1}'
           trigger-comment2: '{comment2}'
-          forbidden: '{forbidden-checks}'
-          file-paths: '{file-paths-extn}'
 
     wrappers:
       - hyperledger-infra-wrappers
