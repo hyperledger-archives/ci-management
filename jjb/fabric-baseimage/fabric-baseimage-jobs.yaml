@@ -17,8 +17,10 @@
     build-node: 'hyp-z'
     comment1: 'reverify-z$'
     comment2: 'reverify$'
-    trigger-type: 'submitted'
+    trigger-type: 'test'
     ref_spec: ''
+    file-paths-extn: ''
+    forbidden-checks: 'false'
 
 - project:
     name: fabric-baseimage-verify-docker-x86_64
@@ -33,8 +35,10 @@
     build-node: 'hyp-x'
     comment1: 'reverify-x$'
     comment2: 'reverify$'
-    trigger-type: 'submitted'
+    trigger-type: 'test'
     ref_spec: ''
+    file-paths-extn: ''
+    forbidden-checks: 'false'
 
 ###
 # fabric-baseimage merge jobs on x and z arch
