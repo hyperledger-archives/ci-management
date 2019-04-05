@@ -189,3 +189,8 @@
     # Increase or Decrease build time
     build_timeout: 80
     mvn-settings: 'fabric-chaincode-java-settings'
+
+- project:
+    name: fabric-chaincode-java-release-x86_64
+    jobs:
+      - fabric-chaincode-java-release-x86_64
