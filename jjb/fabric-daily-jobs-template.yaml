@@ -97,26 +97,20 @@
     id: fabric-end-2-end-daily-jobs-master
     <<: *fabric_daily_jobs
 
+    parameters:
+      - lf-infra-parameters:
+          project: '{project}'
+          branch: '{branch}'
+          stream: '{stream}'
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-commit:
+          pull-commit: ''
+
     builders:
       - clean-environment
       - output-environment
       - 'golang-environment-{arch}'
-      - dockerimages
-      - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
-      - clone-fabric-samples
-      - fabric-byfn-tests
       - end-to-end-NODE
-      - end-to-end-JAVA
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
-      - workspace-cleanup
-      - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: ''
 
 # This job template contains fabric release daily end-2-end job configuration
 - job-template:
