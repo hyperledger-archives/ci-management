@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 
-# Clone fabric git repository
+# Clone git repository
 clone_Repo() {
   rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/$PROJECT
   WD="${WORKSPACE}/gopath/src/github.com/hyperledger/$PROJECT"
