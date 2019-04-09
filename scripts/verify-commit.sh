@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -ue
 
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -16,30 +16,30 @@
 # Verify if the commit message contains JIRA URLs.
 # its-jira pluggin attempts to process jira links and breaks.
 
-JIRA_LINK=`git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*'`
-if [[ ! -z "$JIRA_LINK" ]]
-then
-  echo 'Error: Remove JIRA URLs from commit message'
-  echo 'Add jira references as: Issue: <JIRAKEY>-<ISSUE#>, instead of URLs'
-  exit 1
+set -o pipefail
+echo "----> verify-commit.sh"
+
+if git rev-list --format=%B --max-count=1 HEAD | grep -io 'http[s]*://jira\..*' > /dev/null ; then
+    echo 'Error: Remove JIRA URLs from commit message'
+    echo 'Add jira references as: Issue: <JIRAKEY>-<ISSUE#>, instead of URLs'
+    exit 1
 fi
 
-# Verify if there are trailing spaces in the files.
+# Check for trailing white-space (tab or spaces) in any files that were changed
+commit_files=$(git diff-tree --name-only -r HEAD~1..HEAD)
 
-COMMIT_FILES=`git diff-tree --name-only -r HEAD~1..HEAD`
-
-for filename in `echo $COMMIT_FILES`; do
-  if [[ `file $filename` == *"ASCII text"* ]];
-  then
-    if [ ! -z "`egrep -l " +$" $filename`" ];
-    then
-      FOUND_TRAILING='yes'
-      echo "Error: Trailing white spaces found in file:$filename"
+found_trailing=false
+for filename in $commit_files; do
+    if [[ $(file $filename) == *"ASCII text"* ]]; then
+        if egrep -q "\s$" $filename; then
+            found_trailing=true
+            echo "Error: Trailing white spaces found in file: $filename"
+        fi
     fi
-  fi
 done
 
-if [ ! -z ${FOUND_TRAILING+x} ];
-then
-  exit 1
+if $found_trailing; then
+    echo "####  filename:line-num:line  ####"
+    egrep -n  "\s$" $commit_files
+    exit 1
 fi
