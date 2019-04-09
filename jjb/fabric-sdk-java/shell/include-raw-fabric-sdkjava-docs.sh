@@ -22,7 +22,7 @@ cd $SDK_JAVA_GH_USERNAME.github.io
 git add .
 git commit -m "SDK JAVA COMMIT - $sdk_java_commit"
 # Credentials are stored as Global Variables in Jenkins
-git config remote.gh-pages.url https://SDK_JAVA_GH_USERNAME:$SDK_JAVA_GH_PASSWORD@github.com/ \
+git config remote.gh-pages.url https://$SDK_JAVA_GH_USERNAME:$SDK_JAVA_GH_PASSWORD@github.com/ \
     $SDK_JAVA_GH_USERNAME/$target_repo
 # Push API docs to target repository
 git push gh-pages master

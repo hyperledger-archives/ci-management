@@ -65,12 +65,8 @@ elif [[ "$GERRIT_BRANCH" = "master" ]]; then
     WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node"
     REPO_NAME=fabric-chaincode-node
     git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
-    cd $WD && git checkout $GERRIT_BRANCH && git checkout $RELEASE_COMMIT
-    # Checkout to the branch and checkout to release commit
-    # Provide the value to release commit from Jenkins parameter
-    echo "-------> INFO: RELEASE_COMMIT" $RELEASE_COMMIT
-
-    NODE_VER=10.15.2
+    cd $WD || exit
+    NODE_VER=8.11.3
     nvm install $NODE_VER
     # use nodejs 8.11.3 version
     nvm use --delete-prefix v$NODE_VER --silent
@@ -79,13 +75,7 @@ elif [[ "$GERRIT_BRANCH" = "master" ]]; then
     npm install -g gulp || exit 1
     # Build nodeenv image
     gulp docker-image-build
-    # Publish docker images to hyperledger dockerhub
-    docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
-    # tag nodeenv release version tag to dockerhub
-    docker tag hyperledger/fabric-nodeenv hyperledger/fabric-nodeenv:$ARCH-2.0.0-alpha
-    # Push nodeenv image to dockerhub
-    docker push hyperledger/fabric-nodeenv:$ARCH-2.0.0-alpha
-    docker images | grep hyperledger
+    docker images | grep hyperledger && docker ps -a
 else
     NODE_VER=8.11.3
     echo "------> Use $NODE_VER for master"
