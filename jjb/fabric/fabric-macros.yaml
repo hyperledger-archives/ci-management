@@ -290,6 +290,12 @@
           !include-raw: shell/include-raw-FIT-NODE-e2e.sh
 
 - builder:
+    name: publish-nodeenv-images
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-publish-nodeenv-images.sh
+
+- builder:
     name: end-to-end-JAVA
     builders:
       - shell:
