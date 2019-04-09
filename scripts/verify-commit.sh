@@ -16,6 +16,8 @@
 # Verify if the commit message contains JIRA URLs.
 # its-jira pluggin attempts to process jira links and breaks.
 
+set +ue # Temporarily ignore any errors
+
 set -o pipefail
 echo "----> verify-commit.sh"
 
@@ -30,7 +32,7 @@ commit_files=$(git diff-tree --name-only -r HEAD~1..HEAD)
 
 found_trailing=false
 for filename in $commit_files; do
-    if [[ $(file $filename) == *"ASCII text"* ]]; then
+    if [[ $(file -b $filename) == "ASCII text"* ]]; then
         if egrep -q "\s$" $filename; then
             found_trailing=true
             echo "Error: Trailing white spaces found in file: $filename"
