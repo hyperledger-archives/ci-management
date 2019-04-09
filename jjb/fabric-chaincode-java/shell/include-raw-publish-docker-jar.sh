@@ -15,7 +15,7 @@ set -o pipefail
 # PUBLISH DOCKER IMAGE
 ######################
 
-ORG_NAME=hyperledger/fabric-chaincode-java
+#ORG_NAME=hyperledger/fabric-chaincode-java
 NEXUS_REPO_URL=nexus3.hyperledger.org:10002
 
 # Clone fabric-chaincode-java git repository
@@ -43,18 +43,18 @@ publish_Images_Dockerhub() {
   # Publish docker images to hyperledger dockerhub
   docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
   # tag javaenv image to $PUSH_VERSION
-  docker tag $ORG_NAME-javaenv $ORG_NAME-javaenv:amd64-$PUSH_VERSION
+  docker tag hyperledger/fabric-javaenv hyperledger/fabric-javaenv:amd64-$PUSH_VERSION
   # push javaenv to hyperledger dockerhub
-  docker push $ORG_NAME-javaenv:amd64-$PUSH_VERSION
+  docker push hyperledger/fabric-javaenv:amd64-$PUSH_VERSION
 }
 
 publish_Images_Nexus() {
   # Publish docker images to nexus repository
   docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
   # tag javaenv image to $PUSH_VERSION
-  docker tag $ORG_NAME-javaenv $NEXUS_REPO_URL/$ORG_NAME-javaenv:amd64-$PUSH_VERSION
+  docker tag hyperledger/fabric-javaenv $NEXUS_REPO_URL/hyperledger/fabric-javaenv:amd64-$PUSH_VERSION
   # push javaenv to nexus repository
-  docker push $NEXUS_REPO_URL/$ORG_NAME-javaenv:amd64-$PUSH_VERSION
+  docker push $NEXUS_REPO_URL/hyperledger/fabric-javaenv:amd64-$PUSH_VERSION
 }
 
 publish_Jar_Nexus() {
