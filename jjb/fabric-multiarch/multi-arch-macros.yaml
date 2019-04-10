@@ -5,3 +5,9 @@
     builders:
       - shell:
           !include-raw: include-raw-docker-multiarch.sh
+
+- builder:
+    name: nexus-multiarch
+    builders:
+      - shell:
+          !include-raw: include-raw-nexus-multiarch.sh
