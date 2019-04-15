@@ -88,16 +88,16 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo "#########################################################"
     set -x
     echo y | ./byfn.sh -m down
-    echo y | ./byfn.sh -m up -t 60; copy_logs $? default-channel
-    echo y | ./eyfn.sh -m up -t 60; copy_logs $? default-channel
+    echo y | ./byfn.sh -m up -t 75 -d 15; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m up -t 75 -d 15; copy_logs $? default-channel
     echo y | ./eyfn.sh -m down
     set +x
     echo
     echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m ################"
     echo "#########################################################"
     set -x
-    echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
-    echo y | ./eyfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
+    echo y | ./byfn.sh -m up -c custom-channel -t 75 -d 15; copy_logs $? custom-channel
+    echo y | ./eyfn.sh -m up -c custom-channel -t 75 -d 15; copy_logs $? custom-channel
     echo y | ./eyfn.sh -m down
     set +x
     echo
