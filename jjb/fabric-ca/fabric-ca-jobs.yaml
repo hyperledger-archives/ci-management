@@ -9,27 +9,8 @@
     name: fabric-ca
     jobs:
       - 'fabric-ca-binaries-{arch}'
-      - 'fabric-ca-merge-end-2-end-{arch}'
       - 'fabric-ca-gosec-weekly-{arch}'
       - 'fabric-ca-safesql-weekly-{arch}'
-      - gerrit-rtd-verify:
-          project-name: fabric-ca
-          project-pattern: fabric-ca
-          build-node: hyp-x
-          build-timeout: 30
-          stream: 'job'
-          branch: ''
-          rtd-project: hyperledger-fabric-ca
-
-          gerrit_trigger_file_paths:
-            - compare-type: ANT
-              pattern: '**/*.md'
-            - compare-type: ANT
-              pattern: '**/*.rst'
-            - compare-type: ANT
-              pattern: '**/*.txt'
-            - compare-type: ANT
-              pattern: '**/conf.py'
 
     project: 'fabric-ca'
     arch:
@@ -83,60 +64,6 @@
 
     publishers:
       - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
-
-- job-template:
-    name: 'fabric-ca-merge-end-2-end-{arch}'
-
-    project-type: freestyle
-    node: 'hyp-{arch}'
-    concurrent: true
-
-    properties:
-      - 'fabric-go-{arch}'
-      - build-discarder:
-          days-to-keep: 7
-          artifact-days-to-keep: 7
-
-    parameters:
-      - project-parameter:
-          project: '{project}'
-      - gerrit-parameter:
-          branch: 'master'
-      - gerrit-refspec-parameter:
-          refspec: 'refs/heads/$GERRIT_BRANCH'
-
-    scm:
-      - gerrit-trigger-scm-merge:
-          base-dir: '$BASE_DIR'
-
-    triggers:
-      - gerrit-trigger-patch-merged:
-          name: '{project}'
-          branch: ''
-          trigger-comment1: 'remerge-e2e$'
-          trigger-comment2: 'remerge$'
-
-    wrappers:
-      - hyperledger-infra-wrappers
-      - build-timeout:
-          timeout: '60'
-
-    builders:
-      - clean-environment
-      - 'golang-environment-{arch}'
-      - output-environment
-      - dockercaimages
-      - pull-nexus-chaincode-java-image
-      - end-to-end-NODE
-      - end-to-end-JAVA
-
-    publishers:
-      - lf-infra-publish
-      - log-artifacts
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''

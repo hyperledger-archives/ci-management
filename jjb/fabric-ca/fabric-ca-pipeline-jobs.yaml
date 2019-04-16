@@ -1,0 +1,32 @@
+---
+#####################
+# Pipeline Verify Job
+#####################
+
+- project:
+    name: fabric-ca-verify-x86_64
+    jobs:
+      - 'fab-pipeline-verify'
+
+    project: fabric-ca
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    job_type: 'verify'
+    jenkins_file: Jenkinsfile
+
+#####################
+# Pipeline Merge Job
+#####################
+
+- project:
+    name: fabric-ca-merge-x86_64
+    jobs:
+      - 'fab-pipeline-merge'
+
+    project: fabric-ca
+    branch: ''
+    arch: 'x86_64'
+    build_node: 'x'
+    job_type: 'merge'
+    jenkins_file: Jenkinsfile
