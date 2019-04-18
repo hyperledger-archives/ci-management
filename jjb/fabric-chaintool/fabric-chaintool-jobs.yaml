@@ -96,7 +96,6 @@
           timeout: '60'
 
     builders:
-      - verify-commit-message
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
           global-settings-file: 'global-settings'

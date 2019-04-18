@@ -142,7 +142,6 @@
           timeout: '60'
 
     builders:
-      - verify-commit-message
       - clean-environment
       - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test

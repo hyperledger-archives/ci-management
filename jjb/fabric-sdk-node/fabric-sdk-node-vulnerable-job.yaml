@@ -42,7 +42,6 @@
           timeout: '60'
 
     builders:
-      - verify-commit-message
       - clean-environment
       - output-environment
       - fabric-sdk-node-vulnerable-tests

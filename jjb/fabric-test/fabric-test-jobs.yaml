@@ -127,7 +127,6 @@
           timeout: '840'
 
     builders:
-      - verify-commit-message
       - clean-environment
       - output-environment
       - shell: |
