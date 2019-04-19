@@ -11,7 +11,7 @@
 - project:
     name: Release
     view-name: Release
-    view-regex: '.*-release-jobs.*'
+    view-regex: '.*-release-jobs.*|fabric-ca-image-release.*|blockchain-explorer-release-job-x86_64|fabric-ca-binaries-x86_64'
     views:
       - common-view
 
@@ -54,5 +54,12 @@
     name: multi-arch
     view-name: multi-arch
     view-regex: '.*-multiarch-.*'
+    views:
+      - common-view
+
+- project:
+    name: Merge
+    view-name: Merge
+    view-regex: '.*-merge-.*'
     views:
       - common-view
