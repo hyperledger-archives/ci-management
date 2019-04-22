@@ -146,6 +146,12 @@
       - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
       - shell: |
+          #!/bin/bash -eu
+          cd $WORKSPACE
+          echo -e "\033[1m------> Publishing OWSP Dependency Check html Report\033[0m"
+          mvn -P owasp verify
+
+      - shell: |
           echo "----> ", $(pwd)
           echo "----> ", "$(ls -al)"
           echo "----> ", $WORKSPACE

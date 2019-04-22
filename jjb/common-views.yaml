@@ -11,7 +11,7 @@
 - project:
     name: Release
     view-name: Release
-    view-regex: '.*-release-jobs.*|fabric-ca-image-release.*|blockchain-explorer-release-job-x86_64|fabric-ca-binaries-x86_64'
+    view-regex: '.*-release-jobs.*|fabric-ca-image-release.*|blockchain-explorer-release-job-x86_64|fabric-ca-binaries-x86_64|fabric-chaincode-java-release-x86_64'
     views:
       - common-view
 
