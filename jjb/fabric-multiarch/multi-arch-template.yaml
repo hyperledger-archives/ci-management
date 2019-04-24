@@ -43,3 +43,51 @@
 
     publishers:
       - lf-infra-publish
+
+#####################################################
+# Multiarch job to publish multiarch images to Nexus
+#####################################################
+
+- job-template:
+    name: '{project-name}-nexus-multiarch-{arch}'
+
+    project-type: freestyle
+    node: '{build-node}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: ''
+      - release-version:
+          push-version: ''
+      - two-digit-version:
+          two-digit-version: ''
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-commit:
+          pull-commit: ''
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '120'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - nexus-multiarch
+
+    publishers:
+      - lf-infra-publish
