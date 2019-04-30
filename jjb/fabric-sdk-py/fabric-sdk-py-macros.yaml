@@ -10,6 +10,7 @@
     name: fabric-verify-sdk-py
     builders:
       - shell: |
-          set -ue
-          cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-sdk-py
+          set +x -ue
+          echo "----> Executing 'make check'"
+          cd $WORKSPACE/$BASE_DIR
           make check
