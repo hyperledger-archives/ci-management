@@ -102,7 +102,10 @@ run_e2e_tests() {
   export WD=${WORKSPACE}
   cd $WD
   JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-  echo "=======>" "FABRIC COMMIT NUMBER" "-" $FABRIC_COMMIT_LEVEL "=======>" "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT_LEVEL "=======>" "FABRIC SDK JAVA COMMIT NUMBER" "-" $JAVA_SDK_COMMIT_LEVEL >> commit_history.log
+  echo "=======>" "FABRIC COMMIT NUMBER" "-" $FABRIC_COMMIT_LEVEL "=======>" \
+       "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT_LEVEL "=======>"             \
+       "FABRIC SDK JAVA COMMIT NUMBER" "-" $JAVA_SDK_COMMIT_LEVEL            \
+       >> commit_history.log
   export GOPATH=$WD/src/test/fixture
   cd $WD/src/test
   source cirun.sh

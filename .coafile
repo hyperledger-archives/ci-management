@@ -1,12 +1,8 @@
-[default]
-bears = SpaceConsistencyBear
-files = scripts/*
-allow_trailing_whitespace = False
+[all]
 enforce_newline_at_EOF = True
-indent_size = 4
-use_spaces = yeah
+use_spaces = True
 
-[GitCommit]
+[all.GitCommit]
 bears = GitCommitBear
 ignore_length_regex = Signed-off-by,
     Also-by,
@@ -14,19 +10,29 @@ ignore_length_regex = Signed-off-by,
     http://,
     https://
 
-[YAML]
+[all.YAML]
 bears = YAMLLintBear
-files = jjb/**/*.yaml
+files = jjb/**.yaml
 document_start = True
 yamllint_config = yamllint.conf
 
-[ShellCheck]
-bears = ShellCheckBear
-files = jenkins-scripts/**/*.sh,
-    jjb/**/*.sh,
-    packer/**/*.sh,
-    scripts/**/*.sh,
-    vagrant/**/*.sh
-ignore = jjb/include-raw-deploy-archives.sh
+[all.ShellCheck]
+bears = ShellCheckBear, SpaceConsistencyBear, LineLengthBear
+files = jjb/**.sh,
+        jenkins-scripts/*.sh,
+        jenkins-config/*.sh,
+        packer/provision/*.sh,
+        scripts/*.sh,
+        jenkins-init-scripts/*.sh
+# Ignore long string in 'Here Doc' located in ssh_settings.sh
+ignore_length_regex = gerrit.hyperledger.org
+ignore = jjb/global-jjb/**/
 shell = bash
+indent_size = 4
+max_line_length = 200
+
+[all.JSON]
+bears = JSONFormatBear
+files = packer/templates/*.json
+indent_size = 2
 

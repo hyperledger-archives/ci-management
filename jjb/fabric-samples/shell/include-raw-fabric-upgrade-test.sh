@@ -13,8 +13,8 @@ OS_VER=$(dpkg --print-architecture)
 echo "------> ARCH: $OS_VER"
 export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
 export PATH=$GOROOT/bin:$PATH
-echo "------> GO_VER" $GO_VER
- 
+echo "------> GO_VER $GO_VER"
+
 ARCH=$(go env GOARCH)
 export ARCH
 ORG_NAME=hyperledger/fabric

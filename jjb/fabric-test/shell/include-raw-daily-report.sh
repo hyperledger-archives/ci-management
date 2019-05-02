@@ -15,15 +15,17 @@
 TEST_TYPE=(behave ca pte lte ote)
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do
-    curl -f -s -C - https://jenkins.hyperledger.org/view/fabric-test/job/fabric-test-daily-${TEST_TYPE}-$GERRIT_BRANCH-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip* -o ${TEST_TYPE}-daily.zip
+    # Ignore LineLengthBear
+    url="https://jenkins.hyperledger.org/view/faric-test/job/fabric-test-daily-${TEST_TYPE}-$GERRIT_BRANCH-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip*"
+    curl -f -s -C - $url -o ${TEST_TYPE}-daily.zip
     result=$?
 
     if [ $result -eq 0 ]; then
         echo "------> ${TEST_TYPE} test XML files found."
-    	unzip ${TEST_TYPE}-daily.zip > /dev/null 2>&1
+        unzip ${TEST_TYPE}-daily.zip > /dev/null 2>&1
         # shellcheck disable=SC2046
         cp -r $(find ./daily -name "*.xml") $WORKSPACE
-    	rm -rf daily  ${TEST_TYPE}-daily.zip
+        rm -rf daily  ${TEST_TYPE}-daily.zip
     else
         echo "------> ${TEST_TYPE} test XML files not found, Check ${TEST_TYPE} status."
     fi

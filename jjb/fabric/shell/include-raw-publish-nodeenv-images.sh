@@ -65,7 +65,7 @@ build_Images() {
         npm install -g gulp || exit 1
         # Build nodeenv image
         gulp docker-image-build
-        docker images | grep hyperledger        
+        docker images | grep hyperledger
     fi
 }
 

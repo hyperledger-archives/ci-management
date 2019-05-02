@@ -45,16 +45,16 @@ set +x
 if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
         # if snapshot
         # tag hyperledger/fabric-javaenv
-	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
-	docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
+        docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
+        docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
         if [ "$GERRIT_BRANCH" = "master" ]; then
-	   docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
-	   docker push $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+           docker tag $ORG_NAME-javaenv $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
+           docker push $NEXUS_URL/$ORG_NAME-javaenv:amd64-latest
         fi
-	# Push javenv docker image to nexus3
+        # Push javenv docker image to nexus3
         echo "------> PUSHING"
-	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
-	docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
+        docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG
+        docker push $NEXUS_URL/$ORG_NAME-javaenv:$STABLE_TAG-$COMMIT_TAG
 
 # Publish snapshot to Nexus snapshot URL
     for binary in shim protos; do
@@ -62,7 +62,7 @@ if [ `echo $PROJECT_VERSION | grep -c "SNAPSHOT" ` -gt 0 ]; then
        cp $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary-$PROJECT_VERSION.jar $WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar
        mvn org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
         -Dfile=$WORKSPACE/fabric-chaincode-$binary/build/libs/fabric-chaincode-$binary.$PROJECT_VERSION.jar \
-	-DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
+        -DpomFile=$WORKSPACE/fabric-chaincode-$binary/build/publications/"$binary"Jar/pom-default.xml \
         -DupdateReleaseInfo=true \
         -DrepositoryId=hyperledger-snapshots \
         -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \

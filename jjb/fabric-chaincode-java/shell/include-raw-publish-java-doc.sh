@@ -19,8 +19,8 @@ if [ "$ARCH" != "s390x" ]; then
     # Short Head commit
     CHAINCODE_JAVA_COMMIT=$(git rev-parse --short HEAD)
   if [ -z "$CHAINCODE_JAVA_COMMIT" ]; then
-	echo "------> Failed to get java commit"
-	exit 1
+        echo "------> Failed to get java commit"
+        exit 1
   else
         echo "------> CHAINCODE_JAVA_COMMIT $CHAINCODE_JAVA_COMMIT"
   fi
