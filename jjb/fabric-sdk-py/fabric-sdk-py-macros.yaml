@@ -10,7 +10,6 @@
     name: fabric-verify-sdk-py
     builders:
       - shell: |
-          set +x -ue
+          set -ue
           echo "----> Executing 'make check'"
-          cd $WORKSPACE/$BASE_DIR
           make check

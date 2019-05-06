@@ -97,6 +97,10 @@
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
+    # Clone repo in $WORKDIR
+    scm:
+      - gerrit-trigger-scm:
+          base-dir: ''
 
     builders:
       - fabric-verify-sdk-py
