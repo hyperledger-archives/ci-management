@@ -16,7 +16,7 @@ TEST_TYPE=(behave ca pte lte ote)
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do
     # Ignore LineLengthBear
-    url="https://jenkins.hyperledger.org/view/faric-test/job/fabric-test-daily-${TEST_TYPE}-$GERRIT_BRANCH-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip*"
+    url="https://jenkins.hyperledger.org/view/fabric-test/job/fabric-test-daily-${TEST_TYPE}-$GERRIT_BRANCH-x86_64/lastBuild/artifact/gopath/src/github.com/hyperledger/fabric-test/regression/daily/*zip*"
     curl -f -s -C - $url -o ${TEST_TYPE}-daily.zip
     result=$?
 
