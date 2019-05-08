@@ -45,3 +45,12 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-publish-java-doc.sh
+
+- publisher:
+    name: cc-java-logs
+    publishers:
+      - archive:
+          artifacts: '**/*.log,**/*.html'
+          fingerprint: true
+          default-excludes: false
+          allow-empty: true

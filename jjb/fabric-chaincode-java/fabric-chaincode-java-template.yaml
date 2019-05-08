@@ -49,9 +49,10 @@
          ./gradlew build
 
     publishers:
+      - lf-infra-publish
       - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
-      - lf-infra-publish
+      - cc-java-logs
 
 - job-template:
     name: 'fabric-chaincode-java-merge-{arch}'
@@ -106,9 +107,10 @@
       - java-doc
 
     publishers:
+      - lf-infra-publish
       - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
-      - lf-infra-publish
+      - cc-java-logs
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''

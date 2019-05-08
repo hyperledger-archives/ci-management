@@ -53,6 +53,7 @@
           dir: "$WORKSPACE/target"
           files: "dependency-check-report.html"
           keep-all: true
+          link-to-last-build: true
 
 - builder:
     name: fabric-sdk-java-end-to-end-test
