@@ -100,7 +100,7 @@ deb_install_go() {
     curl -sL -o /usr/local/bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
     chmod +x /usr/local/bin/gimme
 
-    #install 1.7.5, 1.9.2, 1.10, 1.10.4, 1.11.1, 1.11.5 and 1.12.1
+    #install 1.7.5, 1.9.2, 1.10, 1.10.4, 1.11.1, 1.11.5, 1.12.1 and 1.12.5
     gimme 1.7.5 /opt/go
     gimme 1.9.2 /opt/go
     gimme 1.10 /opt/go
@@ -108,6 +108,7 @@ deb_install_go() {
     gimme 1.11.1 /opt/go
     gimme 1.11.5 /opt/go
     gimme 1.12.1 /opt/go
+    gimme 1.12.5 /opt/go
 }
 
 deb_docker_clean_images() {
