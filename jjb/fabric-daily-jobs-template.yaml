@@ -119,6 +119,32 @@
           developer-email: ''
 
 # This job template contains fabric release daily end-2-end job configuration
+
+- job-template:
+    name: '{project-name}-end-2-end-daily-release-1.4-{arch}'
+    id: fabric-end-2-end-daily-jobs-release-1.4
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - dockerimages
+      - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
+      - clone-fabric-samples
+      - fabric-byfn-tests
+      - end-to-end-NODE
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+      - workspace-cleanup
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: ''
+
 - job-template:
     name: '{project-name}-end-2-end-daily-{branch}-{arch}'
     id: fabric-end-2-end-daily-jobs-release
@@ -133,6 +159,31 @@
       - fabric-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
+
+    publishers:
+      - lf-infra-publish
+      - log-artifacts
+      - workspace-cleanup
+      - fabric-email-notification:
+          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: ''
+
+# This job template contains the configuratin for sdk-node daily tests
+
+- job-template:
+    name: '{project-name}-sdk-node-daily-{branch}-{arch}'
+    id: fabric-sdk-node-daily-jobs-release
+    <<: *fabric_daily_jobs
+
+    builders:
+      - clean-environment
+      - output-environment
+      - 'golang-environment-{arch}'
+      - dockerimages
+      - pull-nexus-chaincode-java-image
+      - fabric-chaincode-nodeenv-image
+      - end-to-end-NODE-daily
 
     publishers:
       - lf-infra-publish
