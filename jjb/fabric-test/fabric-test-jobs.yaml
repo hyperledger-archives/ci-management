@@ -28,7 +28,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: ''
     arch: 'x86_64'
     build-node: 'x'
     build-timeout: 120
@@ -44,7 +44,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: ''
     arch: 'x86_64'
     build-node: 'x'
     build-timeout: 120
