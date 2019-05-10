@@ -63,3 +63,10 @@
     view-regex: '.*-merge-.*'
     views:
       - common-view
+
+- project:
+    name: Verify
+    view-name: Verify
+    view-regex: '.*-verify.*'
+    views:
+      - common-view
