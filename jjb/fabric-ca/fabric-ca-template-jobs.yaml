@@ -135,25 +135,6 @@
     developer_id: ''
 
 - project:
-    name: fabric-ca-verify-s390x
-    jobs:
-      - '{project-name}-{type}-{arch}'
-
-    project: fabric-ca
-    project-name: fabric-ca
-    type: 'verify'
-    branch: ''
-    arch: 's390x'
-    build_node: 'z'
-    comment1: 'reverify-z$'
-    comment2: 'reverify$'
-    build_timeout: 60
-    trigger-type: submitted-no-docs
-    ref_spec: ''
-    emaild_ids: ''
-    developer_id: ''
-
-- project:
     name: fabric-ca-verify-fvt-x86_64
     jobs:
       - '{project-name}-{type}-fvt-{arch}'
@@ -189,25 +170,6 @@
     arch: 'x86_64'
     build_node: 'x'
     comment1: 'remerge-x$'
-    comment2: 'remerge$'
-    build_timeout: 60
-    trigger-type: merged
-    ref_spec: 'refs/heads/$GERRIT_BRANCH'
-    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
-    developer_id: 'developers'
-
-- project:
-    name: fabric-ca-merge-s390x
-    jobs:
-      - '{project-name}-{type}-{arch}'
-
-    project: fabric-ca
-    project-name: fabric-ca
-    type: 'merge'
-    branch: ''
-    arch: 's390x'
-    build_node: 'z'
-    comment1: 'remerge-z$'
     comment2: 'remerge$'
     build_timeout: 60
     trigger-type: merged
