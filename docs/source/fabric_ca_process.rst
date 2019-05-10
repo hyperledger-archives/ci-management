@@ -79,8 +79,6 @@ patchset’s parent commit which may or may not be the latest commit on
 
 -  `fabric-ca-verify-x86_64 <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-verify-x86_64/>`__
 
--  `fabric-ca-verify-s390x <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-verify-s390x/>`__
-
 -  `fabric-ca-verify-fvt-x86_64 <https://jenkins.hyperledger.org/job/fabric-ca-verify-fvt-x86_64/>`__
 
 .. figure:: ./images/views-ca.png
@@ -146,8 +144,6 @@ mentioned tests on the latest fabric-ca commit (doesn’t use the
 patchset’s parent commit).
 
 -  `fabric-ca-merge-x86_64 <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-merge-x86_64/>`__
-
--  `fabric-ca-merge-s390x <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-merge-s390x/>`__
 
 -  `fabric-ca-merge-end-2-end-x86_64 <https://jenkins.hyperledger.org/view/fabric-ca/job/fabric-ca-merge-end-2-end-x86_64/>`__
 
