@@ -106,7 +106,7 @@
       - fabric-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
-      - end-to-end-NODE
+      - end-to-end-NODE-daily
       - end-to-end-JAVA
 
     publishers:
