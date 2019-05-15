@@ -82,30 +82,30 @@ docker ps -aq
 
 # Execute below tests
 echo "------> BRANCH: " $GERRIT_BRANCH
-if [ $GERRIT_BRANCH != "release-1.0" ]; then
+if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRIT_BRANCH = "release-1.3" ]]; then
 
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
     echo "#########################################################"
     set -x
     echo y | ./byfn.sh -m down
-    echo y | ./byfn.sh -m up -t 75 -d 20; copy_logs $? default-channel
-    echo y | ./eyfn.sh -m up -t 75 -d 20; copy_logs $? default-channel
+    echo y | ./byfn.sh -m up -t 120 -d 20; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m up -t 120 -d 20; copy_logs $? default-channel
     echo y | ./eyfn.sh -m down
     set +x
     echo
     echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m ################"
     echo "#########################################################"
     set -x
-    echo y | ./byfn.sh -m up -c custom-channel -t 75 -d 20; copy_logs $? custom-channel
-    echo y | ./eyfn.sh -m up -c custom-channel -t 75 -d 20; copy_logs $? custom-channel
+    echo y | ./byfn.sh -m up -c custom-channel -t 120 -d 20; copy_logs $? custom-channel
+    echo y | ./eyfn.sh -m up -c custom-channel -t 120 -d 20; copy_logs $? custom-channel
     echo y | ./eyfn.sh -m down
     set +x
     echo
     echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
     echo "#########################################################################"
     set -x
-    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 20; copy_logs $? custom-channel-couch couchdb
-    echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60 -d 20; copy_logs $? custom-channel-couch couchdb
+    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 100 -d 20; copy_logs $? custom-channel-couch couchdb
+    echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 100 -d 20; copy_logs $? custom-channel-couch couchdb
     echo y | ./eyfn.sh -m down
     set +x
     echo
@@ -116,7 +116,7 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
     echo y | ./eyfn.sh -m down
     set +x
-else
+elif [[ $GERRIT_BRANCH = "release-1.0" ]]; then
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m#########################"
     echo "#################################################################"
     set -x
@@ -138,5 +138,38 @@ else
     echo y | ./byfn.sh -m down
     echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60; copy_logs $? custom-channel-couchdb couchdb
     echo y | ./byfn.sh -m down
+    set +x
+else
+    echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
+    echo "#########################################################"
+    set -x
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -v -t 120 -d 20; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m up -t 120 -d 20; copy_logs $? default-channel
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############## \033[1mC U S T O M-C H A N N E L-R A F T\033[0m ################"
+    echo "#########################################################"
+    set -x
+    echo y | ./byfn.sh -m up -o etcdraft -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
+    echo y | ./eyfn.sh -m up -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
+    echo "#########################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 120 -d 20; copy_logs $? custom-channel-couch couchdb
+    echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 120 -d 20; copy_logs $? custom-channel-couch couchdb
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+    echo -e "############### \033[1mN O D E-C H A I N C O D E\033[0m ################"
+    echo "####################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
+    echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
+    echo y | ./eyfn.sh -m down
     set +x
 fi
