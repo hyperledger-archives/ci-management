@@ -109,6 +109,13 @@
     id: fabric-sdk-java-verify-job
     <<: *fabric_verify_jobs
 
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: 'reverify-x$'
+          trigger-comment2: 'reverify$'
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -158,6 +165,13 @@
     name: '{project-name}-{branch}-verify-1.4-{arch}'
     id: fabric-sdk-java-verify-1.4-job
     <<: *fabric_verify_jobs
+
+    triggers:
+      - gerrit-trigger-patch-submitted:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: 'reverify-1.4$'
+          trigger-comment2: 'reverify$'
 
     parameters:
       - project-parameter:

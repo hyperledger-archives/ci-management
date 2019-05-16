@@ -112,6 +112,13 @@
     id: fabric-sdk-java-merge-job
     <<: *fabric_merge_jobs
 
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: 'remerge-x$'
+          trigger-comment2: 'remerge$'
+
     parameters:
       - project-parameter:
           project: '{project}'
@@ -174,6 +181,13 @@
     name: '{project-name}-{branch}-merge-1.4-{arch}'
     id: fabric-sdk-java-merge-1.4-job
     <<: *fabric_merge_jobs
+
+    triggers:
+      - gerrit-trigger-patch-merged:
+          name: '{project}'
+          branch: '{branch}'
+          trigger-comment1: 'remerge-1.4$'
+          trigger-comment2: 'remerge$'
 
     parameters:
       - project-parameter:
