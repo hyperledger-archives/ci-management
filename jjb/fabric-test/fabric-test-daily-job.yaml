@@ -297,7 +297,7 @@
 
     project: fabric-test
     project-name: fabric-test
-    branch: master
+    branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
 
