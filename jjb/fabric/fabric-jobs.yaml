@@ -46,6 +46,8 @@
       - gerrit-trigger-patch-merged-skip:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-x$'
+          trigger-comment2: 'remerge$'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -332,6 +334,8 @@
       - gerrit-trigger-patch-merged-skip:
           name: '{project}'
           branch: ''
+          trigger-comment1: 'remerge-e2e$'
+          trigger-comment2: 'remerge$'
 
     wrappers:
       - hyperledger-infra-wrappers

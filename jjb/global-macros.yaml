@@ -377,7 +377,9 @@
           trigger-on:
             - change-merged-event
             - comment-added-contains-event:
-                comment-contains-value: 'remerge'
+                comment-contains-value: '{trigger-comment1}'
+            - comment-added-contains-event:
+                comment-contains-value: '{trigger-comment2}'
           projects:
             - project-compare-type: 'ANT'
               project-pattern: '{name}'
