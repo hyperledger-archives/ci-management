@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 set -o pipefail
 
 #
@@ -26,10 +26,14 @@ build_Fabric() {
     git log -n2
 
     # Pull thirdparty images
-    make docker-thirdparty
+    if [[ "$GERRIT_BRANCH" = "master" && "$ARCH" = "s390x" ]]; then
+        pull_kafkazookeeper
+    else
+        make docker-thirdparty
+    fi
 
     # Build fabric images with $PUSH_VERSION tag
-    for IMAGES in docker release-clean $1; do
+    for IMAGES in docker release-clean "$@"; do
         echo -e "\033[1m----------> $IMAGES\033[0m"
         make $IMAGES PROJECT_VERSION=$PUSH_VERSION
     done
@@ -37,6 +41,13 @@ build_Fabric() {
     echo
     echo "----------> List all fabric docker images"
     docker images | grep hyperledger
+}
+
+pull_kafkazookeeper() {
+    for image in kafka zookeeper; do
+        docker pull hyperledger/fabric-$image:s390x-0.4.15
+        docker tag hyperledger/fabric-$image:s390x-0.4.15 hyperledger/fabric-$image
+    done
 }
 
 # Execute release-all target on x arch
