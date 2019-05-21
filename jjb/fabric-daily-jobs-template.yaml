@@ -65,6 +65,8 @@
     id: fabric-unit-test-coverage-jobs
     <<: *fabric_daily_jobs
 
+    disabled: '{disable-job}'
+
     builders:
       - clean-environment
       - 'golang-environment-{arch}'
@@ -96,6 +98,8 @@
     name: '{project-name}-end-2-end-daily-master-{arch}'
     id: fabric-end-2-end-daily-jobs-master
     <<: *fabric_daily_jobs
+
+    disabled: '{disable-job}'
 
     builders:
       - clean-environment
