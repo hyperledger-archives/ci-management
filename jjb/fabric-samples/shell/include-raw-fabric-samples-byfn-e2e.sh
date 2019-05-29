@@ -11,8 +11,8 @@
 ##############################################################################
 
 # docker container list
-CONTAINER_LIST=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 peer0.org3 peer1.org3 orderer)
-COUCHDB_CONTAINER_LIST=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
+container_list=(peer0.org1 peer1.org1 peer0.org2 peer1.org2 peer0.org3 peer1.org3 orderer)
+couchdb_container_list=(couchdb0 couchdb1 couchdb2 couchdb3 couchdb4 couchdb5)
 
 cd gopath/src/github.com/hyperledger/fabric-samples || exit
 # copy /bin directory to fabric-samples
@@ -37,6 +37,12 @@ mkdir -p $WORKSPACE/Docker_Container_Logs
 sed -it 's/INFO/DEBUG/' base/peer-base.yaml
 
 export PATH=gopath/src/github.com/hyperledger/fabric-samples/bin:$PATH
+echo "------> Deleting Containers...."
+# shellcheck disable=SC2046
+docker rm -f $(docker ps -aq)
+echo "------> List Docker Containers"
+docker ps -aq
+echo "\n------> BRANCH: $GERRIT_BRANCH\n"
 
 artifacts() {
 
@@ -49,41 +55,37 @@ artifacts() {
 # Capture docker logs of each container
 logs() {
 
-    for CONTAINER in ${CONTAINER_LIST[*]}; do
-        docker logs $CONTAINER.example.com >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+    echo -e "\n ===== Collecting logs for test =======\n"
+    for container in ${container_list[*]}; do
+        docker logs $container.example.com >& $WORKSPACE/Docker_Container_Logs/$container-$1.log
         echo
     done
 
-    if [ ! -z $2 ]; then
-
-        for CONTAINER in ${COUCHDB_CONTAINER_LIST[*]}; do
-            docker logs $CONTAINER >& $WORKSPACE/Docker_Container_Logs/$CONTAINER-$1.log
+    if [[ -n $2 ]]; then
+        for container in ${couchdb_container_list[*]}; do
+            docker logs $container >& $WORKSPACE/Docker_Container_Logs/$container-$1.log
             echo
         done
     fi
 }
 
 copy_logs() {
+    # Call logs function
+    if [[ "$#" -gt 0 ]]; then
+        for arg in "$@"; do
+            logs $arg
+        done
+    fi
 
-# Call logs function
-    logs $2 $3
-
-    if [ $1 != 0 ]; then
+    if [[ $1 != 0 ]]; then
         artifacts
         exit 1
     fi
 }
 
-echo "------> Deleting Containers...."
-# shellcheck disable=SC2046
-docker rm -f $(docker ps -aq)
-echo "------> List Docker Containers"
-docker ps -aq
+# BYFN tests
 
-# Execute below tests
-echo "------> BRANCH: " $GERRIT_BRANCH
-if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRIT_BRANCH = "release-1.3" ]]; then
-
+defaultchannel() {
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
     echo "#########################################################"
     set -x
@@ -93,6 +95,8 @@ if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRI
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+customchannel() {
     echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m ################"
     echo "#########################################################"
     set -x
@@ -101,6 +105,8 @@ if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRI
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+couchdb() {
     echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
     echo "#########################################################################"
     set -x
@@ -109,6 +115,8 @@ if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRI
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+nodechaincode() {
     echo -e "############### \033[1mN O D E-C H A I N C O D E\033[0m ################"
     echo "####################################################################"
     set -x
@@ -116,30 +124,8 @@ if [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRI
     echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
     echo y | ./eyfn.sh -m down
     set +x
-elif [[ $GERRIT_BRANCH = "release-1.0" ]]; then
-    echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m#########################"
-    echo "#################################################################"
-    set -x
-    echo y | ./byfn.sh -m down
-    echo y | ./byfn.sh -m up -t 60; copy_logs $? default-channel
-    echo y | ./byfn.sh -m down
-    set +x
-    echo
-
-    echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m #################"
-    echo "#########################################################"
-    set -x
-    echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
-    set +x
-
-    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################"
-    echo "#########################################################################"
-    set -x
-    echo y | ./byfn.sh -m down
-    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60; copy_logs $? custom-channel-couchdb couchdb
-    echo y | ./byfn.sh -m down
-    set +x
-else
+}
+defaultchannelverbose() {
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
     echo "#########################################################"
     set -x
@@ -149,6 +135,8 @@ else
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+customchannelraft() {
     echo -e "############## \033[1mC U S T O M-C H A N N E L-R A F T\033[0m ################"
     echo "#########################################################"
     set -x
@@ -157,19 +145,52 @@ else
     echo y | ./eyfn.sh -m down
     set +x
     echo
-    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
-    echo "#########################################################################"
+}
+defaultchannel1.0() {
+    echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m#########################"
+    echo "#################################################################"
     set -x
-    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 120 -d 20; copy_logs $? custom-channel-couch couchdb
-    echo y | ./eyfn.sh -m up -c custom-channel-couchdb -s couchdb -t 120 -d 20; copy_logs $? custom-channel-couch couchdb
-    echo y | ./eyfn.sh -m down
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -t 60; copy_logs $? default-channel
+    echo y | ./byfn.sh -m down
     set +x
     echo
-    echo -e "############### \033[1mN O D E-C H A I N C O D E\033[0m ################"
-    echo "####################################################################"
+}
+customchannel1.0() {
+    echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m #################"
+    echo "#########################################################"
     set -x
-    echo y | ./byfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
-    echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
-    echo y | ./eyfn.sh -m down
+    echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
     set +x
+}
+couchdb1.0() {
+    echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################"
+    echo "#########################################################################"
+    set -x
+    echo y | ./byfn.sh -m down
+    echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60; copy_logs $? custom-channel-couchdb couchdb
+    echo y | ./byfn.sh -m down
+    set +x
+}
+
+# Execute the BYFN,EYFN tests
+
+if [[ $GERRIT_BRANCH = "release-1.0" ]]; then
+    defaultchannel1.0
+    customchannel1.0
+    couchdb1.0
+elif [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRIT_BRANCH = "release-1.3" ]]; then
+    defaultchannel
+    customchannel
+    couchdb
+    nodechaincode
+elif [[ $GERRIT_BRANCH = "master" && $ARCH = "s390x" ]]; then
+    defaultchannelverbose
+    customchannelraft
+    nodechaincode
+else
+    defaultchannelverbose
+    customchannelraft
+    couchdb
+    nodechaincode
 fi

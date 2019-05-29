@@ -18,7 +18,7 @@
     cron_time: 'H 23 * * *'
     arch: 's390x'
     build-node: 'z'
-    disable-job: true
+    disable-job: false
 
 - project:
     name: fabric-end-2-end-daily-master-x86_64
