@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -11,8 +11,11 @@
 ##############################################################################
 
 # Get the XML files from the daily builds.
-
-TEST_TYPE=(behave ca pte lte ote)
+if [[ "$GERRIT_BRANCH" =~ ^release-1 ]]; then
+    TEST_TYPE=(behave ca pte lte ote)
+else
+    TEST_TYPE=(behave ca pte lte)
+fi
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do
     # Ignore LineLengthBear
