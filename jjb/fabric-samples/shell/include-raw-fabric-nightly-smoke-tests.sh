@@ -60,13 +60,13 @@ artifacts() {
 # Capture docker logs of each container
 logs() {
 
-    echo -e "\n ===== Collecting logs for test =======\n"
     for container in ${container_list[*]}; do
         docker logs $container.example.com >& $WORKSPACE/Docker_Container_Logs/$container-$1.log
         echo
     done
 
-    if [[ -n $2 ]]; then
+    if [ ! -z $2 ]; then
+
         for container in ${couchdb_container_list[*]}; do
             docker logs $container >& $WORKSPACE/Docker_Container_Logs/$container-$1.log
             echo
@@ -76,14 +76,10 @@ logs() {
 
 copy_logs() {
 
-    # Call logs function
-    if [[ "$#" -gt 0 ]]; then
-        for arg in "$@"; do
-            logs $arg
-        done
-    fi
+# Call logs function
+    logs $2 $3
 
-    if [[ $1 != 0 ]]; then
+    if [ $1 != 0 ]; then
         artifacts
         exit 1
     fi
