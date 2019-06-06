@@ -215,7 +215,8 @@
 
     # Trigger at 8 PM EST
     triggers:
-      - timed: 'H 0 * * *'
+      - pollscm:
+          cron: '{cron_time}'
 
     builders:
       - clean-environment
@@ -235,6 +236,7 @@
 
     publishers:
       - workspace-cleanup
+      - log-artifacts
       - fabric-email-notification:
           email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
@@ -257,7 +259,8 @@
           push-version: '{rel_version}'
 
     triggers:
-      - timed: 'H 0 * * *'
+      - pollscm:
+          cron: '{cron_time}'
 
     builders:
       - clean-environment
