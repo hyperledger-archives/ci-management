@@ -62,7 +62,7 @@
     publishers:
       - lf-infra-publish
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -176,7 +176,7 @@
       - jacoco-coverage-report
       - java-sdk-logs
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -218,7 +218,7 @@
       - jacoco-coverage-report
       - java-sdk-logs
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -249,6 +249,6 @@
       - log-artifacts
       - daily-test-results
       - fabric-submitter-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, scottz@us.ibm.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, scottz@us.ibm.com'
           output_format: ''
           developer-email: 'developer'

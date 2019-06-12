@@ -61,7 +61,7 @@
 
     publishers:
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 

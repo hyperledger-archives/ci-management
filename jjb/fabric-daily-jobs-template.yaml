@@ -55,7 +55,7 @@
     publishers:
       - lf-infra-publish
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'vijaypunugubati@gmail.com, development.brett@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -89,7 +89,7 @@
       - lf-infra-publish
       - code-coverage-report
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -118,7 +118,7 @@
       - log-artifacts
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -145,7 +145,7 @@
       - log-artifacts
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -169,7 +169,7 @@
       - log-artifacts
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -194,7 +194,7 @@
       - log-artifacts
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -238,7 +238,7 @@
       - workspace-cleanup
       - log-artifacts
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''
 
@@ -276,6 +276,6 @@
     publishers:
       - workspace-cleanup
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: ''

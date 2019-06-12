@@ -161,7 +161,7 @@
       - daily-test-results
       - test-logs
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -201,7 +201,7 @@
       - lf-infra-publish
       - daily-test-results
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -243,6 +243,6 @@
       - lf-infra-publish
       - log-artifacts
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, scottz@us.ibm.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, scottz@us.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'

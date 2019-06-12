@@ -241,7 +241,7 @@ the build is complete.**
 
        publishers:
          - fabric-email-notification:
-             email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+             email-ids: 'foo@gmail.com''
              output_format: ''
              developer-email: 'developers'
 

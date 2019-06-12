@@ -69,7 +69,7 @@
       - lf-infra-publish
       - code-coverage-report
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
 
@@ -116,7 +116,7 @@
       - lf-infra-publish
       - fabric-gosec-scan-results
       - fabric-email-notification:
-          email-ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com'
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: '**/*.json'
           developer-email: 'developers'
 

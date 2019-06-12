@@ -50,7 +50,7 @@
     arch: 'x86_64'
     build-node: 'x'
     build-timeout: 50
-    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
+    emaild_ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
 
 - project:
     name: 'fabric-sdk-go-merge-s390x'
@@ -63,4 +63,4 @@
     arch: 's390x'
     build-node: 'z'
     build-timeout: 50
-    emaild_ids: 'sambhavdutt@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
+    emaild_ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
