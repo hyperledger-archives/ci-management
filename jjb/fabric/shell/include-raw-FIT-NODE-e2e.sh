@@ -67,9 +67,9 @@ elif [[ "$GERRIT_BRANCH" = "master" ]]; then
     REPO_NAME=fabric-chaincode-node
     git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
     cd $WD || exit
-    NODE_VER=8.11.3
+    NODE_VER=10.15.3
     nvm install $NODE_VER
-    # use nodejs 8.11.3 version
+    # use nodejs 10.15.3 version
     nvm use --delete-prefix v$NODE_VER --silent
     npm install || err_check "npm install failed"
     npm config set prefix ~/npm || exit 1
