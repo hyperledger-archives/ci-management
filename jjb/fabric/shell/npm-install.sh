@@ -13,10 +13,10 @@
 # Installs NodeJS using NVM from GitHub.
 #
 # Parameters:
-#     NODE_VERSION: (default: 8.11.3)
+#     NODE_VERSION: (default: 10.15.3)
 #     NVM_VERSION: (default: 0.33.2)
 
-NODE_VERSION="${NODE_VERSION:-8.11.3}"
+NODE_VERSION="${NODE_VERSION:-10.15.3}"
 NVM_VERSION="${NVM_VERSION:-0.33.2}"
 
 # Ensure we fail the job if any steps fail.

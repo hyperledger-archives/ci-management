@@ -107,7 +107,7 @@
       - 'golang-environment-{arch}'
       - dockerimages
       - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
+      - pull-nexus-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
       - end-to-end-NODE-daily
@@ -135,7 +135,7 @@
       - 'golang-environment-{arch}'
       - dockerimages
       - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
+      - pull-nexus-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
       - end-to-end-NODE
@@ -160,7 +160,7 @@
       - 'golang-environment-{arch}'
       - dockerimages
       - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
+      - pull-nexus-chaincode-nodeenv-image
       - clone-fabric-samples
       - fabric-byfn-tests
 
@@ -186,7 +186,7 @@
       - 'golang-environment-{arch}'
       - dockerimages
       - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
+      - pull-nexus-chaincode-nodeenv-image
       - end-to-end-NODE-daily
 
     publishers:
@@ -223,7 +223,7 @@
       - output-environment
       - 'golang-environment-{arch}'
       - pull-nexus-chaincode-java-image
-      - fabric-chaincode-nodeenv-image
+      - pull-nexus-chaincode-nodeenv-image
       - fabric-nightly-release-builds
       - fabric-nightly-smoke-build
       - provide-maven-settings:

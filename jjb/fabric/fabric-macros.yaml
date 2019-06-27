@@ -6,7 +6,7 @@
           properties-content: |
             GOPATH=$WORKSPACE/gopath
             JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin
+            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/.nvm/versions/node/v10.15.3/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin
             ARCH=x86_64
 
 - property:
@@ -15,7 +15,7 @@
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/.nvm/versions/node/v10.15.3/bin:$PATH
             ARCH=s390x
 
 - property:
@@ -24,7 +24,7 @@
       - inject:
           properties-content: |
             GOPATH=$WORKSPACE/gopath
-            PATH=$GOROOT/bin:$GOPATH/bin:$HOME/.nvm/versions/node/v6.9.5/bin:$HOME/.nvm/versions/node/v8.9.4/bin:/w/npm/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:$HOME/.nvm/versions/node/v6.9.5/bin:$HOME/.nvm/versions/node/v8.9.4/bin:/w/npm/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/.nvm/versions/node/v10.15.3/bin:$PATH
             ARCH=ppc64le
 
 - property:
@@ -34,7 +34,7 @@
           properties-content: |
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/go1.10.4.linux.s390x
-            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:$PATH
+            PATH=$GOROOT/bin:$GOPATH/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:~/npm/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/.nvm/versions/node/v10.15.3/bin:$PATH
             ARCH=s390x
 
 - property:
@@ -55,7 +55,7 @@
             GOPATH=$WORKSPACE/gopath
             GOROOT=/opt/go/go1.10.4.linux.amd64
             JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
-            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin
+            PATH=$GOROOT/bin:$GOPATH/bin:~/npm/bin:$PATH:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/build/bin:/home/jenkins/.nvm/versions/node/v6.9.5/bin:/home/jenkins/.nvm/versions/node/v8.9.4/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:/home/jenkins/.nvm/versions/node/v8.11.3/bin:/home/jenkins/.nvm/versions/node/v10.15.3/bin:/home/jenkins/npm/lib/node_modules/mocha/bin:$WORKSPACE/gopath/src/github.com/hyperledger/fabric/.build/bin
             ARCH=x86_64
 
 ############
@@ -374,10 +374,10 @@
           !include-raw: shell/include-raw-pull-nexus-chaincode-java.sh
 
 - builder:
-    name: fabric-chaincode-nodeenv-image
+    name: pull-nexus-chaincode-nodeenv-image
     builders:
       - shell:
-          !include-raw: shell/include-raw-build-nodeenv-image.sh
+          !include-raw: shell/include-raw-pull-nexus-nodeenv-image.sh
 
 - builder:
     name: end-to-end-BYFN
