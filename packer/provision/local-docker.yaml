@@ -17,10 +17,6 @@
       command: apt-get remove -y unattended-upgrades
       become: true
 
-    - name: Install Docker Compose {{docker_compose_version}}
-      pip:
-        name: docker-compose=={{docker_compose_version}}
-
 #    - name: 'Install haveged'
 #      apt:
 #        name: haveged
@@ -109,7 +105,7 @@
           - gcc
       become: true
 
-    - name: Install python packages
+    - name: Install Python Packages
       pip:
         name:
           - pip
@@ -143,6 +139,7 @@
           - grpcio
           - jinja2
           - b3j0f.aop
+          - docker-compose=={{docker_compose_version}}
         extra_args: --upgrade
       become: true
 
