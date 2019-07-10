@@ -17,6 +17,18 @@
       command: apt-get remove -y unattended-upgrades
       become: true
 
+    - block:
+      - name: Install Golang
+        get_url:
+          url: https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
+          dest: /usr/local/bin/gimme
+          mode: 0755
+        become: true
+      - command: gimme {{ item }} /opt/go
+        with_items:
+          - 1.12.7
+        become: true
+
 #    - name: 'Install haveged'
 #      apt:
 #        name: haveged
@@ -232,24 +244,15 @@
         state: absent
       become: true
 
-# This does NOT work when I do this here but 'docker pull' works OK at runtime
-# Commenting this out is OK now, but this needs to work as the 'docker pull'
-# takes about 2.5 mins.
-#    - name: Pull Docker Image
-#      docker_image:
-#        name: hyperledger/fabric-zookeeper:amd64-0.4.14
-#      become: true
-
-#    - name: Pull Docker Images
-#      docker_image:
-#        name: "{{ item }}"
-#      with_items:
-#        - hyperledger/fabric-zookeeper:amd64-0.4.14
-#        - hyperledger/fabric-kafka:amd64-0.4.14
-#        - hyperledger/fabric-couchdb:amd64-0.4.14
-#        - hyperledger/fabric-baseimage:amd64-0.4.14
-#        - hyperledger/indy-core-baseci:0.0.1
-#      become: true
+    - name: Pull Docker Images
+      command: docker pull "{{ item }}"
+      with_items:
+        - hyperledger/fabric-zookeeper:amd64-0.4.14
+        - hyperledger/fabric-kafka:amd64-0.4.14
+        - hyperledger/fabric-couchdb:amd64-0.4.14
+        - hyperledger/fabric-baseimage:amd64-0.4.14
+        - hyperledger/indy-core-baseci:0.0.1
+      become: true
 
     # I expect a LF macro to allocate Swap Space. But for now, we do it here
     # We have the additional problem because common-packer uses an agent to build this image
