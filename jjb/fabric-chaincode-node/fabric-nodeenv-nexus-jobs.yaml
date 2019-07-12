@@ -1,0 +1,156 @@
+---
+- project:
+    name: fabric-chaincode-node
+    project: 'fabric-chaincode-node'
+    arch: 'x86_64'
+    jobs:
+      - fabric-nodeenv-x86_64
+      - fabric-nodeenv-s390x
+
+#######################
+# Publish nodeenv image
+#######################
+
+- job-template:
+    name: 'fabric-nodeenv-x86_64'
+    project-type: freestyle
+    node: 'hyp-x'
+    concurrent: true
+    mvn-settings: 'fabric-settings'
+
+    properties:
+      - 'fabric-go-x86_64'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: 'fabric-chaincode-node'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-version:
+          push-version: '2.0.0-stable'
+
+    scm:
+      - gerrit-trigger-github:
+          base-dir: '$BASE_DIR'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          node_ver=10.15.2
+          wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+          echo "------> Install NodeJS"
+          # Install node_ver
+          echo "------> Use $node_ver"
+          nvm install $node_ver
+          nvm use --delete-prefix v$node_ver --silent
+          npm install
+          npm config set prefix ~/npm
+          npm install -g gulp
+
+          echo -e "\033[32m npm version ------> $(npm -v)" "\033[0m"
+          echo -e "\033[32m node version ------> $(node -v)" "\033[0m"
+
+          gulp docker-image-build
+          docker images | grep hyperledger
+          docker ps -a
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          org_name=hyperledger/fabric
+          nexus_url=nexus3.hyperledger.org:10003
+          docker tag $org_name-nodeenv $nexus_url/$org_name-nodeenv:amd64-$PUSH_VERSION
+          docker tag $org_name-nodeenv $nexus_url/$org_name-nodeenv:amd64-latest
+          docker push $nexus_url/$org_name-nodeenv:amd64-latest
+          docker push $nexus_url/$org_name-nodeenv:amd64-$PUSH_VERSION
+
+- job-template:
+    name: 'fabric-nodeenv-s390x'
+    project-type: freestyle
+    node: 'hyp-z'
+    concurrent: true
+    mvn-settings: 'fabric-settings'
+
+    properties:
+      - 'fabric-go-s390x'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: 'fabric-chaincode-node'
+      - gerrit-parameter:
+          branch: 'master'
+      - gerrit-refspec-parameter:
+          refspec: 'refs/heads/$GERRIT_BRANCH'
+      - release-version:
+          push-version: '2.0.0-stable'
+
+    scm:
+      - gerrit-trigger-github:
+          base-dir: '$BASE_DIR'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '240'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          node_ver=10.15.2
+          source /etc/profile.d/nvmrc.sh
+          echo "------> Install NodeJS"
+          # Install node_ver
+          echo "------> Use $node_ver"
+          nvm install $node_ver
+          nvm use --delete-prefix v$node_ver --silent
+          npm install
+          npm config set prefix ~/npm
+          npm install -g gulp
+
+          echo -e "\033[32m npm version ------> $(npm -v)" "\033[0m"
+          echo -e "\033[32m node version ------> $(node -v)" "\033[0m"
+
+          gulp docker-image-build
+          docker images | grep hyperledger
+          docker ps -a
+      - provide-maven-settings:
+          global-settings-file: 'global-settings'
+          fabric-settings-file: '{mvn-settings}'
+      - docker-login
+      - shell: |
+          #!/bin/bash -eu
+
+          cd $BASE_DIR
+          org_name=hyperledger/fabric
+          nexus_url=nexus3.hyperledger.org:10003
+          docker tag $org_name-nodeenv $nexus_url/$org_name-nodeenv:s390x-$PUSH_VERSION
+          docker tag $org_name-nodeenv $nexus_url/$org_name-nodeenv:s390x-latest
+          docker push $nexus_url/$org_name-nodeenv:s390x-latest
+          docker push $nexus_url/$org_name-nodeenv:s390x-$PUSH_VERSION
