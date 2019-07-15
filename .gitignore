@@ -23,3 +23,7 @@ docs/_build/*
 .tox/
 # virtualenv for local testing when test jjb jobs
 .venv
+
+# Packer
+packer/.galaxy
+packer/provision/*.retry

@@ -13,9 +13,9 @@
 
   tasks:
 
-    - name: 'Remove unattended-upgrades'
-      command: apt-get remove -y unattended-upgrades
-      become: true
+#    - name: 'Remove unattended-upgrades'
+#      command: apt-get remove -y unattended-upgrades
+#      become: true
 
     - block:
       - name: Install Golang
@@ -26,8 +26,9 @@
         become: true
       - command: gimme {{ item }} /opt/go
         with_items:
+          - 1.12.5
           - 1.12.7
-        become: true
+      become: true
 
 #    - name: 'Install haveged'
 #      apt:
@@ -41,117 +42,117 @@
 #        enabled: yes
 #      become: true
 
-    - file:
-        path: /var/hyperledger/
-        state: directory
-        mode: 0755
-      become: true
+#    - file:
+#        path: /var/hyperledger/
+#        state: directory
+#        mode: 0755
+#      become: true
 
-    - apt_repository:
-        repo: 'ppa:ubuntu-toolchain-r/test'
-        state: present
-      become: true
+#    - apt_repository:
+#        repo: 'ppa:ubuntu-toolchain-r/test'
+#        state: present
+#      become: true
 
     - name: Install Hyperledger base packages
       apt:
         name:
-          - g++-4.8
-          - build-essential
-          - software-properties-common
-          - curl
-          - sudo
-          - zip
-          - libtool
-          - libsnappy-dev
-          - zlib1g-dev
-          - libbz2-dev
-          - libffi-dev
-          - libssl-dev
-          - python-dev
-          - libyaml-dev
-          - python-pip
-          - haproxy
-          - haproxy-doc
-          - htop
-          - html2text
-          - isag
-          - jq
-          - libdbd-pg-perl
-          - locales-all
-          - mysql-client
-          - mysql-common
-          - mysql-server
-          - postgresql
-          - postgresql-contrib
-          - postgresql-doc
-          - vim-haproxy
-          - zsh
+#          - g++-4.8
+#          - build-essential
+#          - software-properties-common
+#          - sudo
+#          - zip
+#          - libtool
+#          - libsnappy-dev
+#          - zlib1g-dev
+#          - libbz2-dev
+#          - libffi-dev
+#          - libssl-dev
+#          - python-dev
+#          - libyaml-dev
+#          - python-pip
+#          - haproxy
+#          - haproxy-doc
+#          - htop
+#          - html2text
+#          - isag
+#          - jq
+#          - libdbd-pg-perl
+#          - locales-all
+#          - mysql-client
+#          - mysql-common
+#          - mysql-server
+#          - postgresql
+#          - postgresql-contrib
+#          - postgresql-doc
+#          - vim-haproxy
+#          - zsh
           - python-tox
-          - maven
-          - tcl
-          - tclx
-          - tcllib
-          - apparmor
+#          - maven
+#          - tcl
+#          - tclx
+#          - tcllib
+#          - apparmor
           - xmlstarlet
         update_cache: yes
       become: true
 
-    - apt_repository:
-        repo: ppa:jonathonf/python-3.6
-        state: present
-      become: true
+#    - name: Update and upgrade apt packages
+#      apt:
+#        upgrade: yes
+#        update_cache: yes
+#      become: true
 
-    - name: Update and upgrade apt packages
-      apt:
-        upgrade: yes
-        update_cache: yes
-      become: true
-
-    - name: Install Python 3.6 and packages
-      apt:
-        name:
-          - python3.6
-          - python3.6-dev
-          - libssl-dev
-          - libmysqlclient-dev
-          - gcc
+    - block:
+      - apt_repository:
+          repo: ppa:jonathonf/python-3.6
+          state: present
+        become: true
+      - name: Install Python 3.6 and packages
+        apt:
+          name:
+            - python3.6
+            - python3.6-dev
+#            - libssl-dev
+#            - libmysqlclient-dev
+            - gcc
       become: true
 
     - name: Install Python Packages
       pip:
         name:
           - pip
-          - urllib3
-          - pyopenssl
-          - ndg-httpsclient
-          - pyasn1
-          - ecdsa
-          - python-slugify
-          - grpcio-tools
-          - cython
-          - behave
-          - shade
-          - nose
-          - google
-          - protobuf
-          - pyyaml
-          - pykafka
-          - requests
-          - pyexecjs
-          - pluggy
-          - flask
-          - python-dateutil
-          - pytz
-          - pyyaml
-          - couchdb
-          - flask-cors
-          - requests
-          - pysha3
-          - pyopenssl
-          - grpcio
-          - jinja2
-          - b3j0f.aop
+#          - urllib3
+#          - pyopenssl
+#          - ndg-httpsclient
+#          - pyasn1
+#          - ecdsa
+#          - python-slugify
+#          - grpcio-tools
+#          - cython
+#          - behave
+#          - shade
+#          - nose
+#          - google
+#          - protobuf
+#          - pyyaml
+#          - pykafka
+#          - requests
+#          - pyexecjs
+#          - pluggy
+#          - flask
+#          - python-dateutil
+#          - pytz
+#          - pyyaml
+#          - couchdb
+#          - flask-cors
+#          - requests
+#          - pysha3
+#          - pyopenssl
+#          - grpcio
+#          - jinja2
+#          - b3j0f.aop
           - docker-compose=={{docker_compose_version}}
+          - virtualenv
         extra_args: --upgrade
       become: true
 
@@ -175,74 +176,74 @@
 #         command -v nvm
 #      become: true
 
-    - name: Mounting /w volume
-      mount:
-        path:   /w
-        src:    none
-        fstype: tmpfs
-        opts:   defaults,size=3g
-        state:  mounted
-      become: true
+#    - name: Mounting /w volume
+#      mount:
+#        path:   /w
+#        src:    none
+#        fstype: tmpfs
+#        opts:   defaults,size=3g
+#        state:  mounted
+#      become: true
 
-    - name: Install special host entries
-      lineinfile:
-        path: /etc/hosts
-        line: "{{ item }}"
-      with_items:
-        - ''
-        - 127.0.0.1 peer0.org1.example.com peer1.org1.example.com
-        - 127.0.0.1 peer0.org2.example.com peer1.org2.example.com
-        - 127.0.0.1 orderer.example.com
-      become: true
+#    - name: Install special host entries
+#      lineinfile:
+#        path: /etc/hosts
+#        line: "{{ item }}"
+#      with_items:
+#        - ''
+#        - 127.0.0.1 peer0.org1.example.com peer1.org1.example.com
+#        - 127.0.0.1 peer0.org2.example.com peer1.org2.example.com
+#        - 127.0.0.1 orderer.example.com
+#      become: true
 
-    - block:
-      - name: Install softhsm
-        apt:
-          name:
-            - softhsm2
-        become: true
-      - file:
-          path: /var/lib/softhsm/tokens
-          state: directory
-        become: true
-      - name: Add softhsm token
-        command:
-          softhsm2-util --init-token --slot 0 --label ForFabric --so-pin 1234 --pin 98765432
-        become: true
+#    - block:
+#      - name: Install softhsm
+#        apt:
+#          name:
+#            - softhsm2
+#        become: true
+#      - file:
+#          path: /var/lib/softhsm/tokens
+#          state: directory
+#        become: true
+#      - name: Add softhsm token
+#        command:
+#          softhsm2-util --init-token --slot 0 --label ForFabric --so-pin 1234 --pin 98765432
+#        become: true
 
-    - name: Download Rust
-      get_url:
-        url: https://static.rust-lang.org/rustup.sh
-        dest: /tmp/rustup.sh
-        mode: 0755
+#    - name: Download Rust
+#      get_url:
+#        url: https://static.rust-lang.org/rustup.sh
+#        dest: /tmp/rustup.sh
+#        mode: 0755
 
-    - name: Execute Rust script
-      command: /tmp/rustup.sh -y
-      become: true
+#    - name: Execute Rust script
+#      command: /tmp/rustup.sh -y
+#      become: true
 
-    - name: Download npm and fabric node sdk dependencies
-      get_url:
-        url: https://deb.nodesource.com/setup_4.x
-        dest: /tmp/setup_4.x
-        mode: 0755
+#    - name: Download npm and fabric node sdk dependencies
+#      get_url:
+#        url: https://deb.nodesource.com/setup_4.x
+#        dest: /tmp/setup_4.x
+#        mode: 0755
 
-    - name: Execute node dependencies script
-      command: /tmp/setup_4.x
-      become: true
+#    - name: Execute node dependencies script
+#      command: /tmp/setup_4.x
+#      become: true
 
-    - name: Download protoc
-      unarchive:
-        src: https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
-        dest: /usr/local
-        mode: 0755
-        remote_src: yes
-      become: true
+#    - name: Download protoc
+#      unarchive:
+#        src: https://github.com/google/protobuf/releases/download/v3.0.0/protoc-3.0.0-linux-x86_64.zip
+#        dest: /usr/local
+#        mode: 0755
+#        remote_src: yes
+#      become: true
 
-    - name: Remove unused protoc zip
-      file:
-        path: /usr/local/protoc-3.0.0-linux-x86_64.zip
-        state: absent
-      become: true
+#    - name: Remove unused protoc zip
+#      file:
+#        path: /usr/local/protoc-3.0.0-linux-x86_64.zip
+#        state: absent
+#      become: true
 
     - name: Pull Docker Images
       command: docker pull "{{ item }}"
