@@ -17,7 +17,7 @@
     project-name: fabric-sdk-py
     branch: 'master'
     arch: 'x86_64'
-    build-node: 'x-test'
+    build-node: x-docker
     build-timeout: 20
     emaild_ids: ''
 
@@ -33,6 +33,6 @@
     project-name: fabric-sdk-py
     branch: 'master'
     arch: 'x86_64'
-    build-node: 'x-test'
+    build-node: x-docker
     build-timeout: 20
     emaild_ids: ''

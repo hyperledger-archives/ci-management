@@ -15,7 +15,7 @@
     project-name: ci-management
     stream: master
     branch: master
-    build-node: hyp-x-test
+    build-node: hyp-x-builder
     jjb-version: 2.9.1
 
 - project:
@@ -27,7 +27,7 @@
     project-name: 'ci-management'
     branch: master
     archive-artifacts: '**/*.log'
-    build-node: hyp-x-test
+    build-node: hyp-x-builder
 
     platforms:
       - ubuntu-16.04
