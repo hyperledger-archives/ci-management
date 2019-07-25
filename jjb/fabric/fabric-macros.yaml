@@ -69,8 +69,10 @@
       - inject:
           properties-file: $WORKSPACE/gopath/src/github.com/hyperledger/$PROJECT/ci.properties
           properties-content: |
-            GOROOT=/opt/go/go$GO_VER.linux.amd64
-            PATH=$GOROOT/bin:$PATH
+            GOROOT=/opt/go/go${GO_VER}.linux.amd64
+            # Jenkins performs an 'eval' on $PATH (which contains the literal '$GOROOT')
+            # Now that GOROOT is set, it will get expanded.
+            PATH=$PATH
 
 # Set Gopath for s390x arch
 - builder:
@@ -248,6 +250,7 @@
           pgrep -a docker
           docker images
           docker ps -a
+          type go
 
 - builder:
     name: fabric-build-artifacts

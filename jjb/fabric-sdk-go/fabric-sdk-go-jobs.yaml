@@ -18,7 +18,7 @@
     project-name: fabric-sdk-go
     branch: ''
     arch: 'x86_64'
-    build-node: 'x'
+    build-node: 'x-docker'
     build-timeout: 50
     emaild_ids: ''
 
@@ -48,7 +48,7 @@
     project-name: fabric-sdk-go
     branch: ''
     arch: 'x86_64'
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     emaild_ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
 
