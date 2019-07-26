@@ -39,18 +39,17 @@
           timeout: '{build_timeout}'
 
     builders:
-      - lf-infra-pre-build
       - chaincode-java-commit-checks
       - output-environment
       - shell: |
          #!/bin/bash -eu
 
-         echo "----> Executing 'gradlew build'"
+         echo "----> Executing Gradlew Build"
          # gradlew build from fabric-chaincode-java repo
          ./gradlew build
+         echo "----> Gradlew Build Complete"
 
     publishers:
-      - lf-infra-publish
       - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
 
@@ -107,7 +106,6 @@
       - java-doc
 
     publishers:
-      - lf-infra-publish
       - chaincode-java-jacoco-coverage-report
       - java-chaincode-coverage-report
       - cc-java-logs
@@ -169,7 +167,7 @@
     project: fabric-chaincode-java
     branch: ''
     arch: 'x86_64'
-    build_node: hyp-x
+    build_node: hyp-x-docker
     ref_spec: ''
     # Increase or Decrease build time
     build_timeout: 80
@@ -186,7 +184,7 @@
     project: fabric-chaincode-java
     branch: ''
     arch: 'x86_64'
-    build_node: hyp-x
+    build_node: hyp-x-docker
     ref_spec: 'refs/heads/$GERRIT_BRANCH'
     # Increase or Decrease build time
     build_timeout: 80
@@ -196,4 +194,4 @@
     name: fabric-chaincode-java-release-x86_64
     jobs:
       - fabric-chaincode-java-release-x86_64
-    build_node: hyp-x
+    build_node: hyp-x-docker

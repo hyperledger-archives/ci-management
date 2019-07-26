@@ -41,7 +41,7 @@
     project: fabric-chaincode-java
     project-name: fabric-chaincode-java
     arch: 'x86_64'
-    build-node: 'hyp-x'
+    build-node: hyp-x-docker
 
 - project:
     name: fabric-chaincode-node-docker-multiarch-x86_64
@@ -87,5 +87,5 @@
     project: fabric-chaincode-java
     project-name: fabric-chaincode-java
     arch: 'x86_64'
-    build-node: 'hyp-x'
+    build-node: hyp-x-docker
     mvn-settings: 'fabric-chaincode-java-settings'

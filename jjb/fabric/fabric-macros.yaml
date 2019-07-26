@@ -239,9 +239,9 @@
           #!/bin/bash -exu
           set -o pipefail
 
+          echo "----> Tool Status"
           # Output all information about the environment
           uname -a
-          cat /etc/*-release
           env
           gcc --version
           docker version
@@ -250,7 +250,6 @@
           pgrep -a docker
           docker images
           docker ps -a
-          type go
 
 - builder:
     name: fabric-build-artifacts

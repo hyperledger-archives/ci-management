@@ -89,5 +89,5 @@
       - docker-login
       - nexus-multiarch
 
-    publishers:
-      - lf-infra-publish
+#    publishers:
+#      - lf-infra-publish
