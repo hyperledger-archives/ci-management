@@ -18,7 +18,7 @@
     branch: 'master'
     arch: 'x86_64'
     build-node: x-docker
-    build-timeout: 20
+    build-timeout: 30
     emaild_ids: ''
 
 ######
@@ -34,5 +34,5 @@
     branch: 'master'
     arch: 'x86_64'
     build-node: x-docker
-    build-timeout: 20
+    build-timeout: 30
     emaild_ids: ''
