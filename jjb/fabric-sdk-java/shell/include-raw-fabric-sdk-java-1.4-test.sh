@@ -1,4 +1,4 @@
-#!/bin/bash -exu
+#!/bin/bash -eu
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -11,10 +11,13 @@
 ##############################################################################
 set -o pipefail
 
-export WD=${WORKSPACE}
-export GOPATH=$WD/src/test/fixture
-cd $GOPATH
-export ORG_HYPERLEDGER_FABRIC_SDKTEST_VERSION="1.4"
-cd $WD/src/test
-chmod +x cirun.sh
-source cirun.sh
+echo "----> include-raw-fabric-sdk-java-1.4-test.sh"
+
+wd=$WORKSPACE
+cd $wd
+echo "MVN= $MVN"
+WD=$WORKSPACE \
+  GOPATH=$wd/src/test/fixture \
+  PATH=$(dirname "$MVN"):$PATH \
+  ORG_HYPERLEDGER_FABRIC_SDKTEST_VERSION=1.4 \
+  src/test/cirun.sh

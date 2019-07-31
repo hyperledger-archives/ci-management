@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -10,45 +10,128 @@
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+echo "----> include-raw-fabric-sdk-java-end-to-end-tests.sh"
+
 # This script clones the Hyperledger fabric repository,
 # the fabric-ca repository, and runs the end-to-end tests
 # with fabric-sdk-java.
-set -o pipefail
+set -eu -o pipefail
 
 # Clone fabric git repository
 #############################
-clone_fabric() {
+clone_fabric()
+{
+    echo "${FUNCNAME[0]}()"
 
-  rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric
+    local repo_name=fabric
+    local wd="$WORKSPACE/gopath/src/github.com/hyperledger/$repo_name"
+    rm -rf "$wd"
+    git clone "git://cloud.hyperledger.org/mirror/$repo_name" "$wd"
 
-  WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric"
-  REPO_NAME=fabric
+    cd "$wd"
+    if [[ $FABRIC_COMMIT == latest ]]; then
+        echo "Fabric commit is $FABRIC_COMMIT so go with this"
+    else
+        git checkout "$FABRIC_COMMIT"
+    fi
 
-  git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+    fabric_commit_level=$(git log -1 --pretty=format:"%h")
 
-  cd $WD
-
-  if [ "$FABRIC_COMMIT" == "latest" ]; then
-    echo "Fabric commit is $FABRIC_COMMIT so go with this"
-  else
-    git checkout $FABRIC_COMMIT
-    FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-  fi
-
-  FABRIC_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-
-  # Build fabric Docker images
-  set +x
-  GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-  export GOROOT=/opt/go/go$GO_VER.linux.amd64
-  export PATH=$GOROOT/bin:$PATH
-  echo "----> GO_VER" $GO_VER
-  set -x
-  make docker docker-thirdparty
-  docker images | grep hyperledger
+    # Build fabric Docker images
+    local go_ver
+    go_ver=$(grep GO_VER ci.properties | cut -d "=" -f 2)
+    export GOROOT=/opt/go/go$go_ver.linux.amd64
+    local save_path=$PATH
+    if [[ -d $GOROOT/bin ]]; then
+        export PATH=$GOROOT/bin:$save_path
+    else
+        echo "ERROR: GO ($go_ver) is not available"
+        exit 1
+    fi
+    type go
+    echo "make docker-fabric-ca"
+    make docker docker-thirdparty
+    docker images | grep hyperledger
+    PATH=$save_path
+    unset GOROOT
 }
 
-if [ "$GERRIT_BRANCH" = "master" ]; then
+# Clone fabric-ca git repository
+################################
+clone_fabric_ca()
+{
+    echo "${FUNCNAME[0]}()"
+
+    local repo_name=fabric-ca
+    local wd="$WORKSPACE/gopath/src/github.com/hyperledger/$repo_name"
+    rm -rf "$wd"
+    git clone "git://cloud.hyperledger.org/mirror/$repo_name" "$wd"
+
+    cd "$wd"
+    if [[ $FABRIC_CA_COMMIT == latest ]]; then
+        echo "Fabric_CA commit is $FABRIC_COMMIT so go with this"
+    else
+        git checkout "$FABRIC_CA_COMMIT"
+    fi
+
+    ca_commit_level=$(git log -1 --pretty=format:"%h")
+
+    # Build CA Docker Images
+    local go_ver
+    go_ver=$(grep GO_VER ci.properties | cut -d "=" -f 2)
+    export GOROOT=/opt/go/go$go_ver.linux.amd64
+    local save_path=$PATH
+    if [[ -d $GOROOT/bin ]]; then
+        export PATH=$GOROOT/bin:$PATH
+    else
+        echo "ERROR: GO ($go_ver) is not available"
+        exit 1
+    fi
+    type go
+    echo "make docker-fabric-ca"
+    make docker-fabric-ca
+    docker images | grep hyperledger
+    PATH=$save_path
+    unset GOROOT
+}
+
+# Run end-to-end Java SDK tests
+################################
+run_e2e_tests()
+{
+    local wd=$WORKSPACE
+    cd $wd
+    java_sdk_commit_level=$(git log -1 --pretty=format:"%h")
+
+    echo "=======> FABRIC COMMIT NUMBER - $fabric_commit_level =======>" \
+       "FABRIC CA COMMIT NUMBER - $ca_commit_level =======>"           \
+       "FABRIC SDK JAVA COMMIT NUMBER - $java_sdk_commit_level"        \
+       >> commit_history.log
+
+    echo "MVN  == $MVN"
+    # Add MVN to path and execute cirun.sh
+    WD=$WORKSPACE \
+      GOPATH=$wd/src/test/fixture \
+      PATH=$(dirname "$MVN"):$PATH \
+      src/test/cirun.sh
+}
+
+main()
+{
+    # Skip build when the value is true
+    if [[ -z ${FABRIC_NO_BUILD:-} ]]; then
+        clone_fabric
+    fi
+    # Skip build when the value is true
+    if [[ -z ${FABRIC_CA_NO_BUILD:-} ]]; then
+        clone_fabric_ca
+    fi
+    run_e2e_tests
+}
+
+##########  End of Function Definitions  ##########
+
+if [[ $GERRIT_BRANCH == master ]]; then
    export NODE_ENV_VERSION=amd64-2.0.0-stable
    export NODE_ENV_TAG=2.0.0
 
@@ -64,66 +147,7 @@ if [ "$GERRIT_BRANCH" = "master" ]; then
    docker images | grep hyperledger/fabric-nodeenv || true
 fi
 
-# Clone fabric-ca git repository
-################################
-clone_fabric_ca() {
-  rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
-
-  WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
-  CA_REPO_NAME=fabric-ca
-
-  git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
-
-  cd $WD
-
-  if [ "$FABRIC_CA_COMMIT" == "latest" ]; then
-    echo "Fabric_CA commit is $FABRIC_COMMIT so go with this"
-  else
-    git checkout $FABRIC_CA_COMMIT
-    CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-  fi
-
-  CA_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-
-  # Build CA Docker Images
-  set +x
-  GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-  export GOROOT=/opt/go/go$GO_VER.linux.amd64
-  export PATH=$GOROOT/bin:$PATH
-  echo "----> GO_VER" $GO_VER
-  set -x
-  make docker-fabric-ca
-  docker images | grep hyperledger
-}
-
-# Run end-to-end Java SDK tests
-################################
-run_e2e_tests() {
-  export WD=${WORKSPACE}
-  cd $WD
-  JAVA_SDK_COMMIT_LEVEL=$(git log -1 --pretty=format:"%h")
-  echo "=======>" "FABRIC COMMIT NUMBER" "-" $FABRIC_COMMIT_LEVEL "=======>" \
-       "FABRIC CA COMMIT NUMBER" "-" $CA_COMMIT_LEVEL "=======>"             \
-       "FABRIC SDK JAVA COMMIT NUMBER" "-" $JAVA_SDK_COMMIT_LEVEL            \
-       >> commit_history.log
-  export GOPATH=$WD/src/test/fixture
-  cd $WD/src/test
-  source cirun.sh
-}
-
-main() {
-    # Skip build when the value is true
-    if [[ "$FABRIC_NO_BUILD" = "" ]]; then
-          clone_fabric
-    fi
-    # Skip build when the value is true
-    if [[ "$FABRIC_CA_NO_BUILD" = "" ]]; then
-          clone_fabric_ca
-    fi
-  run_e2e_tests
-}
-
 # shellcheck source=/dev/null
-source "${WORKSPACE}/src/test/fabric_test_commitlevel.sh"
+source $WORKSPACE/src/test/fabric_test_commitlevel.sh
 
 main

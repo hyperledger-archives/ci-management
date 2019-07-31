@@ -239,7 +239,7 @@
           #!/bin/bash -exu
           set -o pipefail
 
-          echo "----> Tool Status"
+          echo "----> Output Environment"
           # Output all information about the environment
           uname -a
           env

@@ -10,14 +10,14 @@
     jobs:
       - gerrit-maven-clm:
           nexus-iq-namespace: 'hyp-'
-          build-node: hyp-x
+          build-node: hyp-x-docker
+          build-timeout: 20
       - 'fabric-sdk-java-owasp-weekly-{arch}'
 
     mvn-settings: 'fabric-settings'
     project-name: 'fabric-sdk-java'
     project: 'fabric-sdk-java'
-    arch:
-      - 'x86_64'
+    arch: x86_64
 
 # Verify job
 - project:
@@ -30,7 +30,7 @@
     mvn-settings: fabric-settings
     branch: master
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -44,7 +44,7 @@
     mvn-settings: fabric-settings
     branch: release-1.4
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -59,7 +59,7 @@
     mvn-settings: fabric-settings
     branch: master
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -73,7 +73,7 @@
     mvn-settings: fabric-settings
     branch: release-1.4
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -88,7 +88,7 @@
     mvn-settings: fabric-settings
     branch: master
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -103,7 +103,7 @@
     mvn-settings: fabric-settings
     branch: master
     arch: x86_64
-    build-node: 'x'
+    build-node: x-docker
     build-timeout: 50
     disable-job: false
 
@@ -112,7 +112,7 @@
     name: 'fabric-sdk-java-owasp-weekly-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-docker
     concurrent: true
 
     properties:
@@ -128,6 +128,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: ''
+      - maven-exec:
+          maven-version: '{mvn-version}'
 
     scm:
       - gerrit-trigger-scm:
@@ -139,18 +141,32 @@
     wrappers:
       - hyperledger-infra-wrappers
       - build-timeout:
-          timeout: '60'
+          timeout: 60
 
     builders:
+      - lf-provide-maven-settings:
+          global-settings-file: 'global-settings'
+          settings-file: '{mvn-settings}'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
       - clean-environment
       - pull-nexus-chaincode-java-image
       - fabric-sdk-java-end-to-end-test
       - shell: |
           #!/bin/bash -eu
           cd $WORKSPACE
-          echo -e "\033[1m------> Publishing OWSP Dependency Check html Report\033[0m"
+          echo -e "\033[1m------> Publishing OWASP Dependency Check html Report\033[0m"
           mvn -P owasp verify
-
       - shell: |
           echo "----> ", $(pwd)
           echo "----> ", "$(ls -al)"
@@ -159,7 +175,6 @@
 
     publishers:
       - jacoco-coverage-report
-      - lf-infra-publish
       - java-sdk-logs
       - OWASP-results
       - fabric-email-notification:
