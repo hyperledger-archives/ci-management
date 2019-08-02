@@ -37,8 +37,8 @@ pullChaincodeJavaImage() {
      export JAVA_ENV_TAG=2.0.0
      pulljavaenv nexus3.hyperledger.org:10001/hyperledger
   elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-     export JAVA_ENV_VERSION=amd64-1.4.2
-     export JAVA_ENV_TAG=1.4.2
+     export JAVA_ENV_VERSION=amd64-1.4.3
+     export JAVA_ENV_TAG=1.4.3
      pulljavaenv hyperledger
   else
      export JAVA_ENV_VERSION=amd64-1.3.0
