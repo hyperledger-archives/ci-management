@@ -84,8 +84,8 @@ echo "------> List Docker Containers"
 docker ps -aq
 
 # Execute below tests
-if [ $GERRIT_BRANCH != "release-1.0" ]; then
 
+defaultchannel() {
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
     echo "#########################################################"
     set -x
@@ -95,6 +95,8 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+customchannel() {
     echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m ################"
     echo "#########################################################"
     set -x
@@ -103,6 +105,8 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+couchdb() {
     echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################################"
     echo "#########################################################################"
     set -x
@@ -111,6 +115,8 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo y | ./eyfn.sh -m down
     set +x
     echo
+}
+nodechaincode() {
     echo -e "############### \033[1mN O D E-C H A I N C O D E\033[0m ################"
     echo "####################################################################"
     set -x
@@ -118,7 +124,19 @@ if [ $GERRIT_BRANCH != "release-1.0" ]; then
     echo y | ./eyfn.sh -m up -l node -t 60; copy_logs $? default-channel-node
     echo y | ./eyfn.sh -m down
     set +x
-else
+    echo
+}
+javascriptchaincode() {
+    echo -e "############### \033[1mJ A V A S C R I P T-C H A I N C O D E\033[0m ################"
+    echo "####################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -l javascript -t 60; copy_logs $? default-channel-javascript
+    echo y | ./eyfn.sh -m up -l javascript -t 60; copy_logs $? default-channel-javascript
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+}
+defaultchannel1.0() {
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m#########################"
     echo "#################################################################"
     set -x
@@ -127,13 +145,15 @@ else
     echo y | ./byfn.sh -m down
     set +x
     echo
-
+}
+customchannel1.0() {
     echo -e "############## \033[1mC U S T O M-C H A N N E L\033[0m #################"
     echo "#########################################################"
     set -x
     echo y | ./byfn.sh -m up -c custom-channel -t 60; copy_logs $? custom-channel
     set +x
-
+}
+couchdb1.0() {
     echo -e "############### \033[1mC O U C H D B-T E S T\033[0m ###################"
     echo "#########################################################################"
     set -x
@@ -141,4 +161,25 @@ else
     echo y | ./byfn.sh -m up -c custom-channel-couchdb -s couchdb -t 60; copy_logs $? custom-channel-couchdb couchdb
     echo y | ./byfn.sh -m down
     set +x
-fi
+}
+# Execute the BYFN,EYFN tests
+case $GERRIT_BRANCH in
+  release-1.0)
+    defaultchannel1.0
+    customchannel1.0
+    couchdb1.0
+    ;;
+  "release-1.1" | "release-1.2" | "release-1.3" | "release-1.4")
+    defaultchannel
+    customchannel
+    couchdb
+    nodechaincode
+    ;;
+  master)
+    defaultchannel
+    customchannel
+    couchdb
+    javascriptchaincode
+    ;;
+  *) echo "ERROR: Unknown Gerrit Branch: $GERRIT_BRANCH" ; exit 1;;
+esac

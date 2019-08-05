@@ -122,6 +122,15 @@ nodechaincode() {
     echo y | ./eyfn.sh -m down
     set +x
 }
+javascriptchaincode() {
+    echo -e "############### \033[1mJ A V A S C R I P T-C H A I N C O D E\033[0m ################"
+    echo "####################################################################"
+    set -x
+    echo y | ./byfn.sh -m up -l javascript -t 60; copy_logs $? default-channel-javascript
+    echo y | ./eyfn.sh -m up -l javascript -t 60; copy_logs $? default-channel-javascript
+    echo y | ./eyfn.sh -m down
+    set +x
+}
 defaultchannelverbose() {
     echo -e "############## \033[1mD E F A U L T-C H A N N E L\033[0m ###########"
     echo "#########################################################"
@@ -172,22 +181,36 @@ couchdb1.0() {
 
 # Execute the BYFN,EYFN tests
 
-if [[ $GERRIT_BRANCH = "release-1.0" ]]; then
+case $GERRIT_BRANCH in
+  release-1.0)
     defaultchannel1.0
     customchannel1.0
     couchdb1.0
-elif [[ $GERRIT_BRANCH = "release-1.1" || $GERRIT_BRANCH = "release-1.2" || $GERRIT_BRANCH = "release-1.3" ]]; then
+    ;;
+  "release-1.1" | "release-1.2" | "release-1.3")
     defaultchannel
     customchannel
     couchdb
     nodechaincode
-elif [[ $GERRIT_BRANCH = "master" && $ARCH = "s390x" ]]; then
-    defaultchannelverbose
-    customchannelraft
-    nodechaincode
-else
+    ;;
+  release-1.4)
     defaultchannelverbose
     customchannelraft
     couchdb
     nodechaincode
-fi
+    ;;
+  master)
+    if [[ $ARCH = "x86_64" ]]; then
+      defaultchannelverbose
+      customchannelraft
+      javascriptchaincode
+    elif [[ $ARCH = "s390x" ]]; then
+      defaultchannelverbose
+      customchannelraft
+    else
+      echo "Unknown platform"
+      exit 1
+    fi
+    ;;
+  *) echo "ERROR: Unknown Gerrit Branch: $GERRIT_BRANCH" ; exit 1;;
+esac
