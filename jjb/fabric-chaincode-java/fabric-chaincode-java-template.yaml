@@ -73,6 +73,8 @@
           branch: 'master'
       - gerrit-refspec-parameter:
           refspec: '{ref_spec}'
+      - maven-exec:
+          maven-version: '{mvn-version}'
 
     scm:
       - gerrit-trigger-scm-merge:
@@ -101,6 +103,18 @@
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
       - docker-login
       - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
       - java-doc
@@ -138,6 +152,8 @@
           refspec: 'refs/heads/$GERRIT_BRANCH'
       - release-version:
           push-version: ''
+      - maven-exec:
+          maven-version: '{mvn-version}'
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -149,6 +165,18 @@
       - provide-maven-gradle-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: 'fabric-chaincode-java-settings'
+      - maven-target:
+          maven-version: '{mvn-version}'
+          goals: |
+              {mvn-goals}
+          java-opts:
+            - '{mvn-opts}'
+          properties:
+            - deployAtEnd=true
+          settings: '{mvn-settings}'
+          settings-type: cfp
+          global-settings: 'global-settings'
+          global-settings-type: cfp
       - docker-login
       - shell: !include-raw-escape: shell/include-raw-publish-docker-jar.sh
 
@@ -195,3 +223,4 @@
     jobs:
       - fabric-chaincode-java-release-x86_64
     build_node: hyp-x-docker
+    mvn-settings: 'fabric-chaincode-java-settings'
