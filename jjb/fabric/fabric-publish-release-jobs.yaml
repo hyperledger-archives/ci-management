@@ -35,19 +35,6 @@
     mvn-settings: 'fabric-settings'
 
 # NODEENV release jobs
-- project:
-    name: fabric-nodeenv-release-jobs-s390x
-    jobs:
-      - '{project-name}-nodeenv-release-jobs-{arch}'
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    branch: master
-    arch: 's390x'
-    node: 'z'
-    # Increase or Decrease build time
-    build_timeout: 90
-    mvn-settings: 'fabric-settings'
 
 - project:
     name: fabric-nodeenv-release-jobs-x86_64
