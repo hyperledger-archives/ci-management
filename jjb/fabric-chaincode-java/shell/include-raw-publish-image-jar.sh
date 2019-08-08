@@ -27,7 +27,7 @@ else
 fi
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
-PROJECT_VERSION=$(cat build.gradle | grep "version =" | awk '{print $3}' | tr -d "'")
+PROJECT_VERSION=$(./gradlew -q printVersionName | gsed -n 1p)
 
 echo "========> gradlew build"
 
