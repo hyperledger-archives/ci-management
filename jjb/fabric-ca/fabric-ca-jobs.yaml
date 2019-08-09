@@ -187,7 +187,7 @@
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
 
 - job-template:
     name: 'fabric-ca-gosec-weekly-{arch}'
@@ -234,4 +234,4 @@
       - fabric-email-notification:
           email-ids: 'ashku@us.ibm.com'
           output_format: ''
-          developer-email: 'developers'
+          developer-email: ''
