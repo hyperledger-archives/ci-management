@@ -17,20 +17,3 @@
     branch: master
     build-node: hyp-x-builder
     jjb-version: 2.9.1
-
-- project:
-    name: packer-jobs
-    # packer jobs templates are defined in global-jjb
-    jobs:
-      - '{project-name}-packer-jobs'
-    project: 'ci-management'
-    project-name: 'ci-management'
-    branch: master
-    archive-artifacts: '**/*.log'
-    build-node: hyp-x-builder
-
-    platforms:
-      - ubuntu-16.04
-
-    templates:
-      - baseline
