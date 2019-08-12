@@ -22,19 +22,6 @@
     build-timeout: 50
     emaild_ids: ''
 
-- project:
-    name: 'fabric-sdk-go-verify-s390x'
-    jobs:
-      - 'fabric-sdk-go-verify'
-
-    project: fabric-sdk-go
-    project-name: fabric-sdk-go
-    branch: ''
-    arch: 's390x'
-    build-node: 'z'
-    build-timeout: 50
-    emaild_ids: ''
-
 ######
 # fabric-sdk-go merge jobs on x and z arch
 # These jobs trigger on gerrit "patchset merged" event
@@ -49,18 +36,5 @@
     branch: ''
     arch: 'x86_64'
     build-node: x-docker
-    build-timeout: 50
-    emaild_ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
-
-- project:
-    name: 'fabric-sdk-go-merge-s390x'
-    jobs:
-      - 'fabric-sdk-go-merge'
-
-    project: fabric-sdk-go
-    project-name: fabric-sdk-go
-    branch: ''
-    arch: 's390x'
-    build-node: 'z'
     build-timeout: 50
     emaild_ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com, troy@troyronda.com'
