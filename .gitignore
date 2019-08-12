@@ -27,3 +27,4 @@ docs/_build/*
 # Packer
 packer/.galaxy
 packer/provision/*.retry
+packer/*.log

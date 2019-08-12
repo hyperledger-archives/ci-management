@@ -196,20 +196,20 @@
         - 127.0.0.1 orderer.example.com
       become: true
 
-#    - block:
-#      - name: Install softhsm
-#        apt:
-#          name:
-#            - softhsm2
-#        become: true
-#      - file:
-#          path: /var/lib/softhsm/tokens
-#          state: directory
-#        become: true
-#      - name: Add softhsm token
-#        command:
-#          softhsm2-util --init-token --slot 0 --label ForFabric --so-pin 1234 --pin 98765432
-#        become: true
+    - block:
+      - name: Install softhsm
+        apt:
+          name:
+            - softhsm2
+        become: true
+      - file:
+          path: /var/lib/softhsm/tokens
+          state: directory
+        become: true
+      - name: Add softhsm token
+        command:
+          softhsm2-util --init-token --slot 0 --label ForFabric --so-pin 1234 --pin 98765432
+        become: true
 
 #    - name: Download Rust
 #      get_url:
