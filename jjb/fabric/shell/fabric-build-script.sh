@@ -19,11 +19,11 @@
 
 cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric || exit
 
-vote() {
-    [[ -z ${GERRIT_HOST:-} ]] && return
-    ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
-        $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
-        --notify '"NONE"' "$@"
+vote(){
+     ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+          $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+          --notify '"NONE"' \
+          "$@"
 }
 
 vote -m '"Starting verify build"' -l F1-VerifyBuild=0 -l F3-UnitTest=0 -l F3-IntegrationTest=0 -l F2-DocBuild=0
