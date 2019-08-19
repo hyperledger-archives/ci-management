@@ -27,11 +27,11 @@ echo "---> rtd-verify.sh"
 # DO NOT set -u
 set -xe -o pipefail
 
-vote(){
-     ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
-          $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
-          --notify '"NONE"' \
-          "$@"
+vote() {
+    [[ -z ${GERRIT_HOST:-} ]] && return
+    ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+        $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+        --notify '"NONE"' "$@"
 }
 
 post_Result() {

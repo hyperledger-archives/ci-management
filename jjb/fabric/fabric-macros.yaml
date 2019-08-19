@@ -319,20 +319,19 @@
     name: fabric-unit-tests-verification
     builders:
       - shell: |
-          #!/bin/bash -x
+          #!/bin/bash -eu
 
-          vote(){
-               ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
-                    $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
-                    --notify '"NONE"' \
-                    "$@"
+          vote() {
+              [[ -z ${GERRIT_HOST:-} ]] && return
+              ssh -p 29418 hyperledger-jobbuilder@$GERRIT_HOST gerrit review \
+                  $GERRIT_CHANGE_NUMBER,$GERRIT_PATCHSET_NUMBER \
+                  --notify '"NONE"' "$@"
           }
 
           vote -m '"Starting unit tests"' -l F3-UnitTest=0
           echo -e "\033[1m--------> Unit Tests\033[0m"
-          cd gopath/src/github.com/hyperledger/fabric && time make unit-test
-          res=$(echo $?)
-          if [ $res = 0 ]; then
+          cd gopath/src/github.com/hyperledger/fabric
+          if time make unit-test; then
               vote -m '"Succeeded"' -l F3-UnitTest=+1
           else
               vote -m '"Failed"' -l F3-UnitTest=-1

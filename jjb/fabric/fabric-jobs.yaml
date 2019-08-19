@@ -124,7 +124,7 @@
     name: 'fabric-verify-unit-tests-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-docker
     concurrent: true
 
     properties:
@@ -169,7 +169,7 @@
     name: 'fabric-verify-integration-tests-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-docker
     concurrent: true
 
     properties:
@@ -214,7 +214,7 @@
     name: 'fabric-verify-build-checks-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-docker
     concurrent: true
 
     properties:
@@ -259,7 +259,7 @@
     name: 'fabric-docs-build-{arch}'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-docker
     concurrent: true
 
     properties:
