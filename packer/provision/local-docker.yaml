@@ -26,6 +26,11 @@
         become: true
       - command: gimme {{ item }} /opt/go
         with_items:
+          - 1.7.5
+          - 1.9.2
+          # - 1.10
+          - 1.10.4
+          - 1.11.5
           - 1.12.5
           - 1.12.7
       become: true
@@ -202,6 +207,8 @@
           name:
             - softhsm2
         become: true
+      # Initialize tokens. The 'jenkins' account has to own the config
+      # file and tokens
       - file:
           path: /var/lib/softhsm/tokens
           state: directory
