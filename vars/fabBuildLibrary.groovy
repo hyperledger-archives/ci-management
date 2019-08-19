@@ -115,7 +115,7 @@ def cloneRefSpec(project) {
 
 // Pull Docker images from nexus3
 def pullDockerImages(fabBaseVersion, fabImages) {
-  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+  // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
     try {
       sh """set +x -eu
         echo " ##################### "
@@ -167,12 +167,12 @@ def pullDockerImages(fabBaseVersion, fabImages) {
         currentBuild.result = 'FAILURE'
         throw err
     }
-  }
+  // }
 }
 
 // Pull Thirdparty Docker images from Hyperledger Dockerhub
 def pullThirdPartyImages(baseImageVersion, fabThirdPartyImages) {
-  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+  // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
     try {
       sh """set +x -eu
         echo " ################################### "
@@ -197,11 +197,11 @@ def pullThirdPartyImages(baseImageVersion, fabThirdPartyImages) {
         currentBuild.result = 'FAILURE'
         throw err
     }
-  }
+  // }
 }
 // Pull Binaries into $PROJECT dir
 def pullBinaries(fabBaseVersion, fabRepo) {
-  wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+  // wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
     try {
       sh """set +x -eu
         echo " ######################### "
@@ -242,7 +242,7 @@ def pullBinaries(fabBaseVersion, fabRepo) {
         currentBuild.result = 'FAILURE'
         throw err
     }
-  }
+  // }
 }
 
 // Clone the repository with specific branch name with depth 1(latest commit)
