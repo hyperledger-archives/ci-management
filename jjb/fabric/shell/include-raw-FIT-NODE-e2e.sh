@@ -78,8 +78,8 @@ master)
     docker ps -a
     ;;
 release-1.4 | release-1.3)
-    echo "------> Use $node_ver for $GERRIT_BRANCH"
     node_ver=8.11.3
+    echo "------> Use $node_ver for $GERRIT_BRANCH"
     nvm install $node_ver # use nodejs 8.11.3 version
     nvm use --delete-prefix v$node_ver --silent
     echo -e "\033[32m npm version" "\033[0m"
