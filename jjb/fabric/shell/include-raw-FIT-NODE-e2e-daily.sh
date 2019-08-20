@@ -11,28 +11,31 @@
 ##############################################################################
 set -o pipefail
 
+container_list=(orderer peer0.org1 peer0.org2 ca0 ca1)
 # error check
-err_check() {
-    arg=$*
-    echo "--------> $arg <---------"
+err_and_exit() {
+    echo -e "\033[31mERROR!!! $*" "\033[0m"
+    for container in ${container_list[*]}; do
+        docker logs $container.example.com >&$container.log || true
+    done
+    docker logs couchdb >&couchdb.log
+    grep /w/workspace/${JOB_NAME}/gopath/src/github.com/hyperledger/fabric-sdk-node/test/temp/debug.log >&debug.log
     exit 1
 }
 
-generatecerts () {
+generatecerts() {
     # Generate crypto material before running the tests
     if [[ $arch == "s390x" ]]; then
         # Run the s390x gulp task
-        gulp install-and-generate-certs-s390 || err_check \
-          "ERROR!!! gulp install and generation of test certificates failed"
+        gulp install-and-generate-certs-s390 || err_and_exit "gulp install and generation of test certificates failed"
     else
         # Run the amd64 gulp task
-        gulp install-and-generate-certs || err_check \
-          "ERROR!!! gulp install and generation of test certificates failed"
+        gulp install-and-generate-certs || err_and_exit "gulp install and generation of test certificates failed"
     fi
 }
-function clearContainers () {
+function clearContainers() {
     container_ids=$(docker ps -aq)
-    if [[ -z "$container_ids" || "$container_ids" = " " ]]; then
+    if [[ -z $container_ids || $container_ids == " " ]]; then
         echo "---- No containers available for deletion ----"
     else
         docker rm -f $container_ids || true
@@ -43,7 +46,7 @@ function clearContainers () {
 
 function removeUnwantedImages() {
     docker_image_ids=$(docker images | grep "dev\|none\|test-vp\|peer[0-9]-" | awk '{print $3}')
-    if [[ -z "$docker_image_ids" || "$docker_image_ids" = " " ]]; then
+    if [[ -z $docker_image_ids || $docker_image_ids == " " ]]; then
         echo "---- No images available for deletion ----"
     else
         docker rmi -f $docker_image_ids || true
@@ -62,12 +65,12 @@ git clone git://cloud.hyperledger.org/mirror/$sdk_repo_name $sdk_node_wd
 cd $sdk_node_wd
 git checkout $GERRIT_BRANCH
 sdk_node_commit=$(git log -1 --pretty=format:"%h")
-echo "------> SDK_NODE_COMMIT: $sdk_node_commit"
-echo "sdk_node_commit=======> $sdk_node_commit" >> ${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
+echo "------> sdk_node_commit: $sdk_node_commit"
+echo "sdk_node_commit=======> $sdk_node_commit" >>${WORKSPACE}/gopath/src/github.com/hyperledger/commit.log
 echo "======> ARCH: $arch"
 
 set +e
-if [[ "$arch" = "amd64" || "$arch" = "ppc64le" ]]; then
+if [[ $arch == "amd64" ]]; then
     # Install nvm to install multi node versions
     wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
     export NVM_DIR=$HOME/.nvm
@@ -82,7 +85,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node
 cc_node_wd="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-chaincode-node"
 repo_name=fabric-chaincode-node
 git clone git://cloud.hyperledger.org/mirror/$repo_name $cc_node_wd
-if [[ $GERRIT_BRANCH = master || $GERRIT_BRANCH = release-1.4 ]]; then
+if [[ $GERRIT_BRANCH == "master" || $GERRIT_BRANCH == "release-1.4" ]]; then
     cd $cc_node_wd
     # Checkout to GERRIT_BRANCH
     git checkout $GERRIT_BRANCH
@@ -90,18 +93,26 @@ if [[ $GERRIT_BRANCH = master || $GERRIT_BRANCH = release-1.4 ]]; then
     echo -e "\033[1;32m Intalling Node $node_ver10\033[0m"
     nvm install "$node_ver10"
     nvm use --delete-prefix v$node_ver10 --silent
-    npm install || err_check "npm install failed"
+    npm install || err_and_exit "npm install failed"
     npm config set prefix ~/npm
+    echo -e "\033[32m npm version" "\033[0m"
+    npm -v
+    echo -e "\033[32m node version" "\033[0m"
+    node -v
     npm install -g gulp
     cd $sdk_node_wd
-    npm install || err_check "npm install failed"
+    npm install || err_and_exit "npm install failed"
     npm config set prefix ~/npm
+    echo -e "\033[32m npm version" "\033[0m"
+    npm -v
+    echo -e "\033[32m node version" "\033[0m"
+    node -v
     npm install -g gulp
     echo "#################"
     echo " Run gulp tests"
     echo "#################"
 
-    if [[ $GERRIT_BRANCH = master ]]; then
+    if [[ $GERRIT_BRANCH == "master" ]]; then
         cd $cc_node_wd
         # Build nodeenv image
         gulp docker-image-build
@@ -109,11 +120,14 @@ if [[ $GERRIT_BRANCH = master || $GERRIT_BRANCH = release-1.4 ]]; then
         cd $sdk_node_wd
         generatecerts
         echo -e "\n------> Starting gulp end-to-end tests for node $node_ver10\n"
-        gulp run-end-to-end || err_check "ERROR!!! gulp end-2-end tests failed for node $node_ver10"
+        # The export of this variable is a temporary fix until we can isolate
+        # a failure in the SoftHSM library which applies only to master
+        export PKCS11_TESTS=false
+        gulp run-test-merge || err_and_exit "gulp end-2-end tests failed for node $node_ver10"
     else
         cd $sdk_node_wd
         echo -e "\n------> Starting gulp end-to-end tests for node $node_ver10\n"
-        gulp run-end-to-end || err_check "ERROR!!! gulp end-2-end tests failed for node $node_ver10"
+        gulp run-end-to-end || err_and_exit "gulp end-2-end tests failed for node $node_ver10"
     fi
         rm -rf node_modules package-lock.json
 fi

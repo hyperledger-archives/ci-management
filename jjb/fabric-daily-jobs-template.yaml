@@ -180,6 +180,8 @@
     id: fabric-sdk-node-daily-jobs-release
     <<: *fabric_daily_jobs
 
+    disabled: '{disable-job}'
+
     builders:
       - clean-environment
       - output-environment
