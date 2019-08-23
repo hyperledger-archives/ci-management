@@ -88,8 +88,8 @@ release_Javaenv() {
   publish_Images_Dockerhub
   echo -e "\033[32m Publish images to nexus" "\033[0m"
   publish_Images_Nexus
-  echo -e "\033[32m Publish jar to nexus" "\033[0m"
-  publish_Jar_Nexus
+  # echo -e "\033[32m Publish jar to nexus" "\033[0m"
+  # publish_Jar_Nexus
 }
 
 release_Javaenv
