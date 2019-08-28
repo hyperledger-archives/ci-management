@@ -13,7 +13,7 @@
 - job-template:
     name: 'fabric-nodeenv-x86_64'
     project-type: freestyle
-    node: 'hyp-x'
+    node: 'hyp-x-docker'
     concurrent: true
     mvn-settings: 'fabric-settings'
 
