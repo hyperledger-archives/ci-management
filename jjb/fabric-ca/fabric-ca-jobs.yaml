@@ -15,7 +15,7 @@
       - gerrit-rtd-verify:
           project-name: fabric-ca
           project-pattern: fabric-ca
-          build-node: hyp-x
+          build-node: hyp-x-docker
           build-timeout: 30
           stream: 'job'
           branch: ''

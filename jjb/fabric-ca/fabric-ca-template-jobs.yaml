@@ -125,7 +125,7 @@
     type: 'verify'
     branch: ''
     arch: 'x86_64'
-    build_node: 'x'
+    build_node: x-docker
     comment1: 'reverify-x$'
     comment2: 'reverify$'
     build_timeout: 60
@@ -144,7 +144,7 @@
     type: 'verify'
     branch: ''
     arch: 'x86_64'
-    build_node: 'x'
+    build_node: x-docker
     comment1: 'reverify-fvt$'
     comment2: 'reverify$'
     build_timeout: 60
