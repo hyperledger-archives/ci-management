@@ -226,7 +226,7 @@
       - gerrit-refspec-parameter:
           refspec: ''
       - stable-version:
-          pull-version: '1.3.0-stable'
+          pull-version: ''
 
     triggers:
       - timed: '@weekly'
