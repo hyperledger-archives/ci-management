@@ -8,7 +8,7 @@
 - project:
     name: fabric-chaintool-jobs
     jobs:
-      - 'fabric-chaintool-verify-{arch}'
+      - 'fabric-chaintool-verify-x86_64'
       - 'fabric-chaintool-binaries'
 
     project: 'fabric-chaintool'
@@ -18,14 +18,14 @@
 
 # Verify job
 - job-template:
-    name: 'fabric-chaintool-verify-{arch}'
+    name: 'fabric-chaintool-verify-x86_64'
 
     project-type: freestyle
-    node: 'hyp-{arch}'
+    node: hyp-x-builder
     concurrent: true
 
     properties:
-      - 'fabric-chaintool-{arch}'
+      - fabric-chaintool-x86_64
       - build-discarder:
           days-to-keep: 7
           artifact-days-to-keep: 7
@@ -65,7 +65,7 @@
     name: 'fabric-chaintool-binaries'
 
     project-type: freestyle
-    node: 'hyp-x'
+    node: hyp-x-builder
     concurrent: true
 
     properties:
