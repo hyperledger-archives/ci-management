@@ -249,7 +249,6 @@
     wrappers:
       - timestamps
       - mask-passwords
-      - ansicolor
       - ssh-agent-credentials:
           users:
             - 'hyperledger-jobbuilder'

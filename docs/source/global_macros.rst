@@ -78,7 +78,7 @@ output.**
 
 -  This wrapper is required for all jobs as it configures the wrappers
    needed by all Hyperledger infra. This sets the ``timestamps``,
-   ``mask-passwords``, ``ansicolor``, ``openstack: single-use: true``
+   ``mask-passwords``, ``openstack: single-use: true``
    and set ``ssh-agent-credentials user to hyperledger-jobbuilder``
 
    ::
