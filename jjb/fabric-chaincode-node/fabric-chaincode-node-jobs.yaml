@@ -24,33 +24,9 @@
     job_type: 'verify'
     jenkins_file: Jenkinsfile.x
 
-- project:
-    name: fabric-chaincode-node-verify-s390x
-    jobs:
-      - 'fab-pipeline-verify'
-
-    project: fabric-chaincode-node
-    branch: ''
-    arch: 's390x'
-    build_node: 'z'
-    job_type: 'verify'
-    jenkins_file: Jenkinsfile.z
-
 #########################
 # Merge Job Configuration
 #########################
-
-- project:
-    name: fabric-chaincode-node-merge-s390x
-    jobs:
-      - 'fab-pipeline-merge'
-
-    project: fabric-chaincode-node
-    branch: ''
-    arch: 's390x'
-    build_node: 'z'
-    job_type: 'merge'
-    jenkins_file: Jenkinsfile.z
 
 - project:
     name: fabric-chaincode-node-merge-x86_64
