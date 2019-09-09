@@ -31,7 +31,7 @@
     branch: master
     arch: x86_64
     build-node: x-docker
-    build-timeout: 50
+    build-timeout: 120
     disable-job: false
 
 - project:
@@ -60,7 +60,7 @@
     branch: master
     arch: x86_64
     build-node: x-docker
-    build-timeout: 50
+    build-timeout: 120
     disable-job: false
 
 - project:
@@ -89,7 +89,7 @@
     branch: master
     arch: x86_64
     build-node: x-docker
-    build-timeout: 50
+    build-timeout: 120
     disable-job: false
 
 # Merge 1.4 job
@@ -104,7 +104,7 @@
     branch: master
     arch: x86_64
     build-node: x-docker
-    build-timeout: 50
+    build-timeout: 120
     disable-job: false
 
 # fabric-sdk-java weekly job
