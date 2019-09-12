@@ -12,11 +12,10 @@ set -o pipefail
 ##############################################################################
 
 checkout_project() {
-    cd $WORKSPACE/gopath/src/github.com/hyperledger
-    local repo_name=fabric-test
-    rm -rf $repo_name
-    git clone git://cloud.hyperledger.org/mirror/$repo_name
-    cd $repo_name
+    wd="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+    rm -rf $wd
+    git clone git://cloud.hyperledger.org/mirror/fabric-test $wd
+    cd $wd
     git checkout $GERRIT_BRANCH
 }
 
