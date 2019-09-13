@@ -14,7 +14,7 @@
 if [[ "$GERRIT_BRANCH" =~ ^release-1 ]]; then
     TEST_TYPE=(behave ca pte lte ote)
 else
-    TEST_TYPE=(behave ca pte lte)
+    TEST_TYPE=(behave ca pte lte ote)
 fi
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do
