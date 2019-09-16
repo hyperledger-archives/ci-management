@@ -130,7 +130,6 @@
             - trigger-builds:
                 - project:
                     - fabric-test-daily-lte-master-x86_64
-                    - fabric-test-daily-ote-master-x86_64
                     - fabric-test-daily-pte-master-x86_64
                     - fabric-test-daily-behave-master-x86_64
                     - fabric-test-daily-ca-master-x86_64
