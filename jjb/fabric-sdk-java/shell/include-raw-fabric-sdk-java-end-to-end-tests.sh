@@ -15,7 +15,7 @@ echo "----> include-raw-fabric-sdk-java-end-to-end-tests.sh"
 # This script clones the Hyperledger fabric repository,
 # the fabric-ca repository, and runs the end-to-end tests
 # with fabric-sdk-java.
-set -eu -o pipefail
+set -e -o pipefail
 
 # Clone fabric git repository
 #############################
