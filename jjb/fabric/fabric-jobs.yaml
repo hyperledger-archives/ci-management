@@ -348,9 +348,9 @@
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
+      - end-to-end-BYFN
       - end-to-end-NODE
       - end-to-end-JAVA
-      - end-to-end-BYFN
 
     publishers:
       - lf-infra-publish

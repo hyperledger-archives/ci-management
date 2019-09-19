@@ -146,6 +146,16 @@ customchannelraft() {
     echo -e "############## \033[1mC U S T O M-C H A N N E L-R A F T\033[0m ################"
     echo "#########################################################"
     set -x
+    echo y | ./byfn.sh -m up -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
+    echo y | ./eyfn.sh -m up -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
+    echo y | ./eyfn.sh -m down
+    set +x
+    echo
+}
+customchannelraft1.4() {
+    echo -e "############## \033[1mC U S T O M-C H A N N E L-R A F T\033[0m ################"
+    echo "#########################################################"
+    set -x
     echo y | ./byfn.sh -m up -o etcdraft -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
     echo y | ./eyfn.sh -m up -c custom-channel-etcdraft -t 120 -d 20; copy_logs $? custom-channel-etcdraft
     echo y | ./eyfn.sh -m down
@@ -195,22 +205,14 @@ case $GERRIT_BRANCH in
     ;;
   release-1.4)
     defaultchannelverbose
-    customchannelraft
+    customchannelraft1.4
     couchdb
     nodechaincode
     ;;
   master)
-    if [[ $ARCH = "x86_64" ]]; then
-      defaultchannelverbose
-      customchannelraft
-      javascriptchaincode
-    elif [[ $ARCH = "s390x" ]]; then
-      defaultchannelverbose
-      customchannelraft
-    else
-      echo "Unknown platform"
-      exit 1
-    fi
+    defaultchannelverbose
+    customchannelraft
+    javascriptchaincode
     ;;
   *) echo "ERROR: Unknown Gerrit Branch: $GERRIT_BRANCH" ; exit 1;;
 esac
