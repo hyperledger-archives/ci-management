@@ -113,10 +113,10 @@ if [[ $GERRIT_BRANCH == "master" || $GERRIT_BRANCH == "release-1.4" ]]; then
     echo "#################"
 
     if [[ $GERRIT_BRANCH == "master" ]]; then
-        cd $cc_node_wd
+        # cd $cc_node_wd
         # Build nodeenv image
-        gulp docker-image-build
-        docker images | grep hyperledger && docker ps -a
+        # gulp docker-image-build
+        # docker images | grep hyperledger && docker ps -a
         cd $sdk_node_wd
         generatecerts
         echo -e "\n------> Starting gulp end-to-end tests for node $node_ver10\n"

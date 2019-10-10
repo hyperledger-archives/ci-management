@@ -73,9 +73,9 @@ master)
     echo -e "\033[32m node version" "\033[0m"
     node -v
     npm install -g gulp
-    gulp docker-image-build # Build nodeenv image
-    docker images | grep hyperledger
-    docker ps -a
+    # gulp docker-image-build # Build nodeenv image
+    # docker images | grep hyperledger
+    # docker ps -a
     ;;
 release-1.4 | release-1.3)
     node_ver=8.11.3
