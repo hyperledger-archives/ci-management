@@ -60,14 +60,14 @@
           nvm use --delete-prefix v$node_ver --silent
           npm install
           npm config set prefix ~/npm
-          npm install -g gulp
 
           echo -e "\033[32m npm version ------> $(npm -v)" "\033[0m"
           echo -e "\033[32m node version ------> $(node -v)" "\033[0m"
 
-          gulp docker-image-build
+          npm install -g @microsoft/rush
+          rush update
+          rush build
           docker images | grep hyperledger
-          docker ps -a
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

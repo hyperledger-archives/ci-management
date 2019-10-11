@@ -36,37 +36,17 @@ err_check() {
 }
 
 build_Images() {
-    if [[ $ARCH == "s390x" || $ARCH == "ppc64le" ]]; then
-        NODE_VER=10.15.2
-        # Source nvmrc.sh
-        source /etc/profile.d/nvmrc.sh
-        echo "------> Install NodeJS"
-        # This also depends on the fabric-baseimage. Make sure you modify there as well.
-        echo "------> Use $NODE_VER"
-        nvm install $NODE_VER || true
-        nvm use --delete-prefix v$NODE_VER --silent
-
-        echo -e "\033[32m npm version ------> $(npm -v)" "\033[0m"
-        echo -e "\033[32m node version ------> $(node -v)" "\033[0m"
-
-        npm install || err_Check "ERROR!!! npm install failed"
-        npm config set prefix ~/npm && npm install -g gulp
-        gulp docker-image-build
-        docker images | grep hyperledger
-
-    else
-
         NODE_VER=10.15.2
         nvm install $NODE_VER
         # use nodejs 10.15.2 version
         nvm use --delete-prefix v$NODE_VER --silent
         npm install || err_check "npm install failed"
         npm config set prefix ~/npm || exit 1
-        npm install -g gulp || exit 1
         # Build nodeenv image
-        gulp docker-image-build
+        npm install -g @microsoft/rush
+        rush update
+        rush build
         docker images | grep hyperledger
-    fi
 }
 
 publish_Images_Dockerhub() {
