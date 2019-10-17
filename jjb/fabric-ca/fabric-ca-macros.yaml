@@ -1,60 +1,9 @@
 ---
 - builder:
-    name: ca-unit-tests-s390x
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          # yamllint disable-line rule:line-length
-          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/ca-bundle
-          # yamllint disable-line rule:line-length
-          rm -rf gopath/src/github.com/hyperledger/fabric-ca/vendor/github.com/cloudflare/cfssl/vendor/github.com/cloudflare/cfssl_trust/intermediate_ca
-          rm -rf $GOPATH/src/golang.org
-
-          cd gopath/src/github.com/hyperledger/fabric-ca
-          echo -e "\033[1m--------> Unit Tests\033[0m"
-          make unit-test docs
-
-- builder:
-    name: ca-unit-tests-x86_64
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-          set -o pipefail
-
-          cd gopath/src/github.com/hyperledger/fabric-ca
-          echo -e "\033[1m--------> Unit & Integration Tests\033[0m"
-          make dist-all unit-test int-tests docs
-
-- builder:
-    name: ca-fvt-tests-x86_64
-    builders:
-      - shell: |
-          #!/bin/bash -eu
-
-          cd gopath/src/github.com/hyperledger/fabric-ca
-
-            if [[ $GERRIT_BRANCH == "master" ]]; then
-                echo -e "\033[1m--------> FVT Tests\033[0m"
-                make fvt-tests
-            else
-                echo -e "\033[1m--------> FVT Tests\033[0m"
-                make docker-clean docker-fvt
-                docker run -v $PWD:/opt/gopath/src/github.com/hyperledger/fabric-ca hyperledger/fabric-ca-fvt
-            fi
-
-- builder:
     name: push-fabric-ca-binaries
     builders:
       - shell:
           !include-raw: shell/include-raw-push-fabric-ca-binaries.sh
-
-- builder:
-    name: fabric-ca-nexus-docker-release
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-fabric-ca-nexus-docker-images.sh
 
 - builder:
     name: ca-clone
@@ -70,6 +19,12 @@
           cd $WD && CA_COMMIT=$(git log -1 --pretty=format:"%h")
           echo "CA_COMMIT =========> $CA_COMMIT"
           echo
+
+- builder:
+    name: fabric-ca-nexus-docker-release
+    builders:
+      - shell:
+          !include-raw: shell/include-raw-fabric-ca-nexus-docker-images.sh
 
 - builder:
     name: dockercaimages

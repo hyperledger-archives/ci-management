@@ -34,21 +34,3 @@
     build_timeout: 60
     image: test-viewer
     mvn-settings: 'fabric-settings'
-
-#############
-# release-1.1
-############
-
-- project:
-    name: fabric-test-publish-pte-release-1.1-x86_64
-    jobs:
-      - '{project-name}-publish-{image}-{branch}-{arch}'
-
-    project: fabric-test
-    project-name: fabric-test
-    branch: release-1.1
-    arch: x86_64
-    release_version: 1.1.0
-    build_timeout: 60
-    image: pte
-    mvn-settings: 'fabric-settings'
