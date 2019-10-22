@@ -47,7 +47,7 @@ rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
 
 WD2="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
 CA_REPO_NAME=fabric-ca
-git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD2
+git clone https://github.com/hyperledger/$CA_REPO_NAME.git $WD2
 cd $WD2
 if [ "$FABRIC_CA_COMMIT" == "latest" ]; then
     echo "Fabric_CA commit is $FABRIC_COMMIT so go with this"

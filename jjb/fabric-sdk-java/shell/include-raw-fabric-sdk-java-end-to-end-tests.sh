@@ -65,7 +65,7 @@ clone_fabric_ca()
     local repo_name=fabric-ca
     local wd="$WORKSPACE/gopath/src/github.com/hyperledger/$repo_name"
     rm -rf "$wd"
-    git clone "git://cloud.hyperledger.org/mirror/$repo_name" "$wd"
+    git clone "https://github.com/hyperledger/$repo_name.git" "$wd"
 
     cd "$wd"
     if [[ $FABRIC_CA_COMMIT == latest ]]; then

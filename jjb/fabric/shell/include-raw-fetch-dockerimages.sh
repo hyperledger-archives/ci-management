@@ -70,7 +70,7 @@ echo
 FABRIC_CA_WD=$WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca
 rm -rf $FABRIC_CA_WD
 # Clone fabric-ca repository with single branch
-git clone --single-branch -b $GERRIT_BRANCH git://cloud.hyperledger.org/mirror/fabric-ca $FABRIC_CA_WD
+git clone --single-branch -b $GERRIT_BRANCH https://github.com/hyperledger/fabric-ca.git $FABRIC_CA_WD
 cd $FABRIC_CA_WD
 
 # Print last two commits

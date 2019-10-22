@@ -17,7 +17,7 @@ WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples"
 REPO_NAME=fabric-samples
 
 echo "######## Cloning fabric-samples ########"
-git clone git://cloud.hyperledger.org/mirror/$REPO_NAME $WD
+git clone https://github.com/hyperledger/$REPO_NAME.git $WD
 cd $WD || exit
 git checkout $GERRIT_BRANCH
 

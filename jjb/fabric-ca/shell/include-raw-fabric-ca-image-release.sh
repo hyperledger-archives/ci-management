@@ -21,7 +21,7 @@ clone_Fabric_ca () {
  rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca
  WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-ca"
  CA_REPO_NAME=fabric-ca
- git clone git://cloud.hyperledger.org/mirror/$CA_REPO_NAME $WD
+ git clone https://github.com/hyperledger/$CA_REPO_NAME $WD
  cd $WD || exit
  git checkout $GERRIT_BRANCH && git checkout $RELEASE_COMMIT
  # Checkout to the branch and checkout to release commit
