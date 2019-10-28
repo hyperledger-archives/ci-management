@@ -56,6 +56,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - shell: |
@@ -108,6 +109,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - fabric-gosec-scan
@@ -158,6 +160,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - fabric-unit-tests-verification
@@ -203,6 +206,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - fabric-integration-tests-verification
@@ -247,8 +251,9 @@
       - hyperledger-infra-wrappers
 
     builders:
-      - 'golang-environment-{arch}'
       - clean-environment
+      - install-go
+      - 'golang-environment-{arch}'
       - output-environment
       - fabric-build-artifacts
 
@@ -344,6 +349,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
