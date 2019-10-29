@@ -9,7 +9,6 @@
     name: ci-management-jobs
     jobs:
       - '{project-name}-ci-jobs'
-      - 'gerrit-tox-verify'
 
     project: 'ci-management'
     project-name: ci-management
