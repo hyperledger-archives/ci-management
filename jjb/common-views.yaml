@@ -23,13 +23,6 @@
       - common-view
 
 - project:
-    name: fabric-samples
-    view-name: fabric-samples
-    view-regex: '^fabric-byfn-.*|^fabric-samples-.*'
-    views:
-      - common-view
-
-- project:
     name: fabric-baseimage
     view-name: fabric-baseimage
     view-regex: 'fabric-baseimage-.*|fabric-thirdparty-image-release-.*'
