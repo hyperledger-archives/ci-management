@@ -39,8 +39,8 @@ fi
 
 if [[ "$GERRIT_BRANCH" = "master" && "$ARCH" = "s390x" ]]; then
     for image in kafka zookeeper; do
-        docker pull hyperledger/fabric-$image:s390x-0.4.16
-        docker tag hyperledger/fabric-$image:s390x-0.4.16 hyperledger/fabric-$image
+        docker pull hyperledger/fabric-$image:s390x-0.4.17
+        docker tag hyperledger/fabric-$image:s390x-0.4.17 hyperledger/fabric-$image
     done
 else
     make -C $BASE_WD/fabric docker-thirdparty
