@@ -87,19 +87,16 @@
 ##############
 
 - project:
-    name: fabric-test-daily-behave-release-1.4-x86_64
+    name: fabric-test-daily-release-1.4-x86_64
     jobs:
-      - '{project-name}-daily-{test}-{job_branch}-{arch}'
+      - '{project-name}-daily-{job_branch}-{arch}'
 
     project: fabric-test
     project-name: fabric-test
     branch: release-1.4
     job_branch: release-1.4
     arch: x86_64
-    test: behave
     stable-tag: amd64-1.4.4-stable
-    target: svt-daily-behave-tests
-    rel_version: 1.4.1-stable
 
 - project:
     name: fabric-test-daily-pte-release-1.4-x86_64
@@ -114,7 +111,7 @@
     test: pte
     stable-tag: amd64-1.4.4-stable
     target: svt-daily-pte-tests
-    rel_version: 1.4.1-stable
+    rel_version: ''
 
 - project:
     name: fabric-test-daily-lte-release-1.4-x86_64
@@ -129,7 +126,7 @@
     test: lte
     stable-tag: amd64-1.4.4-stable
     target: svt-daily-lte-tests
-    rel_version: 1.4.1-stable
+    rel_version: ''
 
 - project:
     name: fabric-test-daily-ote-release-1.4-x86_64
@@ -144,7 +141,7 @@
     test: ote
     stable-tag: amd64-1.4.4-stable
     target: svt-daily-ote-tests
-    rel_version: 1.4.1-stable
+    rel_version: ''
 
 - project:
     name: fabric-test-daily-ca-release-1.4-x86_64
@@ -159,7 +156,7 @@
     test: ca
     stable-tag: amd64-1.4.4-stable
     target: svt-daily-ca-tests
-    rel_version: 1.4.1-stable
+    rel_version: ''
 
 #############
 # master

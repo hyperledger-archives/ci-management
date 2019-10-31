@@ -246,3 +246,73 @@
           email-ids: 'development.brett@gmail.com, scottz@us.ibm.com, vijaypunugubati@gmail.com'
           output_format: ''
           developer-email: 'developers'
+
+- job-template:
+    name: '{project-name}-daily-{job_branch}-{arch}'
+
+    project-type: freestyle
+    node: 'hyp-{arch}'
+    concurrent: true
+
+    properties:
+      - 'fabric-go-{arch}'
+      - build-discarder:
+          days-to-keep: 7
+          artifact-days-to-keep: 7
+
+    parameters:
+      - project-parameter:
+          project: '{project}'
+      - gerrit-parameter:
+          branch: '{branch}'
+      - gerrit-refspec-parameter:
+          refspec: ''
+      - stable-version:
+          pull-version: '{stable-tag}'
+      - git-commit:
+          commit: ''
+
+    triggers:
+      - timed: 'H 1 * * *'
+
+    wrappers:
+      - hyperledger-infra-wrappers
+      - build-timeout:
+          timeout: '840'
+
+    builders:
+      - clean-environment
+      - output-environment
+      - shell: |
+         #!/bin/bash -e
+
+         rm -rf $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
+         WD="$WORKSPACE/gopath/src/github.com/hyperledger/fabric-test"
+         FABRIC_TEST_REPO_NAME=fabric-test
+         git clone --single-branch -b $GERRIT_BRANCH --depth=1 git://cloud.hyperledger.org/mirror/$FABRIC_TEST_REPO_NAME $WD
+         cd $WD
+         git checkout $GERRIT_BRANCH
+         FABRIC_TEST_COMMIT=$(git rev-parse --short HEAD)
+         echo "------> FABRIC_TEST_COMMIT : $FABRIC_TEST_COMMIT"
+         echo "------> BRANCH: $GERRIT_BRANCH"
+         # Fetch Go Version from fabric ci.properties file
+         curl -L https://raw.githubusercontent.com/hyperledger/fabric/$GERRIT_BRANCH/ci.properties > ci.properties
+         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
+         OS_VER=$(dpkg --print-architecture)
+         echo "------> ARCH: $OS_VER"
+         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
+         export PATH=$GOROOT/bin:$PATH
+         echo "------> GO_VER" $GO_VER
+         # Execute Make target from fabric-test Makefile
+         LATEST_TAG=$STABLE_VERSION
+         echo "========> LATEST_TAG: $LATEST_TAG"
+         make svt-daily-behave-tests
+
+    publishers:
+      - lf-infra-publish
+      - daily-test-results
+      - test-logs
+      - fabric-email-notification:
+          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
+          output_format: ''
+          developer-email: 'developers'
