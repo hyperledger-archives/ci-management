@@ -33,11 +33,11 @@ export_Go() {
 # Build fabric images
 publish_Multiarch() {
 
-  # Remove manifest-tool
-  rm -rf github.com/estesp/manifest-tool
   # Install manifest-tool
-  go get github.com/estesp/manifest-tool
-  go install github.com/estesp/manifest-tool
+  wget -q https://github.com/estesp/manifest-tool/releases/download/v1.0.0/manifest-tool-linux-amd64
+  mv manifest-tool-linux-amd64 "${GOPATH}/bin/manifest-tool"
+  chmod +x "${GOPATH}/bin/manifest-tool"
+
   cd $WD/scripts
   BASE_VERSION=$PUSH_VERSION TWO_DIGIT_VERSION=$TWO_DIGIT_VERSION ./multiarch.sh $DOCKER_HUB_USERNAME $DOCKER_HUB_PASSWORD
   cd -
