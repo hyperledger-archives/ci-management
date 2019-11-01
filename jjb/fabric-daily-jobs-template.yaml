@@ -69,6 +69,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - 'golang-environment-{arch}'
       - output-environment
       - shell: |
@@ -103,6 +104,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - dockerimages
@@ -131,6 +133,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - dockerimages
@@ -156,6 +159,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - dockerimages
@@ -184,6 +188,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - dockerimages
@@ -222,6 +227,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - pull-nexus-chaincode-java-image
@@ -266,6 +272,7 @@
 
     builders:
       - clean-environment
+      - install-go
       - output-environment
       - 'golang-environment-{arch}'
       - provide-maven-settings:
