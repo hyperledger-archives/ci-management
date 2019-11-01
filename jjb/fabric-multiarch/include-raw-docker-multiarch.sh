@@ -34,6 +34,7 @@ export_Go() {
 publish_Multiarch() {
 
   # Install manifest-tool
+  mkdir -p "${GOPATH}/bin"
   wget -q https://github.com/estesp/manifest-tool/releases/download/v1.0.0/manifest-tool-linux-amd64
   mv manifest-tool-linux-amd64 "${GOPATH}/bin/manifest-tool"
   chmod +x "${GOPATH}/bin/manifest-tool"
