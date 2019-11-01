@@ -45,8 +45,8 @@ build_Fabric() {
 
 pull_kafkazookeeper() {
     for image in kafka zookeeper; do
-        docker pull hyperledger/fabric-$image:s390x-0.4.16
-        docker tag hyperledger/fabric-$image:s390x-0.4.16 hyperledger/fabric-$image
+        docker pull hyperledger/fabric-$image:s390x-0.4.17
+        docker tag hyperledger/fabric-$image:s390x-0.4.17 hyperledger/fabric-$image
     done
 }
 
