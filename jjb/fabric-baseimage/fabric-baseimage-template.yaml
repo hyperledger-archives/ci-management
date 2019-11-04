@@ -52,13 +52,6 @@
             fi
           done
 
-    publishers:
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: ''
-
 - job-template:
     name: '{project-name}-merge-docker-{arch}'
 
@@ -99,22 +92,17 @@
     builders:
       - clean-environment
       - output-environment
-      - fetchbaseimages
-      - pull-nexus-chaincode-java-image
-      - pull-nexus-chaincode-nodeenv-image
-      - clone-fabric-samples
-      - fabric-byfn-tests
       - shell: |
               #!/bin/bash -exu
-              set -o pipefail
-              cd gopath/src/github.com/hyperledger/fabric && time make unit-test-clean peer-docker ccenv && ./unit-test/run.sh
-
-    publishers:
-      - lf-infra-publish
-      - fabric-email-notification:
-          email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'
+              cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-baseimage
+              for IMAGES in docker dependent-images; do
+              make $IMAGES
+                if [ $? != 0 ]; then
+                  echo "----------> make $IMAGES failed"
+                else
+                  echo "----------> succesfully build make $IMAGES"
+                fi
+              done
 
 - job-template:
     name: '{project-name}-{arch}-release-jobs'
