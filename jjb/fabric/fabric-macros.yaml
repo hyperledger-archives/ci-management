@@ -119,6 +119,13 @@
       - shell: !include-raw: shell/include-raw-fabric-ca-nexus-publish.sh
 
 - builder:
+    name: down-stream-jobs-release-1.4-s390x
+    builders:
+      - shell: |
+          #!/bin/bash
+          echo "-----------> Don't Trigger tests on release-1.4 s390x platform"
+
+- builder:
     name: down-stream-jobs-master-x86_64
     builders:
       - conditional-step:
@@ -129,63 +136,12 @@
           steps:
             - trigger-builds:
                 - project:
-                    - fabric-test-daily-lte-master-x86_64
-                    - fabric-test-daily-pte-master-x86_64
-                    - fabric-test-daily-behave-master-x86_64
-                    - fabric-test-daily-ca-master-x86_64
+                    # - fabric-test-daily-lte-master-x86_64
+                    # - fabric-test-daily-pte-master-x86_64
+                    # - fabric-test-daily-behave-master-x86_64
+                    # - fabric-test-daily-ca-master-x86_64
                   predefined-parameters:
                     GIT_COMMIT=$GIT_COMMIT
-
-- builder:
-    name: down-stream-jobs-master-s390x
-    builders:
-      - shell: |
-          #!/bin/bash
-
-          echo "-----------> Don't Trigger tests on master s390x platform"
-
-- builder:
-    name: down-stream-jobs-release-1.2-s390x
-    builders:
-      - shell: |
-          #!/bin/bash
-
-          echo "-----------> Don't Trigger tests on master s390x platform"
-
-- builder:
-    name: down-stream-jobs-release-1.3-x86_64
-    builders:
-      - conditional-step:
-          condition-kind: current-status
-          condition-worst: FAILURE
-          condition-best: SUCCESS
-          on-evaluation-failure: fail
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-test-daily-lte-release-1.3-x86_64
-                    - fabric-test-daily-ote-release-1.3-x86_64
-                    - fabric-test-daily-pte-release-1.3-x86_64
-                    - fabric-test-daily-behave-release-1.3-x86_64
-                    - fabric-test-daily-ca-release-1.3-x86_64
-                  predefined-parameters:
-                    GIT_COMMIT=$GIT_COMMIT
-
-- builder:
-    name: down-stream-jobs-release-1.3-s390x
-    builders:
-      - shell: |
-          #!/bin/bash
-
-          echo "-----------> Don't Trigger tests on release-1.3 s390x platform"
-
-- builder:
-    name: down-stream-jobs-release-1.4-s390x
-    builders:
-      - shell: |
-          #!/bin/bash
-
-          echo "-----------> Don't Trigger tests on release-1.4 s390x platform"
 
 - builder:
     name: down-stream-jobs-release-1.4-x86_64
@@ -198,35 +154,11 @@
           steps:
             - trigger-builds:
                 - project:
-                    - fabric-test-daily-lte-release-1.4-x86_64
-                    - fabric-test-daily-ote-release-1.4-x86_64
-                    - fabric-test-daily-pte-release-1.4-x86_64
+                    # - fabric-test-daily-lte-release-1.4-x86_64
+                    # - fabric-test-daily-ote-release-1.4-x86_64
+                    # - fabric-test-daily-pte-release-1.4-x86_64
                     # - fabric-test-daily-behave-release-1.4-x86_64
-                    - fabric-test-daily-ca-release-1.4-x86_64
-
-- builder:
-    name: down-stream-jobs-master-ppc64le
-    builders:
-      - shell: |
-          #!/bin/bash
-
-          echo "-----------> Don't Trigger tests on master ppc64le platform"
-
-- builder:
-    name: down-stream-jobs-release-1.2-x86_64
-    builders:
-      - conditional-step:
-          condition-kind: current-status
-          condition-worst: FAILURE
-          condition-best: SUCCESS
-          on-evaluation-failure: fail
-          steps:
-            - trigger-builds:
-                - project:
-                    - fabric-test-daily-pte-release-1.2-x86_64
-                    - fabric-test-daily-svt-release-1.2-x86_64
-                  predefined-parameters:
-                    GIT_COMMIT=$GIT_COMMIT
+                    # - fabric-test-daily-ca-release-1.4-x86_64
 
 ##################
 # Nightly Builds #
