@@ -85,6 +85,8 @@
 
     builders:
       - clean-environment
+      - install-go-wget
+      - 'golang-inject-environment-x86_64'
       - output-environment
       - provide-maven-settings:
           global-settings-file: 'global-settings'
@@ -131,6 +133,8 @@
 
     builders:
       - clean-environment
+      - install-go-wget
+      - 'golang-inject-environment-x86_64'
       - output-environment
       - shell: |
          #!/bin/bash -e
@@ -144,14 +148,8 @@
          FABRIC_TEST_COMMIT=$(git rev-parse --short HEAD)
          echo "------> FABRIC_TEST_COMMIT : $FABRIC_TEST_COMMIT"
          echo "------> BRANCH: $GERRIT_BRANCH"
-         # Fetch Go Version from fabric ci.properties file
-         curl -L https://raw.githubusercontent.com/hyperledger/fabric/$GERRIT_BRANCH/ci.properties > ci.properties
-         export GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
          OS_VER=$(dpkg --print-architecture)
          echo "------> ARCH: $OS_VER"
-         export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-         export PATH=$GOROOT/bin:$PATH
-         echo "------> GO_VER" $GO_VER
          # Execute Make target from fabric-test Makefile
          LATEST_TAG=$STABLE_VERSION
          echo "========> LATEST_TAG: $LATEST_TAG"
@@ -239,13 +237,11 @@
 
     builders:
       - clean-environment
+      - install-go-wget
+      - 'golang-inject-environment-x86_64'
       - output-environment
       - shell: !include-raw-escape: ./shell/include-raw-pte-weekly-test.sh
 
     publishers:
       - lf-infra-publish
       - log-artifacts
-      - fabric-email-notification:
-          email-ids: 'development.brett@gmail.com, scottz@us.ibm.com, vijaypunugubati@gmail.com'
-          output_format: ''
-          developer-email: 'developers'

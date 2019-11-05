@@ -32,3 +32,19 @@
     builders:
       - shell:
           !include-raw: shell/include-raw-daily-report.sh
+
+- builder:
+      name: install-go-wget
+      builders:
+          - shell:
+              !include-raw: jjb/common-scripts/include-raw-install-go-wget.sh
+
+- builder:
+    name: 'golang-inject-environment-x86_64'
+    builders:
+      - inject:
+          properties-content: |
+            GOROOT=$WORKSPACE/golang/go
+            # Jenkins performs an 'eval' on $PATH (which contains the literal '$GOROOT')
+            # Now that GOROOT is set, it will get expanded.
+            PATH=$PATH

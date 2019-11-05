@@ -69,7 +69,7 @@
 
     builders:
       - clean-environment
-      - install-go
+      - install-go-wget
       - 'golang-environment-{arch}'
       - output-environment
       - shell: |
@@ -104,9 +104,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
       - pull-nexus-chaincode-nodeenv-image
@@ -133,9 +133,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
       - pull-nexus-chaincode-nodeenv-image
@@ -159,9 +159,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
       - pull-nexus-chaincode-nodeenv-image
@@ -188,9 +188,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
       - pull-nexus-chaincode-nodeenv-image
@@ -227,9 +227,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - pull-nexus-chaincode-java-image
       # - pull-nexus-chaincode-nodeenv-image
       - fabric-nightly-release-builds
@@ -272,9 +272,9 @@
 
     builders:
       - clean-environment
-      - install-go
-      - output-environment
+      - install-go-wget
       - 'golang-environment-{arch}'
+      - output-environment
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

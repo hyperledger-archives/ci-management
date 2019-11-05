@@ -228,24 +228,14 @@
     builders:
       - verify-commit-message
       - clean-environment
+      - install-go-wget
+      - 'golang-inject-environment-x86_64'
       - output-environment
       - shell: |
           #!/bin/bash -eu
           cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-          # Fetch Go Version from fabric ci.properties file
-          curl -L https://raw.githubusercontent.com/hyperledger/fabric/master/ci.properties > ci.properties
-          export GO_VER=$(cat ci.properties | grep GO_VER | cut -d "=" -f 2)
           OS_VER=$(dpkg --print-architecture)
           echo "------> ARCH $OS_VER"
-          echo "Installing Go v$GO_VER"
-          wget -q "https://dl.google.com/go/go$GO_VER.linux-$OS_VER.tar.gz"
-          tar -xzf "go$GO_VER.linux-$OS_VER.tar.gz"
-          rm -rf "go$GO_VER.linux-$OS_VER.tar.gz"
-          mkdir -p "$WORKSPACE/golang"
-          mv go/ "$WORKSPACE/golang"
-          export GOROOT=$WORKSPACE/golang/go
-          export PATH=$GOROOT/bin:$PATH
-          echo "------> GO_VER" $GO_VER
           make ci-smoke
 
     publishers:
