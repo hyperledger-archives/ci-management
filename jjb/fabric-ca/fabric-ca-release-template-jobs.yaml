@@ -18,7 +18,7 @@
       - gerrit-parameter:
           branch: '{branch}'
       - release-version:
-          push-version: '1.3.0-rc1'
+          push-version: ''
       - release-commit:
           pull-commit: ''
 
@@ -62,16 +62,4 @@
     branch: master
     node: 'x86_64'
     arch: 'x86_64'
-    mvn-settings: 'fabric-settings'
-
-- project:
-    name: fabric-ca-image-release-s390x
-    jobs:
-      - '{project-name}-image-release-{arch}'
-
-    project: fabric-ca
-    project-name: fabric-ca
-    branch: master
-    node: 'z'
-    arch: 's390x'
     mvn-settings: 'fabric-settings'

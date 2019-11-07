@@ -18,20 +18,12 @@ build_Fabric() {
     # Clone fabric repository with specific branch and depth=1
     git clone --single-branch -b $GERRIT_BRANCH --depth=2 git://cloud.hyperledger.org/mirror/fabric $FABRIC_WD
     cd $FABRIC_WD
-
     # Checkout to Branch
     git checkout $GERRIT_BRANCH
-
     # print last two commits
     git log -n2
-
     # Pull thirdparty images
-    if [[ "$GERRIT_BRANCH" = "master" && "$ARCH" = "s390x" ]]; then
-        pull_kafkazookeeper
-    else
-        make docker-thirdparty
-    fi
-
+    make docker-thirdparty
     # Build fabric images with $PUSH_VERSION tag
     for IMAGES in docker release-clean "$@"; do
         echo -e "\033[1m----------> $IMAGES\033[0m"
@@ -43,23 +35,9 @@ build_Fabric() {
     docker images | grep hyperledger
 }
 
-pull_kafkazookeeper() {
-    for image in kafka zookeeper; do
-        docker pull hyperledger/fabric-$image:s390x-0.4.18
-        docker tag hyperledger/fabric-$image:s390x-0.4.18 hyperledger/fabric-$image
-    done
-}
-
 # Execute release-all target on x arch
 ARCH=$(go env GOARCH)
-
-if [ "$ARCH" = "s390x" ]; then
-    echo "---------> ARCH:" $ARCH
-    build_Fabric dist
-else
-    echo "---------> ARCH:" $ARCH
-    build_Fabric dist-all
-fi
-
+echo "---------> ARCH:" $ARCH
+build_Fabric dist-all
 # Most recent system info
 df -h

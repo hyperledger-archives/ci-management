@@ -20,14 +20,7 @@ echo "######################"
 echo -e "\033[1m B Y F N - T E S T S\033[0m"
 echo "######################"
 
-if [ "$ARCH" == "s390x" ]; then
-    cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-s390x/bin/ .
-elif [ "$ARCH" == "ppc64le" ]; then
-    cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-ppc64le/bin/ .
-else
-    cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
-fi
-
+cp -r $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/linux-amd64/bin/ .
 cd first-network || exit
 
 # Create Logs directory

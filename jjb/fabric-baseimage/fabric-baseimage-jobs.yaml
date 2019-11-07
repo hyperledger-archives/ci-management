@@ -5,22 +5,6 @@
 ###
 
 - project:
-    name: fabric-baseimage-verify-docker-s390x
-    jobs:
-      - '{project-name}-verify-docker-{arch}'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    scm-type: ''
-    arch: 's390x'
-    build-node: 'hyp-z'
-    comment1: 'reverify-z$'
-    comment2: 'reverify$'
-    trigger-type: 'submitted'
-    ref_spec: ''
-
-- project:
     name: fabric-baseimage-verify-docker-x86_64
     jobs:
       - '{project-name}-verify-docker-{arch}'
@@ -42,22 +26,6 @@
 ###
 
 - project:
-    name: fabric-baseimage-merge-docker-s390x
-    jobs:
-      - '{project-name}-merge-docker-{arch}'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    scm-type: '-merge'
-    arch: 's390x'
-    build-node: 'hyp-z'
-    comment1: 'remerge-z$'
-    comment2: 'remerge$'
-    trigger-type: 'merged'
-    ref_spec: 'refs/heads/$GERRIT_BRANCH'
-
-- project:
     name: fabric-baseimage-merge-docker-x86_64
     jobs:
       - '{project-name}-merge-docker-{arch}'
@@ -77,17 +45,6 @@
 # fabric-baseimage release jobs on x and z arch
 # These jobs triggers on gerrit "ref-updated" event
 ####
-
-- project:
-    name: fabric-baseimage-s390x-release-jobs
-    jobs:
-      - '{project-name}-{arch}-release-jobs'
-
-    project: fabric-baseimage
-    project-name: fabric-baseimage
-    branch: master
-    arch: 's390x'
-    build-node: 'hyp-z'
 
 - project:
     name: fabric-baseimage-x86_64-release-jobs

@@ -15,7 +15,7 @@ echo "##################"
 echo -e "\033[1m S D K - J A V A\033[0m"
 echo "##################"
 echo
-if [[ "$GERRIT_BRANCH" != "release-1.0" && "$ARCH" != "s390x" && "$ARCH" != "ppc64le" ]]; then
+if [[ "$GERRIT_BRANCH" != "release-1.0" ]]; then
 
     echo -e "\033[1;32m STARTING fabric-sdk-java tests on $GERRIT_BRANCH \033[0m"
     WD="${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-sdk-java"

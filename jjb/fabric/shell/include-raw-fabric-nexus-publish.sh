@@ -84,26 +84,24 @@ curl -L https://nexus.hyperledger.org/content/repositories/snapshots/org/hyperle
 
 if cat output.xml | grep $COMMIT_TAG > /dev/null; then
     echo "--------> INFO: $COMMIT_TAG is already available... SKIP BUILD"
-elif [[ $ARCH == "amd64" ]]; then
-        # Push fabric-binaries to nexus2
-        for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
-            cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary || exit
-        tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
-            echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.tar.gz to maven.."
-            mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
-            -DupdateReleaseInfo=true \
-            -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
-            -DrepositoryId=hyperledger-snapshots \
-            -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
-            -DgroupId=org.hyperledger.fabric \
-            -Dversion=$binary.$PROJECT_VERSION-SNAPSHOT \
-            -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
-            -DuniqueVersion=false \
-            -Dpackaging=tar.gz \
-            -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
-            echo "-------> DONE <----------"
-            rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
-        done
-    else
-       echo "-------> Dont publish binaries from s390x or ppc64le platform"
+else
+    # Push fabric-binaries to nexus2
+    for binary in linux-amd64 windows-amd64 darwin-amd64; do
+        cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary || exit
+    tar -czf hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz *
+        echo "----------> Pushing hyperledger-fabric-$binary.$PROJECT_VERSION.tar.gz to maven.."
+        mvn -B org.apache.maven.plugins:maven-deploy-plugin:deploy-file \
+        -DupdateReleaseInfo=true \
+        -Dfile=$WORKSPACE/gopath/src/github.com/hyperledger/fabric/release/$binary/hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz \
+        -DrepositoryId=hyperledger-snapshots \
+        -Durl=https://nexus.hyperledger.org/content/repositories/snapshots/ \
+        -DgroupId=org.hyperledger.fabric \
+        -Dversion=$binary.$PROJECT_VERSION-SNAPSHOT \
+        -DartifactId=hyperledger-fabric-$PROJECT_VERSION \
+        -DuniqueVersion=false \
+        -Dpackaging=tar.gz \
+        -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
+        echo "-------> DONE <----------"
+        rm -f hyperledger-fabric-$binary.$PROJECT_VERSION.$COMMIT_TAG.tar.gz || true
+    done
 fi

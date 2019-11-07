@@ -82,10 +82,10 @@ publish_Ca_Binary() {
 
 if [ "$GERRIT_BRANCH" = "release-1.1" ]; then
          # platform list
-         PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x linux-ppc64le)
+         PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64)
          publish_Ca_Binary
 else
          # platform list
-         PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64 linux-s390x)
+         PLATFORM_LIST=(linux-amd64 windows-amd64 darwin-amd64)
          publish_Ca_Binary
 fi

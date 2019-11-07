@@ -40,16 +40,13 @@ echo "sdk_node_commit=======> $sdk_node_commit" >>${WORKSPACE}/gopath/src/github
 arch=$(dpkg --print-architecture)
 echo "======> ARCH" $arch
 set +e
-if [[ $arch == "amd64" ]]; then
-    # Install nvm to install multi node versions
-    wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-    export NVM_DIR=$HOME/.nvm
-    # shellcheck source=/dev/null
-    source $NVM_DIR/nvm.sh # Setup environment for running nvm
-else
-    source /etc/profile.d/nvmrc.sh
-fi
+# Install nvm to install multi node versions
+wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+export NVM_DIR=$HOME/.nvm
+# shellcheck source=/dev/null
+source $NVM_DIR/nvm.sh # Setup environment for running nvm
 set -e
+
 echo -e "\033[1m----------> SDK-NODE TESTS\033[0m"
 echo "-------> Install NodeJS"
 
@@ -116,13 +113,8 @@ npm install -g gulp
 
 generatecerts() {
     # Generate crypto material before running the tests
-    if [[ $arch == "s390x" ]]; then
-        # Run the s390x gulp task
-        gulp install-and-generate-certs-s390 || err_and_exit "gulp install and generation of test certificates failed"
-    else
-        # Run the amd64 gulp task
-        gulp install-and-generate-certs || err_and_exit "gulp install and generation of test certificates failed"
-    fi
+    # Run the amd64 gulp task
+    gulp install-and-generate-certs || err_and_exit "gulp install and generation of test certificates failed"
 }
 
 echo "#################"

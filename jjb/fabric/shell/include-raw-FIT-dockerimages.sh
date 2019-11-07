@@ -29,22 +29,14 @@ if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
          make -C $BASE_WD/fabric $IMAGES
      done
 else
-     for IMAGES in docker release-clean release; do
+     for IMAGES in docker docker-thirdparty release-clean release; do
          echo -e "\033[1m----------> $IMAGES\033[0m"
          make -C $BASE_WD/fabric $IMAGES
      done
 fi
 
 # Pull thirdparty images
-
-if [[ "$GERRIT_BRANCH" = "master" && "$ARCH" = "s390x" ]]; then
-    for image in kafka zookeeper; do
-        docker pull hyperledger/fabric-$image:s390x-0.4.18
-        docker tag hyperledger/fabric-$image:s390x-0.4.18 hyperledger/fabric-$image
-    done
-else
-    make -C $BASE_WD/fabric docker-thirdparty
-fi
+make -C $BASE_WD/fabric docker-thirdparty
 
 # Build fabric-ca docker image
 ################################

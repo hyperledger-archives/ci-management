@@ -7,20 +7,6 @@
 #############################################
 
 - project:
-    name: fabric-release-jobs-s390x
-    jobs:
-      - '{project-name}-release-jobs-{arch}'
-
-    project: fabric
-    project-name: fabric
-    branch: master
-    arch: 's390x'
-    node: 'z'
-    # Increase or Decrease build time
-    build_timeout: 80
-    mvn-settings: 'fabric-settings'
-
-- project:
     name: fabric-release-jobs-x86_64
     jobs:
       - '{project-name}-release-jobs-{arch}'

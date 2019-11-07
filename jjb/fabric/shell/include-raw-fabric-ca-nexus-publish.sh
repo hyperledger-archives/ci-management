@@ -71,17 +71,10 @@ fabric_ca_push() {
     echo "-----------> $NEXUS_URL/$ORG_NAME-$IMAGES:$STABLE_TAG"
 }
 
-if [[ "$ARCH" = "s390x" || "$ARCH" = "ppc64le" ]]; then
-    echo -e "\033[1;32m--------->ARCH\033[0m" $ARCH
-    fabric_ca_build
-    fabric_ca_tag
-    fabric_ca_push
-else
-    echo -e "\033[1;32m--------->ARCH\033[0m" $ARCH
-    fabric_ca_build dist-all docker-fvt
-    fabric_ca_tag ca-fvt
-    fabric_ca_push ca-fvt
-fi
+echo -e "\033[1;32m--------->ARCH\033[0m" $ARCH
+fabric_ca_build dist-all docker-fvt
+fabric_ca_tag ca-fvt
+fabric_ca_push ca-fvt
 
 # Listout all docker images Before and After Push to NEXUS
 docker images | grep "nexus*"
@@ -97,7 +90,7 @@ fi
 
 if [[ $ARCH == "amd64" ]]; then
     # Push fabric-ca-binaries to nexus
-    for binary in linux-amd64 windows-amd64 darwin-amd64 linux-s390x; do
+    for binary in linux-amd64 windows-amd64 darwin-amd64; do
         cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-ca/release/$binary
         tar -czf hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz *
         echo -e "\033[1m----------> Pushing hyperledger-fabric-ca-$binary.$PROJECT_VERSION.$CA_COMMIT.tar.gz to maven..\033[0m"
@@ -115,6 +108,4 @@ if [[ $ARCH == "amd64" ]]; then
             -gs $GLOBAL_SETTINGS_FILE -s $SETTINGS_FILE
         echo "-------> DONE <----------"
     done
-else
-        echo "-------> Dont publish binaries from s390x platform"
 fi
