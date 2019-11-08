@@ -10,6 +10,9 @@
 # https://www.apache.org/licenses/LICENSE-2.0
 ##############################################################################
 
+echo "Sleeping 60s before running byfn test"
+sleep 60
+
 # RUN BYFN END-to-END Tests
 ######################
 rm -rf ${WORKSPACE}/gopath/src/github.com/hyperledger/fabric-samples
