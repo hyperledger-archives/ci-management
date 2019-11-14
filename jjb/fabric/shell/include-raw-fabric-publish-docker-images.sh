@@ -1,7 +1,5 @@
 #!/bin/bash -eu
 
-set -x
-
 ORG_NAME="hyperledger/fabric"
 
 docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
@@ -54,9 +52,6 @@ docker_Fabric_Push() {
        echo
   done
 }
-
-# list docker images
-docker images | grep hyperledger
 
 if [[ "$GERRIT_BRANCH" = "release-1.0" ]]; then
     # Images list
