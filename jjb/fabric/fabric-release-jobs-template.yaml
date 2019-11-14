@@ -22,7 +22,7 @@
       - release-commit:
           pull-commit: ''
       - release-version:
-          push-version: '1.3.0-rc1'
+          push-version: ''
 
     wrappers:
       - hyperledger-infra-wrappers
@@ -32,6 +32,8 @@
     builders:
       - clean-environment
       - output-environment
+      - install-go
+      - 'golang-environment-{arch}'
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'

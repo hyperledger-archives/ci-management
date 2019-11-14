@@ -16,17 +16,6 @@ clone_Fabric() {
  echo "-------> INFO: RELEASE_COMMIT" $RELEASE_COMMIT
 }
 
-exportGo() {
-  # Fetch Go Version from fabric ci.properties file
-  GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-  export GO_VER
-  OS_VER=$(dpkg --print-architecture)
-  echo "------> OS_VER" $OS_VER
-  export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-  export PATH=$GOROOT/bin:$PATH
-  echo "------> GO_VER" $GO_VER
-}
-
 # Build fabric images
 docker_Build_Images() {
      # build docker images
@@ -37,7 +26,6 @@ docker_Fabric_Push() {
    # Clone fabric
    clone_Fabric
    # export go
-   exportGo
    if [ "$GERRIT_BRANCH" = "release-1.0" ] || [ "$GERRIT_BRANCH" = "release-1.1" ]; then
          ARCH=x86_64
          export ARCH
