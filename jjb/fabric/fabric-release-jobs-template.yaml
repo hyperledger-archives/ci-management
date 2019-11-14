@@ -31,9 +31,9 @@
 
     builders:
       - clean-environment
+      - install-go-wget
+      - 'golang-inject-environment-x86_64'
       - output-environment
-      - install-go
-      - 'golang-environment-{arch}'
       - provide-maven-settings:
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
