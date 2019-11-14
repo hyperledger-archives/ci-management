@@ -1,5 +1,7 @@
 #!/bin/bash -eu
 
+set -x
+
 ORG_NAME="hyperledger/fabric"
 
 docker login --username=$DOCKER_HUB_USERNAME --password=$DOCKER_HUB_PASSWORD
