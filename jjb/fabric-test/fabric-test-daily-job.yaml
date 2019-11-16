@@ -1,6 +1,6 @@
 ---
 ###
-# fabric-test behave, ca, pte, lte and ote daily jobs on master, release-1.3 branches and svt, pte daily jobs on release-1.2 branch.
+# fabric-test behave, ca, pte and lte daily jobs on master and release-1.4 branches.
 # Triggered by an upstream CI job.
 ##
 ##############

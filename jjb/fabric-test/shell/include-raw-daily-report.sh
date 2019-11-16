@@ -12,9 +12,9 @@
 
 # Get the XML files from the daily builds.
 if [[ "$GERRIT_BRANCH" =~ ^release-1 ]]; then
-    TEST_TYPE=(behave ca pte lte ote)
+    TEST_TYPE=(behave ca pte lte)
 else
-    TEST_TYPE=(behave ca pte lte ote)
+    TEST_TYPE=(behave ca pte lte)
 fi
 
 for TEST_TYPE in ${TEST_TYPE[*]}; do

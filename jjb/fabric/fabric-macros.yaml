@@ -90,7 +90,6 @@
             - trigger-builds:
                 - project:
                     # - fabric-test-daily-lte-release-1.4-x86_64
-                    # - fabric-test-daily-ote-release-1.4-x86_64
                     # - fabric-test-daily-pte-release-1.4-x86_64
                     # - fabric-test-daily-behave-release-1.4-x86_64
                     # - fabric-test-daily-ca-release-1.4-x86_64

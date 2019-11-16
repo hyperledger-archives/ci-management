@@ -160,7 +160,6 @@ jobs that pull the (newly published) stable images and binaries from the Nexus
 repository, then run a number of Fabric test suites:
 
 - **Daily LTE** - the daily Ledger Traffic Engine tests
-- **Daily OTE** - the daily Orderer Traffic Engine tests
 - **Daily PTE** - the daily Performance Traffic Engine tests
 - **FVT** - the Full Verification Test suite
 
