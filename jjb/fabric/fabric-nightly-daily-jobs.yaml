@@ -33,7 +33,7 @@
     arch: x86_64
     build-node: x
     disable-job: false
-    rel_version: 1.4.4-stable
+    rel_version: 1.4.5-stable
 
 ####
 # fabric-ca release jobs on x arch
@@ -74,4 +74,4 @@
     mvn-settings: 'fabric-ca-settings'
     arch: x86_64
     build-node: x
-    rel_version: 1.4.4-stable
+    rel_version: 1.4.5-stable

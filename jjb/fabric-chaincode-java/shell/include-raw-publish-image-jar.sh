@@ -20,10 +20,8 @@ NEXUS_URL=nexus3.hyperledger.org:10003
 TAG=$GIT_COMMIT &&  COMMIT_TAG=${TAG:0:7}
 if [ "$GERRIT_BRANCH" = "master" ]; then
      STABLE_VERSION=2.0.0-stable
-elif [ "$GERRIT_BRANCH" = "release-1.4" ]; then
-     STABLE_VERSION=1.4.4-stable
-else
-     STABLE_VERSION=1.3.1-stable
+else [ "$GERRIT_BRANCH" = "release-1.4" ]
+     STABLE_VERSION=1.4.5-stable
 fi
 STABLE_TAG=amd64-$STABLE_VERSION
 # Get the Version from build.gradle file
@@ -33,11 +31,7 @@ echo "========> gradlew build"
 
 # gradlew build from fabric-chaincode-java repo
 set -x
-if [[ $GERRIT_BRANCH == "release-1.3" ]]; then
-     ./gradlew buildImage
-else
-     ./gradlew build
-fi
+./gradlew build
 set +x
 # gradle publish maven
 ./gradlew publishToMavenLocal

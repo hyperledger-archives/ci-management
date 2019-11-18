@@ -82,7 +82,7 @@
     job_branch: release-1.4
     arch: x86_64
     test: behave
-    stable-tag: amd64-1.4.4-stable
+    stable-tag: amd64-1.4.5-stable
     target: svt-daily-behave-tests
     rel_version: ''
 
@@ -97,7 +97,7 @@
     job_branch: release-1.4
     arch: x86_64
     test: pte
-    stable-tag: amd64-1.4.4-stable
+    stable-tag: amd64-1.4.5-stable
     target: svt-daily-pte-tests
     rel_version: ''
 
@@ -112,7 +112,7 @@
     job_branch: release-1.4
     arch: x86_64
     test: lte
-    stable-tag: amd64-1.4.4-stable
+    stable-tag: amd64-1.4.5-stable
     target: svt-daily-lte-tests
     rel_version: ''
 
@@ -127,7 +127,7 @@
     job_branch: release-1.4
     arch: x86_64
     test: ca
-    stable-tag: amd64-1.4.4-stable
+    stable-tag: amd64-1.4.5-stable
     target: svt-daily-ca-tests
     rel_version: ''
 
