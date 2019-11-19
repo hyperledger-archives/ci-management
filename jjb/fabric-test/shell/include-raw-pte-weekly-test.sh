@@ -21,21 +21,6 @@ checkout_project() {
 
 run_12hr_pte_test() {
     cd $WORKSPACE/gopath/src/github.com/hyperledger/fabric-test
-    # Fetch Go Version from fabric ci.properties file
-    curl -L https://raw.githubusercontent.com/hyperledger/fabric/$GERRIT_BRANCH/ci.properties > ci.properties
-    GO_VER=`cat ci.properties | grep GO_VER | cut -d "=" -f 2`
-    eval "$(grep GO_VER ci.properties)"
-        if [ -z "$GO_VER" ]; then
-            echo "-----> Empty GO_VER"
-            exit 1
-        fi
-    echo "GO_VER="$GO_VER
-    export GO_VER
-    OS_VER=$(dpkg --print-architecture)
-    echo "------> ARCH: $OS_VER"
-    export GOROOT=/opt/go/go$GO_VER.linux.$OS_VER
-    export PATH=$GOROOT/bin:$PATH
-    echo "------> GO_VER" $GO_VER
     # Execute Make target from fabric-test Makefile
     make svt-weekly-pte-12hr-test
 }
