@@ -1,7 +1,0 @@
----
-
-- builder:
-    name: fabric-sdk-node-vulnerable-tests
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-vulnerable-tests.sh
