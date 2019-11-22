@@ -98,31 +98,9 @@
               password: CHAINCODE_JAVA_GH_PASSWORD
 
     builders:
-      - chaincode-java-commit-checks
-      - output-environment
-      - provide-maven-gradle-settings:
-          global-settings-file: 'global-settings'
-          fabric-settings-file: '{mvn-settings}'
-      - maven-target:
-          maven-version: '{mvn-version}'
-          goals: |
-              {mvn-goals}
-          java-opts:
-            - '{mvn-opts}'
-          properties:
-            - deployAtEnd=true
-          settings: '{mvn-settings}'
-          settings-type: cfp
-          global-settings: 'global-settings'
-          global-settings-type: cfp
-      - docker-login
-      - shell: !include-raw-escape: shell/include-raw-publish-image-jar.sh
       - java-doc
 
     publishers:
-      - chaincode-java-jacoco-coverage-report
-      - java-chaincode-coverage-report
-      - cc-java-logs
       - fabric-email-notification:
           email-ids: 'development.brett@gmail.com, vijaypunugubati@gmail.com'
           output_format: ''
