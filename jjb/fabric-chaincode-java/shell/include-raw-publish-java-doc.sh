@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 #
 # SPDX-License-Identifier: Apache-2.0
 ##############################################################################
@@ -18,6 +18,8 @@ if [ "$ARCH" != "s390x" ]; then
     TARGET_REPO=$CHAINCODE_JAVA_GH_USERNAME.github.io.git
     git clone https://github.com/ryjones/fabric-chaincode-java.github.io.git
     cd $CHAINCODE_JAVA_GH_USERNAME.github.io
-    git config remote.gh-pages.url https://$CHAINCODE_JAVA_GH_USERNAME:$CHAINCODE_JAVA_GH_PASSWORD@github.com/$CHAINCODE_JAVA_GH_USERNAME/$TARGET_REPO
-    git push gh-pages master
+    git checkout gh-pages
+    git log -1
+    git remote add ghp https://$CHAINCODE_JAVA_GH_USERNAME:$CHAINCODE_JAVA_GH_PASSWORD@github.com/$CHAINCODE_JAVA_GH_USERNAME/$TARGET_REPO
+    git push gh-pages ghp:master
 fi
