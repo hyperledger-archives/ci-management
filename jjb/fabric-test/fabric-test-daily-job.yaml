@@ -8,21 +8,6 @@
 ##############
 
 - project:
-    name: fabric-test-daily-behave-master-x86_64
-    jobs:
-      - '{project-name}-daily-{test}-{job_branch}-{arch}'
-
-    project: fabric-test
-    project-name: fabric-test
-    branch: master
-    job_branch: master
-    arch: x86_64
-    test: behave
-    stable-tag: amd64-latest
-    target: svt-daily-behave-tests
-    rel_version: latest
-
-- project:
     name: fabric-test-daily-pte-master-x86_64
     jobs:
       - '{project-name}-daily-{test}-{job_branch}-{arch}'
@@ -70,21 +55,6 @@
 ##############
 # release-1.4
 ##############
-
-- project:
-    name: fabric-test-daily-behave-release-1.4-x86_64
-    jobs:
-      - '{project-name}-daily-{test}-{job_branch}-{arch}'
-
-    project: fabric-test
-    project-name: fabric-test
-    branch: release-1.4
-    job_branch: release-1.4
-    arch: x86_64
-    test: behave
-    stable-tag: amd64-1.4.5-stable
-    target: svt-daily-behave-tests
-    rel_version: ''
 
 - project:
     name: fabric-test-daily-pte-release-1.4-x86_64

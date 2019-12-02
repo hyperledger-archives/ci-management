@@ -7,12 +7,6 @@
           !include-raw: shell/include-raw-pte-publish.sh
 
 - builder:
-    name: test-viewer-dockerimage-publish
-    builders:
-      - shell:
-          !include-raw: shell/include-raw-test-viewer-publish.sh
-
-- builder:
     name: set-gopath
     builders:
       - shell: |
