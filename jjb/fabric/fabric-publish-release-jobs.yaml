@@ -19,19 +19,3 @@
     # Increase or Decrease build time
     build_timeout: 80
     mvn-settings: 'fabric-settings'
-
-# NODEENV release jobs
-
-- project:
-    name: fabric-nodeenv-release-jobs-x86_64
-    jobs:
-      - '{project-name}-nodeenv-release-jobs-{arch}'
-
-    project: fabric-chaincode-node
-    project-name: fabric-chaincode-node
-    branch: master
-    arch: 'x86_64'
-    node: 'x86_64'
-    # Increase or Decrease build time
-    build_timeout: 90
-    mvn-settings: 'fabric-settings'

@@ -82,4 +82,3 @@
           global-settings-file: 'global-settings'
           fabric-settings-file: '{mvn-settings}'
       - docker-login
-      - publish-nodeenv-images
