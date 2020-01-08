@@ -57,7 +57,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - shell: |
           #!/bin/bash -eu
@@ -110,7 +109,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-gosec-scan
 
@@ -161,7 +159,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-unit-tests-verification
 
@@ -207,7 +204,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-integration-tests-verification
 
@@ -253,7 +249,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-build-artifacts
 
@@ -350,7 +345,6 @@
     builders:
       - clean-environment
       - install-go
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image

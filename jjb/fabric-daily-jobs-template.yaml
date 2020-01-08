@@ -1,4 +1,3 @@
----
 # This file contains job template and default parameters for daily fabric jobs
 
 - fabric_daily_jobs: &fabric_daily_jobs
@@ -69,8 +68,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - shell: |
           #!/bin/bash -eu
@@ -95,8 +92,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
@@ -124,8 +119,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
@@ -150,8 +143,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
@@ -179,8 +170,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - dockerimages
       - pull-nexus-chaincode-java-image
@@ -218,8 +207,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - pull-nexus-chaincode-java-image
       # - pull-nexus-chaincode-nodeenv-image
@@ -231,7 +218,7 @@
       - docker-login
       - fabric-nightly-publish-images
       - clean-environment
-      - 'down-stream-jobs-{branch}-{arch}'
+      # - 'down-stream-jobs-{branch}-{arch}'
 
     publishers:
       - workspace-cleanup
@@ -263,8 +250,6 @@
 
     builders:
       - clean-environment
-      - install-go-wget
-      - 'golang-environment-{arch}'
       - output-environment
       - provide-maven-settings:
           global-settings-file: 'global-settings'

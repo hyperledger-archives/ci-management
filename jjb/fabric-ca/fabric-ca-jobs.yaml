@@ -72,7 +72,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - provide-maven-settings:
           fabric-settings-file: '{mvn-settings}'
@@ -122,7 +121,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-ca-safesql-scan
 
@@ -169,7 +167,6 @@
 
     builders:
       - clean-environment
-      - 'golang-environment-{arch}'
       - output-environment
       - fabric-ca-gosec-scan
 

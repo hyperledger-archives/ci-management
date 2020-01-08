@@ -73,7 +73,6 @@
 
     builders:
       - verify-commit-message
-      - 'golang-environment-{arch}'
       - clean-environment
       - output-environment
       - fabric-sdk-go-unit-tests
@@ -228,8 +227,6 @@
     builders:
       - verify-commit-message
       - clean-environment
-      - install-go-wget
-      - 'golang-inject-environment-x86_64'
       - output-environment
       - shell: |
           #!/bin/bash -eu
