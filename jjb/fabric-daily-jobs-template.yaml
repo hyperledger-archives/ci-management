@@ -231,7 +231,7 @@
       - docker-login
       - fabric-nightly-publish-images
       - clean-environment
-      - 'down-stream-jobs-{branch}-{arch}'
+      # - 'down-stream-jobs-{branch}-{arch}'
 
     publishers:
       - workspace-cleanup
